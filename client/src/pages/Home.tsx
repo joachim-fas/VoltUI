@@ -23,6 +23,7 @@ import {
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
   LayoutDashboard, Shapes, Palette as Palette2, GitBranch, Layers,
 } from "lucide-react";
+import { GrainCursor } from "@/components/grain/GrainCursor";
 
 const sidebarSections = [
   {
@@ -89,23 +90,23 @@ export default function Home() {
     }
   };
 
-  /* ── Logo: Lime-Quadrat mit schwarzem G ── */
+  /* ── Logo: Cursor-Symbol + Wortmarke ── */
   const Logo = ({ showClose = false }: { showClose?: boolean }) => (
     <div className="flex items-center justify-between w-full">
-      <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-xl bg-[#E4FF97] flex items-center justify-center flex-shrink-0">
-          <span className="font-display font-black text-[#0A0A0A] text-sm">G</span>
-        </div>
+      <div className="flex items-center gap-3">
+        <GrainCursor size="md" color="black" animated />
         <div>
-          <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight">Grain UI</p>
-          <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight">Component Library v3</p>
+          <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
+            grain<span className="opacity-30">ui</span>
+          </p>
+          <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Design System</p>
         </div>
       </div>
-        {showClose && (
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="w-7 h-7 flex items-center justify-center rounded-lg text-[#AAAAAA] hover:text-[#0A0A0A] hover:bg-[#F0F0F0]"
-          >
+      {showClose && (
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="w-7 h-7 flex items-center justify-center rounded-lg text-[#AAAAAA] hover:text-[#0A0A0A] hover:bg-[#F0F0F0]"
+        >
           <X className="w-4 h-4" />
         </button>
       )}
@@ -149,11 +150,11 @@ export default function Home() {
           >
             <Menu className="w-5 h-5" />
           </button>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-[#E4FF97] flex items-center justify-center flex-shrink-0">
-              <span className="font-display font-black text-[#0A0A0A] text-[0.6rem]">G</span>
-            </div>
-            <span className="font-display font-bold text-sm text-[#0A0A0A]">Grain UI</span>
+          <div className="flex items-center gap-2.5">
+            <GrainCursor size="sm" color="black" animated />
+            <span className="font-display font-bold text-sm text-[#0A0A0A] tracking-tight">
+              grain<span className="opacity-30">ui</span>
+            </span>
           </div>
           <div className="w-9" />
         </header>

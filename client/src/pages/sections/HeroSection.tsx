@@ -7,6 +7,7 @@ import React from "react";
 import { GrainButton } from "@/components/grain/GrainButton";
 import { GrainBadge } from "@/components/grain/GrainBadge";
 import { GrainCard } from "@/components/grain/GrainCard";
+import { GrainCursor } from "@/components/grain/GrainCursor";
 import { motion } from "framer-motion";
 import {
   ArrowRight, Code2, Palette, Zap, Layers, Package,
@@ -71,15 +72,14 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 max-w-4xl"
         >
+          {/* Cursor-Symbol als Brand-Anker */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.88 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            className="flex items-center justify-center gap-2 mb-8"
+            initial={{ opacity: 0, scale: 0.7, x: -20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ delay: 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center justify-center mb-8"
           >
-            <GrainBadge variant="solid" size="md" dot dotColor="#E4FF97">
-              Grain UI · Component Library v3
-            </GrainBadge>
+            <GrainCursor size="2xl" color="black" animated />
           </motion.div>
 
           <motion.h1

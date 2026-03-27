@@ -4,6 +4,7 @@
 
 import { useState } from "react";
 import { GrainWorkflowCard, GrainOPBadge } from "@/components/grain/GrainWorkflowCard";
+import { GrainCursor } from "@/components/grain/GrainCursor";
 import { ArrowRight, Layers, Cpu, FileText, BarChart2, Users, Shield, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -145,15 +146,20 @@ export default function OperatingPrincipleSection() {
   return (
     <div className="space-y-16">
       {/* Header */}
-      <div>
-        <p className="text-xs font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Operating Principle</p>
-        <h1 className="text-4xl font-black text-[#0A0A0A] mb-4 leading-tight">
-          Eingabe → Workflow → Ausgabe
-        </h1>
-        <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed">
-          Ein universelles Schema, nach dem jede Aktivität gedacht, geplant und dokumentiert wird.
-          Kein Input ohne Output. Kein Output ohne Owner.
-        </p>
+      <div className="flex items-start gap-6">
+        <div className="flex-shrink-0 mt-1">
+          <GrainCursor size="xl" color="black" animated />
+        </div>
+        <div>
+          <p className="text-xs font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Operating Principle</p>
+          <h1 className="text-4xl font-black text-[#0A0A0A] mb-4 leading-tight">
+            Eingabe → Workflow → Ausgabe
+          </h1>
+          <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed">
+            Ein universelles Schema, nach dem jede Aktivität gedacht, geplant und dokumentiert wird.
+            Kein Input ohne Output. Kein Output ohne Owner.
+          </p>
+        </div>
       </div>
 
       {/* Core Principle – visuelle Darstellung */}
