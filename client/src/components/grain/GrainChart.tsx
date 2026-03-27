@@ -160,11 +160,14 @@ export interface GrainBarChartProps {
   subtitle?: string;
   stacked?: boolean;
   horizontal?: boolean;
+  palette?: GrainPalette;
   className?: string;
 }
 export const GrainBarChart: React.FC<GrainBarChartProps> = ({
-  data, dataKeys, xKey = "name", height = 280, title, subtitle, stacked, horizontal, className
-}) => (
+  data, dataKeys, xKey = "name", height = 280, title, subtitle, stacked, horizontal, palette, className
+}) => {
+  const colors = getPalette(palette);
+  return (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} layout={horizontal ? "vertical" : "horizontal"}
@@ -185,13 +188,14 @@ export const GrainBarChart: React.FC<GrainBarChartProps> = ({
         <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         {dataKeys.map((key, i) => (
           <Bar key={key} dataKey={key} stackId={stacked ? "s" : undefined}
-            fill={GRAIN_HEX[i % GRAIN_HEX.length]}
+            fill={colors[i % colors.length]}
             radius={stacked ? [0,0,0,0] : [4,4,0,0]} maxBarSize={48} />
         ))}
       </BarChart>
     </ResponsiveContainer>
   </ChartWrapper>
-);
+  );
+};
 
 /* ── 3. Line Chart ── */
 export interface GrainLineChartProps {
@@ -453,5 +457,5 @@ export const GrainStackedAreaChart: React.FC<GrainAreaChartProps> = (props) => (
 
 /* ── 12. Stacked Bar ── */
 export const GrainStackedBarChart: React.FC<GrainBarChartProps> = (props) => (
-  <GrainBarChart {...props} stacked />
+  <GrainBarChart {...props} stacked palette={props.palette ?? "pastel"} />
 );

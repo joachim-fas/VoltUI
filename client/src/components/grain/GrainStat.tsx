@@ -1,6 +1,7 @@
 /**
  * GrainStat / GrainKPI – Atmospheric Grain Design System
  * Kennzahlen-Karten für Dashboards.
+ * Farbsystem: Lime+Schwarz primär, Pastell sekundär, Signale für Trends
  */
 
 import React from "react";
@@ -32,7 +33,6 @@ export const GrainStat: React.FC<GrainStatProps> = ({
 }) => {
   const isPositive = change !== undefined && change > 0;
   const isNegative = change !== undefined && change < 0;
-  const isNeutral  = change !== undefined && change === 0;
 
   const TrendIcon = isPositive ? TrendingUp : isNegative ? TrendingDown : Minus;
   const trendColor = isPositive
@@ -41,19 +41,74 @@ export const GrainStat: React.FC<GrainStatProps> = ({
     ? "text-[#E8402A]"
     : "text-muted-foreground";
 
+  /* ── Varianten-Stile ── */
   const variantStyles: Record<string, string> = {
     default:  "bg-card border border-border",
-    lime:     "bg-[#E4FF97] text-[#000000] border-transparent",
-    solid:    "bg-[#000000] text-white border-transparent",
-    positive: "bg-[#E8F8EF] text-[#0F6038] border border-[#7DD4A8]",
-    negative: "bg-[#FDEEE9] text-[#A01A08] border border-[#F4A090]",
-    // Legacy-Aliase
-    blue:     "bg-[#000000] text-white border-transparent",
-    red:      "bg-[#E8402A] text-white border-transparent",
-    gradient: "bg-[#E4FF97] text-[#000000] border-transparent",
+    lime:     "bg-[#E4FF97] border-transparent",   // Lime: schwarzer Text
+    solid:    "bg-[#000000] border-transparent",    // Schwarz: weißer Text
+    positive: "bg-[#E8F8EF] border border-[#7DD4A8]",
+    negative: "bg-[#FDEEE9] border border-[#F4A090]",
+    blue:     "bg-[#000000] border-transparent",
+    red:      "bg-[#E8402A] border-transparent",
+    gradient: "bg-[#E4FF97] border-transparent",
   };
 
-  const isColored = variant !== "default";
+  /* ── Textfarben je Variante ── */
+  const labelColor: Record<string, string> = {
+    default:  "text-muted-foreground",
+    lime:     "text-[#3A3A3A]",
+    solid:    "text-white/70",
+    positive: "text-[#0F6038]",
+    negative: "text-[#A01A08]",
+    blue:     "text-white/70",
+    red:      "text-white/70",
+    gradient: "text-[#3A3A3A]",
+  };
+
+  const valueColor: Record<string, string> = {
+    default:  "text-foreground",
+    lime:     "text-[#000000]",
+    solid:    "text-white",
+    positive: "text-[#0F6038]",
+    negative: "text-[#A01A08]",
+    blue:     "text-white",
+    red:      "text-white",
+    gradient: "text-[#000000]",
+  };
+
+  const unitColor: Record<string, string> = {
+    default:  "text-muted-foreground",
+    lime:     "text-[#3A3A3A]",
+    solid:    "text-white/70",
+    positive: "text-[#1A9E5A]/70",
+    negative: "text-[#E8402A]/70",
+    blue:     "text-white/70",
+    red:      "text-white/70",
+    gradient: "text-[#3A3A3A]",
+  };
+
+  const trendColorVariant: Record<string, string> = {
+    default:  trendColor,
+    lime:     isPositive ? "text-[#1A5A00]" : isNegative ? "text-[#8B1A00]" : "text-[#3A3A3A]",
+    solid:    "text-white/80",
+    positive: "text-[#0F6038]",
+    negative: "text-[#A01A08]",
+    blue:     "text-white/80",
+    red:      "text-white/80",
+    gradient: isPositive ? "text-[#1A5A00]" : isNegative ? "text-[#8B1A00]" : "text-[#3A3A3A]",
+  };
+
+  const iconBg: Record<string, string> = {
+    default:  "bg-[#E4FF97]/40 text-[#000000]",
+    lime:     "bg-[#000000]/10 text-[#000000]",
+    solid:    "bg-white/15 text-white",
+    positive: "bg-[#1A9E5A]/15 text-[#0F6038]",
+    negative: "bg-[#E8402A]/15 text-[#A01A08]",
+    blue:     "bg-white/15 text-white",
+    red:      "bg-white/15 text-white",
+    gradient: "bg-[#000000]/10 text-[#000000]",
+  };
+
   const valueSizes = { sm: "text-2xl", md: "text-3xl", lg: "text-4xl" };
 
   return (
@@ -61,8 +116,8 @@ export const GrainStat: React.FC<GrainStatProps> = ({
       className={cn(
         "relative rounded-2xl p-5 grain overflow-hidden",
         "transition-all duration-300 hover:-translate-y-0.5",
-        "ring-1 ring-border hover:ring-primary/20",
-        variantStyles[variant],
+        "ring-1 ring-border hover:ring-[#E4FF97]/40",
+        variantStyles[variant] ?? variantStyles.default,
         className
       )}
       {...props}
@@ -70,32 +125,27 @@ export const GrainStat: React.FC<GrainStatProps> = ({
       {/* Subtle radial highlight */}
       <div className="absolute top-0 right-0 w-32 h-32 rounded-full pointer-events-none"
         style={{
-          background: isColored
-            ? "radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%)"
-            : "radial-gradient(circle, rgba(228,255,151,0.06) 0%, transparent 70%)"
+          background: "radial-gradient(circle, rgba(228,255,151,0.06) 0%, transparent 70%)"
         }}
       />
 
       <div className="relative z-10 flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <p className={cn(
-            "section-label mb-2",
-            isColored ? "text-white/70" : "text-muted-foreground"
-          )}>
+          <p className={cn("section-label mb-2", labelColor[variant] ?? labelColor.default)}>
             {label}
           </p>
           <div className="flex items-baseline gap-1.5">
             <span className={cn(
               "font-display font-bold leading-none tracking-tight",
               valueSizes[size],
-              isColored ? "text-white" : "text-foreground"
+              valueColor[variant] ?? valueColor.default
             )}>
               {value}
             </span>
             {unit && (
               <span className={cn(
                 "text-sm font-body font-semibold",
-                isColored ? "text-white/70" : "text-muted-foreground"
+                unitColor[variant] ?? unitColor.default
               )}>
                 {unit}
               </span>
@@ -104,7 +154,7 @@ export const GrainStat: React.FC<GrainStatProps> = ({
           {change !== undefined && (
             <div className={cn(
               "flex items-center gap-1 mt-2",
-              isColored ? "text-white/80" : trendColor
+              trendColorVariant[variant] ?? trendColor
             )}>
               <TrendIcon className="w-3.5 h-3.5" />
               <span className="text-xs font-semibold font-body">
@@ -117,9 +167,7 @@ export const GrainStat: React.FC<GrainStatProps> = ({
         {icon && (
           <div className={cn(
             "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0",
-            isColored
-              ? "bg-white/15"
-              : "bg-primary/10 text-primary"
+            iconBg[variant] ?? iconBg.default
           )}>
             {icon}
           </div>

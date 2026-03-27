@@ -78,16 +78,16 @@ export const GrainNavbar: React.FC<GrainNavbarProps> = ({
                 "text-sm font-semibold font-body",
                 "transition-all duration-150",
                 item.active
-                  ? "text-primary bg-primary/8"
+                  ? "text-[#000000] bg-[#E4FF97] font-bold"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
               {item.active && (
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#000000]" />
               )}
               {item.label}
               {item.badge !== undefined && (
-                <span className="inline-flex items-center justify-center min-w-[1.1rem] h-[1.1rem] px-1 rounded-full text-[0.6rem] font-bold bg-primary text-primary-foreground">
+                <span className="inline-flex items-center justify-center min-w-[1.1rem] h-[1.1rem] px-1 rounded-full text-[0.6rem] font-bold bg-[#000000] text-white">
                   {item.badge}
                 </span>
               )}
@@ -133,7 +133,7 @@ export const GrainNavbar: React.FC<GrainNavbarProps> = ({
                     "text-sm font-semibold font-body",
                     "transition-colors duration-150",
                     item.active
-                      ? "text-primary bg-primary/8"
+                      ? "text-[#000000] bg-[#E4FF97] font-bold"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
