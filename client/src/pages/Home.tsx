@@ -19,6 +19,7 @@ import { ColorSection }       from "./sections/ColorSection";
 import OperatingPrincipleSection from "./sections/OperatingPrincipleSection";
 import { BackgroundsSection } from "./sections/BackgroundsSection";
 import SignetSection from "./sections/SignetSection";
+import BrandArchitectureSection from "./sections/BrandArchitectureSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
@@ -59,6 +60,7 @@ const sidebarSections = [
     items: [
       { id: "dashboard",  label: "Dashboard",         description: "KPIs, Analytics, Bestellungen", icon: <LayoutDashboard className="w-4 h-4" />, isNew: true },
       { id: "op",         label: "Operating Principle", description: "Eingabe → Workflow → Ausgabe",  icon: <GitBranch className="w-4 h-4" />, isNew: true },
+      { id: "brand",      label: "Brand Architecture",   description: "Free Agents & Tochterprojekte", icon: <Layers className="w-4 h-4" />, isNew: true },
     ],
   },
 ];
@@ -89,6 +91,7 @@ export default function Home() {
       case "op":          return <OperatingPrincipleSection />;
       case "backgrounds": return <BackgroundsSection />;
       case "signet":      return <SignetSection />;
+      case "brand":       return <BrandArchitectureSection />;
       default:            return <HeroSection onNavigate={navigate} />;
     }
   };
