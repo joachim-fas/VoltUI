@@ -131,14 +131,27 @@ export const FormsSection: React.FC = () => {
                 defaultChecked
               />
               <GrainToggle
-                label="Dark Mode"
-                description="Dunkles Erscheinungsbild verwenden"
+                label="Lime / Primary"
+                description="Hauptfarbe als aktiver Zustand"
                 variant="primary"
+                defaultChecked
               />
               <GrainToggle
-                label="Wartungsmodus"
-                description="Website für Besucher sperren"
+                label="Positiv"
+                description="Bestätigt, aktiv, erfolgreich"
+                variant="positive"
+                defaultChecked
+              />
+              <GrainToggle
+                label="Negativ"
+                description="Gesperrt, Fehler, Warnung"
                 variant="negative"
+              />
+              <GrainToggle
+                label="Neutral"
+                description="Inaktiv, sekundär"
+                variant="neutral"
+                defaultChecked
               />
               <GrainToggle
                 label="Deaktiviert"
@@ -146,10 +159,34 @@ export const FormsSection: React.FC = () => {
                 disabled
                 defaultChecked
               />
-              <div className="flex items-center gap-4 pt-2">
-                <GrainToggle variant="default" toggleSize="sm" defaultChecked />
-                <GrainToggle variant="primary" toggleSize="md" defaultChecked />
-                <GrainToggle variant="negative" toggleSize="lg" defaultChecked />
+              <div className="pt-2 border-t border-[#F0F0F0]">
+                <p className="text-xs font-mono text-[#AAAAAA] uppercase tracking-widest mb-3">Größen: sm · md · lg</p>
+                <div className="flex items-center gap-5">
+                  <div className="flex flex-col items-center gap-1.5">
+                    <GrainToggle variant="default" toggleSize="sm" defaultChecked />
+                    <span className="text-[10px] font-mono text-[#AAAAAA]">sm</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <GrainToggle variant="default" toggleSize="md" defaultChecked />
+                    <span className="text-[10px] font-mono text-[#AAAAAA]">md</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <GrainToggle variant="default" toggleSize="lg" defaultChecked />
+                    <span className="text-[10px] font-mono text-[#AAAAAA]">lg</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <GrainToggle variant="primary" toggleSize="md" defaultChecked />
+                    <span className="text-[10px] font-mono text-[#AAAAAA]">lime</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <GrainToggle variant="positive" toggleSize="md" defaultChecked />
+                    <span className="text-[10px] font-mono text-[#AAAAAA]">pos</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <GrainToggle variant="negative" toggleSize="md" defaultChecked />
+                    <span className="text-[10px] font-mono text-[#AAAAAA]">neg</span>
+                  </div>
+                </div>
               </div>
             </div>
           </GrainCardContent>

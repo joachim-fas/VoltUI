@@ -1,7 +1,8 @@
 /**
  * GrainToggle / GrainCheckbox / GrainRadio – Grain UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
- * Design: Raffiniert, minimal, klare Signale
+ * Komplett neu gebaut mit Inline-Styles für pixelgenaue Proportionen.
+ * Kein Tailwind-Größen-Bug mehr.
  */
 
 import React from "react";
@@ -9,64 +10,52 @@ import { cn } from "@/lib/utils";
 import { Check, Minus } from "lucide-react";
 
 /* ── Farbmap für alle Varianten ── */
-const TRACK_ON: Record<string, string> = {
-  default:  "bg-[#000000]",
-  primary:  "bg-[#E4FF97]",
-  lime:     "bg-[#E4FF97]",
-  solid:    "bg-[#000000]",
-  positive: "bg-[#1A9E5A]",
-  negative: "bg-[#E8402A]",
-  neutral:  "bg-[#6B7A9A]",
-  /* Legacy */
-  blue:     "bg-[#000000]",
-  red:      "bg-[#E8402A]",
-  gradient: "bg-[#E4FF97]",
+const TRACK_ON_COLOR: Record<string, string> = {
+  default:  "#0A0A0A",
+  primary:  "#E4FF97",
+  positive: "#1A9E5A",
+  negative: "#E8402A",
+  neutral:  "#6B7A9A",
 };
 
 const THUMB_COLOR: Record<string, string> = {
   default:  "#FFFFFF",
-  primary:  "#000000",
-  lime:     "#000000",
-  solid:    "#FFFFFF",
+  primary:  "#0A0A0A",
   positive: "#FFFFFF",
   negative: "#FFFFFF",
   neutral:  "#FFFFFF",
-  blue:     "#FFFFFF",
-  red:      "#FFFFFF",
-  gradient: "#000000",
 };
 
-const FILL: Record<string, string> = {
-  default:  "bg-[#000000] border-[#000000]",
-  primary:  "bg-[#E4FF97] border-[#E4FF97]",
-  lime:     "bg-[#E4FF97] border-[#E4FF97]",
-  solid:    "bg-[#000000] border-[#000000]",
-  positive: "bg-[#1A9E5A] border-[#1A9E5A]",
-  negative: "bg-[#E8402A] border-[#E8402A]",
-  neutral:  "bg-[#6B7A9A] border-[#6B7A9A]",
-  blue:     "bg-[#000000] border-[#000000]",
-  red:      "bg-[#E8402A] border-[#E8402A]",
-  gradient: "bg-[#E4FF97] border-[#E4FF97]",
+const FILL_BG: Record<string, string> = {
+  default:  "#0A0A0A",
+  primary:  "#E4FF97",
+  positive: "#1A9E5A",
+  negative: "#E8402A",
+  neutral:  "#6B7A9A",
 };
 
-const ICON_COLOR: Record<string, string> = {
-  default:  "text-white",
-  primary:  "text-[#000000]",
-  lime:     "text-[#000000]",
-  solid:    "text-white",
-  positive: "text-white",
-  negative: "text-white",
-  neutral:  "text-white",
-  blue:     "text-white",
-  red:      "text-white",
-  gradient: "text-[#000000]",
+const FILL_ICON: Record<string, string> = {
+  default:  "#FFFFFF",
+  primary:  "#0A0A0A",
+  positive: "#FFFFFF",
+  negative: "#FFFFFF",
+  neutral:  "#FFFFFF",
 };
 
-/* ── GrainToggle (Switch) ── */
+/* ── Größen-Konfiguration (px, exakt) ── */
+const TOGGLE_SIZES = {
+  sm: { trackW: 28, trackH: 16, thumbSize: 10, thumbOnX: 14, thumbOffX: 3 },
+  md: { trackW: 44, trackH: 24, thumbSize: 16, thumbOnX: 24, thumbOffX: 4 },
+  lg: { trackW: 56, trackH: 30, thumbSize: 20, thumbOnX: 32, thumbOffX: 5 },
+};
+
+/* ════════════════════════════════════════════════
+   GrainToggle
+════════════════════════════════════════════════ */
 export interface GrainToggleProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   description?: string;
-  variant?: keyof typeof TRACK_ON;
+  variant?: keyof typeof TRACK_ON_COLOR;
   toggleSize?: "sm" | "md" | "lg";
 }
 
@@ -85,70 +74,83 @@ export const GrainToggle: React.FC<GrainToggleProps> = ({
 }) => {
   const [internal, setInternal] = React.useState(defaultChecked ?? false);
   const isChecked = checked !== undefined ? checked : internal;
-  const toggleId = id || React.useId();
+  const toggleId  = id || React.useId();
+  const sz        = TOGGLE_SIZES[toggleSize];
 
-  const sizes = {
-    sm: { track: "w-7 h-3.5",  thumb: "w-2.5 h-2.5", on: "translate-x-3.5", off: "translate-x-0.5" },
-    md: { track: "w-10 h-5.5", thumb: "w-4 h-4",      on: "translate-x-5",   off: "translate-x-0.5" },
-    lg: { track: "w-12 h-6.5", thumb: "w-5 h-5",      on: "translate-x-6",   off: "translate-x-0.5" },
-  };
-  const s = sizes[toggleSize];
-  const thumbBg = THUMB_COLOR[variant] ?? "#FFFFFF";
+  const trackColor  = isChecked ? (TRACK_ON_COLOR[variant] ?? "#0A0A0A") : "#D4D4D4";
+  const thumbColor  = isChecked ? (THUMB_COLOR[variant]    ?? "#FFFFFF")  : "#FFFFFF";
+  const thumbX      = isChecked ? sz.thumbOnX : sz.thumbOffX;
 
   return (
-    <div className={cn("flex items-start gap-3", className)}>
-      <div className="relative flex-shrink-0 mt-0.5">
-        <input
-          type="checkbox"
-          id={toggleId}
-          checked={isChecked}
-          onChange={(e) => { setInternal(e.target.checked); onChange?.(e); }}
-          disabled={disabled}
-          className="sr-only"
-          {...props}
+    <div className={cn("flex items-center gap-3", disabled && "opacity-40 cursor-not-allowed", className)}>
+      {/* Hidden native input for a11y */}
+      <input
+        type="checkbox"
+        id={toggleId}
+        checked={isChecked}
+        onChange={(e) => { if (!disabled) { setInternal(e.target.checked); onChange?.(e); } }}
+        disabled={disabled}
+        className="sr-only"
+        {...props}
+      />
+
+      {/* Visual track */}
+      <label
+        htmlFor={toggleId}
+        aria-disabled={disabled}
+        className={cn("relative flex-shrink-0 rounded-full", !disabled && "cursor-pointer")}
+        style={{
+          width:  sz.trackW,
+          height: sz.trackH,
+          backgroundColor: trackColor,
+          transition: "background-color 200ms ease",
+          display: "inline-block",
+        }}
+      >
+        {/* Thumb */}
+        <span
+          style={{
+            position:        "absolute",
+            top:             "50%",
+            left:            0,
+            width:           sz.thumbSize,
+            height:          sz.thumbSize,
+            borderRadius:    "50%",
+            backgroundColor: thumbColor,
+            boxShadow:       "0 1px 3px rgba(0,0,0,0.25)",
+            transform:       `translate(${thumbX}px, -50%)`,
+            transition:      "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 200ms ease",
+          }}
         />
-        <label
-          htmlFor={toggleId}
-          className={cn(
-            "relative inline-flex items-center rounded-full cursor-pointer",
-            "transition-all duration-250 ease-out",
-            s.track,
-            isChecked ? TRACK_ON[variant] : "bg-[#E0E0E0]",
-            disabled && "opacity-40 cursor-not-allowed",
-          )}
-        >
-          <span
-            className="absolute rounded-full shadow-sm transition-transform duration-250 ease-out"
-            style={{
-              width: s.thumb.split(" ")[0].replace("w-", "").replace(".", "").replace(/(\d+)(\d)/, "$1.$2") + "rem",
-              height: s.thumb.split(" ")[1].replace("h-", "").replace(".", "").replace(/(\d+)(\d)/, "$1.$2") + "rem",
-              background: thumbBg,
-              transform: isChecked
-                ? `translateX(${toggleSize === "sm" ? "0.875rem" : toggleSize === "lg" ? "1.5rem" : "1.25rem"})`
-                : "translateX(0.125rem)",
-            }}
-          />
-        </label>
-      </div>
+      </label>
+
+      {/* Label + Description */}
       {(label || description) && (
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           {label && (
-            <label htmlFor={toggleId} className={cn("text-sm font-semibold font-body cursor-pointer leading-tight", disabled && "opacity-40 cursor-not-allowed")}>
+            <label
+              htmlFor={toggleId}
+              className={cn("text-sm font-semibold text-[#0A0A0A] leading-tight", !disabled && "cursor-pointer")}
+            >
               {label}
             </label>
           )}
-          {description && <span className="text-xs text-muted-foreground font-body mt-0.5 leading-relaxed">{description}</span>}
+          {description && (
+            <span className="text-xs text-[#6B6B6B] mt-0.5 leading-snug">{description}</span>
+          )}
         </div>
       )}
     </div>
   );
 };
 
-/* ── GrainCheckbox ── */
+/* ════════════════════════════════════════════════
+   GrainCheckbox
+════════════════════════════════════════════════ */
 export interface GrainCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   description?: string;
-  variant?: keyof typeof FILL;
+  variant?: keyof typeof FILL_BG;
   indeterminate?: boolean;
 }
 
@@ -167,59 +169,67 @@ export const GrainCheckbox: React.FC<GrainCheckboxProps> = ({
 }) => {
   const [internal, setInternal] = React.useState(defaultChecked ?? false);
   const isChecked = checked !== undefined ? checked : internal;
-  const checkId = id || React.useId();
+  const checkId   = id || React.useId();
+  const isActive  = isChecked || indeterminate;
 
   return (
-    <div className={cn("flex items-start gap-2.5", className)}>
-      <div className="relative flex-shrink-0 mt-0.5">
-        <input
-          type="checkbox"
-          id={checkId}
-          checked={isChecked}
-          onChange={(e) => { setInternal(e.target.checked); onChange?.(e); }}
-          disabled={disabled}
-          className="sr-only"
-          {...props}
-        />
-        <label
-          htmlFor={checkId}
-          className={cn(
-            "w-4 h-4 rounded border flex items-center justify-center cursor-pointer",
-            "transition-all duration-150 ease-out",
-            isChecked || indeterminate
-              ? FILL[variant]
-              : "bg-transparent border-border hover:border-foreground/40",
-            disabled && "opacity-40 cursor-not-allowed"
-          )}
-        >
-          {indeterminate ? (
-            <Minus className={cn("w-2.5 h-2.5", ICON_COLOR[variant])} strokeWidth={2.5} />
-          ) : isChecked ? (
-            <Check className={cn("w-2.5 h-2.5", ICON_COLOR[variant])} strokeWidth={2.5} />
-          ) : null}
-        </label>
-      </div>
+    <div className={cn("flex items-start gap-2.5", disabled && "opacity-40 cursor-not-allowed", className)}>
+      <input
+        type="checkbox"
+        id={checkId}
+        checked={isChecked}
+        onChange={(e) => { if (!disabled) { setInternal(e.target.checked); onChange?.(e); } }}
+        disabled={disabled}
+        className="sr-only"
+        {...props}
+      />
+      <label
+        htmlFor={checkId}
+        className={cn("flex-shrink-0 mt-0.5", !disabled && "cursor-pointer")}
+        style={{
+          width:           16,
+          height:          16,
+          borderRadius:    4,
+          border:          `1.5px solid ${isActive ? (FILL_BG[variant] ?? "#0A0A0A") : "#C8C8C8"}`,
+          backgroundColor: isActive ? (FILL_BG[variant] ?? "#0A0A0A") : "transparent",
+          display:         "inline-flex",
+          alignItems:      "center",
+          justifyContent:  "center",
+          transition:      "all 150ms ease",
+        }}
+      >
+        {indeterminate ? (
+          <Minus style={{ width: 10, height: 10, color: FILL_ICON[variant] ?? "#FFFFFF", strokeWidth: 2.5 }} />
+        ) : isChecked ? (
+          <Check style={{ width: 10, height: 10, color: FILL_ICON[variant] ?? "#FFFFFF", strokeWidth: 2.5 }} />
+        ) : null}
+      </label>
+
       {(label || description) && (
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
           {label && (
-            <label htmlFor={checkId} className={cn("text-sm font-body cursor-pointer leading-tight", disabled && "opacity-40 cursor-not-allowed")}>
+            <label htmlFor={checkId} className={cn("text-sm text-[#0A0A0A] leading-tight", !disabled && "cursor-pointer")}>
               {label}
             </label>
           )}
-          {description && <span className="text-xs text-muted-foreground font-body mt-0.5 leading-relaxed">{description}</span>}
+          {description && (
+            <span className="text-xs text-[#6B6B6B] mt-0.5 leading-snug">{description}</span>
+          )}
         </div>
       )}
     </div>
   );
 };
 
-/* ── GrainRadioGroup ── */
+/* ════════════════════════════════════════════════
+   GrainRadioGroup
+════════════════════════════════════════════════ */
 export interface GrainRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   options: Array<{ value: string; label: string; description?: string }>;
   value?: string;
   defaultValue?: string;
   name: string;
-  variant?: keyof typeof FILL;
+  variant?: keyof typeof FILL_BG;
   onValueChange?: (value: string) => void;
 }
 
@@ -236,24 +246,15 @@ export const GrainRadioGroup: React.FC<GrainRadioGroupProps> = ({
   const [internal, setInternal] = React.useState(defaultValue ?? "");
   const selected = value !== undefined ? value : internal;
 
-  const dotBg = variant === "lime" || variant === "primary" || variant === "gradient"
-    ? "bg-[#000000]"
-    : variant === "positive" ? "bg-[#1A9E5A]"
-    : variant === "negative" ? "bg-[#E8402A]"
-    : variant === "neutral" ? "bg-[#6B7A9A]"
-    : "bg-[#000000]";
+  const dotColor = FILL_BG[variant] ?? "#0A0A0A";
 
   return (
     <div className={cn("flex flex-col gap-2", className)} {...props}>
       {options.map((opt) => {
-        const radioId = `${name}-${opt.value}`;
+        const radioId  = `${name}-${opt.value}`;
         const isSelected = selected === opt.value;
         return (
-          <label
-            key={opt.value}
-            htmlFor={radioId}
-            className="flex items-start gap-2.5 cursor-pointer group"
-          >
+          <label key={opt.value} htmlFor={radioId} className="flex items-start gap-2.5 cursor-pointer group">
             <input
               type="radio"
               id={radioId}
@@ -263,16 +264,29 @@ export const GrainRadioGroup: React.FC<GrainRadioGroupProps> = ({
               onChange={() => { setInternal(opt.value); onValueChange?.(opt.value); }}
               className="sr-only"
             />
-            <div className={cn(
-              "w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 mt-0.5",
-              "transition-all duration-150",
-              isSelected ? "border-foreground" : "border-border group-hover:border-foreground/40"
-            )}>
-              {isSelected && <div className={cn("w-2 h-2 rounded-full", dotBg)} />}
+            {/* Radio circle */}
+            <div
+              className="flex-shrink-0 mt-0.5"
+              style={{
+                width:        16,
+                height:       16,
+                borderRadius: "50%",
+                border:       `1.5px solid ${isSelected ? dotColor : "#C8C8C8"}`,
+                display:      "inline-flex",
+                alignItems:   "center",
+                justifyContent: "center",
+                transition:   "border-color 150ms ease",
+              }}
+            >
+              {isSelected && (
+                <div style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: dotColor }} />
+              )}
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-body leading-tight">{opt.label}</span>
-              {opt.description && <span className="text-xs text-muted-foreground font-body mt-0.5 leading-relaxed">{opt.description}</span>}
+            <div className="flex flex-col min-w-0">
+              <span className="text-sm text-[#0A0A0A] leading-tight">{opt.label}</span>
+              {opt.description && (
+                <span className="text-xs text-[#6B6B6B] mt-0.5 leading-snug">{opt.description}</span>
+              )}
             </div>
           </label>
         );
