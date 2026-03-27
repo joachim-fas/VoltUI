@@ -249,14 +249,14 @@ export const FormsSection: React.FC = () => {
                 label="Lautstärke"
                 showValue
                 value={sliderA}
-                onChange={(e) => setSliderA(Number(e.target.value))}
+                onChange={(v) => setSliderA(v)}
                 variant="default"
               />
               <GrainSlider
                 label="Helligkeit"
                 showValue
                 value={sliderB}
-                onChange={(e) => setSliderB(Number(e.target.value))}
+                onChange={(v) => setSliderB(v)}
                 variant="lime"
                 sliderSize="lg"
               />

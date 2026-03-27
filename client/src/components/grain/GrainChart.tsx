@@ -22,7 +22,10 @@ import {
 
 /* ── Grain Farbpaletten für Recharts ── */
 
-/** Standard-Palette: Neon Yellow + Black + Signalfarben + Pastell */
+/** Standard-Palette: Neon Yellow + Black + Signalfarben + Pastell
+ * HINWEIS: GRAIN_HEX wird NUR noch für Signalfarben-Kontext exportiert.
+ * Alle Charts verwenden standardmäßig GRAIN_PASTEL.
+ */
 export const GRAIN_HEX = [
   "#E4FF97", // Neon Yellow (Primär)
   "#000000", // Black (Fundament)
@@ -58,11 +61,15 @@ export const GRAIN_PASTEL = [
   "#5ECECE", // Aqua Mist – gesättigt
 ];
 
-export const GRAIN_CHART_COLORS = GRAIN_HEX; // backwards compat
+export const GRAIN_CHART_COLORS = GRAIN_PASTEL; // backwards compat – jetzt Pastell
 
 export type GrainPalette = "standard" | "neon" | "pastel";
+/** Alle Charts nutzen standardmäßig GRAIN_PASTEL. "standard" = Pastell. */
 export const getPalette = (p?: GrainPalette) =>
-  p === "neon" ? GRAIN_NEON : p === "pastel" ? GRAIN_PASTEL : GRAIN_HEX;
+  p === "neon" ? GRAIN_NEON : GRAIN_PASTEL; // standard + pastel = immer Pastell
+
+/** Interner Alias – Charts verwenden immer Pastell */
+const C = GRAIN_PASTEL;
 
 /* ── Custom Tooltip ── */
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -126,8 +133,8 @@ export const GrainAreaChart: React.FC<GrainAreaChartProps> = ({
         <defs>
           {dataKeys.map((key, i) => (
             <linearGradient key={key} id={`grad-area-${key}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={GRAIN_HEX[i % GRAIN_HEX.length]} stopOpacity={0.35} />
-              <stop offset="95%" stopColor={GRAIN_HEX[i % GRAIN_HEX.length]} stopOpacity={0.02} />
+              <stop offset="5%" stopColor={C[i % C.length]} stopOpacity={0.35} />
+              <stop offset="95%" stopColor={C[i % C.length]} stopOpacity={0.02} />
             </linearGradient>
           ))}
         </defs>
@@ -139,8 +146,8 @@ export const GrainAreaChart: React.FC<GrainAreaChartProps> = ({
         {dataKeys.map((key, i) => (
           <Area key={key} type="monotone" dataKey={key}
             stackId={stacked ? "s" : undefined}
-            stroke={GRAIN_HEX[i % GRAIN_HEX.length]} strokeWidth={2}
-            fill={gradient ? `url(#grad-area-${key})` : GRAIN_HEX[i % GRAIN_HEX.length]}
+            stroke={C[i % C.length]} strokeWidth={2}
+            fill={gradient ? `url(#grad-area-${key})` : C[i % C.length]}
             fillOpacity={gradient ? 1 : 0.15}
             dot={false} activeDot={{ r: 4, strokeWidth: 0 }}
           />
@@ -221,8 +228,8 @@ export const GrainLineChart: React.FC<GrainLineChartProps> = ({
         <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {dataKeys.map((key, i) => (
           <Line key={key} type={curved ? "monotone" : "linear"} dataKey={key}
-            stroke={GRAIN_HEX[i % GRAIN_HEX.length]} strokeWidth={2.5}
-            dot={{ r: 3, fill: GRAIN_HEX[i % GRAIN_HEX.length], strokeWidth: 0 }}
+            stroke={C[i % C.length]} strokeWidth={2.5}
+            dot={{ r: 3, fill: C[i % C.length], strokeWidth: 0 }}
             activeDot={{ r: 5, strokeWidth: 0 }}
           />
         ))}
@@ -251,7 +258,7 @@ export const GrainDonutChart: React.FC<GrainDonutChartProps> = ({
         <Pie data={data} cx="50%" cy="50%"
           innerRadius={donut ? "52%" : 0} outerRadius="72%"
           paddingAngle={donut ? 3 : 1} dataKey="value" strokeWidth={0}>
-          {data.map((_, i) => <Cell key={i} fill={GRAIN_HEX[i % GRAIN_HEX.length]} />)}
+          {data.map((_, i) => <Cell key={i} fill={C[i % C.length]} />)}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
         <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
@@ -291,8 +298,8 @@ export const GrainRadarChart: React.FC<GrainRadarChartProps> = ({
         <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {dataKeys.map((key, i) => (
           <Radar key={key} name={key} dataKey={key}
-            stroke={GRAIN_HEX[i % GRAIN_HEX.length]} fill={GRAIN_HEX[i % GRAIN_HEX.length]}
-            fillOpacity={0.18} strokeWidth={2} />
+            stroke={C[i % C.length]} fill={C[i % C.length]}
+            fillOpacity={0.25} strokeWidth={2} />
         ))}
       </RadarChart>
     </ResponsiveContainer>
@@ -320,7 +327,7 @@ export const GrainScatterChart: React.FC<GrainScatterChartProps> = ({
         <YAxis dataKey="y" name={yLabel} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <ZAxis dataKey="z" range={[40, 400]} />
         <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: "3 3" }} />
-        <Scatter data={data} fill={GRAIN_HEX[0]} fillOpacity={0.75} />
+        <Scatter data={data} fill={C[0]} fillOpacity={0.75} />
       </ScatterChart>
     </ResponsiveContainer>
   </ChartWrapper>
@@ -349,11 +356,11 @@ export const GrainComposedChart: React.FC<GrainComposedChartProps> = ({
         <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
         <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {barKeys.map((key, i) => (
-          <Bar key={key} dataKey={key} fill={GRAIN_HEX[i % GRAIN_HEX.length]} radius={[4,4,0,0]} maxBarSize={40} fillOpacity={0.85} />
+          <Bar key={key} dataKey={key} fill={C[i % C.length]} radius={[4,4,0,0]} maxBarSize={40} fillOpacity={0.9} />
         ))}
         {lineKeys.map((key, i) => (
           <Line key={key} type="monotone" dataKey={key}
-            stroke={GRAIN_HEX[(barKeys.length + i) % GRAIN_HEX.length]} strokeWidth={2.5}
+            stroke={C[(barKeys.length + i) % C.length]} strokeWidth={2.5}
             dot={{ r: 3, strokeWidth: 0 }} />
         ))}
       </ComposedChart>
@@ -372,7 +379,7 @@ export interface GrainRadialBarChartProps {
 export const GrainRadialBarChart: React.FC<GrainRadialBarChartProps> = ({
   data, height = 280, title, subtitle, className
 }) => {
-  const coloredData = data.map((d, i) => ({ ...d, fill: d.fill || GRAIN_HEX[i % GRAIN_HEX.length] }));
+  const coloredData = data.map((d, i) => ({ ...d, fill: d.fill || C[i % C.length] }));
   return (
     <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
       <ResponsiveContainer width="100%" height="100%">
@@ -399,7 +406,7 @@ export interface GrainFunnelChartProps {
 export const GrainFunnelChart: React.FC<GrainFunnelChartProps> = ({
   data, height = 280, title, subtitle, className
 }) => {
-  const coloredData = data.map((d, i) => ({ ...d, fill: GRAIN_HEX[i % GRAIN_HEX.length] }));
+  const coloredData = data.map((d, i) => ({ ...d, fill: C[i % C.length] }));
   return (
     <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
       <ResponsiveContainer width="100%" height="100%">
@@ -442,7 +449,7 @@ export const GrainTrendChart: React.FC<GrainTrendChartProps> = ({
         )}
         {dataKeys.map((key, i) => (
           <Line key={key} type="monotone" dataKey={key}
-            stroke={GRAIN_HEX[i % GRAIN_HEX.length]} strokeWidth={2}
+            stroke={C[i % C.length]} strokeWidth={2}
             dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
         ))}
       </LineChart>
