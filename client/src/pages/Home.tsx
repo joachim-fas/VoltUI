@@ -16,10 +16,11 @@ import { NavigationSection }  from "./sections/NavigationSection";
 import { DashboardSection }   from "./sections/DashboardSection";
 import { IconsSection }       from "./sections/IconsSection";
 import { ColorSection }       from "./sections/ColorSection";
+import OperatingPrincipleSection from "./sections/OperatingPrincipleSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
-  LayoutDashboard, Shapes, Palette as Palette2,
+  LayoutDashboard, Shapes, Palette as Palette2, GitBranch,
 } from "lucide-react";
 
 const sidebarSections = [
@@ -52,6 +53,7 @@ const sidebarSections = [
     title: "Templates",
     items: [
       { id: "dashboard",  label: "Dashboard",         description: "KPIs, Analytics, Bestellungen", icon: <LayoutDashboard className="w-4 h-4" />, isNew: true },
+      { id: "op",         label: "Operating Principle", description: "Eingabe → Workflow → Ausgabe",  icon: <GitBranch className="w-4 h-4" />, isNew: true },
     ],
   },
 ];
@@ -79,6 +81,7 @@ export default function Home() {
       case "data":        return <DataSection />;
       case "navigation":  return <NavigationSection />;
       case "dashboard":   return <DashboardSection />;
+      case "op":          return <OperatingPrincipleSection />;
       default:            return <HeroSection onNavigate={navigate} />;
     }
   };

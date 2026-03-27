@@ -22,10 +22,11 @@ const features = [
   { icon: <Package className="w-4 h-4" />,   title: "16 Komponenten",     desc: "Vollständige Bibliothek",    bg: "#0A0A0A",  fg: "#FFFFFF" },
   { icon: <Cpu className="w-4 h-4" />,       title: "React 19",           desc: "Modernste React-Version",    bg: "#6B7A9A",  fg: "#FFFFFF" },
   { icon: <GitBranch className="w-4 h-4" />, title: "TypeScript",         desc: "Vollständig typisiert",      bg: "#F4F4F4",  fg: "#0A0A0A" },
+  { icon: <GitBranch className="w-4 h-4" />, title: "Operating Principle", desc: "Eingabe → Workflow → Ausgabe", bg: "#D4E8FF",  fg: "#0A0A0A" },
 ];
 
 const stats = [
-  { value: "17",  label: "Komponenten",   suffix: "" },
+  { value: "18",  label: "Komponenten",   suffix: "" },
   { value: "12",  label: "Graphen-Typen", suffix: "" },
   { value: "48",  label: "CSS-Variablen", suffix: "+" },
   { value: "0",   label: "Bild-Assets",   suffix: "" },
