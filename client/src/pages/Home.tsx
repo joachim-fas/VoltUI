@@ -112,7 +112,7 @@ export default function Home() {
           <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
             grain<span className="opacity-30">ui</span>
           </p>
-          <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Design System</p>
+          <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Operating Principles</p>
         </div>
       </div>
       {showClose && (

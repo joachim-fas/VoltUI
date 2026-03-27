@@ -88,7 +88,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.2, duration: 0.7 }}
             className="text-display-xl text-[#0A0A0A] mb-6"
           >
-            Die Betriebssprache<br />
+            Operating Principles<br />
             <span className="font-body italic font-normal">von</span>{" "}
             Free Agents
           </motion.h1>
@@ -99,9 +99,9 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.35, duration: 0.6 }}
             className="font-ui text-[#0A0A0A]/60 text-lg leading-relaxed max-w-2xl mx-auto mb-10"
           >
-            Grain UI ist mehr als ein Design-System – es ist die visuelle
-            und strukturelle Grundlage für jedes Projekt, jede Kommunikation
-            und jeden Workflow bei Free Agents.io.
+            Handlungsleitende Prinzipien, die Werte in tägliche Praxis übersetzen.
+            Wie Teams arbeiten, zusammenarbeiten und Entscheidungen treffen
+            – konsistent, skalierbar, nachvollziehbar.
           </motion.p>
 
           <motion.div
