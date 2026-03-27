@@ -43,7 +43,7 @@ const sidebarSections = [
   {
     title: "Komponenten",
     items: [
-      { id: "buttons",    label: "Buttons",           description: "Aktionen & Interaktionen",    icon: <MousePointer2 className="w-4 h-4" />, count: 6 },
+      { id: "buttons",    label: "Buttons",           description: "Aktionen & Interaktionen",    icon: <MousePointer2 className="w-4 h-4" />, count: 7 },
       { id: "cards",      label: "Cards & Surfaces",  description: "Inhaltsflächen & Container",   icon: <LayoutGrid className="w-4 h-4" />,    count: 5 },
       { id: "forms",      label: "Forms & Inputs",    description: "Eingabe & Validierung",        icon: <FormInput className="w-4 h-4" />,     count: 8 },
       { id: "feedback",   label: "Feedback & Overlay",description: "Toast, Modal, Tooltip, Tabs",  icon: <MessageSquare className="w-4 h-4" />, count: 5 },

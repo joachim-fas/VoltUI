@@ -43,15 +43,15 @@ const badgeVariants = cva(
         ],
         /* ── Signal: Positiv (Smaragd) ── */
         positive: [
-          "bg-[#E8F8EF] text-[#0F6038] border border-[#7DD4A8]",
+          "bg-[var(--signal-positive-light)] text-[var(--signal-positive-text)] border border-[var(--signal-positive-border)]",
         ],
         /* ── Signal: Negativ (Koralle) ── */
         negative: [
-          "bg-[#FDEEE9] text-[#A01A08] border border-[#F4A090]",
+          "bg-[var(--signal-negative-light)] text-[var(--signal-negative-text)] border border-[var(--signal-negative-border)]",
         ],
         /* ── Signal: Neutral (Slate) ── */
         neutral: [
-          "bg-[#F0F2F7] text-[#3A4560] border border-[#B0BACC]",
+          "bg-[var(--signal-neutral-light)] text-[var(--signal-neutral-text)] border border-[var(--signal-neutral-border)]",
         ],
         /* ── Legacy-Aliase ── */
         blue:     ["bg-[#0A0A0A] text-white ring-1 ring-black/20"],

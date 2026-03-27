@@ -10,33 +10,36 @@ import { cn } from "@/lib/utils";
 import { Check, Minus } from "lucide-react";
 
 /* ── Farbmap für alle Varianten ── */
+/* CSS-Variable-Resolver für Inline-Styles */
+const cssVar = (name: string) => `var(${name})`;
+
 const TRACK_ON_COLOR: Record<string, string> = {
-  default:  "#0A0A0A",
-  primary:  "#E4FF97",
-  positive: "#1A9E5A",
-  negative: "#E8402A",
-  neutral:  "#6B7A9A",
+  default:  cssVar("--foreground"),
+  primary:  cssVar("--neon-yellow"),
+  positive: cssVar("--signal-positive"),
+  negative: cssVar("--signal-negative"),
+  neutral:  cssVar("--signal-neutral"),
 };
 
 const THUMB_COLOR: Record<string, string> = {
   default:  "#FFFFFF",
-  primary:  "#0A0A0A",
+  primary:  "#000000",
   positive: "#FFFFFF",
   negative: "#FFFFFF",
   neutral:  "#FFFFFF",
 };
 
 const FILL_BG: Record<string, string> = {
-  default:  "#0A0A0A",
-  primary:  "#E4FF97",
-  positive: "#1A9E5A",
-  negative: "#E8402A",
-  neutral:  "#6B7A9A",
+  default:  cssVar("--foreground"),
+  primary:  cssVar("--neon-yellow"),
+  positive: cssVar("--signal-positive"),
+  negative: cssVar("--signal-negative"),
+  neutral:  cssVar("--signal-neutral"),
 };
 
 const FILL_ICON: Record<string, string> = {
   default:  "#FFFFFF",
-  primary:  "#0A0A0A",
+  primary:  "#000000",
   positive: "#FFFFFF",
   negative: "#FFFFFF",
   neutral:  "#FFFFFF",

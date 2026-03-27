@@ -12,20 +12,20 @@ import React, { useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 const FILL_COLORS: Record<string, string> = {
-  default:  "#0A0A0A",
-  lime:     "#E4FF97",
-  primary:  "#E4FF97",
-  positive: "#1A9E5A",
-  negative: "#E8402A",
-  neutral:  "#6B7A9A",
-  blue:     "#0A0A0A",
-  red:      "#E8402A",
-  gradient: "#E4FF97",
-  violet:   "#1A1A1A",
-  coral:    "#E4FF97",
+  default:  "var(--foreground)",
+  lime:     "var(--neon-yellow)",
+  primary:  "var(--neon-yellow)",
+  positive: "var(--signal-positive)",
+  negative: "var(--signal-negative)",
+  neutral:  "var(--signal-neutral)",
+  blue:     "var(--foreground)",
+  red:      "var(--signal-negative)",
+  gradient: "var(--neon-yellow)",
+  violet:   "var(--ink-soft)",
+  coral:    "var(--neon-yellow)",
 };
 
-const TRACK_BG = "#E8E8E8";
+const TRACK_BG = "var(--border)";
 
 const SIZE_H: Record<string, string> = {
   xs: "h-px",

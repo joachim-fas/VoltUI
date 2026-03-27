@@ -25,7 +25,7 @@ export const ButtonsSection: React.FC = () => {
         <p className="section-label mb-2">02 — Buttons</p>
         <h2 className="font-display font-bold text-3xl text-foreground mb-3">Button-Komponente</h2>
         <p className="text-muted-foreground font-body text-sm leading-relaxed max-w-xl">
-          Sechs Varianten mit Grain-Textur-Overlay, atmosphärischen Glow-Effekten und vollständiger Tastatur-Zugänglichkeit.
+          Sieben Varianten mit Grain-Textur-Overlay, atmosphärischen Glow-Effekten und vollständiger Tastatur-Zugänglichkeit.
           Alle Effekte sind reiner CSS-Code.
         </p>
       </div>

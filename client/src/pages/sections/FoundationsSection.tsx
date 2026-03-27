@@ -6,7 +6,7 @@
 import React, { useState } from "react";
 import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
 import { GrainBadge } from "@/components/grain/GrainBadge";
-import { GRAIN_HEX, GRAIN_NEON, GRAIN_PASTEL } from "@/components/grain/GrainChart";
+import { GRAIN_NEON, GRAIN_PASTEL } from "@/components/grain/GrainChart";
 
 const colorTokens = [
   { name: "--neon-yellow",     hex: "#E4FF97", role: "Neon Yellow (Leading)", bg: "bg-[#E4FF97]" },
@@ -379,10 +379,10 @@ const PALETTES = [
   {
     id: "standard",
     label: "Standard",
-    desc: "Klare, kontraststarke Farben · Neon Yellow als Führungsfarbe · Signalfarben für Datenbewertung",
-    colors: GRAIN_HEX,
-    names: ["Neon Yellow", "Black", "Positiv", "Negativ", "Neutral", "Mint Green", "Baby Blue", "Rose Quartz"],
-    roles: ["Primär", "Fundament", "Signal ↑", "Signal ↓", "Signal →", "Pastell 1", "Pastell 2", "Pastell 3"],
+    desc: "Gesättigte Pastell-Farben · Harmonisch und lesbar · Ideal für alle Diagramm-Typen",
+    colors: GRAIN_PASTEL,
+    names: ["Rose Quartz", "Peach", "Mint Green", "Soft Orchid", "Baby Blue", "Butter Yellow", "Powder Orange", "Aqua Mist"],
+    roles: ["Kategorie 1", "Kategorie 2", "Kategorie 3", "Kategorie 4", "Kategorie 5", "Kategorie 6", "Kategorie 7", "Kategorie 8"],
   },
   {
     id: "neon",

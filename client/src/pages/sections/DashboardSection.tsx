@@ -120,9 +120,9 @@ const TICK_STYLE = { fontSize: 10, fontFamily: "DM Sans", fill: "#6B6B6B" };
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   const map: Record<string, { label: string; cls: string; icon: React.ReactNode }> = {
-    success: { label: "Erfolgreich", cls: "bg-[#E8F8EF] text-[#0F6038] border border-[#7DD4A8]",   icon: <CheckCircle2 className="w-3 h-3" /> },
-    pending: { label: "Ausstehend",  cls: "bg-[#F0F2F7] text-[#3A4560] border border-[#B0BACC]",   icon: <Clock className="w-3 h-3" /> },
-    failed:  { label: "Fehlerhaft",  cls: "bg-[#FDEEE9] text-[#A01A08] border border-[#F4A090]",   icon: <AlertCircle className="w-3 h-3" /> },
+    success: { label: "Erfolgreich", cls: "bg-[var(--signal-positive-light)] text-[var(--signal-positive-text)] border border-[var(--signal-positive-border)]",   icon: <CheckCircle2 className="w-3 h-3" /> },
+    pending: { label: "Ausstehend",  cls: "bg-[var(--signal-neutral-light)] text-[var(--signal-neutral-text)] border border-[var(--signal-neutral-border)]",   icon: <Clock className="w-3 h-3" /> },
+    failed:  { label: "Fehlerhaft",  cls: "bg-[var(--signal-negative-light)] text-[var(--signal-negative-text)] border border-[var(--signal-negative-border)]",   icon: <AlertCircle className="w-3 h-3" /> },
   };
   const { label, cls, icon } = map[status] ?? map.pending;
   return (
@@ -154,9 +154,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 const Insight: React.FC<{ text: string; type?: "positive" | "warning" | "neutral" }> = ({ text, type = "neutral" }) => {
   const styles = {
-    positive: "bg-[#E8F8EF] text-[#0F6038] border-[#7DD4A8]",
-    warning:  "bg-[#FFF8E8] text-[#7A4A00] border-[#F0D080]",
-    neutral:  "bg-[#F4F4F4] text-[#6B6B6B] border-[#E8E8E8]",
+    positive: "bg-[var(--signal-positive-light)] text-[var(--signal-positive-text)] border-[var(--signal-positive-border)]",
+    warning:  "bg-amber-50 text-amber-800 border-amber-200",
+    neutral:  "bg-muted text-muted-foreground border-border",
   };
   const icons = {
     positive: <TrendingUp className="w-3 h-3" />,

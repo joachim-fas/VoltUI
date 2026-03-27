@@ -100,15 +100,15 @@
   --ring:                  #000000;
 
   /* ── Chart-Farben ── */
-  /* Reihenfolge: Neon Yellow, Black, Signale, Pastell */
-  --chart-1: #E4FF97;   /* Neon Yellow – Primär */
-  --chart-2: #000000;   /* Black */
-  --chart-3: #1A9E5A;   /* Signal Positiv */
-  --chart-4: #E8402A;   /* Signal Negativ */
-  --chart-5: #6B7A9A;   /* Signal Neutral */
-  --chart-6: #C3F4D3;   /* Mint Green */
-  --chart-7: #D4E8FF;   /* Baby Blue */
-  --chart-8: #FFD6E0;   /* Rose Quartz */
+  /* Reihenfolge: Pastell-Palette (keine Lime/Schwarz in Charts) */
+  --chart-1: #FFF5BA;   /* Butter Yellow */
+  --chart-2: #C3F4D3;   /* Mint Green */
+  --chart-3: #D4E8FF;   /* Baby Blue */
+  --chart-4: #FFD6E0;   /* Rose Quartz */
+  --chart-5: #FDE2FF;   /* Soft Orchid */
+  --chart-6: #FFE0CC;   /* Powder Orange */
+  --chart-7: #D6F5F5;   /* Aqua Mist */
+  --chart-8: #FFECD2;   /* Peach Cream */
 
   /* ── Sidebar (Light Mode: hell) ── */
   --sidebar:                    #FFFFFF;

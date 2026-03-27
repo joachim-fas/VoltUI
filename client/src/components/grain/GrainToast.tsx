@@ -26,23 +26,23 @@ const toastConfig: Record<ToastVariant, {
 }> = {
   success: {
     icon: CheckCircle2,
-    accent: "bg-[#1A9E5A]",
-    iconColor: "text-[#1A9E5A]",
+    accent: "bg-[var(--signal-positive)]",
+    iconColor: "text-[var(--signal-positive)]",
   },
   error: {
     icon: AlertCircle,
-    accent: "bg-[#E8402A]",
-    iconColor: "text-[#E8402A]",
+    accent: "bg-[var(--signal-negative)]",
+    iconColor: "text-[var(--signal-negative)]",
   },
   info: {
     icon: Info,
-    accent: "bg-[#6B7A9A]",
-    iconColor: "text-[#6B7A9A]",
+    accent: "bg-[var(--signal-neutral)]",
+    iconColor: "text-[var(--signal-neutral)]",
   },
   warning: {
     icon: AlertTriangle,
-    accent: "bg-[#C87A00]",
-    iconColor: "text-[#C87A00]",
+    accent: "bg-amber-500",
+    iconColor: "text-amber-600",
   },
 };
 
