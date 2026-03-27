@@ -91,15 +91,15 @@ export default function Home() {
           <span className="font-display font-black text-[#0A0A0A] text-sm">G</span>
         </div>
         <div>
-          <p className="font-display font-bold text-sm text-white leading-tight">Grain UI</p>
-          <p className="text-[0.6rem] font-mono text-white/30 leading-tight">Component Library v3</p>
+          <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight">Grain UI</p>
+          <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight">Component Library v3</p>
         </div>
       </div>
-      {showClose && (
-        <button
-          onClick={() => setMobileOpen(false)}
-          className="w-7 h-7 flex items-center justify-center rounded-lg text-white/40 hover:text-white hover:bg-white/10"
-        >
+        {showClose && (
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-[#AAAAAA] hover:text-[#0A0A0A] hover:bg-[#F0F0F0]"
+          >
           <X className="w-4 h-4" />
         </button>
       )}

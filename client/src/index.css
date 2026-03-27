@@ -102,14 +102,14 @@
   --chart-7: #FFCF9E;   /* Pastell Peach */
   --chart-8: #A8D8F0;   /* Pastell Sky */
 
-  /* ── Sidebar ── */
-  --sidebar:                    #0A0A0A;
-  --sidebar-foreground:         #FFFFFF;
+  /* ── Sidebar (Light Mode: hell) ── */
+  --sidebar:                    #FFFFFF;
+  --sidebar-foreground:         #0A0A0A;
   --sidebar-primary:            #E4FF97;
   --sidebar-primary-foreground: #0A0A0A;
-  --sidebar-accent:             #1A1A1A;
-  --sidebar-accent-foreground:  #FFFFFF;
-  --sidebar-border:             #2A2A2A;
+  --sidebar-accent:             #F5F5F5;
+  --sidebar-accent-foreground:  #0A0A0A;
+  --sidebar-border:             #E8E8E8;
   --sidebar-ring:               #E4FF97;
 
   /* ── Grain-Gradient (für GrainCard variant="gradient") ── */
