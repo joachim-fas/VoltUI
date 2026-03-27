@@ -88,9 +88,9 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.2, duration: 0.7 }}
             className="text-display-xl text-[#0A0A0A] mb-6"
           >
-            Design System<br />
-            <span className="font-body italic font-normal">für moderne</span>{" "}
-            Interfaces
+            Die Betriebssprache<br />
+            <span className="font-body italic font-normal">von</span>{" "}
+            Free Agents
           </motion.h1>
 
           <motion.p
@@ -99,8 +99,9 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.35, duration: 0.6 }}
             className="font-ui text-[#0A0A0A]/60 text-lg leading-relaxed max-w-2xl mx-auto mb-10"
           >
-            Grain UI verbindet atmosphärische Textur, präzise Typografie und
-            semantische Farbcodierung zu einem kohärenten Design-System.
+            Grain UI ist mehr als ein Design-System – es ist die visuelle
+            und strukturelle Grundlage für jedes Projekt, jede Kommunikation
+            und jeden Workflow bei Free Agents.io.
           </motion.p>
 
           <motion.div
