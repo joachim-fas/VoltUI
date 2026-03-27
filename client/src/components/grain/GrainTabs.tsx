@@ -98,7 +98,7 @@ export const GrainTabs: React.FC<GrainTabsProps> = ({
                     "absolute inset-0 rounded-lg",
                     variant === "pills"
                       ? "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))] shadow-[0_2px_8px_oklch(0.42_0.22_268/0.3)]"
-                      : "bg-background shadow-sm"
+                      : "bg-background ring-1 ring-border"
                   )}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />

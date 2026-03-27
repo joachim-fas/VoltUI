@@ -33,9 +33,14 @@ export const GrainToggle: React.FC<GrainToggleProps> = ({
   const toggleId = id || React.useId();
 
   const trackOn: Record<string, string> = {
-    blue:     "bg-grain-blue",
-    red:      "bg-grain-red",
-    gradient: "bg-[linear-gradient(90deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))]",
+    blue:     "bg-[#0A0A0A]",
+    red:      "bg-[#E8402A]",
+    gradient: "bg-[#E4FF97]",
+    default:  "bg-[#0A0A0A]",
+    lime:     "bg-[#E4FF97]",
+    positive: "bg-[#1A9E5A]",
+    negative: "bg-[#E8402A]",
+    neutral:  "bg-[#6B7A9A]",
   };
   const sizes = {
     sm: { track: "w-8 h-4",  thumb: "w-3 h-3",  translateOn: "translate-x-4" },
@@ -71,7 +76,7 @@ export const GrainToggle: React.FC<GrainToggleProps> = ({
         >
           <span
             className={cn(
-              "absolute left-0.5 rounded-full bg-white shadow-[0_1px_4px_oklch(0_0_0/0.25)]",
+              "absolute left-0.5 rounded-full bg-white ring-1 ring-black/10",
               "transition-transform duration-200 ease-out",
               s.thumb,
               isChecked ? s.translateOn : "translate-x-0.5"
@@ -129,9 +134,14 @@ export const GrainCheckbox: React.FC<GrainCheckboxProps> = ({
   const checkId = id || React.useId();
 
   const fillVariants: Record<string, string> = {
-    blue:     "bg-grain-blue border-grain-blue",
-    red:      "bg-grain-red border-grain-red",
-    gradient: "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))] border-transparent",
+    blue:     "bg-[#0A0A0A] border-[#0A0A0A]",
+    red:      "bg-[#E8402A] border-[#E8402A]",
+    gradient: "bg-[#E4FF97] border-[#E4FF97]",
+    default:  "bg-[#0A0A0A] border-[#0A0A0A]",
+    lime:     "bg-[#E4FF97] border-[#E4FF97]",
+    positive: "bg-[#1A9E5A] border-[#1A9E5A]",
+    negative: "bg-[#E8402A] border-[#E8402A]",
+    neutral:  "bg-[#6B7A9A] border-[#6B7A9A]",
   };
 
   return (
@@ -215,9 +225,14 @@ export const GrainRadioGroup: React.FC<GrainRadioGroupProps> = ({
   const selected = value !== undefined ? value : internal;
 
   const dotColors: Record<string, string> = {
-    blue:     "bg-grain-blue",
-    red:      "bg-grain-red",
-    gradient: "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))]",
+    blue:     "bg-[#0A0A0A]",
+    red:      "bg-[#E8402A]",
+    gradient: "bg-[#E4FF97]",
+    default:  "bg-[#0A0A0A]",
+    lime:     "bg-[#E4FF97]",
+    positive: "bg-[#1A9E5A]",
+    negative: "bg-[#E8402A]",
+    neutral:  "bg-[#6B7A9A]",
   };
 
   return (

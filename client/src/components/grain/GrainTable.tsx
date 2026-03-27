@@ -41,7 +41,7 @@ export function GrainTable<T extends Record<string, unknown>>({
     <div
       className={cn(
         "w-full overflow-hidden rounded-2xl border border-border",
-        "shadow-[0_2px_12px_oklch(0_0_0/0.06)]",
+        "ring-1 ring-border",
         className
       )}
       {...props}

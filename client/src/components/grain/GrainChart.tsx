@@ -1,7 +1,7 @@
 /**
- * GrainChart – Atmospheric Grain Design System v2
+ * GrainChart – Atmospheric Grain Design System v3
  * Alle Graphen-Typen: Area, Bar, Line, Donut/Pie, Radar, Scatter, Composed, RadialBar, Funnel, Trend
- * Font: Space Grotesk (Labels) + JetBrains Mono (Achsen)
+ * Font: DM Sans überall – kein Serif, keine Monospace in Achsen/Labels
  */
 
 import React from "react";
@@ -20,25 +20,55 @@ import {
   ReferenceLine,
 } from "recharts";
 
-/* ── Grain Hex-Farbpalette für Recharts ── */
+/* ── Grain Farbpaletten für Recharts ── */
+
+/** Standard-Palette: Lime + Schwarz + Signalfarben + Pastell */
 export const GRAIN_HEX = [
-  "#4A35D4", // blue
-  "#E8150E", // red
-  "#1AACAC", // teal
-  "#D4A017", // amber
-  "#552AAF", // violet
-  "#2DA84A", // green
-  "#D44A8C", // pink
-  "#FA716B", // coral
+  "#0A0A0A", // Schwarz (Primär)
+  "#1A9E5A", // Signal Positiv (Smaragd)
+  "#E8402A", // Signal Negativ (Koralle)
+  "#6B7A9A", // Signal Neutral (Slate)
+  "#E4FF97", // Lime
+  "#C8A8F0", // Pastell Lavender
+  "#FFCF9E", // Pastell Peach
+  "#A8D8F0", // Pastell Sky
+];
+
+/** Neon-Palette: maximale Chroma, elektrische Leuchtkraft */
+export const GRAIN_NEON = [
+  "#00F5FF", // Neon Cyan
+  "#FF0090", // Hot Pink
+  "#AAFF00", // Acid Green
+  "#FF6600", // Laser Orange
+  "#7B00FF", // Electric Violet
+  "#00FF88", // Neon Mint
+  "#FFE600", // Electric Yellow
+  "#FF2D55", // Neon Red
+];
+
+/** Pastel-Palette: weich, harmonisch */
+export const GRAIN_PASTEL = [
+  "#A5B4FC", // Lavender
+  "#FCA5A5", // Blush
+  "#6EE7B7", // Mint
+  "#FCD34D", // Butter
+  "#C4B5FD", // Lilac
+  "#86EFAC", // Sage
+  "#F9A8D4", // Rose
+  "#93C5FD", // Sky
 ];
 
 export const GRAIN_CHART_COLORS = GRAIN_HEX; // backwards compat
+
+export type GrainPalette = "standard" | "neon" | "pastel";
+export const getPalette = (p?: GrainPalette) =>
+  p === "neon" ? GRAIN_NEON : p === "pastel" ? GRAIN_PASTEL : GRAIN_HEX;
 
 /* ── Custom Tooltip ── */
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="glass-strong rounded-xl px-3.5 py-2.5 shadow-xl border border-border/60 font-ui text-xs">
+    <div className="glass-strong rounded-xl px-3.5 py-2.5 border border-border/60 font-ui text-xs" style={{ fontFamily: '"DM Sans", system-ui, sans-serif' }}>
       {label && <p className="text-muted-foreground mb-1.5 font-medium tracking-wide">{label}</p>}
       {payload.map((entry: any, i: number) => (
         <div key={i} className="flex items-center gap-2 py-0.5">
@@ -66,7 +96,7 @@ export const ChartWrapper: React.FC<ChartWrapperProps> = ({
     {(title || subtitle) && (
       <div className="px-5 pt-5 pb-2">
         {title && <h4 className="font-ui font-semibold text-sm text-foreground leading-tight">{title}</h4>}
-        {subtitle && <p className="text-xs text-muted-foreground mt-0.5 font-body">{subtitle}</p>}
+        {subtitle && <p className="text-xs text-muted-foreground mt-0.5 font-ui">{subtitle}</p>}
       </div>
     )}
     <div style={{ height }} className="px-1 pb-3">
@@ -101,11 +131,11 @@ export const GrainAreaChart: React.FC<GrainAreaChartProps> = ({
             </linearGradient>
           ))}
         </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,100,150,0.1)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         {dataKeys.map((key, i) => (
           <Area key={key} type="monotone" dataKey={key}
             stackId={stacked ? "s" : undefined}
@@ -139,20 +169,20 @@ export const GrainBarChart: React.FC<GrainBarChartProps> = ({
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} layout={horizontal ? "vertical" : "horizontal"}
         margin={{ top: 8, right: 8, left: horizontal ? 60 : -16, bottom: 0 }} barCategoryGap="30%">
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,100,150,0.1)" vertical={!horizontal} horizontal={horizontal} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={!horizontal} horizontal={horizontal} />
         {horizontal ? (
           <>
-            <XAxis type="number" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
-            <YAxis type="category" dataKey={xKey} tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} width={55} />
+            <XAxis type="number" tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+            <YAxis type="category" dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={55} />
           </>
         ) : (
           <>
-            <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
+            <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
           </>
         )}
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(100,100,150,0.04)" }} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         {dataKeys.map((key, i) => (
           <Bar key={key} dataKey={key} stackId={stacked ? "s" : undefined}
             fill={GRAIN_HEX[i % GRAIN_HEX.length]}
@@ -180,11 +210,11 @@ export const GrainLineChart: React.FC<GrainLineChartProps> = ({
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,100,150,0.1)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         {dataKeys.map((key, i) => (
           <Line key={key} type={curved ? "monotone" : "linear"} dataKey={key}
             stroke={GRAIN_HEX[i % GRAIN_HEX.length]} strokeWidth={2.5}
@@ -220,14 +250,14 @@ export const GrainDonutChart: React.FC<GrainDonutChartProps> = ({
           {data.map((_, i) => <Cell key={i} fill={GRAIN_HEX[i % GRAIN_HEX.length]} />)}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
-        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         {donut && innerLabel && (
           <text x="50%" y="44%" textAnchor="middle" dominantBaseline="middle"
-            style={{ fontSize: 11, fontFamily: "Space Grotesk", fill: "#8888aa" }}>{innerLabel}</text>
+            style={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}>{innerLabel}</text>
         )}
         {donut && innerValue !== undefined && (
           <text x="50%" y="57%" textAnchor="middle" dominantBaseline="middle"
-            style={{ fontSize: 22, fontWeight: 700, fontFamily: "Syne", fill: "#1a1a2e" }}>{innerValue}</text>
+            style={{ fontSize: 22, fontWeight: 700, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "currentColor" }}>{innerValue}</text>
         )}
       </PieChart>
     </ResponsiveContainer>
@@ -250,11 +280,11 @@ export const GrainRadarChart: React.FC<GrainRadarChartProps> = ({
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
     <ResponsiveContainer width="100%" height="100%">
       <RadarChart data={data} margin={{ top: 8, right: 24, left: 24, bottom: 8 }}>
-        <PolarGrid stroke="rgba(100,100,150,0.12)" />
-        <PolarAngleAxis dataKey={angleKey} tick={{ fontSize: 11, fontFamily: "Space Grotesk", fill: "#8888aa" }} />
-        <PolarRadiusAxis tick={{ fontSize: 9, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} />
+        <PolarGrid stroke="var(--border)" />
+        <PolarAngleAxis dataKey={angleKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} />
+        <PolarRadiusAxis tick={{ fontSize: 9, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         {dataKeys.map((key, i) => (
           <Radar key={key} name={key} dataKey={key}
             stroke={GRAIN_HEX[i % GRAIN_HEX.length]} fill={GRAIN_HEX[i % GRAIN_HEX.length]}
@@ -281,9 +311,9 @@ export const GrainScatterChart: React.FC<GrainScatterChartProps> = ({
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
     <ResponsiveContainer width="100%" height="100%">
       <ScatterChart margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,100,150,0.1)" />
-        <XAxis dataKey="x" name={xLabel} tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
-        <YAxis dataKey="y" name={yLabel} tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+        <XAxis dataKey="x" name={xLabel} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+        <YAxis dataKey="y" name={yLabel} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <ZAxis dataKey="z" range={[40, 400]} />
         <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: "3 3" }} />
         <Scatter data={data} fill={GRAIN_HEX[0]} fillOpacity={0.75} />
@@ -309,11 +339,11 @@ export const GrainComposedChart: React.FC<GrainComposedChartProps> = ({
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,100,150,0.1)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(100,100,150,0.04)" }} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+        <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         {barKeys.map((key, i) => (
           <Bar key={key} dataKey={key} fill={GRAIN_HEX[i % GRAIN_HEX.length]} radius={[4,4,0,0]} maxBarSize={40} fillOpacity={0.85} />
         ))}
@@ -344,10 +374,10 @@ export const GrainRadialBarChart: React.FC<GrainRadialBarChartProps> = ({
       <ResponsiveContainer width="100%" height="100%">
         <RadialBarChart cx="50%" cy="50%" innerRadius="20%" outerRadius="85%"
           data={coloredData} startAngle={180} endAngle={-180}>
-          <PolarGrid gridType="circle" stroke="rgba(100,100,150,0.07)" />
-          <RadialBar dataKey="value" cornerRadius={4} background={{ fill: "rgba(100,100,150,0.05)" }} />
+          <PolarGrid gridType="circle" stroke="var(--border)" />
+          <RadialBar dataKey="value" cornerRadius={4} background={{ fill: "var(--muted)" }} />
           <Tooltip content={<CustomTooltip />} />
-          <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+          <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         </RadialBarChart>
       </ResponsiveContainer>
     </ChartWrapper>
@@ -372,8 +402,8 @@ export const GrainFunnelChart: React.FC<GrainFunnelChartProps> = ({
         <FunnelChart margin={{ top: 8, right: 8, left: 8, bottom: 8 }}>
           <Tooltip content={<CustomTooltip />} />
           <Funnel dataKey="value" data={coloredData} isAnimationActive>
-            <LabelList position="right" fill="#8888aa" stroke="none" dataKey="name"
-              style={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+            <LabelList position="right" fill="var(--muted-foreground)" stroke="none" dataKey="name"
+              style={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
           </Funnel>
         </FunnelChart>
       </ResponsiveContainer>
@@ -398,13 +428,13 @@ export const GrainTrendChart: React.FC<GrainTrendChartProps> = ({
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,100,150,0.08)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#8888aa" }} axisLine={false} tickLine={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: "Space Grotesk" }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
         {showReferenceLine !== undefined && (
-          <ReferenceLine y={showReferenceLine} stroke="rgba(100,100,150,0.35)" strokeDasharray="4 4" />
+          <ReferenceLine y={showReferenceLine} stroke="var(--border)" strokeDasharray="4 4" />
         )}
         {dataKeys.map((key, i) => (
           <Line key={key} type="monotone" dataKey={key}

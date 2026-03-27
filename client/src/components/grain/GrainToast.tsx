@@ -26,23 +26,23 @@ const toastConfig: Record<ToastVariant, {
 }> = {
   success: {
     icon: CheckCircle2,
-    accent: "bg-[linear-gradient(90deg,oklch(0.55_0.18_145),oklch(0.45_0.15_145))]",
-    iconColor: "text-[oklch(0.50_0.18_145)]",
+    accent: "bg-[#1A9E5A]",
+    iconColor: "text-[#1A9E5A]",
   },
   error: {
     icon: AlertCircle,
-    accent: "bg-grain-red",
-    iconColor: "text-grain-red",
+    accent: "bg-[#E8402A]",
+    iconColor: "text-[#E8402A]",
   },
   info: {
     icon: Info,
-    accent: "bg-grain-blue",
-    iconColor: "text-grain-blue",
+    accent: "bg-[#6B7A9A]",
+    iconColor: "text-[#6B7A9A]",
   },
   warning: {
     icon: AlertTriangle,
-    accent: "bg-[oklch(0.75_0.18_75)]",
-    iconColor: "text-[oklch(0.65_0.18_75)]",
+    accent: "bg-[#C87A00]",
+    iconColor: "text-[#C87A00]",
   },
 };
 
@@ -69,7 +69,7 @@ const GrainToastItem: React.FC<GrainToastItemProps> = ({ toast, onDismiss }) => 
       transition={{ type: "spring", stiffness: 350, damping: 28 }}
       className={cn(
         "relative flex items-start gap-3 w-80 rounded-xl overflow-hidden grain",
-        "glass-strong shadow-[0_8px_32px_oklch(0_0_0/0.18)]",
+        "glass-strong ring-1 ring-border/40",
         "p-4"
       )}
     >
@@ -201,7 +201,7 @@ export const GrainTooltip: React.FC<GrainTooltipProps> = ({
             className={cn(
               "absolute z-50 pointer-events-none",
               "px-2.5 py-1.5 rounded-lg",
-              "glass-strong shadow-[0_4px_16px_oklch(0_0_0/0.15)]",
+              "glass-strong ring-1 ring-border/30",
               "text-xs font-semibold font-body text-foreground whitespace-nowrap",
               offsetClasses[side]
             )}

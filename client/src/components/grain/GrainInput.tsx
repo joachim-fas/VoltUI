@@ -16,7 +16,7 @@ const inputVariants = cva(
     "transition-all duration-200 ease-out",
     "outline-none",
     "focus:border-primary/60 focus:ring-2 focus:ring-primary/20",
-    "focus:shadow-[0_0_0_3px_oklch(0.42_0.22_268/0.12)]",
+    "focus:ring-2 focus:ring-primary/20",
     "disabled:opacity-50 disabled:cursor-not-allowed",
   ],
   {
@@ -33,7 +33,7 @@ const inputVariants = cva(
       },
       state: {
         default: "",
-        error:   "border-destructive/60 focus:border-destructive focus:ring-destructive/20 focus:shadow-[0_0_0_3px_oklch(0.52_0.26_27/0.12)]",
+        error:   "border-destructive/60 focus:border-destructive focus:ring-destructive/20 focus:ring-2 focus:ring-destructive/20",
         success: "border-green-500/60 focus:border-green-500 focus:ring-green-500/20",
       },
     },
@@ -139,7 +139,7 @@ export const GrainTextarea = React.forwardRef<HTMLTextAreaElement, GrainTextarea
             "transition-all duration-200 ease-out",
             "outline-none resize-y min-h-[100px]",
             "focus:border-primary/60 focus:ring-2 focus:ring-primary/20",
-            "focus:shadow-[0_0_0_3px_oklch(0.42_0.22_268/0.12)]",
+            "focus:ring-2 focus:ring-primary/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             hasError && "border-destructive/60 focus:border-destructive focus:ring-destructive/20",
             variant === "glass" && "glass bg-white/8 border-white/20",
@@ -192,7 +192,7 @@ export const GrainSelect = React.forwardRef<HTMLSelectElement, GrainSelectProps>
             "transition-all duration-200 ease-out",
             "outline-none appearance-none",
             "focus:border-primary/60 focus:ring-2 focus:ring-primary/20",
-            "focus:shadow-[0_0_0_3px_oklch(0.42_0.22_268/0.12)]",
+            "focus:ring-2 focus:ring-primary/20",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             hasError && "border-destructive/60",
             className

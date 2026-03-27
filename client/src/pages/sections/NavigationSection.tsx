@@ -50,7 +50,7 @@ const Pagination: React.FC<{ total: number; current: number; onChange: (p: numbe
           className={cn(
             "w-8 h-8 flex items-center justify-center rounded-lg text-sm font-semibold font-body transition-all duration-150",
             p === current
-              ? "bg-grain-blue text-white shadow-[0_2px_8px_oklch(0.42_0.22_268/0.35)]"
+              ? "bg-[#0A0A0A] text-white"
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
           )}
         >
@@ -80,8 +80,8 @@ const Stepper: React.FC<{ current: number }> = ({ current }) => (
           <div className="flex flex-col items-center gap-1.5">
             <div className={cn(
               "w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold font-body transition-all duration-300",
-              done   && "bg-grain-blue text-white shadow-[0_2px_8px_oklch(0.42_0.22_268/0.4)]",
-              active && "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))] text-white shadow-[0_2px_12px_oklch(0.42_0.22_268/0.4)] scale-110",
+              done   && "bg-[#0A0A0A] text-white",
+              active && "bg-[#E4FF97] text-[#0A0A0A] scale-110",
               !done && !active && "bg-muted text-muted-foreground border border-border"
             )}>
               {done ? <Check className="w-4 h-4" /> : active ? <Circle className="w-2.5 h-2.5 fill-white" /> : i + 1}
@@ -96,7 +96,7 @@ const Stepper: React.FC<{ current: number }> = ({ current }) => (
           {i < steps.length - 1 && (
             <div className={cn(
               "flex-1 h-0.5 mx-2 mb-5 rounded-full transition-all duration-500",
-              i < current ? "bg-grain-blue" : "bg-border"
+              i < current ? "bg-[#0A0A0A]" : "bg-border"
             )} />
           )}
         </React.Fragment>
@@ -140,8 +140,8 @@ export const NavigationSection: React.FC = () => {
               variant="glass"
               logo={
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-grain-blue grain flex items-center justify-center">
-                    <span className="text-white font-display font-bold text-xs">G</span>
+                  <div className="w-7 h-7 rounded-lg bg-[#E4FF97] flex items-center justify-center">
+                    <span className="text-[#0A0A0A] font-display font-bold text-xs">G</span>
                   </div>
                   <span className="font-display font-bold text-base text-foreground">Grain UI</span>
                 </div>
@@ -149,12 +149,12 @@ export const NavigationSection: React.FC = () => {
               items={navItems}
               rightSlot={
                 <div className="flex items-center gap-2">
-                  <GrainBadge variant="gradient" size="sm">v1.0</GrainBadge>
+                  <GrainBadge variant="default" size="sm">v1.0</GrainBadge>
                   <GrainButton variant="primary" size="sm">Starten</GrainButton>
                 </div>
               }
             />
-            <div className="h-16 bg-grain-hero grain flex items-center justify-center">
+            <div className="h-16 bg-[#F7F7F7] flex items-center justify-center">
               <p className="text-sm font-body text-muted-foreground">Seiteninhalt</p>
             </div>
           </div>
@@ -205,7 +205,7 @@ export const NavigationSection: React.FC = () => {
                 Zurück
               </GrainButton>
               <GrainButton
-                variant={step === steps.length - 1 ? "gradient" : "primary"}
+                variant="primary"
                 size="sm"
                 onClick={() => setStep(s => Math.min(steps.length - 1, s + 1))}
                 rightIcon={step < steps.length - 1 ? <ChevronRight className="w-4 h-4" /> : <Check className="w-4 h-4" />}

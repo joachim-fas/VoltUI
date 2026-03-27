@@ -1,6 +1,7 @@
 /**
- * GrainBadge – Atmospheric Grain Design System
- * Kompakte Kennzeichnungs-Komponente mit Grain-Textur.
+ * GrainBadge – Grain UI
+ * Primär: Lime (#E4FF97) + Schwarz (#0A0A0A)
+ * Signale: Smaragd (positiv) · Koralle (negativ) · Slate (neutral)
  */
 
 import React from "react";
@@ -10,51 +11,55 @@ import { cn } from "@/lib/utils";
 const badgeVariants = cva(
   [
     "inline-flex items-center gap-1.5",
-    "font-body font-semibold",
+    "font-ui font-semibold",
     "rounded-full select-none",
     "transition-all duration-150",
-    "relative overflow-hidden",
-    // Grain overlay
-    "after:content-[''] after:absolute after:inset-0 after:rounded-full after:pointer-events-none",
-    "after:bg-[url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23g)'/%3E%3C/svg%3E\")] after:bg-repeat after:bg-[length:80px_80px] after:opacity-[0.06]",
   ],
   {
     variants: {
       variant: {
-        blue: [
-          "bg-grain-blue text-white",
-          "shadow-[0_1px_6px_oklch(0.42_0.22_268/0.3)]",
+        /* ── Primär: Lime auf Schwarz ── */
+        default: [
+          "bg-[#E4FF97] text-[#0A0A0A]",
+          "ring-1 ring-black/10",
         ],
-        red: [
-          "bg-grain-red text-white",
-          "shadow-[0_1px_6px_oklch(0.52_0.26_27/0.3)]",
+        /* ── Schwarz ── */
+        solid: [
+          "bg-[#0A0A0A] text-white",
+          "ring-1 ring-black/20",
         ],
-        gradient: [
-          "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))] text-white",
-          "shadow-[0_1px_8px_oklch(0.42_0.22_268/0.25)]",
-        ],
-        violet: [
-          "bg-grain-violet text-white",
-          "shadow-[0_1px_6px_oklch(0.36_0.20_285/0.3)]",
-        ],
-        coral: [
-          "bg-grain-coral text-white",
-          "shadow-[0_1px_6px_oklch(0.68_0.18_28/0.3)]",
-        ],
+        /* ── Outline: Schwarz ── */
         outline: [
-          "border border-primary/40 text-primary bg-transparent",
-          "hover:bg-primary/8",
+          "border border-[#0A0A0A]/30 text-[#0A0A0A] bg-transparent",
+          "hover:bg-[#0A0A0A]/5",
         ],
-        "outline-red": [
-          "border border-destructive/40 text-destructive bg-transparent",
-          "hover:bg-destructive/8",
-        ],
+        /* ── Muted: Grau ── */
         muted: [
-          "bg-muted text-muted-foreground",
+          "bg-[#F4F4F4] text-[#6B6B6B]",
         ],
+        /* ── Glass ── */
         glass: [
-          "glass text-foreground",
+          "glass text-foreground border border-white/20",
         ],
+        /* ── Signal: Positiv (Smaragd) ── */
+        positive: [
+          "bg-[#E8F8EF] text-[#0F6038] border border-[#7DD4A8]",
+        ],
+        /* ── Signal: Negativ (Koralle) ── */
+        negative: [
+          "bg-[#FDEEE9] text-[#A01A08] border border-[#F4A090]",
+        ],
+        /* ── Signal: Neutral (Slate) ── */
+        neutral: [
+          "bg-[#F0F2F7] text-[#3A4560] border border-[#B0BACC]",
+        ],
+        /* ── Legacy-Aliase ── */
+        blue:     ["bg-[#0A0A0A] text-white ring-1 ring-black/20"],
+        red:      ["bg-[#E8402A] text-white ring-1 ring-red-900/20"],
+        gradient: ["bg-[#E4FF97] text-[#0A0A0A] ring-1 ring-black/10"],
+        violet:   ["bg-[#1A1A1A] text-white ring-1 ring-black/20"],
+        coral:    ["bg-[#E4FF97] text-[#0A0A0A] ring-1 ring-black/10"],
+        "outline-red": ["border border-[#E8402A]/40 text-[#E8402A] bg-transparent"],
       },
       size: {
         sm: "px-2 py-0.5 text-[0.65rem] tracking-wide",
@@ -63,7 +68,7 @@ const badgeVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "blue",
+      variant: "default",
       size: "md",
     },
   }
@@ -86,13 +91,14 @@ export const GrainBadge = React.forwardRef<HTMLSpanElement, GrainBadgeProps>(
       >
         {dot && (
           <span
-            className="w-1.5 h-1.5 rounded-full flex-shrink-0 relative z-10"
+            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
             style={{ backgroundColor: dotColor || "currentColor", opacity: 0.9 }}
           />
         )}
-        <span className="relative z-10">{children}</span>
+        <span>{children}</span>
       </span>
     );
   }
 );
 GrainBadge.displayName = "GrainBadge";
+export { badgeVariants };

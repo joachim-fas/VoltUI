@@ -1,91 +1,88 @@
 /**
- * GrainProgress / GrainSlider – Atmospheric Grain Design System
- * Fortschritts- und Schieberegler-Komponenten.
+ * GrainProgress & GrainSlider – Grain UI
+ * Lime (#E4FF97) + Schwarz (#0A0A0A) + Signalfarben
+ * Kein oklch, kein Violett, kein Blau
  */
 
-import React from "react";
+import React, { useCallback } from "react";
 import { cn } from "@/lib/utils";
+
+/* ── Farbmap ── */
+const FILL_COLORS: Record<string, string> = {
+  default:  "#0A0A0A",
+  lime:     "#E4FF97",
+  positive: "#1A9E5A",
+  negative: "#E8402A",
+  neutral:  "#6B7A9A",
+  /* Legacy-Aliase */
+  blue:     "#0A0A0A",
+  red:      "#E8402A",
+  gradient: "#E4FF97",
+  violet:   "#1A1A1A",
+  coral:    "#E4FF97",
+};
+
+const SIZE_H: Record<string, string> = {
+  xs: "h-1",
+  sm: "h-1.5",
+  md: "h-2.5",
+  lg: "h-4",
+  xl: "h-5",
+};
 
 /* ── GrainProgress ── */
 export interface GrainProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: number;
   max?: number;
-  variant?: "blue" | "red" | "gradient" | "violet" | "coral";
-  size?: "sm" | "md" | "lg";
+  variant?: "default" | "lime" | "positive" | "negative" | "neutral" | "blue" | "red" | "gradient" | "violet" | "coral";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   label?: string;
   showValue?: boolean;
   animated?: boolean;
 }
 
-const trackBg = "bg-muted";
-const fillVariants: Record<string, string> = {
-  blue:     "bg-grain-blue",
-  red:      "bg-grain-red",
-  gradient: "bg-[linear-gradient(90deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))]",
-  violet:   "bg-grain-violet",
-  coral:    "bg-grain-coral",
-};
-const sizeH: Record<string, string> = {
-  sm: "h-1.5",
-  md: "h-2.5",
-  lg: "h-4",
-};
+export const GrainProgress = React.forwardRef<HTMLDivElement, GrainProgressProps>(
+  ({ value = 0, max = 100, variant = "default", size = "md", label, showValue, animated, className, ...props }, ref) => {
+    const pct = Math.min(100, Math.max(0, (value / max) * 100));
+    const fillColor = FILL_COLORS[variant] ?? "#0A0A0A";
+    const textColor = variant === "lime" ? "#0A0A0A" : "#FFFFFF";
 
-export const GrainProgress: React.FC<GrainProgressProps> = ({
-  value = 0,
-  max = 100,
-  variant = "gradient",
-  size = "md",
-  label,
-  showValue,
-  animated,
-  className,
-  ...props
-}) => {
-  const pct = Math.min(100, Math.max(0, (value / max) * 100));
-
-  return (
-    <div className={cn("w-full", className)} {...props}>
-      {(label || showValue) && (
-        <div className="flex justify-between items-center mb-1.5">
-          {label && <span className="text-sm font-semibold font-body text-foreground">{label}</span>}
-          {showValue && <span className="text-xs font-mono text-muted-foreground">{Math.round(pct)}%</span>}
-        </div>
-      )}
-      <div
-        className={cn(
-          "w-full rounded-full overflow-hidden grain",
-          trackBg,
-          sizeH[size]
+    return (
+      <div ref={ref} className={cn("w-full", className)} {...props}>
+        {(label || showValue) && (
+          <div className="flex justify-between items-center mb-1.5">
+            {label && <span className="text-sm font-semibold font-ui text-[#0A0A0A]">{label}</span>}
+            {showValue && <span className="text-xs font-mono text-[#6B6B6B]">{Math.round(pct)}%</span>}
+          </div>
         )}
-        role="progressbar"
-        aria-valuenow={value}
-        aria-valuemin={0}
-        aria-valuemax={max}
-      >
         <div
-          className={cn(
-            "h-full rounded-full transition-all duration-500 ease-out",
-            fillVariants[variant],
-            animated && "animate-pulse"
-          )}
-          style={{ width: `${pct}%` }}
-        />
+          className={cn("w-full rounded-full overflow-hidden bg-[#F4F4F4]", SIZE_H[size])}
+          role="progressbar"
+          aria-valuenow={value}
+          aria-valuemin={0}
+          aria-valuemax={max}
+        >
+          <div
+            className={cn("h-full rounded-full transition-all duration-500 ease-out", animated && "animate-pulse")}
+            style={{ width: `${pct}%`, background: fillColor }}
+          />
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
+GrainProgress.displayName = "GrainProgress";
 
 /* ── GrainSlider ── */
 export interface GrainSliderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
-  variant?: "blue" | "red" | "gradient";
+  variant?: "default" | "lime" | "positive" | "negative" | "neutral" | "blue" | "red" | "gradient";
   sliderSize?: "sm" | "md" | "lg";
   label?: string;
   showValue?: boolean;
 }
 
 export const GrainSlider: React.FC<GrainSliderProps> = ({
-  variant = "gradient",
+  variant = "default",
   sliderSize = "md",
   label,
   showValue,
@@ -102,74 +99,60 @@ export const GrainSlider: React.FC<GrainSliderProps> = ({
   const min = Number(props.min ?? 0);
   const max = Number(props.max ?? 100);
   const pct = ((current - min) / (max - min)) * 100;
+  const color = FILL_COLORS[variant] ?? "#0A0A0A";
 
-  const trackColors: Record<string, string> = {
-    blue:     "oklch(0.42 0.22 268)",
-    red:      "oklch(0.52 0.26 27)",
-    gradient: "oklch(0.42 0.22 268)",
-  };
-  const thumbColor = trackColors[variant];
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setInternalValue(Number(e.target.value));
+    (onChange as any)?.(e);
+  }, [onChange]);
+
+  const thumbSize = sliderSize === "sm" ? "12px" : sliderSize === "lg" ? "20px" : "16px";
 
   return (
     <div className={cn("w-full", className)}>
       {(label || showValue) && (
         <div className="flex justify-between items-center mb-2">
-          {label && <span className="text-sm font-semibold font-body text-foreground">{label}</span>}
-          {showValue && <span className="text-xs font-mono text-muted-foreground">{current}</span>}
+          {label && <span className="text-sm font-semibold font-ui text-[#0A0A0A]">{label}</span>}
+          {showValue && <span className="text-xs font-mono text-[#6B6B6B]">{current}</span>}
         </div>
       )}
+      <style>{`
+        .grain-slider-${variant}::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: ${thumbSize}; height: ${thumbSize};
+          border-radius: 50%;
+          background: ${color};
+          border: 2px solid white;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+          cursor: pointer;
+          transition: transform 0.15s;
+        }
+        .grain-slider-${variant}::-webkit-slider-thumb:hover { transform: scale(1.15); }
+        .grain-slider-${variant}::-moz-range-thumb {
+          width: ${thumbSize}; height: ${thumbSize};
+          border-radius: 50%;
+          background: ${color};
+          border: 2px solid white;
+          cursor: pointer;
+        }
+      `}</style>
       <div className="relative flex items-center">
+        <div className="absolute inset-0 h-2 rounded-full bg-[#F4F4F4] my-auto" />
+        <div className="absolute left-0 h-2 rounded-full my-auto" style={{ width: `${pct}%`, background: color }} />
         <input
           type="range"
           value={current}
           min={min}
           max={max}
-          onChange={(e) => {
-            setInternalValue(Number(e.target.value));
-            onChange?.(e);
-          }}
+          onChange={handleChange}
           className={cn(
-            "w-full appearance-none cursor-pointer",
+            `grain-slider-${variant}`,
+            "relative w-full appearance-none bg-transparent cursor-pointer",
             sliderSize === "sm" ? "h-1" : sliderSize === "lg" ? "h-3" : "h-2",
-            "[&::-webkit-slider-runnable-track]:rounded-full",
-            "[&::-webkit-slider-runnable-track]:h-full",
-            "[&::-webkit-slider-thumb]:appearance-none",
-            sliderSize === "sm"
-              ? "[&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3"
-              : sliderSize === "lg"
-              ? "[&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5"
-              : "[&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
-            "[&::-webkit-slider-thumb]:rounded-full",
-            "[&::-webkit-slider-thumb]:-mt-1",
-            "[&::-webkit-slider-thumb]:shadow-[0_1px_6px_oklch(0_0_0/0.25)]",
-            "[&::-webkit-slider-thumb]:transition-transform",
-            "[&::-webkit-slider-thumb]:hover:scale-110",
-            "[&::-webkit-slider-thumb]:active:scale-95",
           )}
-          style={{
-            background: variant === "gradient"
-              ? `linear-gradient(to right, oklch(0.42 0.22 268) 0%, oklch(0.52 0.26 27) ${pct}%, oklch(0.88 0.015 268) ${pct}%, oklch(0.88 0.015 268) 100%)`
-              : `linear-gradient(to right, ${thumbColor} ${pct}%, oklch(0.88 0.015 268) ${pct}%)`,
-            ["--thumb-color" as string]: thumbColor,
-          } as React.CSSProperties}
           {...props}
         />
       </div>
-      <style>{`
-        input[type="range"]::-webkit-slider-thumb {
-          background: var(--thumb-color, oklch(0.42 0.22 268));
-          border: 2px solid white;
-          box-shadow: 0 1px 6px oklch(0 0 0 / 0.25);
-        }
-        input[type="range"]::-moz-range-thumb {
-          background: var(--thumb-color, oklch(0.42 0.22 268));
-          border: 2px solid white;
-          border-radius: 50%;
-          width: 16px;
-          height: 16px;
-          cursor: pointer;
-        }
-      `}</style>
     </div>
   );
 };

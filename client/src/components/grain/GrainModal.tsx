@@ -75,7 +75,7 @@ export const GrainModal: React.FC<GrainModalProps> = ({
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
             className={cn(
               "relative w-full glass-strong rounded-2xl overflow-hidden grain",
-              "shadow-[0_24px_80px_oklch(0_0_0/0.25),0_8px_24px_oklch(0_0_0/0.12)]",
+              "ring-1 ring-border/40",
               sizeClasses[size],
               className
             )}

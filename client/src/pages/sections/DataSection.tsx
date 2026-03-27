@@ -230,7 +230,7 @@ const SectionHeader: React.FC<{
       <h3 className="font-display font-bold text-xl text-foreground tracking-tight mb-1">{title}</h3>
       <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg">{description}</p>
       {insight && (
-        <div className="flex items-center gap-1.5 mt-2 text-[10px] font-semibold font-ui text-[oklch(0.42_0.22_268)]">
+        <div className="flex items-center gap-1.5 mt-2 text-[10px] font-semibold font-ui text-[#1A9E5A]">
           <Info className="w-3 h-3" />
           {insight}
         </div>
@@ -265,7 +265,7 @@ export const DataSection: React.FC = () => {
             { icon: <ArrowRight className="w-3 h-3" />,   text: "Alle Charts sind interaktiv (Hover für Tooltip)" },
           ].map((h, i) => (
             <div key={i} className="flex items-center gap-1.5 text-[10px] font-semibold font-ui text-muted-foreground bg-muted px-2.5 py-1.5 rounded-lg border border-border">
-              <span className="text-[oklch(0.42_0.22_268)]">{h.icon}</span>
+              <span className="text-[#0A0A0A]">{h.icon}</span>
               {h.text}
             </div>
           ))}
@@ -330,32 +330,30 @@ export const DataSection: React.FC = () => {
         />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
-            { label: "Gesamtbesucher", value: "24.8k", change: 12.4, icon: <Users className="w-4 h-4" />, colorClass: "bg-[oklch(0.42_0.22_268)]", insight: "Organisch getrieben" },
-            { label: "Konversionsrate", value: "3.2%", change: -0.8, icon: <Target className="w-4 h-4" />, gradient: true, insight: "Checkout optimieren" },
+            { label: "Gesamtbesucher", value: "24.8k", change: 12.4, icon: <Users className="w-4 h-4" />, colorClass: "bg-[#0A0A0A]", insight: "Organisch getrieben" },
+            { label: "Konversionsrate", value: "3.2%", change: -0.8, icon: <Target className="w-4 h-4" />, colorClass: "bg-[#E4FF97]", lime: true, insight: "Checkout optimieren" },
             { label: "Komponenten", value: "16", change: 0, icon: <Layers className="w-4 h-4" />, insight: "Vollständige Bibliothek" },
-            { label: "Performance", value: "98 pts", change: 3, icon: <Zap className="w-4 h-4" />, colorClass: "bg-[oklch(0.52_0.26_27)]", insight: "Lighthouse Score" },
+            { label: "Performance", value: "98 pts", change: 3, icon: <Zap className="w-4 h-4" />, colorClass: "bg-[#1A9E5A]", insight: "Lighthouse Score" },
           ].map((kpi, i) => (
             <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
               <div className={`relative rounded-2xl p-5 grain overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${
-                kpi.gradient
-                  ? "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.36_0.20_285),oklch(0.52_0.26_27))] text-white"
-                  : kpi.colorClass
-                  ? `${kpi.colorClass} text-white`
+                (kpi as any).colorClass
+                  ? `${(kpi as any).colorClass} ${(kpi as any).lime ? 'text-[#0A0A0A]' : 'text-white'}`
                   : "bg-card border border-border"
               }`}>
                 <div className="absolute top-0 right-0 w-24 h-24 rounded-full pointer-events-none"
-                  style={{ background: (kpi.gradient || kpi.colorClass) ? "radial-gradient(circle, oklch(1 0 0 / 0.12) 0%, transparent 70%)" : "radial-gradient(circle, oklch(0.42 0.22 268 / 0.06) 0%, transparent 70%)" }} />
+                  style={{ background: kpi.colorClass ? "radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%)" : "radial-gradient(circle, rgba(228,255,151,0.06) 0%, transparent 70%)" }} />
                 <div className="relative z-10">
                   <div className="flex items-start justify-between mb-3">
-                    <span className={`text-[0.6rem] font-mono font-semibold uppercase tracking-[0.14em] ${(kpi.gradient || kpi.colorClass) ? "text-white/60" : "text-muted-foreground"}`}>{kpi.label}</span>
-                    <div className={`w-7 h-7 rounded-xl flex items-center justify-center ${(kpi.gradient || kpi.colorClass) ? "bg-white/15" : "bg-primary/10 text-primary"}`}>{kpi.icon}</div>
+                    <span className={`text-[0.6rem] font-mono font-semibold uppercase tracking-[0.14em] ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]/60' : 'text-white/60') : "text-muted-foreground"}`}>{kpi.label}</span>
+                    <div className={`w-7 h-7 rounded-xl flex items-center justify-center ${(kpi as any).colorClass ? "bg-white/15" : "bg-primary/10 text-primary"}`}>{kpi.icon}</div>
                   </div>
-                  <p className={`font-display font-black text-3xl leading-none tracking-tight mb-1.5 ${(kpi.gradient || kpi.colorClass) ? "text-white" : "text-foreground"}`}>{kpi.value}</p>
-                  <div className={`flex items-center gap-1 mb-2 ${(kpi.gradient || kpi.colorClass) ? "text-white/80" : kpi.change > 0 ? "text-[oklch(0.50_0.18_145)]" : kpi.change < 0 ? "text-[oklch(0.52_0.26_27)]" : "text-muted-foreground"}`}>
+                  <p className={`font-display font-black text-3xl leading-none tracking-tight mb-1.5 ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]' : 'text-white') : "text-foreground"}`}>{kpi.value}</p>
+                  <div className={`flex items-center gap-1 mb-2 ${kpi.colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]/70' : 'text-white/80') : kpi.change > 0 ? "text-[#0F6038]" : kpi.change < 0 ? "text-[#A01A08]" : "text-muted-foreground"}`}>
                     {kpi.change > 0 ? <TrendingUp className="w-3 h-3" /> : kpi.change < 0 ? <TrendingUp className="w-3 h-3 rotate-180" /> : null}
                     <span className="text-[10px] font-semibold font-ui">{kpi.change > 0 ? "+" : ""}{kpi.change}%</span>
                   </div>
-                  <p className={`text-[10px] font-body ${(kpi.gradient || kpi.colorClass) ? "text-white/50" : "text-muted-foreground"}`}>{kpi.insight}</p>
+                  <p className={`text-[10px] font-body ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]/50' : 'text-white/50') : "text-muted-foreground"}`}>{kpi.insight}</p>
                 </div>
               </div>
             </motion.div>
@@ -516,7 +514,7 @@ export const DataSection: React.FC = () => {
               { hex: GRAIN_HEX[7], name: "Coral",  role: "Info" },
             ].map(({ hex, name, role }) => (
               <div key={name} className="flex flex-col gap-2">
-                <div className="h-12 rounded-xl grain shadow-sm" style={{ background: hex }} />
+                <div className="h-12 rounded-xl grain" style={{ background: hex }} />
                 <div>
                   <p className="text-xs font-ui font-semibold text-foreground">{name}</p>
                   <p className="text-[9px] font-mono text-muted-foreground">{role}</p>

@@ -3,16 +3,17 @@
  * Grain UI v2 – Atmospheric Design System
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
 import { GrainBadge } from "@/components/grain/GrainBadge";
+import { GRAIN_HEX, GRAIN_NEON, GRAIN_PASTEL } from "@/components/grain/GrainChart";
 
 const colorTokens = [
-  { name: "--grain-blue",   hex: "#4A35D4", oklch: "oklch(0.42 0.22 268)", role: "Primary",     bg: "bg-grain-blue" },
-  { name: "--grain-violet", hex: "#552AAF", oklch: "oklch(0.36 0.20 285)", role: "Secondary",   bg: "bg-grain-violet" },
-  { name: "--grain-red",    hex: "#E8150E", oklch: "oklch(0.52 0.26 27)",  role: "Destructive", bg: "bg-grain-red" },
-  { name: "--grain-coral",  hex: "#FA716B", oklch: "oklch(0.68 0.18 28)",  role: "Accent",      bg: "bg-grain-coral" },
-  { name: "--background",   hex: "#F8F7FC", oklch: "oklch(0.985 0.003 268)", role: "Base",      bg: "bg-background border border-border" },
+  { name: "--lime",          hex: "#E4FF97", role: "Primär (Leading)",   bg: "bg-[#E4FF97]" },
+  { name: "--ink",           hex: "#0A0A0A", role: "Schwarz (Fundament)", bg: "bg-[#0A0A0A]" },
+  { name: "--signal-positive", hex: "#1A9E5A", role: "Signal Positiv",    bg: "bg-[#1A9E5A]" },
+  { name: "--signal-negative", hex: "#E8402A", role: "Signal Negativ",    bg: "bg-[#E8402A]" },
+  { name: "--signal-neutral",  hex: "#6B7A9A", role: "Signal Neutral",    bg: "bg-[#6B7A9A]" },
 ];
 
 const semanticTokens = [
@@ -27,14 +28,14 @@ const semanticTokens = [
 ];
 
 const typeScale = [
-  { name: "Display XL",  size: "text-5xl",  weight: "font-black",  family: "font-display", sample: "Grain UI", font: "Syne" },
-  { name: "Display L",   size: "text-4xl",  weight: "font-bold",   family: "font-display", sample: "Atmospheric", font: "Syne" },
-  { name: "Display M",   size: "text-2xl",  weight: "font-bold",   family: "font-display", sample: "Design System", font: "Syne" },
-  { name: "UI Heading",  size: "text-xl",   weight: "font-semibold", family: "font-ui",    sample: "Component Library", font: "Space Grotesk" },
-  { name: "UI Body",     size: "text-base", weight: "font-medium", family: "font-ui",      sample: "Inspired by grain textures", font: "Space Grotesk" },
-  { name: "Body",        size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Grain-Textur, Gradienten und Glasmorphismus.", font: "Plus Jakarta Sans" },
-  { name: "Caption",     size: "text-xs",   weight: "font-medium", family: "font-body",    sample: "Subtile Texturen als verbindendes Element", font: "Plus Jakarta Sans" },
-  { name: "Mono",        size: "text-sm",   weight: "font-normal", family: "font-mono",    sample: "const grain = oklch(0.42 0.22 268);", font: "JetBrains Mono" },
+  { name: "Display XL",  size: "text-5xl",  weight: "font-black",  family: "font-display", sample: "Grain UI", font: "Bricolage Grotesque" },
+  { name: "Display L",   size: "text-4xl",  weight: "font-bold",   family: "font-display", sample: "Atmospheric", font: "Bricolage Grotesque" },
+  { name: "Display M",   size: "text-2xl",  weight: "font-bold",   family: "font-display", sample: "Design System", font: "Bricolage Grotesque" },
+  { name: "UI Heading",  size: "text-xl",   weight: "font-semibold", family: "font-ui",    sample: "Component Library", font: "DM Sans" },
+  { name: "UI Body",     size: "text-base", weight: "font-medium", family: "font-ui",      sample: "Inspired by grain textures and atmospheric gradients", font: "DM Sans" },
+  { name: "Body Serif",  size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Grain-Textur, Gradienten und Glasmorphismus.", font: "Lora" },
+  { name: "Caption",     size: "text-xs",   weight: "font-medium", family: "font-ui",      sample: "Subtile Texturen als verbindendes Element", font: "DM Sans" },
+  { name: "Mono",        size: "text-sm",   weight: "font-normal", family: "font-mono",    sample: "const grain = oklch(0.45 0.31 268);", font: "JetBrains Mono" },
 ];
 
 const patterns = [
@@ -47,12 +48,19 @@ const patterns = [
 ];
 
 const gradients = [
-  { label: "Grain Gradient",    cls: "bg-grain-gradient",      desc: "Blau → Violett → Rot" },
-  { label: "Grain Gradient Soft", cls: "bg-grain-gradient-soft border border-border", desc: "Transparente Version" },
-  { label: "Atmospheric",       cls: "bg-atmospheric",         desc: "Radiale Orbs" },
-  { label: "Blue Grain",        cls: "bg-grain-blue",          desc: "Primärfarbe" },
-  { label: "Red Grain",         cls: "bg-grain-red",           desc: "Akzentfarbe" },
-  { label: "Violet Grain",      cls: "bg-grain-violet",        desc: "Sekundärfarbe" },
+  { label: "Theme Gradient",    cls: "bg-grain-gradient",      desc: "Primär → Sekundär (theme-aware)" },
+  { label: "Atmospheric",       cls: "bg-atmospheric",         desc: "Radiale Orbs (theme-aware)" },
+  { label: "Hero Background",   cls: "bg-grain-hero border border-border", desc: "Für Hero-Sektionen" },
+  { label: "Primary",           cls: "bg-grain-blue",          desc: "Primärfarbe (theme-aware)" },
+  { label: "Accent",            cls: "bg-grain-red",           desc: "Akzentfarbe (theme-aware)" },
+  { label: "Secondary",         cls: "bg-grain-violet",        desc: "Sekundärfarbe (theme-aware)" },
+];
+
+const themes = [
+  { id: "grain",  label: "Grain Original",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
+  { id: "copper", label: "Oxidized Copper", desc: "Patiniertes Petrol-Grün + Terrakotta + Elfenbein. Materiell, industriell.", light: "#4A8C6A", dark: "#C87A40" },
+  { id: "ink",    label: "Midnight Ink",    desc: "Tiefschwarz + Chartreuse. Maximaler Kontrast, futuristisch, editorial.", light: "#1A1A2E", dark: "#C8F060" },
+  { id: "loam",   label: "Loam & Ember",    desc: "Warmes Dunkelbraun + Bernstein. Geerdet, warm, premium.", light: "#4A3828", dark: "#D4A020" },
 ];
 
 const glassVariants = [
@@ -86,14 +94,14 @@ export const FoundationsSection: React.FC = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {colorTokens.map((token) => (
               <div key={token.name} className="flex flex-col gap-2">
-                <div className={`h-20 rounded-xl grain ${token.bg} shadow-sm`} />
+                <div className={`h-20 rounded-xl grain ${token.bg}`} />
                 <div>
                   <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                     <span className="text-xs font-semibold font-ui text-foreground">{token.role}</span>
                     <GrainBadge variant="muted" size="sm">{token.hex}</GrainBadge>
                   </div>
                   <p className="text-[0.65rem] font-mono text-muted-foreground leading-relaxed break-all">
-                    {token.name}<br />{token.oklch}
+                    {token.name}
                   </p>
                 </div>
               </div>
@@ -224,17 +232,17 @@ export const FoundationsSection: React.FC = () => {
         <GrainCardHeader>
           <GrainCardTitle>Typografie-System</GrainCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">
-            Syne (Display) · Space Grotesk (UI) · Plus Jakarta Sans (Body) · JetBrains Mono (Code)
+            Bricolage Grotesque (Display) · DM Sans (UI) · Lora (Body Serif) · JetBrains Mono (Code)
           </p>
         </GrainCardHeader>
         <GrainCardContent>
           {/* Font Specimens */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[
-              { name: "Syne", role: "Display", sample: "Aa", cls: "font-display" },
-              { name: "Space Grotesk", role: "UI", sample: "Aa", cls: "font-ui" },
-              { name: "Plus Jakarta", role: "Body", sample: "Aa", cls: "font-body" },
-              { name: "JetBrains Mono", role: "Code", sample: "Aa", cls: "font-mono" },
+              { name: "Bricolage Grotesque", role: "Display", sample: "Aa", cls: "font-display" },
+              { name: "DM Sans", role: "UI & Zahlen", sample: "Aa", cls: "font-ui" },
+              { name: "Lora", role: "Body Serif", sample: "Aa", cls: "font-body" },
+              { name: "JetBrains Mono", role: "Code & Mono", sample: "Aa", cls: "font-mono" },
             ].map((f) => (
               <div key={f.name} className="p-4 rounded-xl border border-border bg-muted/30">
                 <p className={`text-4xl font-bold text-foreground ${f.cls} mb-2`}>{f.sample}</p>
@@ -255,6 +263,37 @@ export const FoundationsSection: React.FC = () => {
                 <p className={`${t.size} ${t.weight} ${t.family} text-foreground leading-tight flex-1 min-w-0 truncate`}>
                   {t.sample}
                 </p>
+              </div>
+            ))}
+          </div>
+        </GrainCardContent>
+      </GrainCard>
+
+      {/* Theme Overview */}
+      <GrainCard>
+        <GrainCardHeader>
+          <GrainCardTitle>Farbpaletten-System</GrainCardTitle>
+          <p className="text-xs text-muted-foreground font-body mt-0.5">4 eigenständige Themes · je Light + Dark Mode · wählbar in der Sidebar</p>
+        </GrainCardHeader>
+        <GrainCardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {themes.map((t) => (
+              <div key={t.id} className="p-4 rounded-xl border border-border bg-muted/20">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg overflow-hidden flex flex-shrink-0">
+                    <div className="w-1/2 h-full" style={{ background: t.light }} />
+                    <div className="w-1/2 h-full" style={{ background: t.dark }} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold font-display text-foreground">{t.label}</p>
+                    <p className="text-[0.6rem] font-mono text-muted-foreground uppercase tracking-wider">{t.id}</p>
+                  </div>
+                </div>
+                <p className="text-xs font-body text-muted-foreground leading-relaxed">{t.desc}</p>
+                <div className="mt-3 flex gap-2">
+                  <div className="flex-1 h-2 rounded-full" style={{ background: t.light }} />
+                  <div className="flex-1 h-2 rounded-full" style={{ background: t.dark }} />
+                </div>
               </div>
             ))}
           </div>
@@ -305,31 +344,124 @@ export const FoundationsSection: React.FC = () => {
         </GrainCardContent>
       </GrainCard>
 
-      {/* Shadow System */}
+      {/* Tiefe-System (ohne Schatten) */}
       <GrainCard>
         <GrainCardHeader>
-          <GrainCardTitle>Schatten-System</GrainCardTitle>
-          <p className="text-xs text-muted-foreground font-body mt-0.5">Tiefe durch Schatten und Glow-Effekte</p>
+          <GrainCardTitle>Tiefe & Glow-Effekte</GrainCardTitle>
+          <p className="text-xs text-muted-foreground font-ui mt-0.5">Tiefe durch Farbe und Glow – kein klassischer Schlagschatten</p>
         </GrainCardHeader>
         <GrainCardContent>
           <div className="flex flex-wrap gap-6 items-end">
             {[
-              { label: "shadow-sm",  cls: "shadow-sm" },
-              { label: "shadow",     cls: "shadow" },
-              { label: "shadow-md",  cls: "shadow-md" },
-              { label: "shadow-lg",  cls: "shadow-lg" },
-              { label: "shadow-xl",  cls: "shadow-xl" },
-              { label: "glow-blue",  cls: "glow-blue" },
-              { label: "glow-red",   cls: "glow-red" },
+              { label: "border only",   cls: "border border-border" },
+              { label: "border strong", cls: "border-2 border-primary/30" },
+              { label: "glow-blue",     cls: "glow-blue" },
+              { label: "glow-red",      cls: "glow-red" },
+              { label: "glow-violet",   cls: "glow-violet" },
             ].map(({ label, cls }) => (
               <div key={label} className="flex flex-col items-center gap-3">
-                <div className={`w-14 h-14 rounded-xl bg-card border border-border ${cls}`} />
-                <span className="text-[9px] font-mono text-muted-foreground">{label}</span>
+                <div className={`w-14 h-14 rounded-xl bg-card ${cls}`} />
+                <span className="text-[9px] font-mono text-muted-foreground text-center">{label}</span>
               </div>
             ))}
           </div>
         </GrainCardContent>
       </GrainCard>
+
+      {/* Chart-Farbpaletten */}
+      <ChartPalettesSection />
     </div>
+  );
+};
+
+/* ── Chart-Farbpaletten-Sektion ── */
+const PALETTES = [
+  {
+    id: "standard",
+    label: "Standard",
+    desc: "Satte, klare Farben · Optimiert für helle Hintergründe · Hoher Kontrast",
+    colors: GRAIN_HEX,
+    names: ["Blue", "Red", "Teal", "Amber", "Violet", "Green", "Pink", "Coral"],
+    roles: ["Primär", "Akzent", "Positiv", "Warnung", "Sekundär", "Erfolg", "Highlight", "Info"],
+  },
+  {
+    id: "neon",
+    label: "Neon",
+    desc: "Maximale Chroma · Elektrische Leuchtkraft · Ideal für Dark Mode & Dashboards",
+    colors: GRAIN_NEON,
+    names: ["Cyan", "Hot Pink", "Acid Green", "Laser Orange", "Electric Violet", "Neon Mint", "Electric Yellow", "Neon Red"],
+    roles: ["Primär", "Highlight", "Erfolg", "Warnung", "Sekundär", "Positiv", "Energie", "Kritisch"],
+  },
+  {
+    id: "pastel",
+    label: "Pastel",
+    desc: "Weich & harmonisch · Ideal für helle Interfaces & Reporting · Niedrige Ermüdung",
+    colors: GRAIN_PASTEL,
+    names: ["Lavender", "Blush", "Mint", "Butter", "Lilac", "Sage", "Rose", "Sky"],
+    roles: ["Primär", "Warnung", "Positiv", "Neutral", "Sekundär", "Erfolg", "Highlight", "Info"],
+  },
+];
+
+const ChartPalettesSection: React.FC = () => {
+  const [active, setActive] = useState("standard");
+  const palette = PALETTES.find(p => p.id === active) || PALETTES[0];
+
+  return (
+    <GrainCard>
+      <GrainCardHeader>
+        <GrainCardTitle>Chart-Farbpaletten</GrainCardTitle>
+        <p className="text-xs text-muted-foreground font-ui mt-0.5">
+          3 Paletten · Konsistent über alle Visualisierungen · OKLCH-Farbraum für gleichmäßige Helligkeit
+        </p>
+      </GrainCardHeader>
+      <GrainCardContent>
+        {/* Palette-Switcher */}
+        <div className="flex gap-2 mb-6">
+          {PALETTES.map(p => (
+            <button
+              key={p.id}
+              onClick={() => setActive(p.id)}
+              className={`px-4 py-1.5 rounded-full text-xs font-semibold font-ui transition-all border ${
+                active === p.id
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-transparent text-muted-foreground border-border hover:border-primary/40 hover:text-foreground"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Beschreibung */}
+        <p className="text-xs text-muted-foreground font-ui mb-5 leading-relaxed">{palette.desc}</p>
+
+        {/* Farbfelder */}
+        <div className="grid grid-cols-4 sm:grid-cols-8 gap-3 mb-4">
+          {palette.colors.map((hex, i) => (
+            <div key={hex} className="flex flex-col gap-2">
+              <div
+                className="h-16 rounded-xl"
+                style={{ background: hex }}
+              />
+              <div>
+                <p className="text-[11px] font-semibold font-ui text-foreground leading-tight">{palette.names[i]}</p>
+                <p className="text-[9px] font-mono text-muted-foreground">{palette.roles[i]}</p>
+                <p className="text-[9px] font-mono text-muted-foreground/60 mt-0.5">{hex}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Neon-Hinweis */}
+        {active === "neon" && (
+          <div className="mt-4 p-3 rounded-xl border border-border bg-[#0a0a14]">
+            <p className="text-[11px] font-ui" style={{ color: "#00F5FF" }}>
+              ⚡ Neon-Farben entfalten ihre volle Wirkung auf dunklen Hintergründen.
+              Für Light-Mode-Interfaces empfiehlt sich die Standard- oder Pastel-Palette.
+            </p>
+          </div>
+        )}
+      </GrainCardContent>
+    </GrainCard>
   );
 };

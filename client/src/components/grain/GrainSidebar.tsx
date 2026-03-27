@@ -1,11 +1,12 @@
 /**
- * GrainSidebar – Atmospheric Grain Design System v2
- * Fokus: Informationsvermittlung – Beschreibungen, Fortschritt, klare Hierarchie
+ * GrainSidebar – Grain UI
+ * Schwarz (#0A0A0A) + Lime (#E4FF97) für aktive Items
  */
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export interface GrainSidebarSection {
   title: string;
@@ -20,7 +21,7 @@ export interface GrainSidebarSection {
   }>;
 }
 
-export interface GrainSidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+export interface GrainSidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, "onSelect"> {
   sections: GrainSidebarSection[];
   activeId?: string;
   onSelect?: (id: string) => void;
@@ -28,14 +29,10 @@ export interface GrainSidebarProps extends Omit<React.HTMLAttributes<HTMLElement
 }
 
 export const GrainSidebar: React.FC<GrainSidebarProps> = ({
-  sections,
-  activeId,
-  onSelect,
-  logo,
-  className,
-  ...props
+  sections, activeId, onSelect, logo, className, ...props
 }) => {
-  // Fortschritt: wie viele Sektionen wurden besucht?
+  const { darkMode, toggleDarkMode } = useTheme();
+
   const allItems = sections.flatMap(s => s.items);
   const activeIndex = allItems.findIndex(i => i.id === activeId);
   const progress = allItems.length > 1 ? Math.round((activeIndex / (allItems.length - 1)) * 100) : 0;
@@ -44,8 +41,8 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
     <aside
       className={cn(
         "flex flex-col h-full w-64 flex-shrink-0",
-        "bg-sidebar text-sidebar-foreground",
-        "border-r border-sidebar-border",
+        "bg-[#0A0A0A] text-white",
+        "border-r border-[#2A2A2A]",
         "overflow-y-auto",
         className
       )}
@@ -53,24 +50,21 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
     >
       {/* ── Logo ── */}
       {logo && (
-        <div className="px-5 pt-5 pb-4 border-b border-sidebar-border flex-shrink-0">
+        <div className="px-5 pt-5 pb-4 border-b border-[#2A2A2A] flex-shrink-0">
           {logo}
         </div>
       )}
 
       {/* ── Fortschrittsbalken ── */}
-      <div className="px-5 py-3 border-b border-sidebar-border/50 flex-shrink-0">
+      <div className="px-5 py-3 border-b border-[#2A2A2A]/50 flex-shrink-0">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[0.6rem] font-mono text-sidebar-foreground/40 uppercase tracking-wider">Fortschritt</span>
-          <span className="text-[0.6rem] font-mono text-sidebar-foreground/50">{activeIndex + 1} / {allItems.length}</span>
+          <span className="text-[0.6rem] font-mono text-white/30 uppercase tracking-wider">Fortschritt</span>
+          <span className="text-[0.6rem] font-mono text-white/40">{activeIndex + 1} / {allItems.length}</span>
         </div>
-        <div className="h-1 bg-sidebar-border rounded-full overflow-hidden">
+        <div className="h-1 bg-[#2A2A2A] rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-500 ease-out"
-            style={{
-              width: `${progress}%`,
-              background: "linear-gradient(90deg, oklch(0.42 0.22 268), oklch(0.52 0.26 27))"
-            }}
+            style={{ width: `${progress}%`, background: "#E4FF97" }}
           />
         </div>
       </div>
@@ -79,12 +73,11 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
       <nav className="flex-1 px-3 py-4 space-y-5">
         {sections.map((section, si) => (
           <div key={si}>
-            {/* Abschnitts-Titel */}
             <div className="px-2 mb-1.5 flex items-center gap-2">
-              <span className="text-[0.6rem] font-bold uppercase tracking-[0.14em] text-sidebar-foreground/35 font-mono">
+              <span className="text-[0.6rem] font-bold uppercase tracking-[0.14em] text-white/25 font-mono">
                 {section.title}
               </span>
-              <div className="flex-1 h-px bg-sidebar-border/60" />
+              <div className="flex-1 h-px bg-[#2A2A2A]" />
             </div>
 
             <ul className="space-y-0.5">
@@ -98,43 +91,43 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
                         "w-full flex items-start gap-2.5 px-3 py-2.5 rounded-xl text-left",
                         "transition-all duration-150 group",
                         isActive
-                          ? [
-                              "bg-sidebar-primary text-sidebar-primary-foreground",
-                              "shadow-[0_2px_12px_oklch(0.42_0.22_268/0.25)]",
-                            ]
-                          : "text-sidebar-foreground/65 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                          ? "bg-[#E4FF97] text-[#0A0A0A]"
+                          : "text-white/55 hover:text-white hover:bg-white/8"
                       )}
                     >
-                      {/* Icon */}
                       {item.icon && (
                         <span className={cn(
                           "w-4 h-4 flex-shrink-0 mt-0.5",
-                          isActive ? "text-sidebar-primary-foreground" : "text-sidebar-foreground/40 group-hover:text-sidebar-foreground/70"
+                          isActive ? "text-[#0A0A0A]" : "text-white/30 group-hover:text-white/60"
                         )}>
                           {item.icon}
                         </span>
                       )}
 
-                      {/* Label + Beschreibung */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5">
                           <span className={cn(
-                            "text-sm font-semibold font-ui leading-tight truncate",
-                            isActive ? "text-sidebar-primary-foreground" : ""
+                            "text-sm font-semibold leading-tight truncate",
+                            isActive ? "text-[#0A0A0A]" : ""
                           )}>
                             {item.label}
                           </span>
                           {item.isNew && (
-                            <span className="flex-shrink-0 px-1.5 py-0.5 rounded-full text-[0.5rem] font-bold uppercase tracking-wide bg-[oklch(0.52_0.26_27)] text-white">
-                              Neu
+                            <span className={cn(
+                              "flex-shrink-0 px-1.5 py-0.5 rounded-full text-[0.5rem] font-bold uppercase tracking-wide",
+                              isActive
+                                ? "bg-[#0A0A0A]/15 text-[#0A0A0A]"
+                                : "bg-[#E4FF97] text-[#0A0A0A]"
+                            )}>
+                              NEU
                             </span>
                           )}
                           {item.count !== undefined && (
                             <span className={cn(
                               "flex-shrink-0 px-1.5 py-0.5 rounded-full text-[0.55rem] font-bold",
                               isActive
-                                ? "bg-white/20 text-white"
-                                : "bg-sidebar-accent text-sidebar-foreground/60"
+                                ? "bg-[#0A0A0A]/15 text-[#0A0A0A]"
+                                : "bg-[#2A2A2A] text-white/50"
                             )}>
                               {item.count}
                             </span>
@@ -142,18 +135,13 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
                         </div>
                         {item.description && (
                           <p className={cn(
-                            "text-[0.65rem] font-body leading-tight mt-0.5 truncate",
-                            isActive ? "text-sidebar-primary-foreground/70" : "text-sidebar-foreground/35"
+                            "text-[0.65rem] leading-tight mt-0.5 truncate",
+                            isActive ? "text-[#0A0A0A]/60" : "text-white/25"
                           )}>
                             {item.description}
                           </p>
                         )}
                       </div>
-
-                      {/* Pfeil bei aktivem Item */}
-                      {isActive && (
-                        <ChevronRight className="w-3.5 h-3.5 flex-shrink-0 text-sidebar-primary-foreground/60 mt-0.5" />
-                      )}
                     </button>
                   </li>
                 );
@@ -164,14 +152,27 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
       </nav>
 
       {/* ── Footer ── */}
-      <div className="px-5 py-4 border-t border-sidebar-border flex-shrink-0">
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-[oklch(0.65_0.18_145)] animate-pulse" />
-          <span className="text-[0.6rem] font-mono text-sidebar-foreground/50">v2.0 — Atmospheric Design System</span>
+      <div className="px-4 py-4 border-t border-[#2A2A2A] flex-shrink-0">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-[0.6rem] font-mono text-white/30 uppercase tracking-wider">Erscheinungsbild</span>
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-[#2A2A2A] text-white/50 hover:text-white hover:bg-[#1A1A1A] transition-all duration-200"
+          >
+            {darkMode === "dark" ? (
+              <><Sun className="w-3 h-3" /><span>Hell</span></>
+            ) : (
+              <><Moon className="w-3 h-3" /><span>Dunkel</span></>
+            )}
+          </button>
         </div>
-        <p className="text-[0.6rem] font-mono text-sidebar-foreground/25 leading-relaxed">
-          React 19 · Tailwind 4 · TypeScript
-        </p>
+
+        <div className="pt-2 border-t border-[#2A2A2A]/50">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#E4FF97] animate-pulse" />
+            <span className="text-[0.55rem] font-mono text-white/25">Grain UI · React 19 · Tailwind 4</span>
+          </div>
+        </div>
       </div>
     </aside>
   );
