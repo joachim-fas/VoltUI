@@ -35,7 +35,7 @@ export const CardsSection: React.FC = () => {
             <GrainCardHeader>
               <div className="flex items-center justify-between">
                 <GrainBadge variant="muted" size="sm">Default</GrainBadge>
-                <GrainBadge variant="blue" size="sm" dot>Aktiv</GrainBadge>
+                <GrainBadge variant="default" size="sm" dot>Aktiv</GrainBadge>
               </div>
               <GrainCardTitle>Standard Card</GrainCardTitle>
               <GrainCardDescription>
@@ -75,13 +75,13 @@ export const CardsSection: React.FC = () => {
                 <GrainBadge variant="glass" size="sm">Gradient</GrainBadge>
                 <TrendingUp className="w-4 h-4 text-white/70" />
               </div>
-              <GrainCardTitle className="text-white">Gradient Card</GrainCardTitle>
-              <GrainCardDescription className="text-white/70">
-                Blau-zu-Rot-Gradient mit Grain-Textur. Für wichtige Inhalte.
+              <GrainCardTitle className="text-[#000000]">Lime Card</GrainCardTitle>
+              <GrainCardDescription className="text-[#000000]/70">
+                Neon-Yellow mit Grain-Textur. Für hervorgehobene Inhalte.
               </GrainCardDescription>
             </GrainCardHeader>
             <GrainCardFooter>
-              <GrainButton variant="glass" size="sm" className="text-white border-white/20">
+              <GrainButton variant="solid" size="sm">
                 Jetzt starten
               </GrainButton>
             </GrainCardFooter>
@@ -156,32 +156,31 @@ export const CardsSection: React.FC = () => {
               <div>
                 <p className="section-label mb-3">Farb-Varianten</p>
                 <div className="flex flex-wrap gap-2">
-                  <GrainBadge variant="blue">Blue</GrainBadge>
-                  <GrainBadge variant="red">Red</GrainBadge>
-                  <GrainBadge variant="gradient">Gradient</GrainBadge>
-                  <GrainBadge variant="violet">Violet</GrainBadge>
-                  <GrainBadge variant="coral">Coral</GrainBadge>
+                  <GrainBadge variant="default">Lime</GrainBadge>
+                  <GrainBadge variant="solid">Solid</GrainBadge>
                   <GrainBadge variant="outline">Outline</GrainBadge>
-                  <GrainBadge variant="outline-red">Outline Red</GrainBadge>
                   <GrainBadge variant="muted">Muted</GrainBadge>
                   <GrainBadge variant="glass">Glass</GrainBadge>
+                  <GrainBadge variant="positive">Positiv</GrainBadge>
+                  <GrainBadge variant="negative">Negativ</GrainBadge>
+                  <GrainBadge variant="neutral">Neutral</GrainBadge>
                 </div>
               </div>
               <div>
                 <p className="section-label mb-3">Größen</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <GrainBadge variant="blue" size="sm">Small</GrainBadge>
-                  <GrainBadge variant="blue" size="md">Medium</GrainBadge>
-                  <GrainBadge variant="blue" size="lg">Large</GrainBadge>
+                  <GrainBadge variant="default" size="sm">Small</GrainBadge>
+                  <GrainBadge variant="default" size="md">Medium</GrainBadge>
+                  <GrainBadge variant="default" size="lg">Large</GrainBadge>
                 </div>
               </div>
               <div>
                 <p className="section-label mb-3">Mit Status-Punkt</p>
                 <div className="flex flex-wrap gap-2">
-                  <GrainBadge variant="blue" dot dotColor="oklch(0.75 0.18 145)">Online</GrainBadge>
-                  <GrainBadge variant="muted" dot dotColor="oklch(0.65 0.18 75)">Beschäftigt</GrainBadge>
-                  <GrainBadge variant="muted" dot dotColor="oklch(0.55 0.06 268)">Abwesend</GrainBadge>
-                  <GrainBadge variant="gradient" dot>Neu</GrainBadge>
+                  <GrainBadge variant="positive" dot dotColor="#1A9E5A">Online</GrainBadge>
+                  <GrainBadge variant="neutral" dot dotColor="#E8B800">Beschäftigt</GrainBadge>
+                  <GrainBadge variant="muted" dot dotColor="#6B6B6B">Abwesend</GrainBadge>
+                  <GrainBadge variant="default" dot>Neu</GrainBadge>
                 </div>
               </div>
             </div>

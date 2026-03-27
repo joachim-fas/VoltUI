@@ -1,25 +1,33 @@
 /**
- * GrainAvatar – Atmospheric Grain Design System
- * Avatar-Komponente mit Gradient-Fallback und Grain-Textur.
+ * GrainAvatar – Grain UI
+ * Fallback-Gradienten: Neon Yellow + Black + Pastell-Töne
  */
 
 import React from "react";
 import { cn } from "@/lib/utils";
 
 const gradients = [
-  "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.36_0.20_285))]",
-  "bg-[linear-gradient(135deg,oklch(0.52_0.26_27),oklch(0.45_0.22_20))]",
-  "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))]",
-  "bg-[linear-gradient(135deg,oklch(0.36_0.20_285),oklch(0.52_0.26_27))]",
-  "bg-[linear-gradient(135deg,oklch(0.55_0.18_145),oklch(0.42_0.22_268))]",
+  "bg-[linear-gradient(135deg,#E4FF97,#C8F060)]",   // Neon Yellow
+  "bg-[linear-gradient(135deg,#000000,#1A1A1A)]",   // Black
+  "bg-[linear-gradient(135deg,#C3F4D3,#D4E8FF)]",   // Mint → Baby Blue
+  "bg-[linear-gradient(135deg,#FFD6E0,#FDE2FF)]",   // Rose → Orchid
+  "bg-[linear-gradient(135deg,#FFF5BA,#FFE0CC)]",   // Butter → Orange
 ];
 
-function getGradient(seed: string): string {
+const gradientText = [
+  "text-[#000000]",  // auf Lime: schwarz
+  "text-white",      // auf Schwarz: weiß
+  "text-[#000000]",  // auf Pastell: schwarz
+  "text-[#000000]",
+  "text-[#000000]",
+];
+
+function getGradientIndex(seed: string): number {
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
     hash = seed.charCodeAt(i) + ((hash << 5) - hash);
   }
-  return gradients[Math.abs(hash) % gradients.length];
+  return Math.abs(hash) % gradients.length;
 }
 
 export interface GrainAvatarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -52,7 +60,7 @@ export const GrainAvatar = React.forwardRef<HTMLDivElement, GrainAvatarProps>(
     const initials = name
       ? name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase()
       : "?";
-    const gradient = getGradient(name || alt || "default");
+    const idx = getGradientIndex(name || alt || "default");
 
     return (
       <div
@@ -72,8 +80,8 @@ export const GrainAvatar = React.forwardRef<HTMLDivElement, GrainAvatarProps>(
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className={cn("w-full h-full flex items-center justify-center", gradient)}>
-            <span className="font-display font-bold text-white relative z-10">
+          <div className={cn("w-full h-full flex items-center justify-center", gradients[idx])}>
+            <span className={cn("font-display font-bold relative z-10", gradientText[idx])}>
               {initials}
             </span>
           </div>
@@ -81,7 +89,7 @@ export const GrainAvatar = React.forwardRef<HTMLDivElement, GrainAvatarProps>(
         {online && (
           <span
             className={cn(
-              "absolute rounded-full bg-green-500 ring-2 ring-background z-20",
+              "absolute rounded-full bg-[#1A9E5A] ring-2 ring-background z-20",
               onlineSizes[size]
             )}
           />

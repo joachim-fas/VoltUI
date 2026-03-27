@@ -34,7 +34,7 @@ export const ButtonsSection: React.FC = () => {
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>Varianten</GrainCardTitle>
-          <GrainCardDescription>primary · destructive · gradient · outline · ghost · glass · secondary</GrainCardDescription>
+          <GrainCardDescription>primary · solid · outline · ghost · glass · secondary · destructive</GrainCardDescription>
         </GrainCardHeader>
         <GrainCardContent>
           <div className="rounded-xl border border-border overflow-hidden">
@@ -46,20 +46,20 @@ export const ButtonsSection: React.FC = () => {
             </div>
             <div className="flex flex-wrap items-center gap-3 p-6 bg-atmospheric grain">
               <GrainButton variant="primary">Primary</GrainButton>
-              <GrainButton variant="destructive">Destructive</GrainButton>
-              <GrainButton variant="gradient">Gradient</GrainButton>
+              <GrainButton variant="solid">Solid</GrainButton>
               <GrainButton variant="outline">Outline</GrainButton>
               <GrainButton variant="ghost">Ghost</GrainButton>
               <GrainButton variant="glass">Glass</GrainButton>
               <GrainButton variant="secondary">Secondary</GrainButton>
+              <GrainButton variant="destructive">Destructive</GrainButton>
             </div>
           </div>
           <CodeSnippet code={`<GrainButton variant="primary">Primary</GrainButton>
-<GrainButton variant="destructive">Destructive</GrainButton>
-<GrainButton variant="gradient">Gradient</GrainButton>
+<GrainButton variant="solid">Solid</GrainButton>
 <GrainButton variant="outline">Outline</GrainButton>
 <GrainButton variant="ghost">Ghost</GrainButton>
-<GrainButton variant="glass">Glass</GrainButton>`} />
+<GrainButton variant="glass">Glass</GrainButton>
+<GrainButton variant="destructive">Destructive</GrainButton>`} />
         </GrainCardContent>
       </GrainCard>
 
@@ -102,7 +102,7 @@ export const ButtonsSection: React.FC = () => {
             </div>
             <div className="flex flex-wrap items-center gap-3 p-6">
               <GrainButton variant="primary" leftIcon={<Plus className="w-4 h-4" />}>Hinzufügen</GrainButton>
-              <GrainButton variant="gradient" rightIcon={<ArrowRight className="w-4 h-4" />}>Weiter</GrainButton>
+              <GrainButton variant="solid" rightIcon={<ArrowRight className="w-4 h-4" />}>Weiter</GrainButton>
               <GrainButton variant="outline" leftIcon={<Download className="w-4 h-4" />}>Download</GrainButton>
               <GrainButton variant="destructive" leftIcon={<Trash2 className="w-4 h-4" />}>Löschen</GrainButton>
               <GrainButton variant="secondary" leftIcon={<Send className="w-4 h-4" />}>Senden</GrainButton>
@@ -136,7 +136,7 @@ export const ButtonsSection: React.FC = () => {
                 Speichern
               </GrainButton>
               <GrainButton
-                variant="gradient"
+                variant="solid"
                 loading={loading === "b"}
                 onClick={() => simulateLoad("b")}
                 rightIcon={<ArrowRight className="w-4 h-4" />}

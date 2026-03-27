@@ -16,8 +16,8 @@ import { GrainBadge } from "@/components/grain/GrainBadge";
 const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string; icons: string[] }> = {
   navigation: {
     label: "Navigation & Layout",
-    color: "oklch(0.45 0.31 268)",
-    bg: "oklch(0.94 0.08 268)",
+    color: "#000000",
+    bg: "#F4F4F4",
     icons: [
       "Home", "LayoutDashboard", "LayoutGrid", "Sidebar", "PanelLeft", "PanelRight",
       "Menu", "MoreHorizontal", "MoreVertical", "ChevronLeft", "ChevronRight",
@@ -28,8 +28,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   actions: {
     label: "Aktionen & Operationen",
-    color: "oklch(0.55 0.30 27)",
-    bg: "oklch(0.96 0.08 27)",
+    color: "#000000",
+    bg: "#E4FF97",
     icons: [
       "Plus", "Minus", "X", "Check", "Search", "Filter", "SortAsc", "SortDesc",
       "Edit", "Edit2", "Edit3", "Pencil", "Trash", "Trash2", "Delete",
@@ -41,8 +41,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   data: {
     label: "Daten & Visualisierung",
-    color: "oklch(0.52 0.22 148)",
-    bg: "oklch(0.95 0.08 148)",
+    color: "#0F6038",
+    bg: "#C3F4D3",
     icons: [
       "BarChart", "BarChart2", "BarChart3", "BarChart4", "BarChartHorizontal",
       "LineChart", "AreaChart", "PieChart", "ScatterChart",
@@ -54,8 +54,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   communication: {
     label: "Kommunikation & Social",
-    color: "oklch(0.40 0.28 285)",
-    bg: "oklch(0.94 0.08 285)",
+    color: "#000000",
+    bg: "#D4E8FF",
     icons: [
       "MessageSquare", "MessageCircle", "MessageCircleMore", "Messages",
       "Mail", "MailOpen", "MailCheck", "MailPlus", "Inbox",
@@ -67,8 +67,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   files: {
     label: "Dateien & Medien",
-    color: "oklch(0.68 0.22 72)",
-    bg: "oklch(0.96 0.09 80)",
+    color: "#000000",
+    bg: "#FFF5BA",
     icons: [
       "File", "FileText", "FileCode", "FileCode2", "FileJson", "FileJson2",
       "FilePlus", "FileMinus", "FileX", "FileCheck", "FileSearch",
@@ -80,8 +80,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   status: {
     label: "Status & Feedback",
-    color: "oklch(0.52 0.22 148)",
-    bg: "oklch(0.95 0.08 148)",
+    color: "#A01A08",
+    bg: "#FDEEE9",
     icons: [
       "CheckCircle", "CheckCircle2", "XCircle", "AlertCircle", "AlertTriangle",
       "Info", "HelpCircle", "MinusCircle", "PlusCircle",
@@ -93,8 +93,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   users: {
     label: "Nutzer & Teams",
-    color: "oklch(0.45 0.31 268)",
-    bg: "oklch(0.94 0.08 268)",
+    color: "#000000",
+    bg: "#FFD6E0",
     icons: [
       "User", "User2", "UserCircle", "UserCircle2", "UserSquare", "UserSquare2",
       "Users", "Users2", "UserPlus", "UserMinus", "UserX", "UserCheck",
@@ -105,8 +105,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   tech: {
     label: "Technologie & Code",
-    color: "oklch(0.55 0.30 27)",
-    bg: "oklch(0.96 0.08 27)",
+    color: "#000000",
+    bg: "#FDE2FF",
     icons: [
       "Code", "Code2", "CodeXml", "Terminal", "Command",
       "Cpu", "Server", "ServerCog", "ServerCrash", "Cloud", "CloudOff",
@@ -119,8 +119,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   commerce: {
     label: "Commerce & Business",
-    color: "oklch(0.68 0.22 72)",
-    bg: "oklch(0.96 0.09 80)",
+    color: "#000000",
+    bg: "#FFE0CC",
     icons: [
       "ShoppingCart", "ShoppingBag", "Store", "Package", "Tag", "Tags",
       "CreditCard", "Wallet", "Banknote", "Coins", "DollarSign", "Euro",
@@ -133,8 +133,8 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
   },
   nature: {
     label: "Natur & Welt",
-    color: "oklch(0.52 0.22 148)",
-    bg: "oklch(0.95 0.08 148)",
+    color: "#0F6038",
+    bg: "#D6F5F5",
     icons: [
       "Sun", "Moon", "Cloud", "CloudRain", "CloudSnow", "CloudLightning",
       "Wind", "Waves", "Flame", "Snowflake", "Leaf", "Flower", "Flower2",
@@ -237,7 +237,7 @@ export const IconsSection: React.FC = () => {
           Klicke auf ein Icon um den Import-Code zu kopieren.
         </p>
         <div className="flex flex-wrap gap-2">
-          <GrainBadge variant="blue" size="sm" dot>Lucide React</GrainBadge>
+          <GrainBadge variant="solid" size="sm" dot>Lucide React</GrainBadge>
           <GrainBadge variant="muted" size="sm">SVG-basiert</GrainBadge>
           <GrainBadge variant="muted" size="sm">Skalierbar</GrainBadge>
           <GrainBadge variant="muted" size="sm">Tree-shakeable</GrainBadge>
@@ -309,7 +309,7 @@ export const IconsSection: React.FC = () => {
                   style={{
                     width: size.px,
                     height: size.px,
-                    color: activeSize === size.label ? "oklch(0.45 0.31 268)" : "oklch(0.50 0.04 268)"
+                    color: activeSize === size.label ? "#000000" : "#6B6B6B"
                   }}
                 />
                 <div className="text-center">
@@ -322,10 +322,10 @@ export const IconsSection: React.FC = () => {
           </div>
           <div className="mt-4 p-3 rounded-xl bg-muted/50 border border-border">
             <p className="text-[10px] font-mono text-muted-foreground">
-              <span className="text-[oklch(0.55_0.30_27)]">import</span>{" "}
+              <span className="text-[#1A9E5A]">import</span>{" "}
               {"{ Layers }"}{" "}
-              <span className="text-[oklch(0.55_0.30_27)]">from</span>{" "}
-              <span className="text-[oklch(0.52_0.22_148)]">"lucide-react"</span>
+              <span className="text-[#1A9E5A]">from</span>{" "}
+              <span className="text-[#000000] font-semibold">"lucide-react"</span>
               {" // "}
               <span className="text-muted-foreground">&lt;Layers className="{SIZES.find(s => s.label === activeSize)?.class}" /&gt;</span>
             </p>
@@ -408,12 +408,12 @@ export const IconsSection: React.FC = () => {
           <GrainCardContent>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
               {[
-                { icon: "TrendingUp",    label: "Positiv",  color: "oklch(0.52 0.22 148)", bg: "oklch(0.95 0.08 148)", desc: "Wachstum, Erfolg" },
-                { icon: "TrendingDown",  label: "Negativ",  color: "oklch(0.55 0.30 27)",  bg: "oklch(0.96 0.08 27)",  desc: "Rückgang, Fehler" },
-                { icon: "AlertTriangle", label: "Warnung",  color: "oklch(0.68 0.22 72)",  bg: "oklch(0.96 0.09 80)",  desc: "Aufmerksamkeit" },
-                { icon: "Info",          label: "Info",     color: "oklch(0.45 0.31 268)", bg: "oklch(0.94 0.08 268)", desc: "Hinweis, Kontext" },
-                { icon: "AlertCircle",   label: "Kritisch", color: "oklch(0.40 0.28 285)", bg: "oklch(0.94 0.08 285)", desc: "Dringend, Eskalation" },
-                { icon: "Minus",         label: "Neutral",  color: "oklch(0.50 0.02 268)", bg: "oklch(0.94 0.005 268)", desc: "Stabil, unverändert" },
+                { icon: "TrendingUp",    label: "Positiv",  color: "#0F6038", bg: "#C3F4D3", desc: "Wachstum, Erfolg" },
+                { icon: "TrendingDown",  label: "Negativ",  color: "#A01A08", bg: "#FDEEE9", desc: "Rückgang, Fehler" },
+                { icon: "AlertTriangle", label: "Warnung",  color: "#7A4800", bg: "#FFF5BA", desc: "Aufmerksamkeit" },
+                { icon: "Info",          label: "Info",     color: "#000000", bg: "#D4E8FF", desc: "Hinweis, Kontext" },
+                { icon: "AlertCircle",   label: "Kritisch", color: "#A01A08", bg: "#FDEEE9", desc: "Dringend, Eskalation" },
+                { icon: "Minus",         label: "Neutral",  color: "#3A4560", bg: "#F0F2F7", desc: "Stabil, unverändert" },
               ].map(({ icon, label, color, bg, desc }) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const Icon = (LucideIcons as Record<string, any>)[icon] as React.FC<{ className?: string; style?: React.CSSProperties }> | undefined;

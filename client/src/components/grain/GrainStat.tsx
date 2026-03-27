@@ -14,7 +14,7 @@ export interface GrainStatProps extends React.HTMLAttributes<HTMLDivElement> {
   change?: number;
   changeLabel?: string;
   icon?: React.ReactNode;
-  variant?: "default" | "blue" | "red" | "gradient";
+  variant?: "default" | "lime" | "solid" | "positive" | "negative";
   size?: "sm" | "md" | "lg";
 }
 
@@ -36,16 +36,21 @@ export const GrainStat: React.FC<GrainStatProps> = ({
 
   const TrendIcon = isPositive ? TrendingUp : isNegative ? TrendingDown : Minus;
   const trendColor = isPositive
-    ? "text-[oklch(0.50_0.18_145)]"
+    ? "text-[#1A9E5A]"
     : isNegative
-    ? "text-grain-red"
+    ? "text-[#E8402A]"
     : "text-muted-foreground";
 
   const variantStyles: Record<string, string> = {
     default:  "bg-card border border-border",
-    blue:     "bg-grain-blue text-white border-transparent",
-    red:      "bg-grain-red text-white border-transparent",
-    gradient: "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))] text-white border-transparent",
+    lime:     "bg-[#E4FF97] text-[#000000] border-transparent",
+    solid:    "bg-[#000000] text-white border-transparent",
+    positive: "bg-[#E8F8EF] text-[#0F6038] border border-[#7DD4A8]",
+    negative: "bg-[#FDEEE9] text-[#A01A08] border border-[#F4A090]",
+    // Legacy-Aliase
+    blue:     "bg-[#000000] text-white border-transparent",
+    red:      "bg-[#E8402A] text-white border-transparent",
+    gradient: "bg-[#E4FF97] text-[#000000] border-transparent",
   };
 
   const isColored = variant !== "default";
@@ -66,8 +71,8 @@ export const GrainStat: React.FC<GrainStatProps> = ({
       <div className="absolute top-0 right-0 w-32 h-32 rounded-full pointer-events-none"
         style={{
           background: isColored
-            ? "radial-gradient(circle, oklch(1 0 0 / 0.12) 0%, transparent 70%)"
-            : "radial-gradient(circle, oklch(0.42 0.22 268 / 0.06) 0%, transparent 70%)"
+            ? "radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%)"
+            : "radial-gradient(circle, rgba(228,255,151,0.06) 0%, transparent 70%)"
         }}
       />
 

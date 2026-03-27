@@ -1,24 +1,79 @@
 /**
- * GrainToggle / GrainCheckbox / GrainRadio – Atmospheric Grain Design System
- * Auswahl-Komponenten mit atmosphärischen Effekten.
+ * GrainToggle / GrainCheckbox / GrainRadio – Grain UI
+ * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
+ * Design: Raffiniert, minimal, klare Signale
  */
 
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Check, Minus } from "lucide-react";
 
+/* ── Farbmap für alle Varianten ── */
+const TRACK_ON: Record<string, string> = {
+  default:  "bg-[#000000]",
+  primary:  "bg-[#E4FF97]",
+  lime:     "bg-[#E4FF97]",
+  solid:    "bg-[#000000]",
+  positive: "bg-[#1A9E5A]",
+  negative: "bg-[#E8402A]",
+  neutral:  "bg-[#6B7A9A]",
+  /* Legacy */
+  blue:     "bg-[#000000]",
+  red:      "bg-[#E8402A]",
+  gradient: "bg-[#E4FF97]",
+};
+
+const THUMB_COLOR: Record<string, string> = {
+  default:  "#FFFFFF",
+  primary:  "#000000",
+  lime:     "#000000",
+  solid:    "#FFFFFF",
+  positive: "#FFFFFF",
+  negative: "#FFFFFF",
+  neutral:  "#FFFFFF",
+  blue:     "#FFFFFF",
+  red:      "#FFFFFF",
+  gradient: "#000000",
+};
+
+const FILL: Record<string, string> = {
+  default:  "bg-[#000000] border-[#000000]",
+  primary:  "bg-[#E4FF97] border-[#E4FF97]",
+  lime:     "bg-[#E4FF97] border-[#E4FF97]",
+  solid:    "bg-[#000000] border-[#000000]",
+  positive: "bg-[#1A9E5A] border-[#1A9E5A]",
+  negative: "bg-[#E8402A] border-[#E8402A]",
+  neutral:  "bg-[#6B7A9A] border-[#6B7A9A]",
+  blue:     "bg-[#000000] border-[#000000]",
+  red:      "bg-[#E8402A] border-[#E8402A]",
+  gradient: "bg-[#E4FF97] border-[#E4FF97]",
+};
+
+const ICON_COLOR: Record<string, string> = {
+  default:  "text-white",
+  primary:  "text-[#000000]",
+  lime:     "text-[#000000]",
+  solid:    "text-white",
+  positive: "text-white",
+  negative: "text-white",
+  neutral:  "text-white",
+  blue:     "text-white",
+  red:      "text-white",
+  gradient: "text-[#000000]",
+};
+
 /* ── GrainToggle (Switch) ── */
 export interface GrainToggleProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   description?: string;
-  variant?: "blue" | "red" | "gradient";
+  variant?: keyof typeof TRACK_ON;
   toggleSize?: "sm" | "md" | "lg";
 }
 
 export const GrainToggle: React.FC<GrainToggleProps> = ({
   label,
   description,
-  variant = "blue",
+  variant = "default",
   toggleSize = "md",
   checked,
   defaultChecked,
@@ -32,22 +87,13 @@ export const GrainToggle: React.FC<GrainToggleProps> = ({
   const isChecked = checked !== undefined ? checked : internal;
   const toggleId = id || React.useId();
 
-  const trackOn: Record<string, string> = {
-    blue:     "bg-[#0A0A0A]",
-    red:      "bg-[#E8402A]",
-    gradient: "bg-[#E4FF97]",
-    default:  "bg-[#0A0A0A]",
-    lime:     "bg-[#E4FF97]",
-    positive: "bg-[#1A9E5A]",
-    negative: "bg-[#E8402A]",
-    neutral:  "bg-[#6B7A9A]",
-  };
   const sizes = {
-    sm: { track: "w-8 h-4",  thumb: "w-3 h-3",  translateOn: "translate-x-4" },
-    md: { track: "w-11 h-6", thumb: "w-5 h-5",  translateOn: "translate-x-5" },
-    lg: { track: "w-14 h-7", thumb: "w-6 h-6",  translateOn: "translate-x-7" },
+    sm: { track: "w-7 h-3.5",  thumb: "w-2.5 h-2.5", on: "translate-x-3.5", off: "translate-x-0.5" },
+    md: { track: "w-10 h-5.5", thumb: "w-4 h-4",      on: "translate-x-5",   off: "translate-x-0.5" },
+    lg: { track: "w-12 h-6.5", thumb: "w-5 h-5",      on: "translate-x-6",   off: "translate-x-0.5" },
   };
   const s = sizes[toggleSize];
+  const thumbBg = THUMB_COLOR[variant] ?? "#FFFFFF";
 
   return (
     <div className={cn("flex items-start gap-3", className)}>
@@ -56,10 +102,7 @@ export const GrainToggle: React.FC<GrainToggleProps> = ({
           type="checkbox"
           id={toggleId}
           checked={isChecked}
-          onChange={(e) => {
-            setInternal(e.target.checked);
-            onChange?.(e);
-          }}
+          onChange={(e) => { setInternal(e.target.checked); onChange?.(e); }}
           disabled={disabled}
           className="sr-only"
           {...props}
@@ -67,41 +110,34 @@ export const GrainToggle: React.FC<GrainToggleProps> = ({
         <label
           htmlFor={toggleId}
           className={cn(
-            "relative inline-flex items-center rounded-full cursor-pointer transition-all duration-200",
+            "relative inline-flex items-center rounded-full cursor-pointer",
+            "transition-all duration-250 ease-out",
             s.track,
-            isChecked ? trackOn[variant] : "bg-muted border border-border",
-            disabled && "opacity-50 cursor-not-allowed",
-            "shadow-inner"
+            isChecked ? TRACK_ON[variant] : "bg-[#E0E0E0]",
+            disabled && "opacity-40 cursor-not-allowed",
           )}
         >
           <span
-            className={cn(
-              "absolute left-0.5 rounded-full bg-white ring-1 ring-black/10",
-              "transition-transform duration-200 ease-out",
-              s.thumb,
-              isChecked ? s.translateOn : "translate-x-0.5"
-            )}
+            className="absolute rounded-full shadow-sm transition-transform duration-250 ease-out"
+            style={{
+              width: s.thumb.split(" ")[0].replace("w-", "").replace(".", "").replace(/(\d+)(\d)/, "$1.$2") + "rem",
+              height: s.thumb.split(" ")[1].replace("h-", "").replace(".", "").replace(/(\d+)(\d)/, "$1.$2") + "rem",
+              background: thumbBg,
+              transform: isChecked
+                ? `translateX(${toggleSize === "sm" ? "0.875rem" : toggleSize === "lg" ? "1.5rem" : "1.25rem"})`
+                : "translateX(0.125rem)",
+            }}
           />
         </label>
       </div>
       {(label || description) && (
         <div className="flex flex-col">
           {label && (
-            <label
-              htmlFor={toggleId}
-              className={cn(
-                "text-sm font-semibold font-body cursor-pointer",
-                disabled && "opacity-50 cursor-not-allowed"
-              )}
-            >
+            <label htmlFor={toggleId} className={cn("text-sm font-semibold font-body cursor-pointer leading-tight", disabled && "opacity-40 cursor-not-allowed")}>
               {label}
             </label>
           )}
-          {description && (
-            <span className="text-xs text-muted-foreground font-body mt-0.5">
-              {description}
-            </span>
-          )}
+          {description && <span className="text-xs text-muted-foreground font-body mt-0.5 leading-relaxed">{description}</span>}
         </div>
       )}
     </div>
@@ -112,14 +148,14 @@ export const GrainToggle: React.FC<GrainToggleProps> = ({
 export interface GrainCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   description?: string;
-  variant?: "blue" | "red" | "gradient";
+  variant?: keyof typeof FILL;
   indeterminate?: boolean;
 }
 
 export const GrainCheckbox: React.FC<GrainCheckboxProps> = ({
   label,
   description,
-  variant = "blue",
+  variant = "default",
   indeterminate,
   checked,
   defaultChecked,
@@ -133,17 +169,6 @@ export const GrainCheckbox: React.FC<GrainCheckboxProps> = ({
   const isChecked = checked !== undefined ? checked : internal;
   const checkId = id || React.useId();
 
-  const fillVariants: Record<string, string> = {
-    blue:     "bg-[#0A0A0A] border-[#0A0A0A]",
-    red:      "bg-[#E8402A] border-[#E8402A]",
-    gradient: "bg-[#E4FF97] border-[#E4FF97]",
-    default:  "bg-[#0A0A0A] border-[#0A0A0A]",
-    lime:     "bg-[#E4FF97] border-[#E4FF97]",
-    positive: "bg-[#1A9E5A] border-[#1A9E5A]",
-    negative: "bg-[#E8402A] border-[#E8402A]",
-    neutral:  "bg-[#6B7A9A] border-[#6B7A9A]",
-  };
-
   return (
     <div className={cn("flex items-start gap-2.5", className)}>
       <div className="relative flex-shrink-0 mt-0.5">
@@ -151,10 +176,7 @@ export const GrainCheckbox: React.FC<GrainCheckboxProps> = ({
           type="checkbox"
           id={checkId}
           checked={isChecked}
-          onChange={(e) => {
-            setInternal(e.target.checked);
-            onChange?.(e);
-          }}
+          onChange={(e) => { setInternal(e.target.checked); onChange?.(e); }}
           disabled={disabled}
           className="sr-only"
           {...props}
@@ -162,52 +184,42 @@ export const GrainCheckbox: React.FC<GrainCheckboxProps> = ({
         <label
           htmlFor={checkId}
           className={cn(
-            "w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer",
+            "w-4 h-4 rounded border flex items-center justify-center cursor-pointer",
             "transition-all duration-150 ease-out",
             isChecked || indeterminate
-              ? fillVariants[variant]
-              : "bg-background border-border hover:border-primary/50",
-            disabled && "opacity-50 cursor-not-allowed"
+              ? FILL[variant]
+              : "bg-transparent border-border hover:border-foreground/40",
+            disabled && "opacity-40 cursor-not-allowed"
           )}
         >
           {indeterminate ? (
-            <Minus className="w-3 h-3 text-white" strokeWidth={3} />
+            <Minus className={cn("w-2.5 h-2.5", ICON_COLOR[variant])} strokeWidth={2.5} />
           ) : isChecked ? (
-            <Check className="w-3 h-3 text-white" strokeWidth={3} />
+            <Check className={cn("w-2.5 h-2.5", ICON_COLOR[variant])} strokeWidth={2.5} />
           ) : null}
         </label>
       </div>
       {(label || description) && (
         <div className="flex flex-col">
           {label && (
-            <label
-              htmlFor={checkId}
-              className={cn(
-                "text-sm font-semibold font-body cursor-pointer leading-tight",
-                disabled && "opacity-50 cursor-not-allowed"
-              )}
-            >
+            <label htmlFor={checkId} className={cn("text-sm font-body cursor-pointer leading-tight", disabled && "opacity-40 cursor-not-allowed")}>
               {label}
             </label>
           )}
-          {description && (
-            <span className="text-xs text-muted-foreground font-body mt-0.5">
-              {description}
-            </span>
-          )}
+          {description && <span className="text-xs text-muted-foreground font-body mt-0.5 leading-relaxed">{description}</span>}
         </div>
       )}
     </div>
   );
 };
 
-/* ── GrainRadio ── */
-export interface GrainRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+/* ── GrainRadioGroup ── */
+export interface GrainRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   options: Array<{ value: string; label: string; description?: string }>;
   value?: string;
   defaultValue?: string;
   name: string;
-  variant?: "blue" | "red" | "gradient";
+  variant?: keyof typeof FILL;
   onValueChange?: (value: string) => void;
 }
 
@@ -216,7 +228,7 @@ export const GrainRadioGroup: React.FC<GrainRadioGroupProps> = ({
   value,
   defaultValue,
   name,
-  variant = "blue",
+  variant = "default",
   onValueChange,
   className,
   ...props
@@ -224,16 +236,12 @@ export const GrainRadioGroup: React.FC<GrainRadioGroupProps> = ({
   const [internal, setInternal] = React.useState(defaultValue ?? "");
   const selected = value !== undefined ? value : internal;
 
-  const dotColors: Record<string, string> = {
-    blue:     "bg-[#0A0A0A]",
-    red:      "bg-[#E8402A]",
-    gradient: "bg-[#E4FF97]",
-    default:  "bg-[#0A0A0A]",
-    lime:     "bg-[#E4FF97]",
-    positive: "bg-[#1A9E5A]",
-    negative: "bg-[#E8402A]",
-    neutral:  "bg-[#6B7A9A]",
-  };
+  const dotBg = variant === "lime" || variant === "primary" || variant === "gradient"
+    ? "bg-[#000000]"
+    : variant === "positive" ? "bg-[#1A9E5A]"
+    : variant === "negative" ? "bg-[#E8402A]"
+    : variant === "neutral" ? "bg-[#6B7A9A]"
+    : "bg-[#000000]";
 
   return (
     <div className={cn("flex flex-col gap-2", className)} {...props}>
@@ -244,9 +252,7 @@ export const GrainRadioGroup: React.FC<GrainRadioGroupProps> = ({
           <label
             key={opt.value}
             htmlFor={radioId}
-            className={cn(
-              "flex items-start gap-2.5 cursor-pointer group"
-            )}
+            className="flex items-start gap-2.5 cursor-pointer group"
           >
             <input
               type="radio"
@@ -254,30 +260,19 @@ export const GrainRadioGroup: React.FC<GrainRadioGroupProps> = ({
               name={name}
               value={opt.value}
               checked={isSelected}
-              onChange={() => {
-                setInternal(opt.value);
-                onValueChange?.(opt.value);
-              }}
+              onChange={() => { setInternal(opt.value); onValueChange?.(opt.value); }}
               className="sr-only"
             />
-            <div
-              className={cn(
-                "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5",
-                "transition-all duration-150",
-                isSelected
-                  ? "border-primary"
-                  : "border-border group-hover:border-primary/50"
-              )}
-            >
-              {isSelected && (
-                <div className={cn("w-2.5 h-2.5 rounded-full", dotColors[variant])} />
-              )}
+            <div className={cn(
+              "w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 mt-0.5",
+              "transition-all duration-150",
+              isSelected ? "border-foreground" : "border-border group-hover:border-foreground/40"
+            )}>
+              {isSelected && <div className={cn("w-2 h-2 rounded-full", dotBg)} />}
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-semibold font-body leading-tight">{opt.label}</span>
-              {opt.description && (
-                <span className="text-xs text-muted-foreground font-body mt-0.5">{opt.description}</span>
-              )}
+              <span className="text-sm font-body leading-tight">{opt.label}</span>
+              {opt.description && <span className="text-xs text-muted-foreground font-body mt-0.5 leading-relaxed">{opt.description}</span>}
             </div>
           </label>
         );

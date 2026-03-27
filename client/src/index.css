@@ -121,7 +121,7 @@
   --sidebar-ring:               #E4FF97;
 
   /* ── Grain-Gradient (für GrainCard variant="gradient") ── */
-  --theme-gradient: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #2A2A2A 100%);
+  --theme-gradient: linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%);
 }
 
 /* ═══════════════════════════════════════════════════════

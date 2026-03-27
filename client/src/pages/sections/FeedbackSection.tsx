@@ -44,10 +44,10 @@ const tabContent = {
   ),
   tokens: (
     <div className="space-y-2">
-      {["--grain-blue", "--grain-red", "--grain-violet", "--grain-coral"].map(t => (
+      {["--neon-yellow", "--black", "--signal-positive", "--signal-negative", "--signal-neutral"].map(t => (
         <div key={t} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
           <span className="text-xs font-mono text-foreground">{t}</span>
-          <GrainBadge variant="muted" size="sm">OKLCH</GrainBadge>
+          <GrainBadge variant="muted" size="sm">CSS Token</GrainBadge>
         </div>
       ))}
     </div>

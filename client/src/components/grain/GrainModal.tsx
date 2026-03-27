@@ -83,8 +83,8 @@ export const GrainModal: React.FC<GrainModalProps> = ({
             aria-modal="true"
             aria-labelledby={title ? "modal-title" : undefined}
           >
-            {/* Gradient accent top */}
-            <div className="absolute top-0 left-0 right-0 h-0.5 bg-[linear-gradient(90deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))]" />
+            {/* Accent top */}
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#E4FF97]" />
 
             {/* Header */}
             {(title || description) && (

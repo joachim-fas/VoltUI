@@ -120,25 +120,25 @@ export const FormsSection: React.FC = () => {
         <GrainCard>
           <GrainCardHeader>
             <GrainCardTitle>Toggle-Schalter</GrainCardTitle>
-            <GrainCardDescription>blue · red · gradient · sm · md · lg</GrainCardDescription>
+            <GrainCardDescription>default · primary · positive · negative · neutral · sm · md · lg</GrainCardDescription>
           </GrainCardHeader>
           <GrainCardContent>
             <div className="space-y-4">
               <GrainToggle
                 label="Benachrichtigungen"
                 description="E-Mail-Benachrichtigungen aktivieren"
-                variant="blue"
+                variant="default"
                 defaultChecked
               />
               <GrainToggle
                 label="Dark Mode"
                 description="Dunkles Erscheinungsbild verwenden"
-                variant="gradient"
+                variant="primary"
               />
               <GrainToggle
                 label="Wartungsmodus"
                 description="Website für Besucher sperren"
-                variant="red"
+                variant="negative"
               />
               <GrainToggle
                 label="Deaktiviert"
@@ -147,9 +147,9 @@ export const FormsSection: React.FC = () => {
                 defaultChecked
               />
               <div className="flex items-center gap-4 pt-2">
-                <GrainToggle variant="blue" toggleSize="sm" defaultChecked />
-                <GrainToggle variant="gradient" toggleSize="md" defaultChecked />
-                <GrainToggle variant="red" toggleSize="lg" defaultChecked />
+                <GrainToggle variant="default" toggleSize="sm" defaultChecked />
+                <GrainToggle variant="primary" toggleSize="md" defaultChecked />
+                <GrainToggle variant="negative" toggleSize="lg" defaultChecked />
               </div>
             </div>
           </GrainCardContent>
@@ -163,13 +163,13 @@ export const FormsSection: React.FC = () => {
             <div className="space-y-5">
               <div className="space-y-3">
                 <p className="section-label">Checkboxen</p>
-                <GrainCheckbox label="Design Tokens exportieren" variant="blue" defaultChecked />
-                <GrainCheckbox label="Dark Mode aktivieren" variant="gradient" />
-                <GrainCheckbox label="Teilweise ausgewählt" variant="blue" indeterminate />
+                <GrainCheckbox label="Design Tokens exportieren" variant="default" defaultChecked />
+                <GrainCheckbox label="Dark Mode aktivieren" variant="primary" />
+                <GrainCheckbox label="Teilweise ausgewählt" variant="default" indeterminate />
                 <GrainCheckbox
                   label="Nutzungsbedingungen akzeptieren"
                   description="Ich stimme den AGB und der Datenschutzerklärung zu."
-                  variant="gradient"
+                  variant="primary"
                 />
               </div>
               <div className="space-y-3 pt-2">
@@ -178,7 +178,7 @@ export const FormsSection: React.FC = () => {
                   name="plan"
                   value={radioVal}
                   onValueChange={setRadioVal}
-                  variant="gradient"
+                  variant="default"
                   options={[
                     { value: "free",     label: "Free",     description: "Für Einzelpersonen" },
                     { value: "standard", label: "Standard", description: "Für kleine Teams" },
@@ -201,10 +201,10 @@ export const FormsSection: React.FC = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <p className="section-label">Fortschrittsbalken</p>
-              <GrainProgress value={25}  variant="blue"     size="sm" label="Upload"   showValue />
-              <GrainProgress value={60}  variant="gradient" size="md" label="Speicher"  showValue />
-              <GrainProgress value={85}  variant="red"      size="md" label="CPU-Last"  showValue />
-              <GrainProgress value={100} variant="violet"   size="lg" label="Abgeschlossen" showValue />
+              <GrainProgress value={25}  variant="default"   size="sm" label="Upload"   showValue />
+              <GrainProgress value={60}  variant="lime"      size="md" label="Speicher"  showValue />
+              <GrainProgress value={85}  variant="negative"  size="md" label="CPU-Last"  showValue />
+              <GrainProgress value={100} variant="positive" size="lg" label="Abgeschlossen" showValue />
             </div>
             <div className="space-y-4 pt-2">
               <p className="section-label">Schieberegler</p>
@@ -213,14 +213,14 @@ export const FormsSection: React.FC = () => {
                 showValue
                 value={sliderA}
                 onChange={(e) => setSliderA(Number(e.target.value))}
-                variant="gradient"
+                variant="default"
               />
               <GrainSlider
                 label="Helligkeit"
                 showValue
                 value={sliderB}
                 onChange={(e) => setSliderB(Number(e.target.value))}
-                variant="blue"
+                variant="lime"
                 sliderSize="lg"
               />
             </div>
@@ -261,15 +261,15 @@ export const FormsSection: React.FC = () => {
             <GrainToggle
               label="Newsletter abonnieren"
               description="Erhalte Updates zu neuen Komponenten."
-              variant="gradient"
+              variant="default"
               defaultChecked
             />
             <GrainCheckbox
               label="Ich akzeptiere die Nutzungsbedingungen"
-              variant="blue"
+              variant="default"
             />
             <div className="flex gap-3 pt-2">
-              <GrainButton variant="gradient" type="submit" className="flex-1">
+              <GrainButton variant="solid" type="submit" className="flex-1">
                 Registrieren
               </GrainButton>
               <GrainButton variant="outline" type="reset">
