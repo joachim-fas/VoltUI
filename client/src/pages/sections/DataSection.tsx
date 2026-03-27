@@ -1,7 +1,7 @@
 /**
- * DataSection – Grain UI v2
- * Alle 12 Graphen-Typen mit moderner Darstellung
- * Recharts + Grain-Farbpalette + Glasmorphismus
+ * DataSection – Grain UI v3
+ * Fokus: Klare Informationsvermittlung
+ * Jeder Chart-Typ erklärt: Was zeigt er? Wann nutze ich ihn? Was lese ich ab?
  */
 
 import React, { useState } from "react";
@@ -15,10 +15,11 @@ import {
 import { GrainTable } from "@/components/grain/GrainTable";
 import { GrainBadge } from "@/components/grain/GrainBadge";
 import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
-import { GrainStat } from "@/components/grain/GrainStat";
+import { motion } from "framer-motion";
 import {
-  TrendingUp, TrendingDown, Users, Zap, BarChart2, Activity,
-  PieChart, GitBranch, Layers, Target, ArrowUpRight,
+  TrendingUp, Users, Zap, BarChart2, Activity,
+  PieChart, GitBranch, Layers, Target, Info,
+  CheckCircle2, ArrowRight,
 } from "lucide-react";
 
 /* ── Data ── */
@@ -74,19 +75,19 @@ const composedData = [
 ];
 
 const radialData = [
-  { name: "Blau",   value: 88 },
-  { name: "Rot",    value: 72 },
-  { name: "Teal",   value: 65 },
-  { name: "Amber",  value: 54 },
-  { name: "Violett",value: 42 },
+  { name: "Blau",    value: 88 },
+  { name: "Rot",     value: 72 },
+  { name: "Teal",    value: 65 },
+  { name: "Amber",   value: 54 },
+  { name: "Violett", value: 42 },
 ];
 
 const funnelData = [
-  { name: "Besucher",    value: 10000 },
-  { name: "Interessenten", value: 6800 },
-  { name: "Leads",       value: 3200 },
-  { name: "Qualifiziert",value: 1500 },
-  { name: "Kunden",      value: 620  },
+  { name: "Besucher",      value: 10000 },
+  { name: "Interessenten", value: 6800  },
+  { name: "Leads",         value: 3200  },
+  { name: "Qualifiziert",  value: 1500  },
+  { name: "Kunden",        value: 620   },
 ];
 
 const trendData = [
@@ -127,196 +128,409 @@ const tableData: TableRow[] = [
   { name: "GrainTable",    version: "2.0.0", status: "stable", downloads: "3.7k",  updated: "heute" },
 ];
 
+/* ── Chart-Typ Übersicht mit Erklärungen ── */
 const chartTypes = [
-  { icon: Activity,   label: "Area",        color: GRAIN_HEX[0] },
-  { icon: BarChart2,  label: "Bar",         color: GRAIN_HEX[1] },
-  { icon: TrendingUp, label: "Line",        color: GRAIN_HEX[2] },
-  { icon: PieChart,   label: "Donut / Pie", color: GRAIN_HEX[3] },
-  { icon: Target,     label: "Radar",       color: GRAIN_HEX[4] },
-  { icon: GitBranch,  label: "Scatter",     color: GRAIN_HEX[5] },
-  { icon: Layers,     label: "Composed",    color: GRAIN_HEX[6] },
-  { icon: Activity,   label: "Radial Bar",  color: GRAIN_HEX[7] },
-  { icon: BarChart2,  label: "Funnel",      color: GRAIN_HEX[0] },
-  { icon: TrendingUp, label: "Trend",       color: GRAIN_HEX[1] },
-  { icon: Activity,   label: "Stacked Area",color: GRAIN_HEX[2] },
-  { icon: BarChart2,  label: "Stacked Bar", color: GRAIN_HEX[3] },
+  {
+    icon: Activity,
+    label: "Area Chart",
+    color: GRAIN_HEX[0],
+    when: "Zeitreihen mit Volumen",
+    reads: "Trend + Fläche unter der Kurve",
+  },
+  {
+    icon: BarChart2,
+    label: "Bar Chart",
+    color: GRAIN_HEX[1],
+    when: "Kategorien vergleichen",
+    reads: "Absolute Werte nebeneinander",
+  },
+  {
+    icon: TrendingUp,
+    label: "Line Chart",
+    color: GRAIN_HEX[2],
+    when: "Mehrere Trends vergleichen",
+    reads: "Richtung und Schnittpunkte",
+  },
+  {
+    icon: PieChart,
+    label: "Donut / Pie",
+    color: GRAIN_HEX[3],
+    when: "Anteile eines Ganzen",
+    reads: "Prozentuale Verteilung",
+  },
+  {
+    icon: Target,
+    label: "Radar Chart",
+    color: GRAIN_HEX[4],
+    when: "Multi-dimensionaler Vergleich",
+    reads: "Stärken und Schwächen",
+  },
+  {
+    icon: GitBranch,
+    label: "Scatter / Bubble",
+    color: GRAIN_HEX[5],
+    when: "Korrelationen sichtbar machen",
+    reads: "Cluster und Ausreißer",
+  },
+  {
+    icon: Layers,
+    label: "Composed Chart",
+    color: GRAIN_HEX[6],
+    when: "Verschiedene Metriken kombinieren",
+    reads: "Bar + Line in einem View",
+  },
+  {
+    icon: Activity,
+    label: "Radial Bar",
+    color: GRAIN_HEX[7],
+    when: "Fortschritt je Kategorie",
+    reads: "Ringförmige Fortschrittsanzeige",
+  },
+  {
+    icon: BarChart2,
+    label: "Funnel Chart",
+    color: GRAIN_HEX[0],
+    when: "Conversion-Prozesse",
+    reads: "Verlust zwischen Stufen",
+  },
+  {
+    icon: TrendingUp,
+    label: "Trend Chart",
+    color: GRAIN_HEX[1],
+    when: "Langzeit-Trends mit Referenz",
+    reads: "Abweichung vom Zielwert",
+  },
+  {
+    icon: Activity,
+    label: "Stacked Area",
+    color: GRAIN_HEX[2],
+    when: "Zusammensetzung über Zeit",
+    reads: "Anteile + Gesamtentwicklung",
+  },
+  {
+    icon: BarChart2,
+    label: "Stacked Bar",
+    color: GRAIN_HEX[3],
+    when: "Zusammensetzung je Kategorie",
+    reads: "Teile und Ganzes gleichzeitig",
+  },
 ];
 
+/* ── Sektion-Header mit Kontext ── */
+const SectionHeader: React.FC<{
+  number: string;
+  title: string;
+  description: string;
+  badge?: string;
+  insight?: string;
+}> = ({ number, title, description, badge, insight }) => (
+  <div className="flex items-start justify-between gap-4 flex-wrap mb-5">
+    <div>
+      <p className="section-label mb-1">{number}</p>
+      <h3 className="font-display font-bold text-xl text-foreground tracking-tight mb-1">{title}</h3>
+      <p className="text-sm font-body text-muted-foreground leading-relaxed max-w-lg">{description}</p>
+      {insight && (
+        <div className="flex items-center gap-1.5 mt-2 text-[10px] font-semibold font-ui text-[oklch(0.42_0.22_268)]">
+          <Info className="w-3 h-3" />
+          {insight}
+        </div>
+      )}
+    </div>
+    {badge && <GrainBadge variant="muted" size="sm">{badge}</GrainBadge>}
+  </div>
+);
+
 export const DataSection: React.FC = () => {
-  const [activeChart, setActiveChart] = useState<string | null>(null);
+  const [activeType, setActiveType] = useState<string | null>(null);
 
   return (
-    <section className="space-y-12">
+    <section className="space-y-14">
 
-      {/* Header */}
+      {/* ── Sektion-Header ── */}
       <div>
-        <p className="section-label mb-2">06 — Data</p>
-        <h2 className="font-display text-3xl font-bold text-foreground tracking-tight mb-2">
+        <p className="section-label mb-2">06 — Data & Charts</p>
+        <h2 className="font-display text-3xl font-bold text-foreground tracking-tight mb-3">
           Daten & Visualisierung
         </h2>
-        <p className="text-muted-foreground font-body text-sm leading-relaxed max-w-xl">
-          12 Graphen-Typen mit der Grain-Farbpalette. Alle Charts nutzen Recharts mit angepassten
-          Tooltips, Legenden und Grain-Styling. Responsive und interaktiv.
+        <p className="text-muted-foreground font-body text-sm leading-relaxed max-w-2xl mb-4">
+          12 Graphen-Typen – jeder für einen spezifischen Informationsbedarf. Das Ziel ist nicht
+          der schönste Chart, sondern der <strong className="text-foreground">richtige Chart für die richtige Frage</strong>.
+          Alle Visualisierungen nutzen Recharts mit der Grain-Farbpalette.
         </p>
+        {/* Lese-Anleitung */}
+        <div className="flex flex-wrap gap-3">
+          {[
+            { icon: <CheckCircle2 className="w-3 h-3" />, text: "Klick auf einen Chart-Typ für Erklärung" },
+            { icon: <Info className="w-3 h-3" />,         text: "Jeder Chart zeigt: Wann? Was lese ich ab?" },
+            { icon: <ArrowRight className="w-3 h-3" />,   text: "Alle Charts sind interaktiv (Hover für Tooltip)" },
+          ].map((h, i) => (
+            <div key={i} className="flex items-center gap-1.5 text-[10px] font-semibold font-ui text-muted-foreground bg-muted px-2.5 py-1.5 rounded-lg border border-border">
+              <span className="text-[oklch(0.42_0.22_268)]">{h.icon}</span>
+              {h.text}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Chart Type Overview */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Verfügbare Chart-Typen</GrainCardTitle>
-          <p className="text-xs text-muted-foreground font-body mt-0.5">12 verschiedene Visualisierungstypen</p>
-        </GrainCardHeader>
-        <GrainCardContent>
-          <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-12 gap-2">
-            {chartTypes.map(({ icon: Icon, label, color }) => (
-              <button
-                key={label}
-                onClick={() => setActiveChart(activeChart === label ? null : label)}
-                className="flex flex-col items-center gap-2 p-2.5 rounded-xl border border-border bg-card hover:bg-muted/50 transition-all duration-150 cursor-pointer group"
-                style={{ borderColor: activeChart === label ? color : undefined }}
-              >
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-150"
-                  style={{ background: color + "22" }}>
-                  <Icon className="w-3.5 h-3.5 transition-colors" style={{ color }} />
+      {/* ── Chart-Typ Auswahl mit Erklärungen ── */}
+      <div>
+        <SectionHeader
+          number="Übersicht"
+          title="Welcher Chart für welche Frage?"
+          description="Klicke auf einen Chart-Typ um zu sehen, wann er eingesetzt wird und was er kommuniziert."
+        />
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          {chartTypes.map(({ icon: Icon, label, color, when, reads }) => (
+            <button
+              key={label}
+              onClick={() => setActiveType(activeType === label ? null : label)}
+              className="flex flex-col gap-3 p-4 rounded-2xl border text-left transition-all duration-200 hover:-translate-y-0.5"
+              style={{
+                borderColor: activeType === label ? color : undefined,
+                background: activeType === label ? color + "10" : undefined,
+              }}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: color + "20" }}>
+                  <Icon className="w-4 h-4" style={{ color }} />
                 </div>
-                <span className="text-[9px] font-ui font-medium text-muted-foreground text-center leading-tight">{label}</span>
-              </button>
-            ))}
-          </div>
-        </GrainCardContent>
-      </GrainCard>
-
-      {/* KPI Cards */}
-      <div>
-        <h3 className="font-ui font-semibold text-sm text-foreground mb-4">KPI-Karten</h3>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <GrainStat label="Gesamtbesucher" value="24.8k" change={12.4} icon={<Users className="w-4 h-4" />} variant="blue" />
-          <GrainStat label="Konversionsrate" value="3.2%" change={-0.8} icon={<Target className="w-4 h-4" />} variant="gradient" />
-          <GrainStat label="Komponenten" value={16} change={0} changeLabel="stabil" icon={<Layers className="w-4 h-4" />} variant="default" />
-          <GrainStat label="Performance" value="98 pts" change={3} changeLabel="Lighthouse" icon={<Zap className="w-4 h-4" />} variant="red" />
+                <span className="text-xs font-semibold font-ui text-foreground">{label}</span>
+              </div>
+              {activeType === label ? (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  className="space-y-1.5"
+                >
+                  <div>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">Wann nutzen?</span>
+                    <p className="text-[11px] font-body text-foreground mt-0.5">{when}</p>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">Was ablesen?</span>
+                    <p className="text-[11px] font-body text-foreground mt-0.5">{reads}</p>
+                  </div>
+                </motion.div>
+              ) : (
+                <p className="text-[10px] font-body text-muted-foreground leading-snug">{when}</p>
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Row 1: Area + Bar */}
+      {/* ── KPI-Karten ── */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-ui font-semibold text-sm text-foreground">Zeitreihen</h3>
-          <GrainBadge variant="muted" size="sm">Recharts</GrainBadge>
+        <SectionHeader
+          number="Kennzahlen"
+          title="KPI-Karten"
+          description="Einzelne Metriken mit Trend-Indikator. Ideal für Dashboards wenn eine Zahl sofort Kontext braucht."
+          insight="Trend-Pfeile zeigen immer Veränderung relativ zur Vorperiode"
+        />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {[
+            { label: "Gesamtbesucher", value: "24.8k", change: 12.4, icon: <Users className="w-4 h-4" />, colorClass: "bg-[oklch(0.42_0.22_268)]", insight: "Organisch getrieben" },
+            { label: "Konversionsrate", value: "3.2%", change: -0.8, icon: <Target className="w-4 h-4" />, gradient: true, insight: "Checkout optimieren" },
+            { label: "Komponenten", value: "16", change: 0, icon: <Layers className="w-4 h-4" />, insight: "Vollständige Bibliothek" },
+            { label: "Performance", value: "98 pts", change: 3, icon: <Zap className="w-4 h-4" />, colorClass: "bg-[oklch(0.52_0.26_27)]", insight: "Lighthouse Score" },
+          ].map((kpi, i) => (
+            <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
+              <div className={`relative rounded-2xl p-5 grain overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${
+                kpi.gradient
+                  ? "bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.36_0.20_285),oklch(0.52_0.26_27))] text-white"
+                  : kpi.colorClass
+                  ? `${kpi.colorClass} text-white`
+                  : "bg-card border border-border"
+              }`}>
+                <div className="absolute top-0 right-0 w-24 h-24 rounded-full pointer-events-none"
+                  style={{ background: (kpi.gradient || kpi.colorClass) ? "radial-gradient(circle, oklch(1 0 0 / 0.12) 0%, transparent 70%)" : "radial-gradient(circle, oklch(0.42 0.22 268 / 0.06) 0%, transparent 70%)" }} />
+                <div className="relative z-10">
+                  <div className="flex items-start justify-between mb-3">
+                    <span className={`text-[0.6rem] font-mono font-semibold uppercase tracking-[0.14em] ${(kpi.gradient || kpi.colorClass) ? "text-white/60" : "text-muted-foreground"}`}>{kpi.label}</span>
+                    <div className={`w-7 h-7 rounded-xl flex items-center justify-center ${(kpi.gradient || kpi.colorClass) ? "bg-white/15" : "bg-primary/10 text-primary"}`}>{kpi.icon}</div>
+                  </div>
+                  <p className={`font-display font-black text-3xl leading-none tracking-tight mb-1.5 ${(kpi.gradient || kpi.colorClass) ? "text-white" : "text-foreground"}`}>{kpi.value}</p>
+                  <div className={`flex items-center gap-1 mb-2 ${(kpi.gradient || kpi.colorClass) ? "text-white/80" : kpi.change > 0 ? "text-[oklch(0.50_0.18_145)]" : kpi.change < 0 ? "text-[oklch(0.52_0.26_27)]" : "text-muted-foreground"}`}>
+                    {kpi.change > 0 ? <TrendingUp className="w-3 h-3" /> : kpi.change < 0 ? <TrendingUp className="w-3 h-3 rotate-180" /> : null}
+                    <span className="text-[10px] font-semibold font-ui">{kpi.change > 0 ? "+" : ""}{kpi.change}%</span>
+                  </div>
+                  <p className={`text-[10px] font-body ${(kpi.gradient || kpi.colorClass) ? "text-white/50" : "text-muted-foreground"}`}>{kpi.insight}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
+      </div>
+
+      {/* ── Zeitreihen ── */}
+      <div>
+        <SectionHeader
+          number="Zeitreihen"
+          title="Entwicklung über Zeit"
+          description="Area Charts zeigen Volumen und Trend. Line Charts eignen sich besser wenn mehrere Metriken verglichen werden und die Fläche irreführend wäre."
+          badge="Recharts"
+          insight="Faustregel: Area für eine Metrik, Line für den Vergleich mehrerer"
+        />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <GrainAreaChart data={monthlyData} dataKeys={["Besucher", "Konversionen"]} xKey="name"
-            title="Besucher & Konversionen" subtitle="Area Chart – letzten 7 Monate" height={260} />
+            title="Besucher & Konversionen" subtitle="Area Chart · Jan–Jul · Volumen sichtbar durch Fläche" height={260} />
+          <GrainLineChart data={monthlyData} dataKeys={["Besucher", "Umsatz"]} xKey="name"
+            title="Trend-Vergleich" subtitle="Line Chart · Besucher vs. Umsatz · Schnittpunkte erkennbar" height={260} />
+        </div>
+      </div>
+
+      {/* ── Kategorien vergleichen ── */}
+      <div>
+        <SectionHeader
+          number="Kategorien"
+          title="Vergleiche zwischen Gruppen"
+          description="Bar Charts vergleichen diskrete Kategorien. Horizontal eignet sich bei langen Labels. Gestapelt zeigt Zusammensetzung und Gesamtwert gleichzeitig."
+          insight="Horizontal-Bars sind lesbarer bei mehr als 5 Kategorien"
+        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <GrainBarChart data={weeklyData} dataKeys={["Design", "Code", "Review"]} xKey="name"
-            title="Wöchentliche Aktivität" subtitle="Bar Chart – Design / Code / Review" height={260} />
-        </div>
-      </div>
-
-      {/* Row 2: Line + Donut */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <GrainLineChart data={monthlyData} dataKeys={["Besucher", "Umsatz"]} xKey="name"
-          title="Trend-Vergleich" subtitle="Line Chart – Besucher vs. Umsatz" height={260} />
-        <GrainDonutChart data={donutData} title="Komponenten-Nutzung" subtitle="Donut Chart – Verteilung"
-          innerLabel="Gesamt" innerValue={100} height={260} />
-      </div>
-
-      {/* Row 3: Radar + Scatter */}
-      <div>
-        <h3 className="font-ui font-semibold text-sm text-foreground mb-4">Vergleich & Verteilung</h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <GrainRadarChart data={radarData} dataKeys={["A", "B"]} angleKey="subject"
-            title="Performance-Radar" subtitle="Radar Chart – Projekt A vs. B" height={280} />
-          <GrainScatterChart data={scatterData} title="Bubble / Scatter"
-            subtitle="Scatter Chart – Zufällige Verteilung" xLabel="Reichweite" yLabel="Engagement" height={280} />
-        </div>
-      </div>
-
-      {/* Row 4: Composed + Radial Bar */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <GrainComposedChart data={composedData} barKeys={["Budget", "Ausgaben"]} lineKeys={["Effizienz"]} xKey="name"
-          title="Budget vs. Ausgaben" subtitle="Composed Chart – Bar + Line" height={260} />
-        <GrainRadialBarChart data={radialData} title="Radial Bar Chart"
-          subtitle="Fortschritt nach Kategorie" height={260} />
-      </div>
-
-      {/* Row 5: Funnel + Trend */}
-      <div>
-        <h3 className="font-ui font-semibold text-sm text-foreground mb-4">Pipeline & Trends</h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <GrainFunnelChart data={funnelData} title="Conversion Funnel"
-            subtitle="Funnel Chart – Sales Pipeline" height={280} />
-          <GrainTrendChart data={trendData} dataKeys={["v1", "v2", "v3"]} xKey="name"
-            title="Multi-Trend Vergleich" subtitle="Trend Chart – 3 Metriken über 8 Wochen"
-            showReferenceLine={500} height={280} />
-        </div>
-      </div>
-
-      {/* Row 6: Stacked Area + Stacked Bar */}
-      <div>
-        <h3 className="font-ui font-semibold text-sm text-foreground mb-4">Gestapelte Diagramme</h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <GrainStackedAreaChart data={stackedAreaData} dataKeys={["Mobile", "Desktop", "Tablet"]} xKey="name"
-            title="Stacked Area Chart" subtitle="Gerätenutzung über 6 Monate" height={260} />
-          <GrainStackedBarChart data={weeklyData} dataKeys={["Design", "Code", "Review"]} xKey="name"
-            title="Stacked Bar Chart" subtitle="Aufgaben-Verteilung pro Woche" height={260} />
-        </div>
-      </div>
-
-      {/* Row 7: Pie + Horizontal Bar */}
-      <div>
-        <h3 className="font-ui font-semibold text-sm text-foreground mb-4">Kreise & Horizontale Balken</h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <GrainDonutChart data={donutData} title="Pie Chart (ohne Donut-Loch)"
-            subtitle="Volle Kreisdarstellung" donut={false} height={260} />
+            title="Wöchentliche Aktivität" subtitle="Bar Chart · Gruppenvergleich · Design / Code / Review" height={260} />
           <GrainBarChart data={frameworkData} dataKeys={["Nutzung"]} xKey="name"
-            title="Horizontales Bar Chart" subtitle="Framework-Popularität"
+            title="Framework-Popularität" subtitle="Horizontales Bar Chart · Lesbarer bei langen Labels"
             horizontal height={260} />
         </div>
       </div>
 
-      {/* Tabelle */}
+      {/* ── Anteile und Zusammensetzung ── */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-ui font-semibold text-sm text-foreground">Daten-Tabelle</h3>
-          <GrainBadge variant="blue" size="sm" dot>{tableData.length} Einträge</GrainBadge>
+        <SectionHeader
+          number="Anteile"
+          title="Teile eines Ganzen"
+          description="Donut- und Pie-Charts zeigen prozentuale Verteilung. Donut eignet sich besser wenn eine Gesamtzahl im Mittelpunkt stehen soll. Gestapelte Charts zeigen Anteile über Zeit."
+          insight="Nicht mehr als 6 Segmente – sonst wird die Legende wichtiger als der Chart"
+        />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <GrainDonutChart data={donutData} title="Komponenten-Nutzung"
+            subtitle="Donut Chart · Gesamtzahl im Zentrum" innerLabel="Gesamt" innerValue={100} height={280} />
+          <GrainDonutChart data={donutData} title="Pie Chart (Vollkreis)"
+            subtitle="Ohne Donut-Loch · Für reine Anteilsdarstellung" donut={false} height={280} />
+          <GrainStackedAreaChart data={stackedAreaData} dataKeys={["Mobile", "Desktop", "Tablet"]} xKey="name"
+            title="Gerätenutzung über Zeit" subtitle="Stacked Area · Anteile + Gesamtentwicklung" height={280} />
         </div>
+      </div>
+
+      {/* ── Gestapelte Balken ── */}
+      <div>
+        <SectionHeader
+          number="Gestapelt"
+          title="Zusammensetzung je Kategorie"
+          description="Stacked Bar Charts zeigen sowohl den Gesamtwert als auch die Zusammensetzung. Ideal wenn die Frage lautet: 'Wie viel insgesamt, und woraus besteht es?'"
+        />
+        <GrainStackedBarChart data={weeklyData} dataKeys={["Design", "Code", "Review"]} xKey="name"
+          title="Aufgaben-Verteilung pro Woche" subtitle="Stacked Bar · Gesamtstunden + Zusammensetzung" height={260} />
+      </div>
+
+      {/* ── Vergleich & Verteilung ── */}
+      <div>
+        <SectionHeader
+          number="Vergleich"
+          title="Multi-dimensionale Analyse"
+          description="Radar Charts eignen sich für den Vergleich mehrerer Dimensionen gleichzeitig. Scatter Charts zeigen Korrelationen und Cluster in zweidimensionalen Datensätzen."
+          insight="Radar: maximal 8 Achsen · Scatter: mindestens 20 Datenpunkte für sinnvolle Muster"
+        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <GrainRadarChart data={radarData} dataKeys={["A", "B"]} angleKey="subject"
+            title="Performance-Radar" subtitle="Radar Chart · Projekt A vs. B · 6 Dimensionen" height={300} />
+          <GrainScatterChart data={scatterData} title="Korrelations-Analyse"
+            subtitle="Scatter Chart · Reichweite vs. Engagement · Cluster sichtbar" xLabel="Reichweite" yLabel="Engagement" height={300} />
+        </div>
+      </div>
+
+      {/* ── Pipeline & Fortschritt ── */}
+      <div>
+        <SectionHeader
+          number="Pipeline"
+          title="Prozesse und Fortschritt"
+          description="Funnel Charts visualisieren Conversion-Prozesse und zeigen den Verlust zwischen Stufen. Radial Bar Charts zeigen Fortschritt je Kategorie in kompakter Form."
+          insight="Funnel: Verlust zwischen Stufen ist oft wichtiger als die absoluten Zahlen"
+        />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <GrainFunnelChart data={funnelData} title="Sales Funnel"
+            subtitle="Funnel Chart · 10.000 Besucher → 620 Kunden (6.2%)" height={300} />
+          <GrainRadialBarChart data={radialData} title="Fortschritt je Kategorie"
+            subtitle="Radial Bar · Ringförmige Fortschrittsanzeige" height={300} />
+          <GrainComposedChart data={composedData} barKeys={["Budget", "Ausgaben"]} lineKeys={["Effizienz"]} xKey="name"
+            title="Budget vs. Effizienz" subtitle="Composed Chart · Bar + Line kombiniert" height={300} />
+        </div>
+      </div>
+
+      {/* ── Trend mit Referenzlinie ── */}
+      <div>
+        <SectionHeader
+          number="Trends"
+          title="Langzeit-Trends mit Zielwert"
+          description="Trend Charts mit Referenzlinie zeigen sofort: Liegt die Metrik über oder unter dem Ziel? Die gestrichelte Linie ist der Zielwert – alles darüber ist grün."
+          insight="Referenzlinien machen Abweichungen sofort sichtbar ohne Tabelle"
+        />
+        <GrainTrendChart data={trendData} dataKeys={["v1", "v2", "v3"]} xKey="name"
+          title="Multi-Trend Vergleich" subtitle="Trend Chart · 3 Metriken über 8 Wochen · Referenzlinie bei 500"
+          showReferenceLine={500} height={280} />
+      </div>
+
+      {/* ── Daten-Tabelle ── */}
+      <div>
+        <SectionHeader
+          number="Tabellen"
+          title="Strukturierte Daten"
+          description="Tabellen sind ideal wenn genaue Werte wichtig sind und Nutzer filtern, sortieren oder einzelne Zeilen vergleichen müssen. Charts zeigen Muster, Tabellen zeigen Fakten."
+          badge={`${tableData.length} Einträge`}
+          insight="Faustregel: Chart für Trends, Tabelle für exakte Werte"
+        />
         <GrainTable<TableRow>
           columns={[
-            { key: "name",      header: "Komponente",  render: (v) => <span className="font-mono text-xs font-semibold text-primary">{String(v)}</span> },
-            { key: "version",   header: "Version",     render: (v) => <span className="font-mono text-xs text-muted-foreground">{String(v)}</span> },
-            { key: "status",    header: "Status",      render: (v) => <GrainBadge variant={String(v) === "stable" ? "blue" : "coral"} size="sm" dot>{String(v)}</GrainBadge> },
-            { key: "downloads", header: "Downloads",   align: "right", render: (v) => <span className="font-mono text-xs font-semibold">{String(v)}</span> },
-            { key: "updated",   header: "Aktualisiert", align: "right", render: (v) => <span className="text-xs text-muted-foreground">{String(v)}</span> },
+            { key: "name",      header: "Komponente",    render: (v) => <span className="font-mono text-xs font-semibold text-primary">{String(v)}</span> },
+            { key: "version",   header: "Version",       render: (v) => <span className="font-mono text-xs text-muted-foreground">{String(v)}</span> },
+            { key: "status",    header: "Status",        render: (v) => <GrainBadge variant={String(v) === "stable" ? "blue" : "coral"} size="sm" dot>{String(v)}</GrainBadge> },
+            { key: "downloads", header: "Downloads",     align: "right", render: (v) => <span className="font-mono text-xs font-semibold">{String(v)}</span> },
+            { key: "updated",   header: "Aktualisiert",  align: "right", render: (v) => <span className="text-xs text-muted-foreground">{String(v)}</span> },
           ]}
           data={tableData} hoverable striped
+          caption="Grain UI Komponenten · Version 2.0.0 · Stand: August 2025"
         />
       </div>
 
-      {/* Chart Color Palette */}
+      {/* ── Farbpalette ── */}
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>Chart-Farbpalette</GrainCardTitle>
-          <p className="text-xs text-muted-foreground font-body mt-0.5">8 Farben aus der Grain-Palette für alle Visualisierungen</p>
+          <p className="text-xs text-muted-foreground font-body mt-0.5">
+            8 Farben aus der Grain-Palette · Konsistent über alle Visualisierungen · OKLCH-Farbraum für gleichmäßige Helligkeit
+          </p>
         </GrainCardHeader>
         <GrainCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             {[
-              { hex: GRAIN_HEX[0], name: "Blue" },
-              { hex: GRAIN_HEX[1], name: "Red" },
-              { hex: GRAIN_HEX[2], name: "Teal" },
-              { hex: GRAIN_HEX[3], name: "Amber" },
-              { hex: GRAIN_HEX[4], name: "Violet" },
-              { hex: GRAIN_HEX[5], name: "Green" },
-              { hex: GRAIN_HEX[6], name: "Pink" },
-              { hex: GRAIN_HEX[7], name: "Coral" },
-            ].map(({ hex, name }) => (
+              { hex: GRAIN_HEX[0], name: "Blue",   role: "Primär" },
+              { hex: GRAIN_HEX[1], name: "Red",    role: "Akzent" },
+              { hex: GRAIN_HEX[2], name: "Teal",   role: "Positiv" },
+              { hex: GRAIN_HEX[3], name: "Amber",  role: "Warnung" },
+              { hex: GRAIN_HEX[4], name: "Violet", role: "Sekundär" },
+              { hex: GRAIN_HEX[5], name: "Green",  role: "Erfolg" },
+              { hex: GRAIN_HEX[6], name: "Pink",   role: "Highlight" },
+              { hex: GRAIN_HEX[7], name: "Coral",  role: "Info" },
+            ].map(({ hex, name, role }) => (
               <div key={name} className="flex flex-col gap-2">
-                <div className="h-10 rounded-xl grain" style={{ background: hex }} />
+                <div className="h-12 rounded-xl grain shadow-sm" style={{ background: hex }} />
                 <div>
                   <p className="text-xs font-ui font-semibold text-foreground">{name}</p>
-                  <p className="text-[9px] font-mono text-muted-foreground">{hex}</p>
+                  <p className="text-[9px] font-mono text-muted-foreground">{role}</p>
                 </div>
               </div>
             ))}
+          </div>
+          {/* Farbpaletten-Erklärung */}
+          <div className="mt-4 p-3 rounded-xl bg-muted/50 border border-border">
+            <p className="text-[10px] font-semibold font-ui text-foreground mb-1">Warum OKLCH?</p>
+            <p className="text-[10px] font-body text-muted-foreground leading-relaxed">
+              OKLCH (Lightness, Chroma, Hue) garantiert gleichmäßige wahrgenommene Helligkeit über alle Farbtöne.
+              Das bedeutet: Blau und Rot bei gleicher L-Wert (0.42) wirken gleich hell – kein Farbton dominiert visuell.
+            </p>
           </div>
         </GrainCardContent>
       </GrainCard>

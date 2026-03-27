@@ -1,5 +1,5 @@
 /**
- * Grain UI – Hauptseite der Komponentenbibliothek
+ * Grain UI – Hauptseite der Komponentenbibliothek v3
  * Atmospheric Design System – inspiriert vom körnigen Gradienten-Bild
  *
  * Layout: Dunkle Sidebar (links) + Hauptinhalt (rechts)
@@ -17,9 +17,12 @@ import { FeedbackSection }    from "./sections/FeedbackSection";
 import { DataSection }        from "./sections/DataSection";
 import { NavigationSection }  from "./sections/NavigationSection";
 import { DashboardSection }   from "./sections/DashboardSection";
+import { IconsSection }       from "./sections/IconsSection";
+import { ColorSection }       from "./sections/ColorSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
-  FormInput, MessageSquare, BarChart2, Navigation, Menu, X, LayoutDashboard,
+  FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
+  LayoutDashboard, Shapes, Palette as Palette2,
 } from "lucide-react";
 
 /* ── Sidebar-Konfiguration ── */
@@ -27,30 +30,35 @@ const sidebarSections = [
   {
     title: "Start",
     items: [
-      { id: "home",        label: "Übersicht",        icon: <HomeIcon className="w-4 h-4" /> },
+      { id: "home", label: "Übersicht", description: "Alle Komponenten auf einen Blick", icon: <HomeIcon className="w-4 h-4" /> },
     ],
   },
   {
     title: "Design System",
     items: [
-      { id: "foundations", label: "Foundations",       icon: <Palette className="w-4 h-4" /> },
+      { id: "foundations", label: "Foundations",    description: "Farben, Typo, Patterns, Tokens",  icon: <Palette className="w-4 h-4" /> },
+      { id: "colors",      label: "Farbcodierung",  description: "Semantisches Datenfarbsystem",    icon: <Palette2 className="w-4 h-4" />, isNew: true },
+      { id: "icons",       label: "Icon-Set",       description: "150+ Icons, kategorisiert",       icon: <Shapes className="w-4 h-4" />, count: 150, isNew: true },
     ],
   },
   {
     title: "Komponenten",
     items: [
-      { id: "buttons",     label: "Buttons",           icon: <MousePointer2 className="w-4 h-4" /> },
-      { id: "cards",       label: "Cards & Surfaces",  icon: <LayoutGrid className="w-4 h-4" /> },
-      { id: "forms",       label: "Forms & Inputs",    icon: <FormInput className="w-4 h-4" /> },
-      { id: "feedback",    label: "Feedback & Overlay",icon: <MessageSquare className="w-4 h-4" />, isNew: true },
-      { id: "data",        label: "Data & Charts",     icon: <BarChart2 className="w-4 h-4" /> },
-      { id: "navigation",  label: "Navigation",        icon: <Navigation className="w-4 h-4" /> },
-      { id: "dashboard",   label: "Dashboard",          icon: <LayoutDashboard className="w-4 h-4" />, isNew: true },
+      { id: "buttons",    label: "Buttons",           description: "Aktionen & Interaktionen",    icon: <MousePointer2 className="w-4 h-4" />, count: 6 },
+      { id: "cards",      label: "Cards & Surfaces",  description: "Inhaltsflächen & Container",   icon: <LayoutGrid className="w-4 h-4" />,    count: 5 },
+      { id: "forms",      label: "Forms & Inputs",    description: "Eingabe & Validierung",        icon: <FormInput className="w-4 h-4" />,     count: 8 },
+      { id: "feedback",   label: "Feedback & Overlay",description: "Toast, Modal, Tooltip, Tabs",  icon: <MessageSquare className="w-4 h-4" />, count: 5 },
+      { id: "data",       label: "Data & Charts",     description: "12 Diagramm-Typen & Tabellen", icon: <BarChart2 className="w-4 h-4" />,     count: 12 },
+      { id: "navigation", label: "Navigation",        description: "Navbar, Breadcrumb, Tabs",     icon: <Navigation className="w-4 h-4" />,    count: 4 },
+    ],
+  },
+  {
+    title: "Templates",
+    items: [
+      { id: "dashboard",  label: "Dashboard",         description: "KPIs, Analytics, Bestellungen", icon: <LayoutDashboard className="w-4 h-4" />, isNew: true },
     ],
   },
 ];
-
-const sectionMap: Record<string, React.ReactNode> = {};
 
 export default function Home() {
   const [activeId, setActiveId] = useState("home");
@@ -66,6 +74,8 @@ export default function Home() {
     switch (activeId) {
       case "home":        return <HeroSection onNavigate={navigate} />;
       case "foundations": return <FoundationsSection />;
+      case "colors":      return <ColorSection />;
+      case "icons":       return <IconsSection />;
       case "buttons":     return <ButtonsSection />;
       case "cards":       return <CardsSection />;
       case "forms":       return <FormsSection />;
@@ -77,6 +87,34 @@ export default function Home() {
     }
   };
 
+  /* ── Logo-Element ── */
+  const Logo = ({ showClose = false }: { showClose?: boolean }) => (
+    <div className="flex items-center justify-between w-full">
+      <div className="flex items-center gap-2.5">
+        <div className="relative w-8 h-8 rounded-xl overflow-hidden grain flex-shrink-0">
+          <div className="absolute inset-0" style={{
+            background: "linear-gradient(135deg, oklch(0.45 0.31 268), oklch(0.40 0.28 285) 50%, oklch(0.55 0.30 27))"
+          }} />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="font-display font-black text-white text-sm relative z-10">G</span>
+          </div>
+        </div>
+        <div>
+          <p className="font-display font-bold text-sm text-sidebar-foreground leading-tight">Grain UI</p>
+          <p className="text-[0.6rem] font-mono text-sidebar-foreground/40 leading-tight">Component Library v3</p>
+        </div>
+      </div>
+      {showClose && (
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="w-7 h-7 flex items-center justify-center rounded-lg text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      )}
+    </div>
+  );
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* ── Desktop Sidebar ── */}
@@ -85,21 +123,7 @@ export default function Home() {
           sections={sidebarSections}
           activeId={activeId}
           onSelect={navigate}
-          logo={
-            <div className="flex items-center gap-2.5">
-              {/* Logo: reiner CSS-Code, kein Bild */}
-              <div className="relative w-8 h-8 rounded-xl overflow-hidden grain flex-shrink-0">
-                <div className="absolute inset-0 bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))]" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display font-black text-white text-sm relative z-10">G</span>
-                </div>
-              </div>
-              <div>
-                <p className="font-display font-bold text-sm text-sidebar-foreground leading-tight">Grain UI</p>
-                <p className="text-[0.6rem] font-mono text-sidebar-foreground/40 leading-tight">Component Library</p>
-              </div>
-            </div>
-          }
+          logo={<Logo />}
         />
       </div>
 
@@ -115,25 +139,7 @@ export default function Home() {
               sections={sidebarSections}
               activeId={activeId}
               onSelect={navigate}
-              logo={
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-2.5">
-                    <div className="relative w-8 h-8 rounded-xl overflow-hidden grain flex-shrink-0">
-                      <div className="absolute inset-0 bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))]" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="font-display font-black text-white text-sm relative z-10">G</span>
-                      </div>
-                    </div>
-                    <p className="font-display font-bold text-sm text-sidebar-foreground">Grain UI</p>
-                  </div>
-                  <button
-                    onClick={() => setMobileOpen(false)}
-                    className="w-7 h-7 flex items-center justify-center rounded-lg text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              }
+              logo={<Logo showClose />}
             />
           </div>
         </div>
@@ -151,7 +157,9 @@ export default function Home() {
           </button>
           <div className="flex items-center gap-2">
             <div className="relative w-6 h-6 rounded-lg overflow-hidden grain flex-shrink-0">
-              <div className="absolute inset-0 bg-[linear-gradient(135deg,oklch(0.42_0.22_268),oklch(0.52_0.26_27))]" />
+              <div className="absolute inset-0" style={{
+                background: "linear-gradient(135deg, oklch(0.45 0.31 268), oklch(0.55 0.30 27))"
+              }} />
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-display font-black text-white text-[0.6rem] relative z-10">G</span>
               </div>

@@ -1,19 +1,26 @@
 /**
- * Grain UI – Global Styles v2
- * Design Philosophy: Atmospheric Grain
- * Fonts: Syne (Display) · Space Grotesk (UI) · Plus Jakarta Sans (Body) · JetBrains Mono (Code)
- * Colors: Grain Blue #4A35D4 · Grain Red #E8150E · Warm White · Deep Indigo
+ * Grain UI – Global Styles v3
+ * Design Philosophy: Atmospheric Grain · Clarity First
+ *
+ * TYPOGRAFIE-SYSTEM (Lesbarkeit als Designprinzip):
+ *   Display:  Bricolage Grotesque — Expressiv, hohe x-Höhe, klar lesbar
+ *   UI:       DM Sans — Neutral, optimiert für Interface-Text & Labels
+ *   Body:     Lora — Humanistisch, warm, ideal für Fließtext
+ *   Mono:     JetBrains Mono — Ligatures, klare Zeichenunterscheidung
+ *
+ * SEMANTISCHES FARBSYSTEM (Datenkommunikation):
+ *   Positiv:  Grün  — Wachstum, Erfolg, über Ziel
+ *   Negativ:  Rot   — Verlust, Fehler, unter Ziel
+ *   Warnung:  Amber — Aufmerksamkeit, knapp, Risiko
+ *   Info:     Blau  — Neutral, Information, Kontext
+ *   Kritisch: Violett — Dringend, Eskalation
+ *   Neutral:  Grau  — Stabil, keine Veränderung
  */
 
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
-/* ═══════════════════════════════════════════════════════
-   GOOGLE FONTS
-═══════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ═══════════════════════════════════════════════════════
    THEME TOKENS
@@ -25,6 +32,7 @@
   --radius-xl:  calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
 
+  /* Semantic UI Colors */
   --color-background:              var(--background);
   --color-foreground:              var(--foreground);
   --color-card:                    var(--card);
@@ -51,6 +59,37 @@
   --color-grain-violet:  var(--grain-violet);
   --color-grain-coral:   var(--grain-coral);
 
+  /* ── Semantisches Datenfarbsystem ── */
+  --color-data-positive:          var(--data-positive);
+  --color-data-positive-fg:       var(--data-positive-fg);
+  --color-data-positive-bg:       var(--data-positive-bg);
+  --color-data-positive-border:   var(--data-positive-border);
+
+  --color-data-negative:          var(--data-negative);
+  --color-data-negative-fg:       var(--data-negative-fg);
+  --color-data-negative-bg:       var(--data-negative-bg);
+  --color-data-negative-border:   var(--data-negative-border);
+
+  --color-data-warning:           var(--data-warning);
+  --color-data-warning-fg:        var(--data-warning-fg);
+  --color-data-warning-bg:        var(--data-warning-bg);
+  --color-data-warning-border:    var(--data-warning-border);
+
+  --color-data-info:              var(--data-info);
+  --color-data-info-fg:           var(--data-info-fg);
+  --color-data-info-bg:           var(--data-info-bg);
+  --color-data-info-border:       var(--data-info-border);
+
+  --color-data-critical:          var(--data-critical);
+  --color-data-critical-fg:       var(--data-critical-fg);
+  --color-data-critical-bg:       var(--data-critical-bg);
+  --color-data-critical-border:   var(--data-critical-border);
+
+  --color-data-neutral:           var(--data-neutral);
+  --color-data-neutral-fg:        var(--data-neutral-fg);
+  --color-data-neutral-bg:        var(--data-neutral-bg);
+  --color-data-neutral-border:    var(--data-neutral-border);
+
   /* Chart Colors */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -59,10 +98,10 @@
   --color-chart-5: var(--chart-5);
 
   /* Font Families */
-  --font-display: "Syne", system-ui, sans-serif;
-  --font-ui:      "Space Grotesk", system-ui, sans-serif;
-  --font-body:    "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-mono:    "JetBrains Mono", monospace;
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-ui:      "DM Sans", system-ui, sans-serif;
+  --font-body:    "Lora", Georgia, serif;
+  --font-mono:    "JetBrains Mono", "Fira Code", monospace;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -71,49 +110,93 @@
 :root {
   --radius: 0.75rem;
 
-  /* Brand */
-  --grain-blue:   oklch(0.42 0.22 268);
-  --grain-red:    oklch(0.52 0.26 27);
-  --grain-violet: oklch(0.36 0.20 285);
-  --grain-coral:  oklch(0.68 0.18 28);
+  /* Brand — intensivierte Farben (höhere Chroma) */
+  --grain-blue:   oklch(0.45 0.31 268);   /* Leuchtendes Kobalt-Blau */
+  --grain-red:    oklch(0.55 0.30 27);    /* Leuchtendes Signalrot */
+  --grain-violet: oklch(0.40 0.28 285);   /* Tiefes Violett */
+  --grain-coral:  oklch(0.72 0.22 28);    /* Leuchtendes Coral */
 
-  /* Semantic */
+  /* Semantic UI */
   --background:            oklch(0.985 0.003 268);
   --foreground:            oklch(0.14 0.025 268);
   --card:                  oklch(1 0 0);
   --card-foreground:       oklch(0.14 0.025 268);
   --popover:               oklch(1 0 0);
   --popover-foreground:    oklch(0.14 0.025 268);
-  --primary:               oklch(0.42 0.22 268);
+  --primary:               oklch(0.45 0.31 268);
   --primary-foreground:    oklch(0.98 0 0);
   --secondary:             oklch(0.96 0.006 268);
   --secondary-foreground:  oklch(0.30 0.025 268);
   --muted:                 oklch(0.96 0.006 268);
-  --muted-foreground:      oklch(0.52 0.04 268);
+  --muted-foreground:      oklch(0.50 0.04 268);
   --accent:                oklch(0.94 0.010 268);
   --accent-foreground:     oklch(0.14 0.025 268);
-  --destructive:           oklch(0.52 0.26 27);
+  --destructive:           oklch(0.55 0.30 27);
   --destructive-foreground:oklch(0.98 0 0);
   --border:                oklch(0.90 0.010 268);
   --input:                 oklch(0.90 0.010 268);
-  --ring:                  oklch(0.42 0.22 268);
+  --ring:                  oklch(0.45 0.31 268);
 
-  /* Charts */
-  --chart-1: oklch(0.42 0.22 268);
-  --chart-2: oklch(0.52 0.26 27);
-  --chart-3: oklch(0.58 0.16 195);
-  --chart-4: oklch(0.72 0.18 75);
-  --chart-5: oklch(0.36 0.20 285);
+  /* ── Semantisches Datenfarbsystem ──
+     Jede Farbe hat 4 Ebenen:
+     - Hauptfarbe (Text, Icons, Linien in Charts)
+     - Foreground (Text auf farbigem Hintergrund)
+     - Background (Hintergrund für Badges, Tags, Highlights)
+     - Border (Rahmen für Cards, Inputs)
+  */
+
+  /* POSITIV: Wachstum, Erfolg, über Ziel, Gewinn */
+  --data-positive:        oklch(0.52 0.22 148);   /* Leuchtendes Smaragd-Grün */
+  --data-positive-fg:     oklch(0.98 0 0);
+  --data-positive-bg:     oklch(0.95 0.08 148);
+  --data-positive-border: oklch(0.80 0.14 148);
+
+  /* NEGATIV: Verlust, Fehler, unter Ziel, Rückgang */
+  --data-negative:        oklch(0.55 0.30 27);    /* Leuchtendes Signalrot */
+  --data-negative-fg:     oklch(0.98 0 0);
+  --data-negative-bg:     oklch(0.96 0.08 27);
+  --data-negative-border: oklch(0.82 0.16 27);
+
+  /* WARNUNG: Aufmerksamkeit, knapp am Ziel, Risiko */
+  --data-warning:         oklch(0.68 0.22 72);    /* Leuchtendes Amber */
+  --data-warning-fg:      oklch(0.18 0.04 72);
+  --data-warning-bg:      oklch(0.96 0.09 80);
+  --data-warning-border:  oklch(0.82 0.16 75);
+
+  /* INFO: Neutral, Information, Kontext, Hinweis */
+  --data-info:            oklch(0.45 0.31 268);   /* Leuchtendes Kobalt-Blau */
+  --data-info-fg:         oklch(0.98 0 0);
+  --data-info-bg:         oklch(0.94 0.08 268);
+  --data-info-border:     oklch(0.80 0.14 268);
+
+  /* KRITISCH: Dringend, Eskalation, sofortiger Handlungsbedarf */
+  --data-critical:        oklch(0.40 0.28 285);   /* Leuchtendes Violett */
+  --data-critical-fg:     oklch(0.98 0 0);
+  --data-critical-bg:     oklch(0.94 0.08 285);
+  --data-critical-border: oklch(0.78 0.14 285);
+
+  /* NEUTRAL: Stabil, keine Veränderung, unbekannt */
+  --data-neutral:         oklch(0.50 0.02 268);
+  --data-neutral-fg:      oklch(0.98 0 0);
+  --data-neutral-bg:      oklch(0.94 0.005 268);
+  --data-neutral-border:  oklch(0.86 0.005 268);
+
+  /* Charts — leuchtende Palette */
+  --chart-1: oklch(0.45 0.31 268);   /* Kobalt-Blau */
+  --chart-2: oklch(0.55 0.30 27);    /* Signalrot */
+  --chart-3: oklch(0.52 0.22 148);   /* Smaragd-Grün */
+  --chart-4: oklch(0.68 0.22 72);    /* Amber-Orange */
+  --chart-5: oklch(0.40 0.28 285);   /* Violett */
 
   /* Sidebar */
   --sidebar:                   oklch(0.975 0.005 268);
   --sidebar-foreground:        oklch(0.14 0.025 268);
-  --sidebar-primary:           oklch(0.42 0.22 268);
+  --sidebar-primary:           oklch(0.45 0.31 268);
   --sidebar-primary-foreground:oklch(0.98 0 0);
   --sidebar-accent:            oklch(0.94 0.010 268);
   --sidebar-accent-foreground: oklch(0.14 0.025 268);
   --sidebar-border:            oklch(0.90 0.010 268);
-  --sidebar-ring:              oklch(0.42 0.22 268);
+  --sidebar-ring:              oklch(0.45 0.31 268);
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -129,24 +212,49 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    font-family: var(--font-ui);   /* DM Sans als Standard – besser lesbar als Serif für UI */
     font-size: 15px;
-    line-height: 1.6;
+    line-height: 1.65;
+    font-optical-sizing: auto;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  /* Display-Überschriften: Bricolage Grotesque */
+  h1, h2 {
     font-family: var(--font-display);
     font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  /* Abschnitts-Überschriften: DM Sans – besser lesbar */
+  h3, h4 {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  h5, h6 {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  /* Fließtext: Lora für längere Absätze */
+  p {
+    font-family: var(--font-ui);
+    line-height: 1.7;
   }
 
   code, pre, kbd, samp {
     font-family: var(--font-mono);
+    font-feature-settings: "liga" 1, "calt" 1;
   }
 
   button:not(:disabled),
@@ -162,14 +270,14 @@
     color: oklch(0.14 0.025 268);
   }
 
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: oklch(0.42 0.22 268 / 0.25);
+    background: oklch(0.42 0.22 268 / 0.22);
     border-radius: 99px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.42 0.22 268 / 0.45);
+    background: oklch(0.42 0.22 268 / 0.40);
   }
 }
 
@@ -196,6 +304,136 @@
   .font-ui      { font-family: var(--font-ui); }
   .font-body    { font-family: var(--font-body); }
   .font-mono    { font-family: var(--font-mono); }
+
+  /* ── Typografie-Skala ── */
+  /* Klare Hierarchie: Display → Heading → Label → Body → Caption */
+  .text-display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+  .text-display-lg {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+  }
+  .text-display-md {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+  .text-heading {
+    font-family: var(--font-ui);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .text-label {
+    font-family: var(--font-ui);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.005em;
+  }
+  .text-body {
+    font-family: var(--font-ui);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  .text-body-serif {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.75;
+  }
+  .text-caption {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
+  .text-overline {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* ── Semantische Datenfarben – Utility-Klassen ── */
+
+  /* Positiv */
+  .data-positive         { color: var(--data-positive); }
+  .data-positive-bg      { background-color: var(--data-positive-bg); color: var(--data-positive); border-color: var(--data-positive-border); }
+  .data-positive-solid   { background-color: var(--data-positive); color: var(--data-positive-fg); }
+
+  /* Negativ */
+  .data-negative         { color: var(--data-negative); }
+  .data-negative-bg      { background-color: var(--data-negative-bg); color: var(--data-negative); border-color: var(--data-negative-border); }
+  .data-negative-solid   { background-color: var(--data-negative); color: var(--data-negative-fg); }
+
+  /* Warnung */
+  .data-warning          { color: var(--data-warning); }
+  .data-warning-bg       { background-color: var(--data-warning-bg); color: var(--data-warning); border-color: var(--data-warning-border); }
+  .data-warning-solid    { background-color: var(--data-warning); color: var(--data-warning-fg); }
+
+  /* Info */
+  .data-info             { color: var(--data-info); }
+  .data-info-bg          { background-color: var(--data-info-bg); color: var(--data-info); border-color: var(--data-info-border); }
+  .data-info-solid       { background-color: var(--data-info); color: var(--data-info-fg); }
+
+  /* Kritisch */
+  .data-critical         { color: var(--data-critical); }
+  .data-critical-bg      { background-color: var(--data-critical-bg); color: var(--data-critical); border-color: var(--data-critical-border); }
+  .data-critical-solid   { background-color: var(--data-critical); color: var(--data-critical-fg); }
+
+  /* Neutral */
+  .data-neutral          { color: var(--data-neutral); }
+  .data-neutral-bg       { background-color: var(--data-neutral-bg); color: var(--data-neutral); border-color: var(--data-neutral-border); }
+  .data-neutral-solid    { background-color: var(--data-neutral); color: var(--data-neutral-fg); }
+
+  /* ── Delta-Anzeige (Veränderung) ── */
+  /* Kompakte Komponente für +/-% Anzeigen */
+  .delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+  }
+  .delta-positive {
+    background-color: var(--data-positive-bg);
+    color: var(--data-positive);
+    border-color: var(--data-positive-border);
+  }
+  .delta-negative {
+    background-color: var(--data-negative-bg);
+    color: var(--data-negative);
+    border-color: var(--data-negative-border);
+  }
+  .delta-warning {
+    background-color: var(--data-warning-bg);
+    color: var(--data-warning);
+    border-color: var(--data-warning-border);
+  }
+  .delta-neutral {
+    background-color: var(--data-neutral-bg);
+    color: var(--data-neutral);
+    border-color: var(--data-neutral-border);
+  }
 
   /* ── Grain Texture ── */
   .grain {
@@ -235,36 +473,24 @@
   }
 
   /* ── Brand Gradient Backgrounds ── */
-  .bg-grain-blue {
-    background: oklch(0.42 0.22 268);
-  }
-  .bg-grain-red {
-    background: oklch(0.52 0.26 27);
-  }
-  .bg-grain-violet {
-    background: oklch(0.36 0.20 285);
-  }
+  .bg-grain-blue    { background: oklch(0.45 0.31 268); }
+  .bg-grain-red     { background: oklch(0.55 0.30 27); }
+  .bg-grain-violet  { background: oklch(0.40 0.28 285); }
+  .bg-grain-coral   { background: oklch(0.72 0.22 28); }
   .bg-grain-gradient {
     background: linear-gradient(135deg,
-      oklch(0.42 0.22 268) 0%,
-      oklch(0.36 0.20 285) 45%,
-      oklch(0.52 0.26 27) 100%
+      oklch(0.45 0.31 268) 0%,
+      oklch(0.40 0.28 285) 45%,
+      oklch(0.55 0.30 27) 100%
     );
   }
-  .bg-grain-white {
-    background: oklch(0.975 0.005 80);
-  }
-  .bg-grain-coral {
-    background: oklch(0.68 0.18 28);
-  }
-  .bg-grain-subtle {
-    background: oklch(0.975 0.005 268);
-  }
+  .bg-grain-white   { background: oklch(0.975 0.005 80); }
+  .bg-grain-subtle  { background: oklch(0.975 0.005 268); }
   .bg-grain-hero {
     background:
-      radial-gradient(ellipse 90% 70% at 20% 90%, oklch(0.52 0.26 27 / 0.22) 0%, transparent 50%),
-      radial-gradient(ellipse 80% 80% at 80% 10%, oklch(0.42 0.22 268 / 0.28) 0%, transparent 50%),
-      radial-gradient(ellipse 60% 60% at 50% 50%, oklch(0.36 0.20 285 / 0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 90% 70% at 20% 90%, oklch(0.55 0.30 27 / 0.28) 0%, transparent 50%),
+      radial-gradient(ellipse 80% 80% at 80% 10%, oklch(0.45 0.31 268 / 0.32) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 60% at 50% 50%, oklch(0.40 0.28 285 / 0.14) 0%, transparent 60%),
       oklch(0.985 0.003 268);
   }
   .bg-grain-gradient-soft {
@@ -274,8 +500,6 @@
       oklch(0.52 0.26 27 / 0.10) 100%
     );
   }
-
-  /* ── Atmospheric Background ── */
   .bg-atmospheric {
     background:
       radial-gradient(ellipse 80% 60% at 15% 85%, oklch(0.52 0.26 27 / 0.18) 0%, transparent 55%),
@@ -331,28 +555,28 @@
   /* ── Section Label ── */
   .section-label {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: oklch(0.42 0.22 268);
+    color: oklch(0.45 0.31 268);
   }
 
   /* ── Gradient Text ── */
   .text-gradient-fire {
-    background: linear-gradient(135deg, oklch(0.42 0.22 268) 0%, oklch(0.36 0.20 285) 40%, oklch(0.52 0.26 27) 100%);
+    background: linear-gradient(135deg, oklch(0.45 0.31 268) 0%, oklch(0.40 0.28 285) 40%, oklch(0.55 0.30 27) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .text-gradient {
-    background: linear-gradient(135deg, oklch(0.42 0.22 268), oklch(0.52 0.26 27));
+    background: linear-gradient(135deg, oklch(0.45 0.31 268), oklch(0.55 0.30 27));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .text-gradient-blue {
-    background: linear-gradient(135deg, oklch(0.42 0.22 268), oklch(0.36 0.20 285));
+    background: linear-gradient(135deg, oklch(0.45 0.31 268), oklch(0.40 0.28 285));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -360,13 +584,16 @@
 
   /* ── Glow Effects ── */
   .glow-blue {
-    box-shadow: 0 0 24px oklch(0.42 0.22 268 / 0.35), 0 0 48px oklch(0.42 0.22 268 / 0.15);
+    box-shadow: 0 0 28px oklch(0.45 0.31 268 / 0.45), 0 0 56px oklch(0.45 0.31 268 / 0.20);
   }
   .glow-red {
-    box-shadow: 0 0 24px oklch(0.52 0.26 27 / 0.35), 0 0 48px oklch(0.52 0.26 27 / 0.15);
+    box-shadow: 0 0 28px oklch(0.55 0.30 27 / 0.45), 0 0 56px oklch(0.55 0.30 27 / 0.20);
+  }
+  .glow-violet {
+    box-shadow: 0 0 28px oklch(0.40 0.28 285 / 0.45), 0 0 56px oklch(0.40 0.28 285 / 0.20);
   }
 
-  /* ── Breathe Animation ── */
+  /* ── Animations ── */
   @keyframes breathe {
     0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.8; }
     33% { transform: scale(1.08) translate(2%, -2%); opacity: 1; }
@@ -376,7 +603,6 @@
   .animate-breathe.delay-100 { animation-delay: -2.5s; }
   .animate-breathe.delay-200 { animation-delay: -5s; }
 
-  /* ── Animated Grain Background ── */
   @keyframes grain-shift {
     0%, 100% { transform: translate(0, 0); }
     10% { transform: translate(-2%, -3%); }
@@ -389,12 +615,8 @@
     80% { transform: translate(1%, -2%); }
     90% { transform: translate(3%, 4%); }
   }
+  .grain-animated::after { animation: grain-shift 8s steps(1) infinite; }
 
-  .grain-animated::after {
-    animation: grain-shift 8s steps(1) infinite;
-  }
-
-  /* ── Fade In Animations ── */
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -407,12 +629,16 @@
     from { opacity: 0; transform: scale(0.94); }
     to   { opacity: 1; transform: scale(1); }
   }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
 
-  .animate-fade-up    { animation: fade-up 0.5s ease-out both; }
-  .animate-fade-in    { animation: fade-in 0.4s ease-out both; }
-  .animate-scale-in   { animation: scale-in 0.35s ease-out both; }
+  .animate-fade-up  { animation: fade-up 0.5s ease-out both; }
+  .animate-fade-in  { animation: fade-in 0.4s ease-out both; }
+  .animate-scale-in { animation: scale-in 0.35s ease-out both; }
+  .animate-pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
 
-  /* ── Stagger delays ── */
   .delay-75  { animation-delay: 75ms; }
   .delay-150 { animation-delay: 150ms; }
   .delay-225 { animation-delay: 225ms; }
@@ -454,10 +680,7 @@
   }
 
   /* ── Sidebar Layout ── */
-  .sidebar-layout {
-    display: flex;
-    min-height: 100vh;
-  }
+  .sidebar-layout { display: flex; min-height: 100vh; }
   .sidebar-panel {
     width: 240px;
     flex-shrink: 0;
@@ -466,9 +689,5 @@
     height: 100vh;
     overflow-y: auto;
   }
-  .main-content {
-    flex: 1;
-    min-width: 0;
-    overflow-x: hidden;
-  }
+  .main-content { flex: 1; min-width: 0; overflow-x: hidden; }
 }
