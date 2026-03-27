@@ -18,6 +18,7 @@ import { IconsSection }       from "./sections/IconsSection";
 import { ColorSection }       from "./sections/ColorSection";
 import OperatingPrincipleSection from "./sections/OperatingPrincipleSection";
 import { BackgroundsSection } from "./sections/BackgroundsSection";
+import SignetSection from "./sections/SignetSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
@@ -39,6 +40,7 @@ const sidebarSections = [
       { id: "colors",      label: "Farbcodierung",  description: "Semantisches Datenfarbsystem",    icon: <Palette2 className="w-4 h-4" />, isNew: true },
       { id: "icons",       label: "Icon-Set",       description: "150+ Icons, kategorisiert",       icon: <Shapes className="w-4 h-4" />, count: 150, isNew: true },
       { id: "backgrounds", label: "Hintergründe",    description: "Patterns, Verläufe, Grain",          icon: <Layers className="w-4 h-4" />, isNew: true },
+      { id: "signet",      label: ">_ Signet",       description: "Markenzeichen & Anwendungsregeln",  icon: <GrainCursor size="xs" color="black" animated={false} showBar={false} />, isNew: true },
     ],
   },
   {
@@ -86,6 +88,7 @@ export default function Home() {
       case "dashboard":   return <DashboardSection />;
       case "op":          return <OperatingPrincipleSection />;
       case "backgrounds": return <BackgroundsSection />;
+      case "signet":      return <SignetSection />;
       default:            return <HeroSection onNavigate={navigate} />;
     }
   };
