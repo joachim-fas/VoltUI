@@ -346,7 +346,7 @@ export const DataSection: React.FC = () => {
                 <div className="relative z-10">
                   <div className="flex items-start justify-between mb-3">
                     <span className={`text-[0.6rem] font-mono font-semibold uppercase tracking-[0.14em] ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]/60' : 'text-white/60') : "text-muted-foreground"}`}>{kpi.label}</span>
-                    <div className={`w-7 h-7 rounded-xl flex items-center justify-center ${(kpi as any).colorClass ? "bg-white/15" : "bg-primary/10 text-primary"}`}>{kpi.icon}</div>
+                    <div className={`w-7 h-7 rounded-xl flex items-center justify-center ${(kpi as any).colorClass ? "bg-white/15" : "bg-foreground/10 text-foreground"}`}>{kpi.icon}</div>
                   </div>
                   <p className={`font-display font-black text-3xl leading-none tracking-tight mb-1.5 ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]' : 'text-white') : "text-foreground"}`}>{kpi.value}</p>
                   <div className={`flex items-center gap-1 mb-2 ${kpi.colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]/70' : 'text-white/80') : kpi.change > 0 ? "text-[#0F6038]" : kpi.change < 0 ? "text-[#A01A08]" : "text-muted-foreground"}`}>
@@ -482,7 +482,7 @@ export const DataSection: React.FC = () => {
         />
         <GrainTable<TableRow>
           columns={[
-            { key: "name",      header: "Komponente",    render: (v) => <span className="font-mono text-xs font-semibold text-primary">{String(v)}</span> },
+            { key: "name",      header: "Komponente",    render: (v) => <span className="font-mono text-xs font-semibold text-foreground">{String(v)}</span> },
             { key: "version",   header: "Version",       render: (v) => <span className="font-mono text-xs text-muted-foreground">{String(v)}</span> },
             { key: "status",    header: "Status",        render: (v) => <GrainBadge variant={String(v) === "stable" ? "blue" : "coral"} size="sm" dot>{String(v)}</GrainBadge> },
             { key: "downloads", header: "Downloads",     align: "right", render: (v) => <span className="font-mono text-xs font-semibold">{String(v)}</span> },

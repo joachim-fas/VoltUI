@@ -48,14 +48,14 @@ export const GRAIN_NEON = [
 
 /** Pastell-Palette: exakt nach Vorgabe – 8 harmonische Töne */
 export const GRAIN_PASTEL = [
-  "#FFD6E0", // Rose Quartz
-  "#FFECD2", // Peach Cream
-  "#C3F4D3", // Mint Green
-  "#FDE2FF", // Soft Orchid
-  "#D4E8FF", // Baby Blue
-  "#FFF5BA", // Butter Yellow
-  "#FFE0CC", // Powder Orange
-  "#D6F5F5", // Aqua Mist
+  "#F4A0B5", // Rose Quartz – gesättigt
+  "#F5C87A", // Peach Cream – gesättigt
+  "#6DDBA0", // Mint Green – gesättigt
+  "#D98AE8", // Soft Orchid – gesättigt
+  "#7AB8F5", // Baby Blue – gesättigt
+  "#E8C840", // Butter Yellow – gesättigt
+  "#F0956A", // Powder Orange – gesättigt
+  "#5ECECE", // Aqua Mist – gesättigt
 ];
 
 export const GRAIN_CHART_COLORS = GRAIN_HEX; // backwards compat
@@ -135,7 +135,7 @@ export const GrainAreaChart: React.FC<GrainAreaChartProps> = ({
         <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {dataKeys.map((key, i) => (
           <Area key={key} type="monotone" dataKey={key}
             stackId={stacked ? "s" : undefined}
@@ -185,7 +185,7 @@ export const GrainBarChart: React.FC<GrainBarChartProps> = ({
           </>
         )}
         <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {dataKeys.map((key, i) => (
           <Bar key={key} dataKey={key} stackId={stacked ? "s" : undefined}
             fill={colors[i % colors.length]}
@@ -218,7 +218,7 @@ export const GrainLineChart: React.FC<GrainLineChartProps> = ({
         <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {dataKeys.map((key, i) => (
           <Line key={key} type={curved ? "monotone" : "linear"} dataKey={key}
             stroke={GRAIN_HEX[i % GRAIN_HEX.length]} strokeWidth={2.5}
@@ -254,7 +254,7 @@ export const GrainDonutChart: React.FC<GrainDonutChartProps> = ({
           {data.map((_, i) => <Cell key={i} fill={GRAIN_HEX[i % GRAIN_HEX.length]} />)}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
-        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {donut && innerLabel && (
           <text x="50%" y="44%" textAnchor="middle" dominantBaseline="middle"
             style={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}>{innerLabel}</text>
@@ -288,7 +288,7 @@ export const GrainRadarChart: React.FC<GrainRadarChartProps> = ({
         <PolarAngleAxis dataKey={angleKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} />
         <PolarRadiusAxis tick={{ fontSize: 9, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {dataKeys.map((key, i) => (
           <Radar key={key} name={key} dataKey={key}
             stroke={GRAIN_HEX[i % GRAIN_HEX.length]} fill={GRAIN_HEX[i % GRAIN_HEX.length]}
@@ -347,7 +347,7 @@ export const GrainComposedChart: React.FC<GrainComposedChartProps> = ({
         <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {barKeys.map((key, i) => (
           <Bar key={key} dataKey={key} fill={GRAIN_HEX[i % GRAIN_HEX.length]} radius={[4,4,0,0]} maxBarSize={40} fillOpacity={0.85} />
         ))}
@@ -381,7 +381,7 @@ export const GrainRadialBarChart: React.FC<GrainRadialBarChartProps> = ({
           <PolarGrid gridType="circle" stroke="var(--border)" />
           <RadialBar dataKey="value" cornerRadius={4} background={{ fill: "var(--muted)" }} />
           <Tooltip content={<CustomTooltip />} />
-          <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+          <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         </RadialBarChart>
       </ResponsiveContainer>
     </ChartWrapper>
@@ -436,7 +436,7 @@ export const GrainTrendChart: React.FC<GrainTrendChartProps> = ({
         <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {showReferenceLine !== undefined && (
           <ReferenceLine y={showReferenceLine} stroke="var(--border)" strokeDasharray="4 4" />
         )}

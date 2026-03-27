@@ -88,7 +88,7 @@ const Stepper: React.FC<{ current: number }> = ({ current }) => (
             </div>
             <span className={cn(
               "text-xs font-semibold font-body whitespace-nowrap",
-              active ? "text-primary" : done ? "text-foreground" : "text-muted-foreground"
+              active ? "text-[#000000] font-bold" : done ? "text-foreground" : "text-muted-foreground"
             )}>
               {step}
             </span>

@@ -55,7 +55,7 @@ export const CardsSection: React.FC = () => {
               <GrainCardHeader>
                 <div className="flex items-center justify-between">
                   <GrainBadge variant="glass" size="sm">Glass</GrainBadge>
-                  <Sparkles className="w-4 h-4 text-primary" />
+                  <Sparkles className="w-4 h-4 text-foreground" />
                 </div>
                 <GrainCardTitle>Glass Card</GrainCardTitle>
                 <GrainCardDescription>
@@ -236,7 +236,7 @@ export const CardsSection: React.FC = () => {
             <div className="text-center py-8 text-muted-foreground font-body text-sm">
               Alle Alerts wurden geschlossen.{" "}
               <button
-                className="text-primary font-semibold hover:underline"
+                className="text-foreground font-semibold hover:underline underline-offset-2"
                 onClick={() => setAlerts({ info: true, success: true, warning: true, error: true })}
               >
                 Zurücksetzen
