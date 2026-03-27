@@ -57,10 +57,12 @@ const gradients = [
 ];
 
 const themes = [
-  { id: "grain",  label: "Grain Original",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
-  { id: "copper", label: "Oxidized Copper", desc: "Patiniertes Petrol-Grün + Terrakotta + Elfenbein. Materiell, industriell.", light: "#4A8C6A", dark: "#C87A40" },
-  { id: "ink",    label: "Midnight Ink",    desc: "Tiefschwarz + Chartreuse. Maximaler Kontrast, futuristisch, editorial.", light: "#1A1A2E", dark: "#C8F060" },
-  { id: "loam",   label: "Loam & Ember",    desc: "Warmes Dunkelbraun + Bernstein. Geerdet, warm, premium.", light: "#4A3828", dark: "#D4A020" },
+  { id: "grain",   label: "Grain Primary",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Die Primärpalette – klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
+  { id: "rose",    label: "Grain Rose",     desc: "Rose #F9D0D0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#F9D0D0", dark: "#0A0A0A" },
+  { id: "mint",    label: "Grain Mint",     desc: "Mint #C8F0E0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#C8F0E0", dark: "#0A0A0A" },
+  { id: "orchid",  label: "Grain Orchid",   desc: "Orchid #E8D0F0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#E8D0F0", dark: "#0A0A0A" },
+  { id: "butter",  label: "Grain Butter",   desc: "Butter #FFF0C0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#FFF0C0", dark: "#0A0A0A" },
+  { id: "sky",     label: "Grain Sky",      desc: "Sky #C8E8FF + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",           light: "#C8E8FF", dark: "#0A0A0A" },
 ];
 
 const glassVariants = [
@@ -140,15 +142,15 @@ export const FoundationsSection: React.FC = () => {
         <GrainCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             {[
-              { label: "Blue Grain",    cls: "bg-grain-blue",    text: "text-white" },
-              { label: "Red Grain",     cls: "bg-grain-red",     text: "text-white" },
-              { label: "Violet Grain",  cls: "bg-grain-violet",  text: "text-white" },
-              { label: "Gradient Grain",cls: "bg-grain-gradient",text: "text-white" },
-              { label: "Atmospheric",   cls: "bg-atmospheric",   text: "text-foreground" },
-              { label: "Grain Soft",    cls: "bg-grain-gradient-soft border border-border", text: "text-foreground" },
+              { label: "Lime Grain",     cls: "",    text: "text-[#0A0A0A]", bg: "#E4FF97" },
+              { label: "Dark Grain",     cls: "",    text: "text-white",     bg: "#0A0A0A" },
+              { label: "Rose Grain",     cls: "",    text: "text-[#0A0A0A]", bg: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)" },
+              { label: "Mint Grain",     cls: "",    text: "text-[#0A0A0A]", bg: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)" },
+              { label: "Orchid Grain",   cls: "",    text: "text-[#0A0A0A]", bg: "linear-gradient(135deg, #FDE2FF 0%, #E8D0F0 100%)" },
+              { label: "Butter Grain",   cls: "",    text: "text-[#0A0A0A]", bg: "linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%)" },
             ].map((item) => (
-              <div key={item.label} className={`h-24 rounded-xl grain ${item.cls} flex items-end p-3`}>
-                <span className={`text-xs font-semibold font-ui ${item.text}`}>{item.label}</span>
+              <div key={item.label} className={`h-24 rounded-xl grain relative overflow-hidden flex items-end p-3`} style={{ background: item.bg }}>
+                <span className={`text-xs font-semibold font-ui ${item.text} relative z-10`}>{item.label}</span>
               </div>
             ))}
           </div>
@@ -273,7 +275,7 @@ export const FoundationsSection: React.FC = () => {
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>Farbpaletten-System</GrainCardTitle>
-          <p className="text-xs text-muted-foreground font-body mt-0.5">4 eigenständige Themes · je Light + Dark Mode · wählbar in der Sidebar</p>
+          <p className="text-xs text-muted-foreground font-body mt-0.5">1 Primärpalette + 5 Pastell-Erweiterungen · alle auf Schwarz #0A0A0A als Basis</p>
         </GrainCardHeader>
         <GrainCardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

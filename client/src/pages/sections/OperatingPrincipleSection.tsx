@@ -332,7 +332,7 @@ export default function OperatingPrincipleSection() {
         <div>
           <SectionLabel>Operating Principle</SectionLabel>
           <h1 className="font-display font-bold text-4xl text-[#0A0A0A] mb-4 leading-tight">
-            Eingabe &rarr; Workflow &rarr; Ausgabe
+            Eingabe → Workflow → Ausgabe
           </h1>
           <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed mb-4">
             Ein universelles Schema, nach dem jede Aktivitaet bei Free-Agents.io gedacht,
