@@ -20,10 +20,13 @@ import OperatingPrincipleSection from "./sections/OperatingPrincipleSection";
 import { BackgroundsSection } from "./sections/BackgroundsSection";
 import SignetSection from "./sections/SignetSection";
 import BrandArchitectureSection from "./sections/BrandArchitectureSection";
+import DialogSection from "./sections/DialogSection";
+import BrandStorySection from "./sections/BrandStorySection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
   LayoutDashboard, Shapes, Palette as Palette2, GitBranch, Layers,
+  BookOpen, Terminal,
 } from "lucide-react";
 import { GrainCursor } from "@/components/grain/GrainCursor";
 
@@ -61,6 +64,8 @@ const sidebarSections = [
       { id: "dashboard",  label: "Dashboard",         description: "KPIs, Analytics, Bestellungen", icon: <LayoutDashboard className="w-4 h-4" />, isNew: true },
       { id: "op",         label: "Operating Principle", description: "Eingabe → Workflow → Ausgabe",  icon: <GitBranch className="w-4 h-4" />, isNew: true },
       { id: "brand",      label: "Brand Architecture",   description: "Free Agents & Tochterprojekte", icon: <Layers className="w-4 h-4" />, isNew: true },
+      { id: "dialog",     label: "Dialog & I/O",          description: "Input/Output-Kommunikation",    icon: <Terminal className="w-4 h-4" />, isNew: true },
+      { id: "brandstory", label: "Brand Story",            description: "Free Agents.io Identitaet",    icon: <BookOpen className="w-4 h-4" />, isNew: true },
     ],
   },
 ];
@@ -92,6 +97,8 @@ export default function Home() {
       case "backgrounds": return <BackgroundsSection />;
       case "signet":      return <SignetSection />;
       case "brand":       return <BrandArchitectureSection />;
+      case "dialog":      return <DialogSection />;
+      case "brandstory":  return <BrandStorySection />;
       default:            return <HeroSection onNavigate={navigate} />;
     }
   };

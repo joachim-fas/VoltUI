@@ -1,8 +1,8 @@
 /**
- * OperatingPrincipleSection – Grain UI
- * Vollständige inhaltliche Ausarbeitung des Operating Principle
- * Quelle: Notion – "Idee — Eingabe → Ausgabe (Operating Principle)"
- * Design: Weiß/Hell, Lime+Schwarz System, Pastell-Farbzuordnung
+ * OperatingPrincipleSection - Grain UI
+ * Vollstaendige inhaltliche Ausarbeitung des Operating Principle
+ * Quelle: Notion - "Idee -- Eingabe -> Ausgabe (Operating Principle)"
+ * Design: Weiss/Hell, Lime+Schwarz System, Pastell-Farbzuordnung
  */
 
 import { useState } from "react";
@@ -31,19 +31,19 @@ const PHASE_COLORS = {
 };
 
 const GLOSSARY = [
-  { term: "Eingang",    en: "Input",    desc: "Das Rohmaterial, das wir akzeptieren. Kontext, Constraints, Qualitätskriterien." },
-  { term: "Ablauf",     en: "Workflow", desc: "Die Regeln + Schritte, die aus Input verlässlich Output machen." },
+  { term: "Eingang",    en: "Input",    desc: "Das Rohmaterial, das wir akzeptieren. Kontext, Constraints, Qualitaetskriterien." },
+  { term: "Ablauf",     en: "Workflow", desc: "Die Regeln + Schritte, die aus Input verlaesslich Output machen." },
   { term: "Ergebnis",   en: "Output",   desc: "Das Artefakt, das im Alltag eine Konsequenz hat." },
-  { term: "Wirkung",    en: "Proof",    desc: "Das Signal, dass Output wirklich nützt und ankam." },
-  { term: "Hand-off",   en: "Hand-off", desc: "Übergabe/Weiterführung – wie führt man es ohne mich weiter?" },
-  { term: "DoD",        en: "Done",     desc: "Definition of Done – woran erkennt man, dass es fertig ist?" },
-  { term: "Guardrails", en: "Rules",    desc: "Qualität, Tonalität, Datenschutz, Grenzen – was gilt immer?" },
-  { term: "Log",        en: "Log",      desc: "Kurze Evidenzzeile / Change-Log – Entscheidungen dokumentiert." },
-  { term: "Owner",      en: "Owner",    desc: "Verantwortung – Output ohne Owner ist unfertig." },
+  { term: "Wirkung",    en: "Proof",    desc: "Das Signal, dass Output wirklich nuetzt und ankam." },
+  { term: "Hand-off",   en: "Hand-off", desc: "Uebergabe/Weiterfuehrung - wie fuehrt man es ohne mich weiter?" },
+  { term: "DoD",        en: "Done",     desc: "Definition of Done - woran erkennt man, dass es fertig ist?" },
+  { term: "Guardrails", en: "Rules",    desc: "Qualitaet, Tonalitaet, Datenschutz, Grenzen - was gilt immer?" },
+  { term: "Log",        en: "Log",      desc: "Kurze Evidenzzeile / Change-Log - Entscheidungen dokumentiert." },
+  { term: "Owner",      en: "Owner",    desc: "Verantwortung - Output ohne Owner ist unfertig." },
 ];
 
 const OUTPUT_TYPES = [
-  { type: "Entscheidung", icon: <Target size={14} />, desc: "Inkl. Begründung + nächster Schritt", color: "#D4E8FF" },
+  { type: "Entscheidung", icon: <Target size={14} />, desc: "Inkl. Begruendung + naechster Schritt", color: "#D4E8FF" },
   { type: "Dokument",     icon: <FileText size={14} />, desc: "Brief, Spec, SOP, Pitch, Angebot", color: "#FFF5BA" },
   { type: "Asset",        icon: <Package size={14} />, desc: "Text / Visual / Template / Component", color: "#C3F4D3" },
   { type: "System-Baustein", icon: <Settings size={14} />, desc: "Workflow, Automation, Agent, Datenmodell", color: "#E4D4FF" },
@@ -51,15 +51,15 @@ const OUTPUT_TYPES = [
 ];
 
 const GUARDRAILS = [
-  { n: "01", title: "Kein Input ohne Output",         desc: "Wenn der Output unklar ist: stoppen, präzisieren." },
-  { n: "02", title: "Output ist prüfbar",             desc: "Eine andere Person kann erkennen, ob er fertig ist (DoD)." },
+  { n: "01", title: "Kein Input ohne Output",         desc: "Wenn der Output unklar ist: stoppen, praezisieren." },
+  { n: "02", title: "Output ist pruefbar",             desc: "Eine andere Person kann erkennen, ob er fertig ist (DoD)." },
   { n: "03", title: "Workflow ist wiederholbar",      desc: "Einmalig ist erlaubt, aber die Default-Frage: 'Wie wird's ein Standard?'" },
   { n: "04", title: "Wenige Pflichtfelder, hohe Konsequenz", desc: "Lieber 5 klare Felder als 20 optionale." },
   { n: "05", title: "Human-in-the-loop ist explizit", desc: "Wo muss Freigabe/Review passieren?" },
   { n: "06", title: "Logging statt Diskussion",       desc: "Entscheidungen werden dokumentiert (kurz), damit Systeme wachsen." },
-  { n: "07", title: "Value visible ist Pflicht",      desc: "Jeder Workflow produziert sichtbare Evidenz (Logline, Zähler, Mini-Dashboard)." },
+  { n: "07", title: "Value visible ist Pflicht",      desc: "Jeder Workflow produziert sichtbare Evidenz (Logline, Zaehler, Mini-Dashboard)." },
   { n: "08", title: "Alltagssprache vor Tech-Sprache", desc: "Wir reden ueber 'Ablaeufe' und 'Routinen', nicht ueber 'Agenten'." },
-  { n: "09", title: "Ownership ist Teil des Outputs", desc: "Output ohne Owner/Übergabe ist unfertig." },
+  { n: "09", title: "Ownership ist Teil des Outputs", desc: "Output ohne Owner/Uebergabe ist unfertig." },
 ];
 
 const E2E_CRITERIA = [
@@ -70,9 +70,9 @@ const E2E_CRITERIA = [
 
 const E2E_PRINCIPLES = [
   { title: "Specs, nicht Stories",         desc: "Kurze, klare Inputs/Outputs, DoD, Owner. Kein Storytelling." },
-  { title: "Kontextfähigkeit voraussetzen", desc: "Weniger Einleitung, mehr Substanz. Gegenüber ist kompetent." },
-  { title: "Annahmen explizit machen",     desc: "Wenn etwas unklar ist: als Annahme markieren, nicht ausschmücken." },
-  { title: "Anschlussfähigkeit bauen",     desc: "Outputs sind so strukturiert, dass sie in bestehenden Systemen weiterlaufen." },
+  { title: "Kontextfaehigkeit voraussetzen", desc: "Weniger Einleitung, mehr Substanz. Gegenueber ist kompetent." },
+  { title: "Annahmen explizit machen",     desc: "Wenn etwas unklar ist: als Annahme markieren, nicht ausschmuecken." },
+  { title: "Anschlussfaehigkeit bauen",     desc: "Outputs sind so strukturiert, dass sie in bestehenden Systemen weiterlaufen." },
   { title: "Buzzwords vermeiden",          desc: "Alltagssprache im Interface, technische Tiefe im Build-Layer." },
 ];
 
@@ -81,22 +81,22 @@ const ALL_WORKFLOWS = [
     id: "meeting",
     icon: <MessageSquare size={16} />,
     title: "Meeting / Call",
-    description: "Gespräche sind kein Selbstzweck – jedes Meeting produziert ein Artefakt.",
+    description: "Gespraeche sind kein Selbstzweck - jedes Meeting produziert ein Artefakt.",
     steps: [
       { phase: "input" as const,   label: "Agenda + Teilnehmer + Transcript", owner: "Initiator",  status: "done" as const,    content: "Ziele des Meetings, Teilnehmerliste, Notizen oder Aufzeichnung." },
-      { phase: "process" as const, label: "Verdichten → Entscheidungen markieren → Tasks extrahieren", owner: "Moderator", status: "active" as const, content: "Rohmaterial wird strukturiert: Entscheidungen markiert, Next Actions mit Owner und Datum." },
+      { phase: "process" as const, label: "Verdichten -> Entscheidungen markieren -> Tasks extrahieren", owner: "Moderator", status: "active" as const, content: "Rohmaterial wird strukturiert: Entscheidungen markiert, Next Actions mit Owner und Datum." },
       { phase: "output" as const,  label: "Summary + Decisions + Next Actions", dod: "Alle Actions haben Owner + Datum", handoff: "Slack / Notion / Ticket-System", status: "pending" as const, content: "5 Bullets Summary, Decisions mit Owner, Next Actions mit Datum." },
-      { phase: "proof" as const,   label: "Weniger Pingpong, klare Owners", status: "pending" as const, content: "Signal: nächste Schritte laufen ohne Nachfrage an." },
+      { phase: "proof" as const,   label: "Weniger Pingpong, klare Owners", status: "pending" as const, content: "Signal: naechste Schritte laufen ohne Nachfrage an." },
     ],
   },
   {
     id: "research",
     icon: <Search size={16} />,
     title: "Research / Scan",
-    description: "Schnellere Entscheidungen durch strukturierte Evidenz statt Bauchgefühl.",
+    description: "Schnellere Entscheidungen durch strukturierte Evidenz statt Bauchgefuehl.",
     steps: [
-      { phase: "input" as const,   label: "5–20 Quellen + Fragestellung + Zeitfenster", owner: "Researcher", status: "done" as const, content: "Rohmaterial: Links, Dokumente, Signale. Klare Fragestellung und Zeitrahmen." },
-      { phase: "process" as const, label: "Clustern → Muster → Interpretation → Implikationen", owner: "Analyst", status: "done" as const, content: "Quellen werden geclustert, Muster identifiziert, Implikationen abgeleitet." },
+      { phase: "input" as const,   label: "5-20 Quellen + Fragestellung + Zeitfenster", owner: "Researcher", status: "done" as const, content: "Rohmaterial: Links, Dokumente, Signale. Klare Fragestellung und Zeitrahmen." },
+      { phase: "process" as const, label: "Clustern -> Muster -> Interpretation -> Implikationen", owner: "Analyst", status: "done" as const, content: "Quellen werden geclustert, Muster identifiziert, Implikationen abgeleitet." },
       { phase: "output" as const,  label: "1 Insight-Note + 3 Hypothesen + 1 Empfehlung", dod: "Empfehlung ist umsetzbar ohne Meeting", handoff: "Decision Log / Produktteam", status: "active" as const, content: "Kompaktes Dokument: Kerninsight, testbare Hypothesen, klare Handlungsempfehlung." },
       { phase: "proof" as const,   label: "Schnellere Entscheidungen, mehr Evidenz", status: "pending" as const, content: "Signal: Entscheidungen werden in < 24h getroffen, nicht in Meetings diskutiert." },
     ],
@@ -104,13 +104,13 @@ const ALL_WORKFLOWS = [
   {
     id: "idea",
     icon: <Lightbulb size={16} />,
-    title: "Idee → Konzept",
-    description: "Rohe Ideen werden zu strukturierten Konzepten mit nächsten Schritten.",
+    title: "Idee -> Konzept",
+    description: "Rohe Ideen werden zu strukturierten Konzepten mit naechsten Schritten.",
     steps: [
       { phase: "input" as const,   label: "Rohidee + Kontext + Zielgruppe", owner: "Ideengeber", status: "done" as const, content: "Unstrukturierte Gedanken, Marktbeobachtung, Problem-Hypothese." },
-      { phase: "process" as const, label: "Validieren → Strukturieren → Priorisieren", owner: "Stratege", status: "active" as const, content: "Idee wird gegen Markt, Ressourcen und Strategie geprüft. Scope wird definiert." },
-      { phase: "output" as const,  label: "Idea Page + nächste 3 Schritte", dod: "Nächste Schritte sind konkret und zugewiesen", handoff: "Projektteam / Notion", status: "pending" as const, content: "1-seitige Ideen-Dokumentation mit Vision, Scope, Risiken und Next Actions." },
-      { phase: "proof" as const,   label: "Idee ist entscheidbar", status: "pending" as const, content: "Signal: Entscheidung Ja/Nein in < 1 Woche möglich." },
+      { phase: "process" as const, label: "Validieren -> Strukturieren -> Priorisieren", owner: "Stratege", status: "active" as const, content: "Idee wird gegen Markt, Ressourcen und Strategie geprueft. Scope wird definiert." },
+      { phase: "output" as const,  label: "Idea Page + naechste 3 Schritte", dod: "Naechste Schritte sind konkret und zugewiesen", handoff: "Projektteam / Notion", status: "pending" as const, content: "1-seitige Ideen-Dokumentation mit Vision, Scope, Risiken und Next Actions." },
+      { phase: "proof" as const,   label: "Idee ist entscheidbar", status: "pending" as const, content: "Signal: Entscheidung Ja/Nein in < 1 Woche moeglich." },
     ],
   },
   {
@@ -119,10 +119,10 @@ const ALL_WORKFLOWS = [
     title: "Angebot / Service",
     description: "Aus Kundenbedarf wird ein konkretes, verkaufbares Angebot.",
     steps: [
-      { phase: "input" as const,   label: "Kundenbedarf + Budget + Zeitrahmen", owner: "Sales", status: "done" as const, content: "Briefing, Erstgespräch-Notizen, Rahmenbedingungen." },
-      { phase: "process" as const, label: "Scope definieren → Deliverables → Preis", owner: "Lead", status: "active" as const, content: "Leistungsumfang wird präzisiert, Deliverables definiert, Preis kalkuliert." },
-      { phase: "output" as const,  label: "1 Pager + Scope + Deliverables", dod: "Kunde kann Ja/Nein sagen ohne Rückfragen", handoff: "Kunde / CRM", status: "pending" as const, content: "Klares Angebot: Was, Wie, Wann, Wieviel. Keine Interpretationsspielräume." },
-      { phase: "proof" as const,   label: "Conversion Rate steigt", status: "pending" as const, content: "Signal: Angebote werden häufiger ohne Nachverhandlung angenommen." },
+      { phase: "input" as const,   label: "Kundenbedarf + Budget + Zeitrahmen", owner: "Sales", status: "done" as const, content: "Briefing, Erstgespraech-Notizen, Rahmenbedingungen." },
+      { phase: "process" as const, label: "Scope definieren -> Deliverables -> Preis", owner: "Lead", status: "active" as const, content: "Leistungsumfang wird praezisiert, Deliverables definiert, Preis kalkuliert." },
+      { phase: "output" as const,  label: "1 Pager + Scope + Deliverables", dod: "Kunde kann Ja/Nein sagen ohne Rueckfragen", handoff: "Kunde / CRM", status: "pending" as const, content: "Klares Angebot: Was, Wie, Wann, Wieviel. Keine Interpretationsspielraeume." },
+      { phase: "proof" as const,   label: "Conversion Rate steigt", status: "pending" as const, content: "Signal: Angebote werden haeufiger ohne Nachverhandlung angenommen." },
     ],
   },
   {
@@ -131,10 +131,10 @@ const ALL_WORKFLOWS = [
     title: "Brand / Copy",
     description: "Konsistente Markenkommunikation durch klare Regeln und Templates.",
     steps: [
-      { phase: "input" as const,   label: "Zielgruppe + Tonalität + Kontext", owner: "Stratege", status: "done" as const, content: "Brand-Briefing, bestehende Assets, Wettbewerbsanalyse." },
-      { phase: "process" as const, label: "Rules definieren → Templates bauen → Beispiele", owner: "Creative", status: "active" as const, content: "Sprachregeln werden festgelegt, Templates für häufige Formate erstellt." },
-      { phase: "output" as const,  label: "Rules + Templates + Beispiele", dod: "Jedes Teammitglied kann konsistent kommunizieren", handoff: "Team / Brand Guide", status: "pending" as const, content: "Dokumentiertes Brand-System: Tonalität, Vokabular, Formatvorlagen." },
-      { phase: "proof" as const,   label: "Konsistente Außenwirkung", status: "pending" as const, content: "Signal: Externe erkennen die Marke ohne Logo." },
+      { phase: "input" as const,   label: "Zielgruppe + Tonalitaet + Kontext", owner: "Stratege", status: "done" as const, content: "Brand-Briefing, bestehende Assets, Wettbewerbsanalyse." },
+      { phase: "process" as const, label: "Rules definieren -> Templates bauen -> Beispiele", owner: "Creative", status: "active" as const, content: "Sprachregeln werden festgelegt, Templates fuer haeufige Formate erstellt." },
+      { phase: "output" as const,  label: "Rules + Templates + Beispiele", dod: "Jedes Teammitglied kann konsistent kommunizieren", handoff: "Team / Brand Guide", status: "pending" as const, content: "Dokumentiertes Brand-System: Tonalitaet, Vokabular, Formatvorlagen." },
+      { phase: "proof" as const,   label: "Konsistente Aussenwirkung", status: "pending" as const, content: "Signal: Externe erkennen die Marke ohne Logo." },
     ],
   },
   {
@@ -144,8 +144,8 @@ const ALL_WORKFLOWS = [
     description: "Komplexe Entscheidungen werden durch strukturierte Evidenz entscheidbar.",
     steps: [
       { phase: "input" as const,   label: "Optionen + Kriterien + Stakeholder", owner: "PM", status: "done" as const, content: "Alle relevanten Optionen, Entscheidungskriterien, betroffene Personen." },
-      { phase: "process" as const, label: "Bewerten → Abwägen → Experiment planen", owner: "Team", status: "active" as const, content: "Optionen werden gegen Kriterien bewertet, Risiken abgewogen, Test-Hypothese formuliert." },
-      { phase: "output" as const,  label: "Decision Log + Experiment Plan", dod: "Entscheidung ist dokumentiert und kommuniziert", handoff: "Entwicklung / Stakeholder", status: "pending" as const, content: "Klare Entscheidung mit Begründung, Alternativen und Experiment-Setup." },
+      { phase: "process" as const, label: "Bewerten -> Abwaegen -> Experiment planen", owner: "Team", status: "active" as const, content: "Optionen werden gegen Kriterien bewertet, Risiken abgewogen, Test-Hypothese formuliert." },
+      { phase: "output" as const,  label: "Decision Log + Experiment Plan", dod: "Entscheidung ist dokumentiert und kommuniziert", handoff: "Entwicklung / Stakeholder", status: "pending" as const, content: "Klare Entscheidung mit Begruendung, Alternativen und Experiment-Setup." },
       { phase: "proof" as const,   label: "Weniger Reverts, mehr Lernen", status: "pending" as const, content: "Signal: Entscheidungen werden selten revidiert, Learnings werden dokumentiert." },
     ],
   },
@@ -153,11 +153,11 @@ const ALL_WORKFLOWS = [
     id: "content",
     icon: <FileText size={16} />,
     title: "Content-Produktion",
-    description: "Von Briefing bis Publishing – reproduzierbar und skalierbar.",
+    description: "Von Briefing bis Publishing - reproduzierbar und skalierbar.",
     steps: [
       { phase: "input" as const,   label: "Briefing + Zielgruppe + Format + Kanal", owner: "Editor", status: "done" as const, content: "Thema, Ziel, Zielgruppe, Format (Artikel/Video/Post), Kanal und Deadline." },
-      { phase: "process" as const, label: "Varianten erstellen → Review → Freigabe", owner: "Creator", status: "active" as const, content: "Inhalt wird produziert, Varianten erstellt, intern reviewed und freigegeben." },
-      { phase: "output" as const,  label: "Briefing + Varianten + Publishing-Paket", dod: "Alle Assets sind publish-ready", handoff: "Publishing / Social", status: "pending" as const, content: "Fertiges Content-Paket: Hauptstück + Varianten + Metadaten + Publishing-Plan." },
+      { phase: "process" as const, label: "Varianten erstellen -> Review -> Freigabe", owner: "Creator", status: "active" as const, content: "Inhalt wird produziert, Varianten erstellt, intern reviewed und freigegeben." },
+      { phase: "output" as const,  label: "Briefing + Varianten + Publishing-Paket", dod: "Alle Assets sind publish-ready", handoff: "Publishing / Social", status: "pending" as const, content: "Fertiges Content-Paket: Hauptstueck + Varianten + Metadaten + Publishing-Plan." },
       { phase: "proof" as const,   label: "Reichweite und Engagement steigen", status: "pending" as const, content: "Signal: Content performt messbar besser als ohne Briefing-Prozess." },
     ],
   },
@@ -165,11 +165,11 @@ const ALL_WORKFLOWS = [
     id: "build",
     icon: <Code2 size={16} />,
     title: "Build / Dev",
-    description: "Von Spec bis Release – strukturiert, dokumentiert, übergabefähig.",
+    description: "Von Spec bis Release - strukturiert, dokumentiert, uebergabefaehig.",
     steps: [
-      { phase: "input" as const,   label: "Spec + Akzeptanzkriterien + Priorität", owner: "PM", status: "done" as const, content: "Technische Anforderungen, User Stories, Akzeptanzkriterien, Priorität." },
-      { phase: "process" as const, label: "Ticket-Backlog → Entwicklung → Review", owner: "Dev", status: "active" as const, content: "Spec wird in Tickets zerlegt, entwickelt, code-reviewed und getestet." },
-      { phase: "output" as const,  label: "Spec + Ticket-Backlog + Release-Notes", dod: "Feature ist deployed und dokumentiert", handoff: "Ops / Kunde", status: "pending" as const, content: "Fertiges Feature mit Dokumentation, Release Notes und Übergabe-Protokoll." },
+      { phase: "input" as const,   label: "Spec + Akzeptanzkriterien + Prioritaet", owner: "PM", status: "done" as const, content: "Technische Anforderungen, User Stories, Akzeptanzkriterien, Prioritaet." },
+      { phase: "process" as const, label: "Ticket-Backlog -> Entwicklung -> Review", owner: "Dev", status: "active" as const, content: "Spec wird in Tickets zerlegt, entwickelt, code-reviewed und getestet." },
+      { phase: "output" as const,  label: "Spec + Ticket-Backlog + Release-Notes", dod: "Feature ist deployed und dokumentiert", handoff: "Ops / Kunde", status: "pending" as const, content: "Fertiges Feature mit Dokumentation, Release Notes und Uebergabe-Protokoll." },
       { phase: "proof" as const,   label: "Weniger Bugs, schnellere Releases", status: "pending" as const, content: "Signal: Cycle Time sinkt, Bug-Rate nach Release sinkt." },
     ],
   },
@@ -177,11 +177,11 @@ const ALL_WORKFLOWS = [
     id: "sales",
     icon: <TrendingUp size={16} />,
     title: "Sales / Lead",
-    description: "Leads werden systematisch qualifiziert und weitergeführt.",
+    description: "Leads werden systematisch qualifiziert und weitergefuehrt.",
     steps: [
       { phase: "input" as const,   label: "Lead-Info + Quelle + Erstkontext", owner: "Sales", status: "done" as const, content: "Kontaktdaten, Herkunft des Leads, erster Kontext und Bedarf." },
-      { phase: "process" as const, label: "Qualifizieren → Pitch → Next Step definieren", owner: "Sales", status: "active" as const, content: "Lead wird gegen ICP geprüft, Pitch angepasst, konkreter nächster Schritt vereinbart." },
-      { phase: "output" as const,  label: "Qualifizierung + Next Step + Follow-up", dod: "Nächster Schritt ist terminiert", handoff: "CRM / Account Manager", status: "pending" as const, content: "Qualifiziertes Lead-Profil mit klarem Next Step und Follow-up-Datum." },
+      { phase: "process" as const, label: "Qualifizieren -> Pitch -> Next Step definieren", owner: "Sales", status: "active" as const, content: "Lead wird gegen ICP geprueft, Pitch angepasst, konkreter naechster Schritt vereinbart." },
+      { phase: "output" as const,  label: "Qualifizierung + Next Step + Follow-up", dod: "Naechster Schritt ist terminiert", handoff: "CRM / Account Manager", status: "pending" as const, content: "Qualifiziertes Lead-Profil mit klarem Next Step und Follow-up-Datum." },
       { phase: "proof" as const,   label: "Conversion Rate steigt", status: "pending" as const, content: "Signal: Mehr Leads werden zu Kunden, Cycle Time sinkt." },
     ],
   },
@@ -189,12 +189,12 @@ const ALL_WORKFLOWS = [
     id: "ops",
     icon: <Wrench size={16} />,
     title: "Ops / Backoffice",
-    description: "Wiederkehrende Aufgaben werden zu Standards – einmal dokumentiert, immer reproduzierbar.",
+    description: "Wiederkehrende Aufgaben werden zu Standards - einmal dokumentiert, immer reproduzierbar.",
     steps: [
-      { phase: "input" as const,   label: "Aufgabe + Häufigkeit + Verantwortlicher", owner: "Ops", status: "done" as const, content: "Beschreibung der Aufgabe, wie oft sie vorkommt, wer sie ausführt." },
-      { phase: "process" as const, label: "SOP schreiben → Checkliste → Testen", owner: "Ops", status: "active" as const, content: "Standard Operating Procedure wird dokumentiert, Checkliste erstellt, einmal durchgespielt." },
-      { phase: "output" as const,  label: "SOP + Checkliste + Übergabe", dod: "Neue Person kann Aufgabe ohne Rückfragen ausführen", handoff: "Team / Notion", status: "pending" as const, content: "Dokumentierter Standard: Schritt-für-Schritt-Anleitung, Checkliste, Übergabe-Protokoll." },
-      { phase: "proof" as const,   label: "Weniger Fehler, weniger Rückfragen", status: "pending" as const, content: "Signal: Aufgabe läuft ohne Eskalation, neue Mitarbeitende onboarden schneller." },
+      { phase: "input" as const,   label: "Aufgabe + Haeufigkeit + Verantwortlicher", owner: "Ops", status: "done" as const, content: "Beschreibung der Aufgabe, wie oft sie vorkommt, wer sie ausfuehrt." },
+      { phase: "process" as const, label: "SOP schreiben -> Checkliste -> Testen", owner: "Ops", status: "active" as const, content: "Standard Operating Procedure wird dokumentiert, Checkliste erstellt, einmal durchgespielt." },
+      { phase: "output" as const,  label: "SOP + Checkliste + Uebergabe", dod: "Neue Person kann Aufgabe ohne Rueckfragen ausfuehren", handoff: "Team / Notion", status: "pending" as const, content: "Dokumentierter Standard: Schritt-fuer-Schritt-Anleitung, Checkliste, Uebergabe-Protokoll." },
+      { phase: "proof" as const,   label: "Weniger Fehler, weniger Rueckfragen", status: "pending" as const, content: "Signal: Aufgabe laeuft ohne Eskalation, neue Mitarbeitende onboarden schneller." },
     ],
   },
 ];
@@ -203,7 +203,7 @@ const TEMPLATE_TEXT = `### Eingang
 - Kontext:
 - Rohmaterial/Quellen:
 - Constraints:
-- Qualitätskriterien:
+- Qualitaetskriterien:
 
 ### Ablauf
 - Schritte:
@@ -220,7 +220,7 @@ const TEMPLATE_TEXT = `### Eingang
 - Messung/Beobachtung:
 
 ### Hand-off
-- Wie führt man es ohne mich weiter?
+- Wie fuehrt man es ohne mich weiter?
 - Update-Rhythmus:`;
 
 /* ══════════════════════════════════════════════
@@ -332,10 +332,10 @@ export default function OperatingPrincipleSection() {
         <div>
           <SectionLabel>Operating Principle</SectionLabel>
           <h1 className="font-display font-bold text-4xl text-[#0A0A0A] mb-4 leading-tight">
-            Eingabe → Workflow → Ausgabe
+            Eingabe &rarr; Workflow &rarr; Ausgabe
           </h1>
           <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed mb-4">
-            Ein universelles Schema, nach dem jede Aktivität bei Free-Agents.io gedacht,
+            Ein universelles Schema, nach dem jede Aktivitaet bei Free-Agents.io gedacht,
             geplant und dokumentiert wird. Kein Input ohne Output. Kein Output ohne Owner.
           </p>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E4FF97] border border-[#C8F060]">
@@ -347,9 +347,9 @@ export default function OperatingPrincipleSection() {
         </div>
       </div>
 
-      {/* ── FÜR KUND:INNEN ── */}
+      {/* ── FUeR KUND:INNEN ── */}
       <div>
-        <SectionLabel><Users size={12} /> Für Kund:innen (einfach erklärt)</SectionLabel>
+        <SectionLabel><Users size={12} /> Fuer Kund:innen (einfach erklaert)</SectionLabel>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="md:col-span-2 rounded-2xl bg-[#0A0A0A] p-8 text-white">
             <p className="font-display font-bold text-xl mb-4 leading-tight">
@@ -375,7 +375,7 @@ export default function OperatingPrincipleSection() {
             <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-3">Was du bekommst (immer)</p>
             {[
               { icon: <FileText size={14} />, label: "Konkretes Ergebnis", sub: "Dokument / Entscheidung / Entwurf / System" },
-              { icon: <ArrowRight size={14} />, label: "Klare nächste Schritte", sub: "Mit Owner und Datum" },
+              { icon: <ArrowRight size={14} />, label: "Klare naechste Schritte", sub: "Mit Owner und Datum" },
               { icon: <BookOpen size={14} />, label: "Transparenz", sub: "Annahmen + offene Punkte sichtbar" },
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-[#E8E8E8] bg-white">
@@ -390,9 +390,9 @@ export default function OperatingPrincipleSection() {
         </div>
       </div>
 
-      {/* ── DIE BRÜCKE: OS ↔ OP ── */}
+      {/* ── DIE BRUeCKE: OS <-> OP ── */}
       <div>
-        <SectionLabel><Cpu size={12} /> Die Brücke: Digitales OS ↔ Menschliches OP</SectionLabel>
+        <SectionLabel><Cpu size={12} /> Die Bruecke: Digitales OS vs. Menschliches OP</SectionLabel>
         <div className="rounded-2xl border border-[#E8E8E8] overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-6 bg-[#0A0A0A] text-white">
@@ -403,7 +403,7 @@ export default function OperatingPrincipleSection() {
                 <div className="flex items-center gap-2 pl-4"><ArrowRight size={12} className="text-[#6B7A9A]" /></div>
                 <div className="flex items-center gap-2"><span className="text-[#FFF5BA] font-mono text-xs">PROCESS</span><span>Scheduler, Regeln, Prozesse</span></div>
                 <div className="flex items-center gap-2 pl-4"><ArrowRight size={12} className="text-[#6B7A9A]" /></div>
-                <div className="flex items-center gap-2"><span className="text-[#C3F4D3] font-mono text-xs">OUTPUT</span><span>Zustände, Dateien, Responses</span></div>
+                <div className="flex items-center gap-2"><span className="text-[#C3F4D3] font-mono text-xs">OUTPUT</span><span>Zustaende, Dateien, Responses</span></div>
               </div>
             </div>
             <div className="p-6 bg-[#F9F9F9]">
@@ -434,10 +434,10 @@ export default function OperatingPrincipleSection() {
             const c = PHASE_COLORS[phase];
             const icons = [<Layers size={20} />, <Cpu size={20} />, <FileText size={20} />, <BarChart2 size={20} />];
             const descs = [
-              "Rohmaterial, Kontext, Constraints, Qualitätskriterien",
-              "Regeln + Schritte, die aus Input verlässlich Output machen",
+              "Rohmaterial, Kontext, Constraints, Qualitaetskriterien",
+              "Regeln + Schritte, die aus Input verlaesslich Output machen",
               "Das Artefakt, das im Alltag eine Konsequenz hat",
-              "Das Signal, dass Output wirklich nützt",
+              "Das Signal, dass Output wirklich nuetzt",
             ];
             return (
               <div key={phase} className="flex-1 relative">
@@ -464,7 +464,7 @@ export default function OperatingPrincipleSection() {
       <div>
         <SectionLabel><Package size={12} /> Output-Typen</SectionLabel>
         <p className="text-sm text-[#4A4A4A] mb-4 max-w-xl">
-          Damit „Output" nicht schwammig bleibt – jeder Output gehört zu einem dieser fünf Typen.
+          Damit „Output" nicht schwammig bleibt - jeder Output gehoert zu einem dieser fuenf Typen.
         </p>
         <div className="flex gap-3 flex-wrap">
           {OUTPUT_TYPES.map((ot, i) => (
@@ -488,21 +488,21 @@ export default function OperatingPrincipleSection() {
       <div>
         <SectionLabel><MessageSquare size={12} /> 3 Kommunikationsrichtungen</SectionLabel>
         <p className="text-sm text-[#4A4A4A] mb-4 max-w-xl">
-          Dieses OP ist eine einfache Regel für <em>jede</em> Interaktion:{" "}
+          Dieses OP ist eine einfache Regel fuer <em>jede</em> Interaktion:{" "}
           <strong>Wenn etwas reingeht, muss etwas Verwendbares rauskommen.</strong>
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             { dir: "Mensch ↔ Mensch", icon: <Users size={16} />, bg: "#D4E8FF", border: "#A8CEFF",
-              rule: "Gespräche sind kein Selbstzweck.",
+              rule: "Gespraeche sind kein Selbstzweck.",
               input: "Frage + Kontext",
-              output: "Entscheidung / nächster Schritt / kurzes Artefakt" },
+              output: "Entscheidung / naechster Schritt / kurzes Artefakt" },
             { dir: "Mensch → Maschine", icon: <Cpu size={16} />, bg: "#FFF5BA", border: "#FFE87A",
               rule: "Gute Outputs brauchen gute Inputs.",
               input: "Ziel + Beispiele/Daten + Grenzen + Format",
-              output: "Draft / Struktur / Code, der sich weiterverwenden lässt" },
+              output: "Draft / Struktur / Code, der sich weiterverwenden laesst" },
             { dir: "Maschine → Mensch", icon: <FileText size={16} />, bg: "#C3F4D3", border: "#7ADEA0",
-              rule: "KI liefert Arbeitsstücke, keine Texte.",
+              rule: "KI liefert Arbeitsstuecke, keine Texte.",
               input: "Anfrage + Kontext",
               output: "Format + Annahmen + offene Punkte + Next Actions" },
           ].map((item, i) => (
@@ -538,9 +538,9 @@ export default function OperatingPrincipleSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <p className="text-sm text-[#4A4A4A] leading-relaxed mb-4">
-              Der OP-Ansatz ist nicht „Erklärbär". Er ist <strong>Expert-to-Expert</strong>:
-              Wir behandeln Gegenüber als kompetent, sprechen präzise und liefern Artefakte,
-              die Expert:innen sofort weiterverwenden können.
+              Der OP-Ansatz ist nicht „Erklaerbaer". Er ist <strong>Expert-to-Expert</strong>:
+              Wir behandeln Gegenueber als kompetent, sprechen praezise und liefern Artefakte,
+              die Expert:innen sofort weiterverwenden koennen.
             </p>
             <div className="space-y-3">
               {E2E_PRINCIPLES.map((p, i) => (
@@ -670,7 +670,7 @@ export default function OperatingPrincipleSection() {
               <CopyButton text={TEMPLATE_TEXT} />
             </div>
             <p className="text-xs text-[#6B7A9A] mt-1">
-              Für jeden Workflow, jedes Projekt, jede Übergabe – einmal ausfüllen, immer verwenden.
+              Fuer jeden Workflow, jedes Projekt, jede Uebergabe - einmal ausfuellen, immer verwenden.
             </p>
           </GrainCardHeader>
           <GrainCardContent>
