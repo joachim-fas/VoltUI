@@ -17,10 +17,11 @@ import { DashboardSection }   from "./sections/DashboardSection";
 import { IconsSection }       from "./sections/IconsSection";
 import { ColorSection }       from "./sections/ColorSection";
 import OperatingPrincipleSection from "./sections/OperatingPrincipleSection";
+import { BackgroundsSection } from "./sections/BackgroundsSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
-  LayoutDashboard, Shapes, Palette as Palette2, GitBranch,
+  LayoutDashboard, Shapes, Palette as Palette2, GitBranch, Layers,
 } from "lucide-react";
 
 const sidebarSections = [
@@ -36,6 +37,7 @@ const sidebarSections = [
       { id: "foundations", label: "Foundations",    description: "Farben, Typo, Patterns, Tokens",  icon: <Palette className="w-4 h-4" /> },
       { id: "colors",      label: "Farbcodierung",  description: "Semantisches Datenfarbsystem",    icon: <Palette2 className="w-4 h-4" />, isNew: true },
       { id: "icons",       label: "Icon-Set",       description: "150+ Icons, kategorisiert",       icon: <Shapes className="w-4 h-4" />, count: 150, isNew: true },
+      { id: "backgrounds", label: "Hintergründe",    description: "Patterns, Verläufe, Grain",          icon: <Layers className="w-4 h-4" />, isNew: true },
     ],
   },
   {
@@ -82,6 +84,7 @@ export default function Home() {
       case "navigation":  return <NavigationSection />;
       case "dashboard":   return <DashboardSection />;
       case "op":          return <OperatingPrincipleSection />;
+      case "backgrounds": return <BackgroundsSection />;
       default:            return <HeroSection onNavigate={navigate} />;
     }
   };
