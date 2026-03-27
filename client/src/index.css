@@ -5,9 +5,11 @@
 
 /* ═══════════════════════════════════════════════════════
    GRAIN UI — DESIGN TOKENS
-   Primär:    #E4FF97 Lime + #0A0A0A Schwarz
-   Signale:   Smaragd (↑) · Koralle (↓) · Slate (→)
-   Schriften: Bricolage Grotesque · DM Sans · Lora · JetBrains Mono
+   Hauptfarben:  #E4FF97 Neon Yellow + #000000 Black
+   Pastell:      Rose Quartz · Peach Cream · Mint Green · Soft Orchid
+                 Baby Blue · Butter Yellow · Powder Orange · Aqua Mist
+   Signale:      Smaragd (↑) · Koralle (↓) · Slate (→)
+   Schriften:    Bricolage Grotesque · DM Sans · Lora · JetBrains Mono
    — KEINE ÄNDERUNGEN AN TYPOGRAFIE —
 ═══════════════════════════════════════════════════════ */
 
@@ -19,21 +21,27 @@
 
   --radius: 0.5rem;
 
-  /* ── Lime-Palette (Primär) ── */
+  /* ── Hauptfarben ── */
+  --neon-yellow: #E4FF97;   /* Neon Yellow – Primär */
+  --black:       #000000;   /* Black – Fundament */
+  /* Aliase für Rückwärtskompatibilität */
   --lime:        #E4FF97;
   --lime-deep:   #C8F060;
   --lime-darker: #9DC800;
-  --lime-fg:     #0A0A0A;   /* Schwarz auf Lime */
-
-  /* ── Schwarz-Palette (Fundament) ── */
-  --ink:         #0A0A0A;
+  --lime-fg:     #000000;
+  --ink:         #000000;
   --ink-soft:    #1A1A1A;
   --ink-muted:   #3A3A3A;
 
-  /* ── Pastell-Sekundärfarben (unterstützend) ── */
-  --pastel-lavender: #C8A8F0;
-  --pastel-peach:    #FFCF9E;
-  --pastel-sky:      #A8D8F0;
+  /* ── Pastell-Palette (8 Farben, exakt nach Vorgabe) ── */
+  --pastel-rose:    #FFD6E0;   /* Rose Quartz   */
+  --pastel-peach:   #FFECD2;   /* Peach Cream   */
+  --pastel-mint:    #C3F4D3;   /* Mint Green    */
+  --pastel-orchid:  #FDE2FF;   /* Soft Orchid   */
+  --pastel-blue:    #D4E8FF;   /* Baby Blue     */
+  --pastel-butter:  #FFF5BA;   /* Butter Yellow */
+  --pastel-orange:  #FFE0CC;   /* Powder Orange */
+  --pastel-aqua:    #D6F5F5;   /* Aqua Mist     */
 
   /* ══════════════════════════════════════════
      SIGNALFARBEN — eindeutig, kontrastreich
@@ -63,52 +71,52 @@
      Weiß/Hell + Schwarz + Lime
   ══════════════════════════════════════════ */
   --background:            #FFFFFF;
-  --foreground:            #0A0A0A;
+  --foreground:            #000000;
   --card:                  #FFFFFF;
-  --card-foreground:       #0A0A0A;
+  --card-foreground:       #000000;
   --popover:               #FFFFFF;
-  --popover-foreground:    #0A0A0A;
+  --popover-foreground:    #000000;
 
-  /* Primary = Lime */
+  /* Primary = Neon Yellow */
   --primary:               #E4FF97;
-  --primary-foreground:    #0A0A0A;
+  --primary-foreground:    #000000;
 
   /* Secondary = sehr helles Grau */
   --secondary:             #F4F4F4;
-  --secondary-foreground:  #0A0A0A;
+  --secondary-foreground:  #000000;
 
   /* Muted = helles Grau */
   --muted:                 #F7F7F7;
   --muted-foreground:      #6B6B6B;
 
-  /* Accent = Lime (etwas tiefer) */
+  /* Accent = Neon Yellow */
   --accent:                #E4FF97;
-  --accent-foreground:     #0A0A0A;
+  --accent-foreground:     #000000;
 
   --destructive:           #E8402A;
   --destructive-foreground:#FFFFFF;
   --border:                #E8E8E8;
   --input:                 #E8E8E8;
-  --ring:                  #0A0A0A;
+  --ring:                  #000000;
 
   /* ── Chart-Farben ── */
-  /* Reihenfolge: Lime, Schwarz, Signale, Pastell */
-  --chart-1: #E4FF97;   /* Lime – Primär */
-  --chart-2: #0A0A0A;   /* Schwarz */
+  /* Reihenfolge: Neon Yellow, Black, Signale, Pastell */
+  --chart-1: #E4FF97;   /* Neon Yellow – Primär */
+  --chart-2: #000000;   /* Black */
   --chart-3: #1A9E5A;   /* Signal Positiv */
   --chart-4: #E8402A;   /* Signal Negativ */
   --chart-5: #6B7A9A;   /* Signal Neutral */
-  --chart-6: #C8A8F0;   /* Pastell Lavender */
-  --chart-7: #FFCF9E;   /* Pastell Peach */
-  --chart-8: #A8D8F0;   /* Pastell Sky */
+  --chart-6: #C3F4D3;   /* Mint Green */
+  --chart-7: #D4E8FF;   /* Baby Blue */
+  --chart-8: #FFD6E0;   /* Rose Quartz */
 
   /* ── Sidebar (Light Mode: hell) ── */
   --sidebar:                    #FFFFFF;
-  --sidebar-foreground:         #0A0A0A;
+  --sidebar-foreground:         #000000;
   --sidebar-primary:            #E4FF97;
-  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-primary-foreground: #000000;
   --sidebar-accent:             #F5F5F5;
-  --sidebar-accent-foreground:  #0A0A0A;
+  --sidebar-accent-foreground:  #000000;
   --sidebar-border:             #E8E8E8;
   --sidebar-ring:               #E4FF97;
 
@@ -122,15 +130,15 @@
    Lime leuchtet auf Dunkel
 ═══════════════════════════════════════════════════════ */
 .dark {
-  --background:            #0A0A0A;
+  --background:            #000000;
   --foreground:            #F5F5F5;
-  --card:                  #141414;
+  --card:                  #111111;
   --card-foreground:       #F5F5F5;
   --popover:               #1A1A1A;
   --popover-foreground:    #F5F5F5;
 
   --primary:               #E4FF97;
-  --primary-foreground:    #0A0A0A;
+  --primary-foreground:    #000000;
 
   --secondary:             #1A1A1A;
   --secondary-foreground:  #F5F5F5;
@@ -139,10 +147,10 @@
   --muted-foreground:      #888888;
 
   --accent:                #E4FF97;
-  --accent-foreground:     #0A0A0A;
+  --accent-foreground:     #000000;
 
   --destructive:           #FF5540;
-  --destructive-foreground:#0A0A0A;
+  --destructive-foreground:#000000;
   --border:                #2A2A2A;
   --input:                 #2A2A2A;
   --ring:                  #E4FF97;
@@ -173,11 +181,11 @@
   --chart-7: #FFD4A8;
   --chart-8: #B8E0FF;
 
-  /* Sidebar Dark — gleich wie Light (schon dunkel) */
-  --sidebar:                    #0A0A0A;
+  /* Sidebar Dark */
+  --sidebar:                    #000000;
   --sidebar-foreground:         #F5F5F5;
   --sidebar-primary:            #E4FF97;
-  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-primary-foreground: #000000;
   --sidebar-accent:             #1A1A1A;
   --sidebar-accent-foreground:  #F5F5F5;
   --sidebar-border:             #2A2A2A;
@@ -461,17 +469,27 @@
 }
 
 /* ── Legacy-Klassen (für Rückwärtskompatibilität) ── */
-.bg-grain-blue   { background-color: #0A0A0A; color: #FFFFFF; }
+.bg-grain-blue   { background-color: #000000; color: #FFFFFF; }
 .bg-grain-red    { background-color: #E8402A; color: #FFFFFF; }
 .bg-grain-violet { background-color: #1A1A1A; color: #FFFFFF; }
-.bg-grain-coral  { background-color: #E4FF97; color: #0A0A0A; }
+.bg-grain-coral  { background-color: #E4FF97; color: #000000; }
 .bg-grain-teal   { background-color: #1A9E5A; color: #FFFFFF; }
-.bg-grain-amber  { background-color: #E4FF97; color: #0A0A0A; }
+.bg-grain-amber  { background-color: #E4FF97; color: #000000; }
 .bg-grain-green  { background-color: #1A9E5A; color: #FFFFFF; }
-.text-grain-blue   { color: #0A0A0A; }
+.text-grain-blue   { color: #000000; }
 .text-grain-red    { color: #E8402A; }
 .text-grain-violet { color: #1A1A1A; }
 .text-grain-coral  { color: #9DC800; }
+
+/* ── Pastell-Utility-Klassen (exakte Palette) ── */
+.bg-pastel-rose    { background-color: #FFD6E0; color: #000000; }
+.bg-pastel-peach   { background-color: #FFECD2; color: #000000; }
+.bg-pastel-mint    { background-color: #C3F4D3; color: #000000; }
+.bg-pastel-orchid  { background-color: #FDE2FF; color: #000000; }
+.bg-pastel-blue    { background-color: #D4E8FF; color: #000000; }
+.bg-pastel-butter  { background-color: #FFF5BA; color: #000000; }
+.bg-pastel-orange  { background-color: #FFE0CC; color: #000000; }
+.bg-pastel-aqua    { background-color: #D6F5F5; color: #000000; }
 
 /* ═══════════════════════════════════════════════════════
    SIGNALFARBEN UTILITIES

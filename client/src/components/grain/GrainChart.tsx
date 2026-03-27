@@ -22,16 +22,16 @@ import {
 
 /* ── Grain Farbpaletten für Recharts ── */
 
-/** Standard-Palette: Lime + Schwarz + Signalfarben + Pastell */
+/** Standard-Palette: Neon Yellow + Black + Signalfarben + Pastell */
 export const GRAIN_HEX = [
-  "#0A0A0A", // Schwarz (Primär)
+  "#E4FF97", // Neon Yellow (Primär)
+  "#000000", // Black (Fundament)
   "#1A9E5A", // Signal Positiv (Smaragd)
   "#E8402A", // Signal Negativ (Koralle)
   "#6B7A9A", // Signal Neutral (Slate)
-  "#E4FF97", // Lime
-  "#C8A8F0", // Pastell Lavender
-  "#FFCF9E", // Pastell Peach
-  "#A8D8F0", // Pastell Sky
+  "#C3F4D3", // Mint Green
+  "#D4E8FF", // Baby Blue
+  "#FFD6E0", // Rose Quartz
 ];
 
 /** Neon-Palette: maximale Chroma, elektrische Leuchtkraft */
@@ -46,16 +46,16 @@ export const GRAIN_NEON = [
   "#FF2D55", // Neon Red
 ];
 
-/** Pastel-Palette: weich, harmonisch */
+/** Pastell-Palette: exakt nach Vorgabe – 8 harmonische Töne */
 export const GRAIN_PASTEL = [
-  "#A5B4FC", // Lavender
-  "#FCA5A5", // Blush
-  "#6EE7B7", // Mint
-  "#FCD34D", // Butter
-  "#C4B5FD", // Lilac
-  "#86EFAC", // Sage
-  "#F9A8D4", // Rose
-  "#93C5FD", // Sky
+  "#FFD6E0", // Rose Quartz
+  "#FFECD2", // Peach Cream
+  "#C3F4D3", // Mint Green
+  "#FDE2FF", // Soft Orchid
+  "#D4E8FF", // Baby Blue
+  "#FFF5BA", // Butter Yellow
+  "#FFE0CC", // Powder Orange
+  "#D6F5F5", // Aqua Mist
 ];
 
 export const GRAIN_CHART_COLORS = GRAIN_HEX; // backwards compat

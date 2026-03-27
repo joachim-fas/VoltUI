@@ -9,11 +9,11 @@ import { GrainBadge } from "@/components/grain/GrainBadge";
 import { GRAIN_HEX, GRAIN_NEON, GRAIN_PASTEL } from "@/components/grain/GrainChart";
 
 const colorTokens = [
-  { name: "--lime",          hex: "#E4FF97", role: "Primär (Leading)",   bg: "bg-[#E4FF97]" },
-  { name: "--ink",           hex: "#0A0A0A", role: "Schwarz (Fundament)", bg: "bg-[#0A0A0A]" },
-  { name: "--signal-positive", hex: "#1A9E5A", role: "Signal Positiv",    bg: "bg-[#1A9E5A]" },
-  { name: "--signal-negative", hex: "#E8402A", role: "Signal Negativ",    bg: "bg-[#E8402A]" },
-  { name: "--signal-neutral",  hex: "#6B7A9A", role: "Signal Neutral",    bg: "bg-[#6B7A9A]" },
+  { name: "--neon-yellow",     hex: "#E4FF97", role: "Neon Yellow (Leading)", bg: "bg-[#E4FF97]" },
+  { name: "--black",           hex: "#000000", role: "Black (Fundament)",     bg: "bg-[#000000]" },
+  { name: "--signal-positive", hex: "#1A9E5A", role: "Signal Positiv",        bg: "bg-[#1A9E5A]" },
+  { name: "--signal-negative", hex: "#E8402A", role: "Signal Negativ",        bg: "bg-[#E8402A]" },
+  { name: "--signal-neutral",  hex: "#6B7A9A", role: "Signal Neutral",        bg: "bg-[#6B7A9A]" },
 ];
 
 const semanticTokens = [
@@ -88,7 +88,7 @@ export const FoundationsSection: React.FC = () => {
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>Markenfarben</GrainCardTitle>
-          <p className="text-xs text-muted-foreground font-body mt-0.5">Aus dem Quell-Bild extrahiert, im OKLCH-Farbraum definiert</p>
+          <p className="text-xs text-muted-foreground font-body mt-0.5">Hauptfarben: Neon Yellow #E4FF97 + Black #000000 · Signalfarben: Smaragd · Koralle · Slate</p>
         </GrainCardHeader>
         <GrainCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -379,10 +379,10 @@ const PALETTES = [
   {
     id: "standard",
     label: "Standard",
-    desc: "Satte, klare Farben · Optimiert für helle Hintergründe · Hoher Kontrast",
+    desc: "Klare, kontraststarke Farben · Neon Yellow als Führungsfarbe · Signalfarben für Datenbewertung",
     colors: GRAIN_HEX,
-    names: ["Blue", "Red", "Teal", "Amber", "Violet", "Green", "Pink", "Coral"],
-    roles: ["Primär", "Akzent", "Positiv", "Warnung", "Sekundär", "Erfolg", "Highlight", "Info"],
+    names: ["Neon Yellow", "Black", "Positiv", "Negativ", "Neutral", "Mint Green", "Baby Blue", "Rose Quartz"],
+    roles: ["Primär", "Fundament", "Signal ↑", "Signal ↓", "Signal →", "Pastell 1", "Pastell 2", "Pastell 3"],
   },
   {
     id: "neon",
@@ -394,11 +394,11 @@ const PALETTES = [
   },
   {
     id: "pastel",
-    label: "Pastel",
-    desc: "Weich & harmonisch · Ideal für helle Interfaces & Reporting · Niedrige Ermüdung",
+    label: "Pastell",
+    desc: "8 harmonische Pastell-Töne · Ideal für Reporting & Kategorien · Niedrige Ermüdung",
     colors: GRAIN_PASTEL,
-    names: ["Lavender", "Blush", "Mint", "Butter", "Lilac", "Sage", "Rose", "Sky"],
-    roles: ["Primär", "Warnung", "Positiv", "Neutral", "Sekundär", "Erfolg", "Highlight", "Info"],
+    names: ["Rose Quartz", "Peach Cream", "Mint Green", "Soft Orchid", "Baby Blue", "Butter Yellow", "Powder Orange", "Aqua Mist"],
+    roles: ["Kategorie 1", "Kategorie 2", "Kategorie 3", "Kategorie 4", "Kategorie 5", "Kategorie 6", "Kategorie 7", "Kategorie 8"],
   },
 ];
 
@@ -411,7 +411,7 @@ const ChartPalettesSection: React.FC = () => {
       <GrainCardHeader>
         <GrainCardTitle>Chart-Farbpaletten</GrainCardTitle>
         <p className="text-xs text-muted-foreground font-ui mt-0.5">
-          3 Paletten · Konsistent über alle Visualisierungen · OKLCH-Farbraum für gleichmäßige Helligkeit
+          3 Paletten · Konsistent über alle Visualisierungen · Neon Yellow + 8 Pastell-Töne + Signalfarben
         </p>
       </GrainCardHeader>
       <GrainCardContent>

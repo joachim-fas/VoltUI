@@ -75,11 +75,11 @@ const composedData = [
 ];
 
 const radialData = [
-  { name: "Blau",    value: 88 },
-  { name: "Rot",     value: 72 },
-  { name: "Teal",    value: 65 },
-  { name: "Amber",   value: 54 },
-  { name: "Violett", value: 42 },
+  { name: "Neon Yellow", value: 88 },
+  { name: "Positiv",    value: 72 },
+  { name: "Negativ",    value: 65 },
+  { name: "Neutral",    value: 54 },
+  { name: "Mint",       value: 42 },
 ];
 
 const funnelData = [
@@ -498,20 +498,20 @@ export const DataSection: React.FC = () => {
         <GrainCardHeader>
           <GrainCardTitle>Chart-Farbpalette</GrainCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">
-            8 Farben aus der Grain-Palette · Konsistent über alle Visualisierungen · OKLCH-Farbraum für gleichmäßige Helligkeit
+            Neon Yellow + Black + Signalfarben + Pastell · Konsistent über alle Visualisierungen
           </p>
         </GrainCardHeader>
         <GrainCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             {[
-              { hex: GRAIN_HEX[0], name: "Blue",   role: "Primär" },
-              { hex: GRAIN_HEX[1], name: "Red",    role: "Akzent" },
-              { hex: GRAIN_HEX[2], name: "Teal",   role: "Positiv" },
-              { hex: GRAIN_HEX[3], name: "Amber",  role: "Warnung" },
-              { hex: GRAIN_HEX[4], name: "Violet", role: "Sekundär" },
-              { hex: GRAIN_HEX[5], name: "Green",  role: "Erfolg" },
-              { hex: GRAIN_HEX[6], name: "Pink",   role: "Highlight" },
-              { hex: GRAIN_HEX[7], name: "Coral",  role: "Info" },
+              { hex: GRAIN_HEX[0], name: "Neon Yellow",  role: "Führungsfarbe" },
+              { hex: GRAIN_HEX[1], name: "Black",        role: "Fundament" },
+              { hex: GRAIN_HEX[2], name: "Positiv",      role: "Signal ↑" },
+              { hex: GRAIN_HEX[3], name: "Negativ",      role: "Signal ↓" },
+              { hex: GRAIN_HEX[4], name: "Neutral",      role: "Signal →" },
+              { hex: GRAIN_HEX[5], name: "Mint Green",   role: "Pastell" },
+              { hex: GRAIN_HEX[6], name: "Baby Blue",    role: "Pastell" },
+              { hex: GRAIN_HEX[7], name: "Rose Quartz",  role: "Pastell" },
             ].map(({ hex, name, role }) => (
               <div key={name} className="flex flex-col gap-2">
                 <div className="h-12 rounded-xl grain" style={{ background: hex }} />
@@ -524,10 +524,9 @@ export const DataSection: React.FC = () => {
           </div>
           {/* Farbpaletten-Erklärung */}
           <div className="mt-4 p-3 rounded-xl bg-muted/50 border border-border">
-            <p className="text-[10px] font-semibold font-ui text-foreground mb-1">Warum OKLCH?</p>
+            <p className="text-[10px] font-semibold font-ui text-foreground mb-1">Farbsystem</p>
             <p className="text-[10px] font-body text-muted-foreground leading-relaxed">
-              OKLCH (Lightness, Chroma, Hue) garantiert gleichmäßige wahrgenommene Helligkeit über alle Farbtöne.
-              Das bedeutet: Blau und Rot bei gleicher L-Wert (0.42) wirken gleich hell – kein Farbton dominiert visuell.
+              Neon Yellow #E4FF97 und Black #000000 als führende Systemfarben. Signalfarben (Smaragd, Koralle, Slate) für eindeutige Datenbewertung. 8 Pastell-Töne für Kategorien und Reporting.
             </p>
           </div>
         </GrainCardContent>
