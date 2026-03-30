@@ -1,7 +1,14 @@
 /**
  * GrainButton – Flux UI
- * Primär: Lime (#E4FF97) + Schwarz (#0A0A0A)
- * Semantische Tokens für vollständigen Dark-Mode-Support
+ * Hover-Konzept: Jede Variante hat einen eigenen, charakteristischen Hover-State.
+ * Primär:      Lime-Glow + leichter Aufhell-Shift
+ * Solid:       Opacity-Shift + subtiler Lift
+ * Outline:     Border wird sichtbarer + Hintergrund füllt sich
+ * Ghost:       Hintergrund erscheint sanft
+ * Glass:       Blur-Intensität steigt + heller
+ * Secondary:   Abdunkeln + Border-Akzent
+ * Destructive: Aufhellen + Glow-Effekt
+ * Alle: scale(1.02) auf hover, scale(0.97) auf active, 200ms ease-out
  */
 
 import React from "react";
@@ -13,55 +20,56 @@ const buttonVariants = cva(
   [
     "relative inline-flex items-center justify-center gap-2",
     "font-ui font-semibold tracking-tight select-none overflow-hidden",
-    "rounded-lg transition-all duration-150 ease-out",
+    "rounded-lg transition-all duration-200 ease-out",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
     "disabled:opacity-45 disabled:pointer-events-none",
-    "active:scale-[0.97]",
+    "hover:scale-[1.02] active:scale-[0.97]",
+    "cursor-pointer",
   ],
   {
     variants: {
       variant: {
-        /* ── Primär: Lime-Fläche, schwarzer Text – bleibt immer Lime ── */
+        /* ── Primär: Lime-Fläche – Hover: heller Lime + Glow ── */
         primary: [
           "bg-[#E4FF97] text-[#0A0A0A]",
-          "hover:bg-[#D4F080]",
           "ring-1 ring-black/10",
+          "hover:bg-[#EFFFB8] hover:shadow-[0_0_20px_rgba(228,255,151,0.55)]",
         ],
-        /* ── Solid: Foreground-Fläche (Schwarz/Hell je nach Modus) ── */
+        /* ── Solid: Foreground-Fläche – Hover: leicht transparent + Lift-Shadow ── */
         solid: [
           "bg-foreground text-background",
-          "hover:bg-foreground/85",
+          "hover:bg-foreground/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.25)]",
         ],
-        /* ── Outline: semantische Border und Text ── */
+        /* ── Outline: Border + transparent – Hover: Border kräftiger + Fläche füllt sich ── */
         outline: [
-          "border border-border text-foreground bg-transparent",
-          "hover:bg-secondary hover:border-foreground/40",
+          "border-2 border-border text-foreground bg-transparent",
+          "hover:border-foreground hover:bg-foreground/6 hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)]",
         ],
-        /* ── Ghost ── */
+        /* ── Ghost: kein Hintergrund – Hover: subtile Fläche + Underline-Akzent ── */
         ghost: [
           "text-foreground bg-transparent",
-          "hover:bg-secondary",
+          "hover:bg-foreground/8 hover:text-foreground",
         ],
-        /* ── Glass ── */
+        /* ── Glass: Blur-Effekt – Hover: heller + stärkerer Blur + Glow ── */
         glass: [
-          "glass text-foreground border border-white/20",
-          "hover:bg-white/25",
+          "backdrop-blur-md bg-white/10 text-foreground border border-white/20",
+          "hover:bg-white/20 hover:border-white/40 hover:shadow-[0_4px_24px_rgba(255,255,255,0.12)]",
         ],
-        /* ── Secondary: sekundäre Fläche ── */
+        /* ── Secondary: gedämpfte Fläche – Hover: Border-Akzent + leichtes Abdunkeln ── */
         secondary: [
           "bg-secondary text-secondary-foreground",
-          "hover:bg-secondary/80",
           "ring-1 ring-border",
+          "hover:bg-secondary/70 hover:ring-foreground/30 hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]",
         ],
-        /* ── Destructive: Koralle ── */
+        /* ── Destructive: Koralle – Hover: aufhellen + Glow ── */
         destructive: [
           "bg-destructive text-destructive-foreground",
-          "hover:bg-destructive/90",
+          "hover:bg-destructive/80 hover:shadow-[0_0_18px_rgba(232,64,42,0.40)]",
         ],
         /* ── Legacy-Alias ── */
         gradient: [
           "bg-foreground text-background",
-          "hover:bg-foreground/85",
+          "hover:bg-foreground/80 hover:shadow-[0_4px_16px_rgba(0,0,0,0.25)]",
         ],
       },
       size: {
