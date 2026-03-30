@@ -46,20 +46,20 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
 
   /* ── Auto-Scroll: aktives Item in den sichtbaren Bereich scrollen ── */
   useEffect(() => {
-    const aside  = asideRef.current;
+    const nav    = navRef.current;
     const active = activeRef.current;
-    if (!aside || !active) return;
+    if (!nav || !active) return;
 
-    const asideTop    = aside.scrollTop;
-    const asideBottom = asideTop + aside.clientHeight;
-    const itemTop     = active.offsetTop;
-    const itemBottom  = itemTop + active.offsetHeight;
+    const navTop    = nav.scrollTop;
+    const navBottom = navTop + nav.clientHeight;
+    const itemTop   = active.offsetTop;
+    const itemBottom = itemTop + active.offsetHeight;
 
     // Nur scrollen wenn das Item außerhalb des sichtbaren Bereichs liegt
-    if (itemTop < asideTop + 80) {
-      aside.scrollTo({ top: itemTop - 80, behavior: "smooth" });
-    } else if (itemBottom > asideBottom - 80) {
-      aside.scrollTo({ top: itemBottom - aside.clientHeight + 80, behavior: "smooth" });
+    if (itemTop < navTop + 40) {
+      nav.scrollTo({ top: itemTop - 40, behavior: "smooth" });
+    } else if (itemBottom > navBottom - 40) {
+      nav.scrollTo({ top: itemBottom - nav.clientHeight + 40, behavior: "smooth" });
     }
   }, [activeId]);
 
@@ -84,35 +84,35 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
     <aside
       ref={asideRef}
       className={cn(
-        "flex flex-col h-full w-64 flex-shrink-0 overflow-y-auto transition-colors duration-300",
+        "flex flex-col h-full w-64 flex-shrink-0 overflow-hidden transition-colors duration-300",
         className
       )}
       style={{ background: bg, borderRight: `1px solid ${borderColor}` }}
       {...props}
     >
-      {/* ── Logo ── */}
-      {logo && (
-        <div className="px-5 pt-5 pb-4 flex-shrink-0" style={{ borderBottom: `1px solid ${borderColor}` }}>
-          {logo}
-        </div>
-      )}
-
-      {/* ── Fortschrittsbalken ── */}
-      <div className="px-5 py-3 flex-shrink-0" style={{ borderBottom: `1px solid ${borderColor}50` }}>
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[0.6rem] font-mono uppercase tracking-wider" style={{ color: labelColor }}>Fortschritt</span>
-          <span className="text-[0.6rem] font-mono" style={{ color: labelColor }}>{activeIndex + 1} / {allItems.length}</span>
-        </div>
-        <div className="h-1 rounded-full overflow-hidden" style={{ background: trackBg }}>
-          <div
-            className="h-full rounded-full transition-all duration-500 ease-out"
-            style={{ width: `${progress}%`, background: "#E4FF97" }}
-          />
+      {/* ── Sticky Header: Logo + Fortschrittsbalken ── */}
+      <div className="flex-shrink-0 sticky top-0 z-10" style={{ background: bg }}>
+        {logo && (
+          <div className="px-5 pt-5 pb-4" style={{ borderBottom: `1px solid ${borderColor}` }}>
+            {logo}
+          </div>
+        )}
+        <div className="px-5 py-3" style={{ borderBottom: `1px solid ${borderColor}50` }}>
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[0.6rem] font-mono uppercase tracking-wider" style={{ color: labelColor }}>Fortschritt</span>
+            <span className="text-[0.6rem] font-mono" style={{ color: labelColor }}>{activeIndex + 1} / {allItems.length}</span>
+          </div>
+          <div className="h-1 rounded-full overflow-hidden" style={{ background: trackBg }}>
+            <div
+              className="h-full rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progress}%`, background: "#E4FF97" }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* ── Nav Sections ── */}
-      <nav ref={navRef} className="flex-1 px-3 py-4 space-y-5">
+      {/* ── Scrollbarer Nav-Bereich ── */}
+      <nav ref={navRef} className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
         {sections.map((section, si) => (
           <div key={si}>
             <div className="px-2 mb-1.5 flex items-center gap-2">
