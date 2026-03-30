@@ -143,6 +143,128 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
       "Zap", "Sparkles", "Star", "Stars", "Sunrise", "Sunset",
     ],
   },
+  travel: {
+    label: "Travel & Mobilität",
+    color: "#1A4A8A",
+    bg: "#D4E8FF",
+    icons: [
+      "Plane", "PlaneLanding", "PlaneTakeoff", "Train", "Bus", "Car", "Bike", "Ship",
+      "Anchor", "Sailboat", "Compass", "Map", "MapPin", "MapPinned", "Navigation",
+      "Navigation2", "Route", "Milestone", "Globe", "Globe2", "Luggage", "Backpack",
+      "Ticket", "TicketCheck", "Mountain", "MountainSnow", "Tent", "TreePine",
+      "Palmtree", "CableCar", "FerrisWheel", "Landmark",
+    ],
+  },
+  hospitality: {
+    label: "Hospitality & Food",
+    color: "#7A2A00",
+    bg: "#FFE8D4",
+    icons: [
+      "UtensilsCrossed", "Utensils", "ChefHat", "Coffee", "CupSoda", "Wine", "Beer",
+      "Pizza", "Sandwich", "Salad", "Croissant", "IceCream", "IceCream2", "Cake",
+      "Cookie", "Soup", "Beef", "Egg", "Milk", "Apple", "Carrot", "Banana",
+      "Cherry", "Grape", "Citrus", "Nut", "Wheat",
+      "BedDouble", "BedSingle", "Bath", "ShowerHead", "Sofa", "Lamp", "Armchair",
+      "Tv", "Microwave", "Refrigerator", "WashingMachine", "Waves", "ConciergeBell",
+    ],
+  },
+  finance: {
+    label: "Finance & Business",
+    color: "#0A4A20",
+    bg: "#C3F4D3",
+    icons: [
+      "DollarSign", "Euro", "PoundSterling", "JapaneseYen", "IndianRupee", "Bitcoin",
+      "Coins", "Banknote", "CreditCard", "Wallet", "PiggyBank", "HandCoins", "Vault",
+      "BadgeDollarSign", "CircleDollarSign", "TrendingUp", "TrendingDown",
+      "BarChart", "BarChart2", "LineChart", "PieChart", "ArrowUpDown",
+      "Receipt", "ReceiptText", "Scale", "Percent", "Calculator",
+      "Landmark", "Building", "Building2",
+    ],
+  },
+  innovation: {
+    label: "Innovation & Technologie",
+    color: "#4A0A7A",
+    bg: "#EDD4FF",
+    icons: [
+      "Lightbulb", "LightbulbOff", "Sparkles", "Zap", "Rocket", "Wand2", "Stars",
+      "FlaskConical", "FlaskRound", "Microscope", "Atom", "Dna",
+      "BrainCircuit", "Brain", "Bot", "Cpu", "CircuitBoard",
+      "Telescope", "Satellite", "Antenna", "Radio", "Wifi",
+      "QrCode", "Fingerprint", "ScanFace", "Eye", "Scan", "ScanLine",
+      "Layers", "Layers2", "Box", "Hexagon", "Network", "Workflow", "Nfc",
+    ],
+  },
+  social: {
+    label: "Social & Community",
+    color: "#8A1A3A",
+    bg: "#FFD6E0",
+    icons: [
+      "Heart", "HeartHandshake", "Handshake", "Users", "Users2", "UserPlus",
+      "Share", "Share2", "MessageCircle", "MessageSquare",
+      "ThumbsUp", "ThumbsDown", "Smile", "Laugh", "Frown", "Meh",
+      "PartyPopper", "Gift", "Star", "Trophy", "Award", "Medal", "Crown",
+      "Flag", "AtSign", "Hash", "Rss", "Bell", "BellRing",
+    ],
+  },
+  future: {
+    label: "Future & Vision",
+    color: "#0A2A5A",
+    bg: "#C8D8FF",
+    icons: [
+      "Orbit", "Infinity", "Hourglass", "Timer", "Clock", "Diamond", "Gem",
+      "Hexagon", "Pentagon", "Triangle", "Network", "Workflow",
+      "Satellite", "Telescope", "Atom", "Dna", "Rocket", "Zap",
+      "BrainCircuit", "Bot", "Cpu", "CircuitBoard", "Eye", "Scan", "Nfc",
+      "Sparkles", "Stars", "Wand2", "Lightbulb", "Globe", "Globe2",
+    ],
+  },
+  sport: {
+    label: "Sport & Fitness",
+    color: "#3A1A00",
+    bg: "#FFE0C0",
+    icons: [
+      "Dumbbell", "Bike", "PersonStanding", "Footprints", "Activity", "HeartPulse",
+      "Timer", "AlarmClock", "Trophy", "Medal", "Award",
+      "Target", "Crosshair", "Swords", "Sword", "Axe", "Shield", "ShieldCheck",
+      "Wind", "Waves", "Flame", "Zap", "Battery", "BatteryFull", "BatteryCharging",
+      "Volleyball", "Mountain", "MountainSnow", "Snowflake", "Tent",
+      "Flag", "AlarmClock",
+    ],
+  },
+  lifestyle: {
+    label: "Lifestyle & Kultur",
+    color: "#2A0A5A",
+    bg: "#E8D4FF",
+    icons: [
+      "Music", "Music2", "Music3", "Music4", "Headphones", "Film", "Camera",
+      "Clapperboard", "BookOpen", "Book", "BookMarked", "Newspaper",
+      "Palette", "Paintbrush", "Pen", "Pencil", "Scissors",
+      "Shirt", "ShoppingBag", "ShoppingCart", "Watch", "Glasses",
+      "Gamepad", "Gamepad2", "Joystick", "Dice1", "Dice5", "Puzzle",
+      "Cat", "Dog", "Bird", "Fish", "Flower", "Flower2", "Leaf",
+      "Sun", "Moon", "Sunset", "Sunrise", "Coffee", "Wine",
+    ],
+  },
+  nodecanvas: {
+    label: "Node Canvas & Workflow",
+    color: "#1A3A1A",
+    bg: "#C3F4D3",
+    icons: [
+      // Node-Typen (direkt in GrainNodeCanvas verwendet)
+      "AlignLeft", "Image", "Sparkles", "List", "Table2", "Play",
+      // Workflow & Verbindungen
+      "Workflow", "GitBranch", "GitMerge", "Network", "Share2",
+      "ArrowRight", "ArrowRightLeft", "CornerDownRight", "Merge",
+      // Canvas-Steuerung
+      "Move", "Maximize2", "Minimize2", "ZoomIn", "ZoomOut",
+      "Grip", "GripVertical", "Layers", "Layers2",
+      // Node-Aktionen
+      "Plus", "Trash2", "Copy", "Edit2", "Lock", "Unlock",
+      "MoreHorizontal", "MoreVertical", "Settings2",
+      // KI / Automatisierung
+      "Bot", "BrainCircuit", "Cpu", "Zap", "Wand2", "Rocket",
+    ],
+  },
 };
 
 const SIZES = [

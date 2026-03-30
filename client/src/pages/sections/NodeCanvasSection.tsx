@@ -151,8 +151,13 @@ const ANATOMY = [
   },
   {
     title: "Canvas",
-    desc: "Unendliche Arbeitsfläche mit Dotted-Grid. Scrollbar, optional skalierbar. Hintergrund passt sich dem Dark/Light-Mode an.",
+    desc: "Interaktive Arbeitsfläche mit Dotted-Grid. Pan per Mittlere Maustaste, Zoom per Scroll-Rad (0.2×–3×). Hintergrund passt sich dem Dark/Light-Mode an.",
     color: "#D98AE8",
+  },
+  {
+    title: "Drag & Resize",
+    desc: "Nodes per Header-Drag verschieben. Resize-Handle (rechts unten) zum Skalieren. Callbacks über onNodeChange und onNodeSelect.",
+    color: "#F5C87A",
   },
   {
     title: "Selektion",
@@ -163,13 +168,14 @@ const ANATOMY = [
 
 /* ── Props-Tabelle ── */
 const PROPS = [
-  { prop: "nodes",     type: "CanvasNode[]",  req: "✓", desc: "Array der Nodes (id, type, x, y, label, …)" },
-  { prop: "edges",     type: "CanvasEdge[]",  req: "–", desc: "Verbindungen zwischen Nodes (from, to, animated, color)" },
-  { prop: "groups",    type: "CanvasGroup[]", req: "–", desc: "Gruppen-Container (x, y, width, height, color, label)" },
-  { prop: "height",    type: "number",        req: "–", desc: "Sichtbare Canvas-Höhe in px (Standard: 500)" },
-  { prop: "showGrid",  type: "boolean",       req: "–", desc: "Dotted-Grid anzeigen (Standard: true)" },
-  { prop: "scale",     type: "number",        req: "–", desc: "Zoom-Faktor (Standard: 1, nur visuell)" },
-  { prop: "className", type: "string",        req: "–", desc: "Zusätzliche CSS-Klassen für den Container" },
+  { prop: "nodes",          type: "CanvasNode[]",                    req: "✓", desc: "Array der Nodes (id, type, x, y, label, …)" },
+  { prop: "edges",          type: "CanvasEdge[]",                    req: "–", desc: "Verbindungen zwischen Nodes (from, to, animated, color)" },
+  { prop: "groups",         type: "CanvasGroup[]",                   req: "–", desc: "Gruppen-Container (x, y, width, height, color, label)" },
+  { prop: "height",         type: "number",                         req: "–", desc: "Sichtbare Canvas-Höhe in px (Standard: 500)" },
+  { prop: "showGrid",       type: "boolean",                        req: "–", desc: "Dotted-Grid anzeigen (Standard: true)" },
+  { prop: "onNodeChange",   type: "(id, x, y, w, h) => void",       req: "–", desc: "Callback nach Node-Drag oder Resize mit neuer Position und Größe" },
+  { prop: "onNodeSelect",   type: "(id: string | null) => void",    req: "–", desc: "Callback bei Node-Selektion (null = Deselektierung)" },
+  { prop: "className",      type: "string",                         req: "–", desc: "Zusätzliche CSS-Klassen für den Container" },
 ];
 
 /* ── Design-Regeln ── */
@@ -178,7 +184,7 @@ const RULES = [
   { num: "02", ok: true,  title: "Animierte Edges sparsam",   desc: "Nur aktive Datenflüsse werden animiert. Statische Verbindungen bleiben ruhig." },
   { num: "03", ok: true,  title: "Gruppen als Kontext",       desc: "Gruppen fassen thematisch zusammengehörige Nodes zusammen. Max. 2 Ebenen Verschachtelung." },
   { num: "04", ok: false, title: "Keine Kreuz-Edges",         desc: "Edges sollten sich nicht kreuzen. Layout so wählen, dass der Datenfluss von links nach rechts lesbar ist." },
-  { num: "05", ok: false, title: "Max. 12 Nodes pro Canvas",  desc: "Bei mehr als 12 Nodes wird das Canvas unübersichtlich. Gruppen oder Unter-Canvas verwenden." },
+  { num: "05", ok: false, title: "Max. 15 Nodes pro Canvas",  desc: "Bei mehr als 15 Nodes wird das Canvas unübersichtlich. Gruppen oder Unter-Canvas verwenden." },
   { num: "06", ok: true,  title: "Selektion zeigt Kontext",   desc: "Nur ein Node gleichzeitig selektieren. Selektion hebt den aktiven Node hervor ohne andere zu dimmen." },
 ];
 
