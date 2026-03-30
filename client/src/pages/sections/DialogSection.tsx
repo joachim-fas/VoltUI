@@ -200,7 +200,7 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
     setTimeout(() => setCopied(false), 1500);
   };
   return (
-    <button onClick={copy} className="flex items-center gap-1 text-[10px] font-mono text-[#6B7A9A] hover:text-foreground transition-colors">
+    <button onClick={copy} className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground hover:text-foreground transition-colors">
       {copied ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
       {copied ? "kopiert" : "kopieren"}
     </button>
@@ -220,7 +220,7 @@ export const DialogSection: React.FC = () => {
 
       {/* ── HEADER ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Dialog-Prinzip</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Dialog-Prinzip</p>
         <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
           Kein Pingpong.<br />Kein Nebel.
         </h1>
@@ -239,7 +239,7 @@ export const DialogSection: React.FC = () => {
 
       {/* ── TERMINAL DEMO ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
           Live-Beispiel
         </p>
         <TerminalDemo />
@@ -247,7 +247,7 @@ export const DialogSection: React.FC = () => {
 
       {/* ── 3 KOMMUNIKATIONSRICHTUNGEN ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
           3 Kommunikationsrichtungen
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -273,7 +273,7 @@ export const DialogSection: React.FC = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold text-foreground truncate">{dir.title}</p>
-                  <p className="text-[10px] text-[#6B7A9A] truncate">{dir.subtitle}</p>
+                  <p className="text-[10px] text-muted-foreground truncate">{dir.subtitle}</p>
                 </div>
                 {activeDir === dir.id && (
                   <div className="w-1.5 h-1.5 rounded-full bg-[#0A0A0A] shrink-0" />
@@ -314,12 +314,12 @@ export const DialogSection: React.FC = () => {
                   </span>
                   <div>
                     <p className="text-sm font-semibold text-foreground mb-1">{step.content}</p>
-                    <p className="text-xs text-[#6B7A9A] leading-relaxed">{step.detail}</p>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{step.detail}</p>
                   </div>
                 </div>
                 {i < 2 && (
                   <div className="flex justify-center mt-3">
-                    <ArrowRight size={14} className="text-[#BEBEBE]" />
+                    <ArrowRight size={14} className="text-muted-foreground/40" />
                   </div>
                 )}
               </div>
@@ -349,7 +349,7 @@ export const DialogSection: React.FC = () => {
 
       {/* ── MICROCOPY-SYSTEM ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">
           Microcopy-System
         </p>
         <p className="text-sm text-muted-foreground mb-4 max-w-xl">
@@ -371,7 +371,7 @@ export const DialogSection: React.FC = () => {
                 </span>
                 <CopyButton text={item.label} />
               </div>
-              <p className="text-xs text-[#6B7A9A] leading-relaxed">{item.desc}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -379,7 +379,7 @@ export const DialogSection: React.FC = () => {
 
       {/* ── SERVICE CLI ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
           Service CLI – Free-Agents.io
         </p>
         <div className="rounded-2xl bg-[#0A0A0A] p-6">
@@ -418,7 +418,7 @@ export const DialogSection: React.FC = () => {
 
       {/* ── GUARDRAILS ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
           Dialog-Guardrails
         </p>
         <div className="flex flex-wrap gap-2">
@@ -427,7 +427,7 @@ export const DialogSection: React.FC = () => {
               key={i}
               className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors"
             >
-              <span className="font-mono text-[9px] text-[#BEBEBE]">{String(i+1).padStart(2,"0")}</span>
+              <span className="font-mono text-[9px] text-muted-foreground/40">{String(i+1).padStart(2,"0")}</span>
               <span className="text-xs font-semibold text-foreground">{g}</span>
             </div>
           ))}
@@ -436,12 +436,12 @@ export const DialogSection: React.FC = () => {
 
       {/* ── TEMPLATE ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
           Dialog-Template (copy/paste)
         </p>
         <div className="rounded-2xl border border-border bg-card overflow-hidden">
           <div className="flex items-center justify-between px-5 py-3 border-b border-border bg-[#F7F7F7]">
-            <span className="font-mono text-xs text-[#6B7A9A]">dialog-template.md</span>
+            <span className="font-mono text-xs text-muted-foreground">dialog-template.md</span>
             <CopyButton text={`input:\n- Kontext:\n- Rohmaterial:\n- Constraints:\n- Format:\n\ntransform:\n- Schritte:\n- Guardrails:\n- Owner:\n\noutput:\n- Artefakt:\n- DoD:\n- Annahmen:\n- Offene Punkte:\n\nhand-off:\n- Wie weiter ohne mich?\n- Next Action:\n- Deadline:`} />
           </div>
           <div className="p-5 font-mono text-xs space-y-4">
@@ -460,7 +460,7 @@ export const DialogSection: React.FC = () => {
                 </span>
                 <div className="mt-2 space-y-1 pl-2 border-l-2 border-border">
                   {block.fields.map((f, j) => (
-                    <p key={j} className="text-[#6B7A9A]">- {f} <span className="text-[#BEBEBE]">___</span></p>
+                    <p key={j} className="text-muted-foreground">- {f} <span className="text-muted-foreground/40">___</span></p>
                   ))}
                 </div>
               </div>

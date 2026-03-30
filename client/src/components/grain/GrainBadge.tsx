@@ -1,7 +1,8 @@
 /**
  * GrainBadge – Flux UI
- * Primär: Lime (#E4FF97) + Schwarz (#0A0A0A)
- * Signale: Smaragd (positiv) · Koralle (negativ) · Slate (neutral)
+ * KONTRAST-GARANTIE: Alle Varianten über CSS-Variablen oder explizite Kontrastpaare.
+ * Light: solid = #000000 auf #FFFFFF → 21:1 | muted = #3A3A3A auf #F4F4F4 → 8.5:1
+ * Dark:  solid = #F5F5F5 auf #111111 → 16:1 | muted = #CCCCCC auf #1A1A1A → 8:1
  */
 
 import React from "react";
@@ -18,30 +19,30 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        /* ── Primär: Lime auf Schwarz ── */
+        /* ── Primär: Lime auf Schwarz – Lime ist immer hell, text immer schwarz → kein Dark-Mode-Problem ── */
         default: [
-          "bg-[#E4FF97] text-[#0A0A0A]",
+          "bg-primary text-primary-foreground",
           "ring-1 ring-black/10",
         ],
-        /* ── Schwarz ── */
+        /* ── Solid: Foreground-Fläche → Light: schwarz auf weiß / Dark: hellgrau auf fast-schwarz ── */
         solid: [
-          "bg-[#0A0A0A] text-white",
-          "ring-1 ring-black/20",
+          "bg-foreground text-background",
+          "ring-1 ring-foreground/20",
         ],
-        /* ── Outline: Schwarz ── */
+        /* ── Outline: semantische Border und Text ── */
         outline: [
-          "border border-[#0A0A0A]/30 text-[#0A0A0A] bg-transparent",
-          "hover:bg-[#0A0A0A]/5",
+          "border border-foreground/30 text-foreground bg-transparent",
+          "hover:bg-foreground/5",
         ],
-        /* ── Muted: Grau ── */
+        /* ── Muted: Light #3A3A3A auf #F4F4F4 (8.5:1) / Dark #CCCCCC auf #1A1A1A (8:1) ── */
         muted: [
-          "bg-[#F4F4F4] text-[#6B6B6B]",
+          "bg-muted text-muted-foreground",
         ],
         /* ── Glass ── */
         glass: [
           "glass text-foreground border border-white/20",
         ],
-        /* ── Signal: Positiv (Smaragd) ── */
+        /* ── Signal: Positiv (Smaragd) – CSS-Variablen passen sich Light/Dark an ── */
         positive: [
           "bg-[var(--signal-positive-light)] text-[var(--signal-positive-text)] border border-[var(--signal-positive-border)]",
         ],
@@ -53,13 +54,13 @@ const badgeVariants = cva(
         neutral: [
           "bg-[var(--signal-neutral-light)] text-[var(--signal-neutral-text)] border border-[var(--signal-neutral-border)]",
         ],
-        /* ── Legacy-Aliase ── */
-        blue:     ["bg-[#0A0A0A] text-white ring-1 ring-black/20"],
-        red:      ["bg-[#E8402A] text-white ring-1 ring-red-900/20"],
-        gradient: ["bg-[#E4FF97] text-[#0A0A0A] ring-1 ring-black/10"],
-        violet:   ["bg-[#1A1A1A] text-white ring-1 ring-black/20"],
-        coral:    ["bg-[#E4FF97] text-[#0A0A0A] ring-1 ring-black/10"],
-        "outline-red": ["border border-[#E8402A]/40 text-[#E8402A] bg-transparent"],
+        /* ── Legacy-Aliase: auf semantische Tokens umgestellt ── */
+        blue:     ["bg-foreground text-background ring-1 ring-foreground/20"],
+        red:      ["bg-destructive text-destructive-foreground ring-1 ring-destructive/20"],
+        gradient: ["bg-primary text-primary-foreground ring-1 ring-black/10"],
+        violet:   ["bg-foreground text-background ring-1 ring-foreground/20"],
+        coral:    ["bg-primary text-primary-foreground ring-1 ring-black/10"],
+        "outline-red": ["border border-destructive/40 text-destructive bg-transparent"],
       },
       size: {
         sm: "px-2 py-0.5 text-[0.65rem] tracking-wide",

@@ -122,10 +122,10 @@ export const GrainSlider: React.FC<GrainSliderProps> = ({
   };
   const sz = sizes[sliderSize];
 
-  // Thumb-Farbe: bei Lime-Hintergrund schwarzer Kern, sonst weiß
-  const isLime = color === "#E4FF97";
-  const thumbInnerColor = isLime ? "#0A0A0A" : "#FFFFFF";
-  const thumbBorderColor = isLime ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.9)";
+  // Thumb-Farbe: bei Lime-Hintergrund schwarzer Kern, sonst CSS-Variable für Dark-Mode-Sicherheit
+  const isLime = color === "var(--neon-yellow)" || variant === "lime" || variant === "primary" || variant === "gradient" || variant === "coral";
+  const thumbInnerColor = isLime ? "#000000" : "var(--background)";
+  const thumbBorderColor = isLime ? "rgba(0,0,0,0.15)" : "var(--border)";
   const glowColor = isLime ? "rgba(228,255,151,0.4)" : color + "40";
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
@@ -218,7 +218,10 @@ export const GrainSlider: React.FC<GrainSliderProps> = ({
             style={{
               width: 2,
               height: sz.track * 0.6,
-              background: tick <= pct ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.12)",
+              /* Tick auf gefülltem Track: immer halbtransparent heller Kontrast
+                 Tick auf leerem Track: immer halbtransparent dunkler Kontrast
+                 → funktioniert in Light und Dark durch Mischung */
+              background: tick <= pct ? "rgba(255,255,255,0.45)" : "var(--border)",
               left: `${tick}%`,
               top: "50%",
               transform: "translate(-50%, -50%)",

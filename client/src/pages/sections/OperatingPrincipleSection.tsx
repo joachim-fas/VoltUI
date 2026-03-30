@@ -305,7 +305,7 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1800); }}
-      className="flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 rounded border border-border text-muted-foreground hover:border-[#0A0A0A] hover:text-foreground transition-all"
+      className="flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 rounded border border-border text-muted-foreground hover:border-foreground hover:text-foreground transition-all"
     >
       <Copy size={10} />
       {copied ? "✓ kopiert" : "kopieren"}
@@ -395,9 +395,9 @@ export default function OperatingPrincipleSection() {
         <SectionLabel><Cpu size={12} /> Die Bruecke: Digitales OS vs. Menschliches OP</SectionLabel>
         <div className="rounded-2xl border border-border overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2">
-            <div className="p-6 bg-[#0A0A0A] text-white">
+            <div className="p-6 bg-foreground text-background">
               <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3">Digitales OS</p>
-              <p className="font-display font-bold text-lg mb-4 text-[#E4FF97]">Betriebssystem</p>
+              <p className="font-display font-bold text-lg mb-4 text-primary">Betriebssystem</p>
               <div className="space-y-2 text-sm text-white/70">
                 <div className="flex items-center gap-2"><span className="text-[#D4E8FF] font-mono text-xs">INPUT</span><span>Events, Files, Requests</span></div>
                 <div className="flex items-center gap-2 pl-4"><ArrowRight size={12} className="text-muted-foreground" /></div>
@@ -406,7 +406,7 @@ export default function OperatingPrincipleSection() {
                 <div className="flex items-center gap-2"><span className="text-[#C3F4D3] font-mono text-xs">OUTPUT</span><span>Zustaende, Dateien, Responses</span></div>
               </div>
             </div>
-            <div className="p-6 bg-[#F9F9F9]">
+            <div className="p-6 bg-muted">
               <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3">Menschliches OP</p>
               <p className="font-display font-bold text-lg mb-4 text-foreground">Operating Principle</p>
               <div className="space-y-2 text-sm text-muted-foreground">
@@ -418,8 +418,8 @@ export default function OperatingPrincipleSection() {
               </div>
             </div>
           </div>
-          <div className="px-6 py-3 bg-[#E4FF97] border-t border-[#C8F060]">
-            <p className="text-xs font-mono text-foreground text-center">
+          <div className="px-6 py-3 bg-primary border-t border-primary/60">
+            <p className="text-xs font-mono text-primary-foreground text-center">
               <strong>Wichtig:</strong> Das OP ist kein „Framework", sondern eine <strong>Betriebsart</strong>.
             </p>
           </div>
@@ -470,7 +470,7 @@ export default function OperatingPrincipleSection() {
           {OUTPUT_TYPES.map((ot, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors cursor-default group"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-card hover:border-foreground transition-colors cursor-default group"
             >
               <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: ot.color }}>
                 <span className="text-foreground">{ot.icon}</span>
@@ -525,8 +525,8 @@ export default function OperatingPrincipleSection() {
             </div>
           ))}
         </div>
-        <div className="mt-4 px-4 py-3 rounded-xl bg-[#0A0A0A] text-center">
-            <p className="text-sm font-mono text-[#E4FF97]">
+        <div className="mt-4 px-4 py-3 rounded-xl bg-foreground text-center">
+            <p className="text-sm font-mono text-primary">
               Kein Pingpong. Kein Nebel. <strong>Input mit Konsequenz.</strong>
             </p>
         </div>
@@ -544,7 +544,7 @@ export default function OperatingPrincipleSection() {
             </p>
             <div className="space-y-3">
               {E2E_PRINCIPLES.map((p, i) => (
-                <div key={i} className="flex gap-3 p-3 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
+                <div key={i} className="flex gap-3 p-3 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
                   <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-0.5">{String(i+1).padStart(2,"0")}</span>
                   <div>
                     <p className="text-xs font-semibold text-foreground mb-0.5">{p.title}</p>
@@ -557,7 +557,7 @@ export default function OperatingPrincipleSection() {
           <div>
             <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3">E2E Quick-Check</p>
             <div className="rounded-2xl border border-border overflow-hidden">
-              <div className="px-4 py-3 bg-[#F7F7F7] border-b border-border">
+              <div className="px-4 py-3 bg-muted border-b border-border">
                 <p className="text-xs font-semibold text-foreground">3 Fragen, die jeder Output beantworten muss:</p>
               </div>
               {E2E_CRITERIA.map((c, i) => (
@@ -582,7 +582,7 @@ export default function OperatingPrincipleSection() {
               className={cn(
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all",
                 activeWorkflow === i
-                  ? "bg-[#0A0A0A] text-white border-[#0A0A0A]"
+                  ? "bg-foreground text-background border-foreground"
                   : "bg-card text-foreground border-border hover:border-foreground"
               )}
             >
@@ -624,7 +624,7 @@ export default function OperatingPrincipleSection() {
         <SectionLabel><Shield size={12} /> Design-Regeln (Guardrails)</SectionLabel>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {GUARDRAILS.map((g, i) => (
-            <div key={i} className="flex gap-3 p-4 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
+            <div key={i} className="flex gap-3 p-4 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
               <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-0.5">{g.n}</span>
               <div>
                 <p className="text-xs font-semibold text-foreground mb-0.5">{g.title}</p>
@@ -674,7 +674,7 @@ export default function OperatingPrincipleSection() {
             </p>
           </GrainCardHeader>
           <GrainCardContent>
-            <pre className="text-[11px] font-mono text-foreground leading-relaxed whitespace-pre-wrap bg-[#F7F7F7] rounded-xl p-4 border border-border">
+            <pre className="text-[11px] font-mono text-foreground leading-relaxed whitespace-pre-wrap bg-muted rounded-xl p-4 border border-border">
               {TEMPLATE_TEXT}
             </pre>
           </GrainCardContent>

@@ -275,7 +275,7 @@ const NodeCanvasSection: React.FC = () => {
               }}>
                 {item.title}
               </div>
-              <div style={{ fontSize: 12, color: "#5A5A5A", lineHeight: 1.6 }}>
+              <div style={{ fontSize: 12, color: "var(--muted-foreground)", lineHeight: 1.6 }}>
                 {item.desc}
               </div>
             </div>
@@ -339,7 +339,7 @@ const edges = [
         <div style={{ border: "1px solid rgba(0,0,0,0.08)", borderRadius: 12, overflow: "hidden" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
-              <tr style={{ background: "#F5F5F5" }}>
+              <tr style={{ background: "var(--muted)" }}>
                 {["Prop", "Typ", "Req.", "Beschreibung"].map(h => (
                   <th key={h} style={{
                     padding: "10px 14px", textAlign: "left",
@@ -356,7 +356,7 @@ const edges = [
                   <td style={{ padding: "9px 14px", fontSize: 12, fontFamily: '"DM Mono", monospace', color: "#0A0A0A", fontWeight: 600 }}>{row.prop}</td>
                   <td style={{ padding: "9px 14px", fontSize: 11, fontFamily: '"DM Mono", monospace', color: "#6DDBA0" }}>{row.type}</td>
                   <td style={{ padding: "9px 14px", fontSize: 12, color: row.req === "✓" ? "#0A0A0A" : "#AAAAAA", textAlign: "center" }}>{row.req}</td>
-                  <td style={{ padding: "9px 14px", fontSize: 12, color: "#5A5A5A", lineHeight: 1.5 }}>{row.desc}</td>
+                  <td style={{ padding: "9px 14px", fontSize: 12, color: "var(--muted-foreground)", lineHeight: 1.5 }}>{row.desc}</td>
                 </tr>
               ))}
             </tbody>
@@ -392,10 +392,10 @@ const edges = [
                   fontSize: 12, fontFamily: '"DM Mono", monospace',
                   fontWeight: 700, color: "#0A0A0A", marginBottom: 4,
                 }}>
-                  <span style={{ color: "#AAAAAA", marginRight: 6 }}>{rule.num}</span>
+                  <span style={{ color: "var(--muted-foreground)", marginRight: 6 }}>{rule.num}</span>
                   {rule.title}
                 </div>
-                <div style={{ fontSize: 12, color: "#5A5A5A", lineHeight: 1.6 }}>
+                <div style={{ fontSize: 12, color: "var(--muted-foreground)", lineHeight: 1.6 }}>
                   {rule.desc}
                 </div>
               </div>

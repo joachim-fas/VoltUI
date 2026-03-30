@@ -36,7 +36,7 @@ const CodeBlock: React.FC<{ code: string; lang?: string; label?: string; dark?: 
       <div className="flex items-center gap-2">
         <span className={cn("font-mono text-xs", dark ? "text-[#E4FF97]" : "text-muted-foreground")}>&gt;_</span>
         {label && <span className={cn("font-mono text-xs", dark ? "text-white/40" : "text-muted-foreground")}>{label}</span>}
-        {lang && <span className={cn("text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded", dark ? "bg-white/10 text-white/30" : "bg-[#E8E8E8] text-muted-foreground")}>{lang}</span>}
+        {lang && <span className={cn("text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded", dark ? "bg-white/10 text-white/30" : "bg-border text-muted-foreground")}>{lang}</span>}
       </div>
       <CopyButton text={code} />
     </div>
@@ -407,7 +407,7 @@ export const ExportSection: React.FC = () => {
 
       {/* ── Header ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Export & Import</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Export & Import</p>
         <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-4 leading-tight">
           Flux UI in jedes Projekt importieren
         </h2>
@@ -499,8 +499,8 @@ export const ExportSection: React.FC = () => {
       {/* ── Schnell-Referenz: Wichtigste Klassen ── */}
       <div>
         <div className="flex items-center gap-3 mb-6">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A]">Schnell-Referenz</p>
-          <div className="flex-1 h-px bg-[#E8E8E8]" />
+          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Schnell-Referenz</p>
+          <div className="flex-1 h-px bg-border" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[

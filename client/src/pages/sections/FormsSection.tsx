@@ -159,32 +159,32 @@ export const FormsSection: React.FC = () => {
                 disabled
                 defaultChecked
               />
-              <div className="pt-2 border-t border-[#F0F0F0]">
-                <p className="text-xs font-mono text-[#AAAAAA] uppercase tracking-widest mb-3">Größen: sm · md · lg</p>
+              <div className="pt-2 border-t border-border">
+                <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">Größen: sm · md · lg</p>
                 <div className="flex items-center gap-5">
                   <div className="flex flex-col items-center gap-1.5">
                     <GrainToggle variant="default" toggleSize="sm" defaultChecked />
-                    <span className="text-[10px] font-mono text-[#AAAAAA]">sm</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">sm</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
                     <GrainToggle variant="default" toggleSize="md" defaultChecked />
-                    <span className="text-[10px] font-mono text-[#AAAAAA]">md</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">md</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
                     <GrainToggle variant="default" toggleSize="lg" defaultChecked />
-                    <span className="text-[10px] font-mono text-[#AAAAAA]">lg</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">lg</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
                     <GrainToggle variant="primary" toggleSize="md" defaultChecked />
-                    <span className="text-[10px] font-mono text-[#AAAAAA]">lime</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">lime</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
                     <GrainToggle variant="positive" toggleSize="md" defaultChecked />
-                    <span className="text-[10px] font-mono text-[#AAAAAA]">pos</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">pos</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
                     <GrainToggle variant="negative" toggleSize="md" defaultChecked />
-                    <span className="text-[10px] font-mono text-[#AAAAAA]">neg</span>
+                    <span className="text-[10px] font-mono text-muted-foreground">neg</span>
                   </div>
                 </div>
               </div>
@@ -306,7 +306,7 @@ export const FormsSection: React.FC = () => {
               variant="default"
             />
             <div className="flex gap-3 pt-2">
-              <GrainButton variant="solid" type="submit" className="flex-1">
+              <GrainButton variant="primary" type="submit" className="flex-1">
                 Registrieren
               </GrainButton>
               <GrainButton variant="outline" type="reset">
