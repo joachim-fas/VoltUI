@@ -88,7 +88,7 @@ const Stepper: React.FC<{ current: number }> = ({ current }) => (
             </div>
             <span className={cn(
               "text-xs font-semibold font-body whitespace-nowrap",
-              active ? "text-[#000000] font-bold" : done ? "text-foreground" : "text-muted-foreground"
+              active ? "text-foreground font-bold" : done ? "text-foreground" : "text-muted-foreground"
             )}>
               {step}
             </span>
@@ -154,7 +154,7 @@ export const NavigationSection: React.FC = () => {
                 </div>
               }
             />
-            <div className="h-16 bg-[#F7F7F7] flex items-center justify-center">
+            <div className="h-16 bg-secondary flex items-center justify-center">
               <p className="text-sm font-body text-muted-foreground">Seiteninhalt</p>
             </div>
           </div>

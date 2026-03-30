@@ -39,7 +39,7 @@ export const GrainInput = React.forwardRef<HTMLInputElement, GrainInputProps>(
     const sizeClass = inputSize === "sm" ? "py-1.5 text-xs" : inputSize === "lg" ? "py-3.5 text-base" : "py-2.5 text-sm";
 
     const variantClass = variant === "filled"
-      ? "bg-[#F7F7F7] border-0 rounded-lg px-4"
+      ? "bg-muted border-0 rounded-lg px-4"
       : variant === "boxed"
       ? "border border-border rounded-lg px-4 bg-transparent"
       : variant === "glass"
@@ -127,7 +127,7 @@ export const GrainTextarea = React.forwardRef<HTMLTextAreaElement, GrainTextarea
     const hasError = !!error;
 
     const variantClass = variant === "filled"
-      ? "bg-[#F7F7F7] border-0 rounded-lg px-4 py-3"
+      ? "bg-muted border-0 rounded-lg px-4 py-3"
       : variant === "boxed"
       ? "border border-border rounded-lg px-4 py-3 bg-transparent"
       : "bg-transparent border-0 border-b border-border rounded-none px-0 py-2.5";
@@ -195,7 +195,7 @@ export const GrainSelect = React.forwardRef<HTMLSelectElement, GrainSelectProps>
     const hasError = !!error;
 
     const variantClass = variant === "filled"
-      ? "bg-[#F7F7F7] border-0 rounded-lg px-4"
+      ? "bg-muted border-0 rounded-lg px-4"
       : variant === "boxed"
       ? "border border-border rounded-lg px-4 bg-transparent"
       : "bg-transparent border-0 border-b border-border rounded-none px-0";

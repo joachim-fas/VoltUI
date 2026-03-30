@@ -138,7 +138,7 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
-      className="flex items-center gap-1 text-[10px] font-mono text-[#6B7A9A] hover:text-foreground transition-colors"
+      className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground hover:text-foreground transition-colors"
     >
       {copied ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
       {copied ? "kopiert" : "kopieren"}
@@ -158,7 +158,7 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── HEADER ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Brand Story</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Brand Story</p>
         <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
           Free-Agents.io
         </h1>
@@ -170,12 +170,12 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── CORE STORY ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Core Story</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Core Story</p>
         <div className="rounded-2xl border border-[#0A0A0A] bg-card overflow-hidden">
           <div className="p-8 space-y-0">
             {CORE_STORY.lines.map((line, i) => (
               <div key={i} className="flex items-start gap-4 py-4 border-b border-border last:border-0">
-                <span className="font-mono text-[10px] text-[#BEBEBE] shrink-0 mt-1.5 w-16">
+                <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-1.5 w-16">
                   {CORE_STORY.annotations[i]}
                 </span>
                 <p className="font-display font-bold text-xl text-foreground leading-snug flex-1">
@@ -196,35 +196,35 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── TERMINAL-METAPHER ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
           Das Terminal als Philosophie
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="rounded-2xl bg-[#0A0A0A] p-6">
-            <p className="text-[9px] font-mono uppercase tracking-widest text-[#555] mb-4">Bedeutung</p>
+            <p className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Bedeutung</p>
             <div className="space-y-4">
               <div>
                 <span className="font-mono text-2xl font-bold text-[#E4FF97]">&gt;</span>
                 <p className="text-sm text-white mt-1">Command Prompt. Das System ist bereit fuer einen qualifizierten Befehl.</p>
-                <p className="text-xs text-[#555] mt-0.5 font-mono">Dialog ist kein Selbstzweck.</p>
+                <p className="text-xs text-muted-foreground mt-0.5 font-mono">Dialog ist kein Selbstzweck.</p>
               </div>
               <div>
                 <span className="font-mono text-2xl font-bold text-white">_</span>
                 <p className="text-sm text-white mt-1">Moment der Ausfuehrung. Aus Denken wird Handlung.</p>
-                <p className="text-xs text-[#555] mt-0.5 font-mono">Aus Input wird Output.</p>
+                <p className="text-xs text-muted-foreground mt-0.5 font-mono">Aus Input wird Output.</p>
               </div>
             </div>
           </div>
           <div className="rounded-2xl bg-[#0A0A0A] p-6">
-            <p className="text-[9px] font-mono uppercase tracking-widest text-[#555] mb-4">In der Praxis</p>
+            <p className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground mb-4">In der Praxis</p>
             <div className="space-y-2 font-mono text-xs">
               <p className="text-[#E4FF97]">&gt; Mein Team verbringt 10h/Woche mit Format-Anpassungen.</p>
               <p className="text-muted-foreground">_ System wird gebaut...</p>
               <p className="text-[#C3F4D3]">output: Content-Repurposing-Workflow produktiv.</p>
               <p className="text-[#D4E8FF]">log: 10h → 1.5h. Delta: -8.5h.</p>
-              <div className="mt-4 pt-3 border-t border-[#222]">
-                <p className="text-[#555] text-[10px]">Kein Agentur-Pingpong.</p>
-                <p className="text-[#555] text-[10px]">Kein Workshop ohne Umsetzung.</p>
+              <div className="mt-4 pt-3 border-t border-border">
+                <p className="text-muted-foreground text-[10px]">Kein Agentur-Pingpong.</p>
+                <p className="text-muted-foreground text-[10px]">Kein Workshop ohne Umsetzung.</p>
                 <p className="text-[#E4FF97] text-[10px] font-bold mt-1">Input mit Konsequenz.</p>
               </div>
             </div>
@@ -234,7 +234,7 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── BRAND ESSENCE ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Brand Essence</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Brand Essence</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {BRAND_ESSENCE.map((item, i) => (
             <div
@@ -254,7 +254,7 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── 5 MARKENPRINZIPIEN ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
           5 Markenprinzipien
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -300,7 +300,7 @@ export const BrandStorySection: React.FC = () => {
                 </div>
                 <div className="flex gap-3">
                   <span className="font-mono text-[10px] font-bold text-red-700 bg-red-50 px-2 py-0.5 rounded shrink-0">DON'T</span>
-                  <p className="font-mono text-xs text-[#6B7A9A] line-through">{FIVE_PRINCIPLES[activeP].dont}</p>
+                  <p className="font-mono text-xs text-muted-foreground line-through">{FIVE_PRINCIPLES[activeP].dont}</p>
                 </div>
               </div>
             </div>
@@ -310,7 +310,7 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── MESSAGING ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Messaging-Bausteine</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Messaging-Bausteine</p>
         <div className="space-y-3">
           <div className="rounded-2xl border border-[#0A0A0A] bg-[#E4FF97] p-5">
             <div className="flex items-center justify-between mb-1">
@@ -321,20 +321,20 @@ export const BrandStorySection: React.FC = () => {
           </div>
           <div className="rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center justify-between mb-1">
-              <span className="font-mono text-[10px] text-[#6B7A9A] uppercase tracking-wider">Core Claim</span>
+              <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Core Claim</span>
               <CopyButton text={MESSAGING.claim} />
             </div>
             <p className="font-display font-bold text-lg text-foreground">{MESSAGING.claim}</p>
           </div>
           <div className="rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center justify-between mb-2">
-              <span className="font-mono text-[10px] text-[#6B7A9A] uppercase tracking-wider">Erklaerung</span>
+              <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Erklaerung</span>
               <CopyButton text={MESSAGING.explanation} />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">{MESSAGING.explanation}</p>
           </div>
           <div className="rounded-2xl border border-border bg-card p-5">
-            <span className="font-mono text-[10px] text-[#6B7A9A] uppercase tracking-wider block mb-3">Proof / Mechanism</span>
+            <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider block mb-3">Proof / Mechanism</span>
             <div className="grid grid-cols-2 gap-2">
               {MESSAGING.proof.map((p, i) => (
                 <div key={i} className="flex items-center gap-2">
@@ -349,14 +349,14 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── DIFFERENZIERUNG ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Differenzierung</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Differenzierung</p>
         <div className="space-y-2">
           {DIFFERENTIATORS.map((d, i) => (
             <div key={i} className="flex items-start gap-4 p-4 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
               <span className="font-mono font-bold text-[#E4FF97] bg-[#0A0A0A] w-6 h-6 rounded flex items-center justify-center text-sm shrink-0 mt-0.5">&gt;</span>
               <div>
                 <p className="font-semibold text-sm text-foreground mb-0.5">{d.title}</p>
-                <p className="text-xs text-[#6B7A9A] leading-relaxed">{d.desc}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{d.desc}</p>
               </div>
             </div>
           ))}
@@ -365,7 +365,7 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── VOICE & TONE ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Voice & Tone</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Voice & Tone</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Copy-Regeln */}
           <div>
@@ -374,7 +374,7 @@ export const BrandStorySection: React.FC = () => {
               {VOICE_RULES.map((r, i) => (
                 <div key={i} className="p-3 rounded-xl border border-border bg-card">
                   <p className="text-xs font-semibold text-foreground mb-1">{r.rule}</p>
-                  <p className="font-mono text-[10px] text-[#6B7A9A]">{r.example}</p>
+                  <p className="font-mono text-[10px] text-muted-foreground">{r.example}</p>
                 </div>
               ))}
             </div>
@@ -384,15 +384,15 @@ export const BrandStorySection: React.FC = () => {
             <p className="text-xs font-semibold text-foreground mb-3">Vokabular</p>
             <div className="rounded-xl border border-border overflow-hidden">
               <div className="grid grid-cols-3 bg-[#F7F7F7] px-3 py-2 border-b border-border">
-                <span className="text-[9px] font-mono font-bold text-[#6B7A9A] uppercase">Verwenden</span>
-                <span className="text-[9px] font-mono font-bold text-[#6B7A9A] uppercase">Vermeiden</span>
-                <span className="text-[9px] font-mono font-bold text-[#6B7A9A] uppercase">Warum</span>
+                <span className="text-[9px] font-mono font-bold text-muted-foreground uppercase">Verwenden</span>
+                <span className="text-[9px] font-mono font-bold text-muted-foreground uppercase">Vermeiden</span>
+                <span className="text-[9px] font-mono font-bold text-muted-foreground uppercase">Warum</span>
               </div>
               {VOCAB.map((v, i) => (
                 <div key={i} className="grid grid-cols-3 px-3 py-2.5 border-b border-border last:border-0 hover:bg-[#FAFAFA]">
                   <span className="text-xs font-semibold text-green-700">{v.use}</span>
                   <span className="text-xs text-red-500 line-through">{v.avoid}</span>
-                  <span className="text-[10px] text-[#6B7A9A]">{v.why}</span>
+                  <span className="text-[10px] text-muted-foreground">{v.why}</span>
                 </div>
               ))}
             </div>
@@ -402,32 +402,32 @@ export const BrandStorySection: React.FC = () => {
 
       {/* ── QUICK REFERENCE ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Quick Reference</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Quick Reference</p>
         <div className="rounded-2xl bg-[#0A0A0A] p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <p className="text-[9px] font-mono uppercase tracking-widest text-[#555]">Messaging</p>
+              <p className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground">Messaging</p>
               <p className="font-mono text-xs text-[#E4FF97]">one-liner: "{MESSAGING.oneliner}"</p>
               <p className="font-mono text-xs text-[#C3F4D3]">claim: "{MESSAGING.claim}"</p>
-              <div className="mt-3 pt-3 border-t border-[#222]">
-                <p className="text-[9px] font-mono uppercase tracking-widest text-[#555] mb-2">5 Prinzipien</p>
+              <div className="mt-3 pt-3 border-t border-border">
+                <p className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground mb-2">5 Prinzipien</p>
                 {FIVE_PRINCIPLES.map((p, i) => (
                   <p key={i} className="font-mono text-[10px] text-muted-foreground">{p.n} {p.title}</p>
                 ))}
               </div>
             </div>
             <div className="space-y-3">
-              <p className="text-[9px] font-mono uppercase tracking-widest text-[#555]">Service CLI</p>
+              <p className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground">Service CLI</p>
               {["> build brand-system", "> build growth-system", "> build product-system", "> build ai-integration", "> strategic-consulting"].map((s, i) => (
                 <p key={i} className="font-mono text-xs text-[#E4FF97]">{s}</p>
               ))}
-              <div className="mt-3 pt-3 border-t border-[#222]">
-                <p className="text-[9px] font-mono uppercase tracking-widest text-[#555] mb-2">Microcopy</p>
+              <div className="mt-3 pt-3 border-t border-border">
+                <p className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Microcopy</p>
                 <p className="font-mono text-[10px] text-muted-foreground">input: / transform: / output: / guardrails: / log: / owner:</p>
               </div>
             </div>
           </div>
-          <div className="mt-5 pt-4 border-t border-[#222] flex items-center gap-3">
+          <div className="mt-5 pt-4 border-t border-border flex items-center gap-3">
             <GrainCursor size="sm" color="lime" animated />
             <p className="font-mono text-xs text-[#E4FF97] font-bold">Kein Pingpong. Kein Nebel. Input mit Konsequenz.</p>
           </div>

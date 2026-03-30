@@ -158,7 +158,7 @@ const TerminalDemo: React.FC = () => {
         <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
         <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
         <div className="w-3 h-3 rounded-full bg-[#28C840]" />
-        <span className="ml-2 text-[10px] text-[#555] tracking-widest uppercase">free-agents.io — terminal</span>
+        <span className="ml-2 text-[10px] text-muted-foreground tracking-widest uppercase">flux-ui — terminal</span>
       </div>
       <div className="space-y-1.5 min-h-[160px]">
         {lines.map((line, i) => (
@@ -327,7 +327,7 @@ export const DialogSection: React.FC = () => {
 
             {/* Beispiel */}
             <div className="rounded-2xl bg-[#0A0A0A] p-4">
-              <p className="text-[9px] font-mono uppercase tracking-widest text-[#555] mb-3">Beispiel</p>
+              <p className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground mb-3">Beispiel</p>
               <div className="space-y-2">
                 <p className={cn(
                   "font-mono text-xs leading-relaxed",
@@ -387,7 +387,7 @@ export const DialogSection: React.FC = () => {
             <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
             <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
             <div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-            <span className="ml-2 text-[9px] text-[#555] tracking-widest uppercase">free-agents.io — services</span>
+            <span className="ml-2 text-[9px] text-muted-foreground tracking-widest uppercase">free-agents.io — services</span>
           </div>
           <div className="space-y-3">
             {[
@@ -404,7 +404,7 @@ export const DialogSection: React.FC = () => {
                 >
                   {service.cmd}
                 </span>
-                <span className="font-mono text-xs text-[#555] mt-0.5 group-hover:text-[#999] transition-colors">
+                <span className="font-mono text-xs text-muted-foreground mt-0.5 group-hover:text-[#999] transition-colors">
                   # {service.desc}
                 </span>
               </div>

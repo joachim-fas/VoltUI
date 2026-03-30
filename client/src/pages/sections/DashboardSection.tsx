@@ -202,7 +202,7 @@ const KPICard: React.FC<KPICardProps> = ({
 
   const changeColor = (lime || dark)
     ? (lime ? "text-foreground/70" : "text-white/70")
-    : isPositive ? "text-[#0F6038]" : isNegative ? "text-[#A01A08]" : "text-muted-foreground";
+    : isPositive ? "text-[#1A9E5A]" : isNegative ? "text-[#E8402A]" : "text-muted-foreground";
 
   return (
     <div className={`relative rounded-2xl p-5 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${bg}`}>
@@ -376,7 +376,7 @@ export const DashboardSection: React.FC = () => {
                         <Cell key={i} fill={entry.color} stroke="transparent" />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(v) => `${v}%`} contentStyle={{ background: "#fff", border: "1px solid #E8E8E8", borderRadius: 12, fontSize: 11 }} />
+                    <Tooltip formatter={(v) => `${v}%`} contentStyle={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, fontSize: 11, color: "var(--card-foreground)" }} />
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="space-y-2 mt-2">
@@ -468,7 +468,7 @@ export const DashboardSection: React.FC = () => {
                         </div>
                         <div className="flex items-center justify-between mt-1">
                           <span className="text-[9px] font-mono text-muted-foreground">{pct}%</span>
-                          <span className={`text-[9px] font-semibold font-ui flex items-center gap-0.5 ${good ? "text-[#0F6038]" : "text-[#A01A08]"}`}>
+                          <span className={`text-[9px] font-semibold font-ui flex items-center gap-0.5 ${good ? "text-[#1A9E5A]" : "text-[#E8402A]"}`}>
                             {good ? <><CheckCircle2 className="w-2.5 h-2.5" /> On Track</> : <><AlertTriangle className="w-2.5 h-2.5" /> Hinter Plan</>}
                           </span>
                         </div>
@@ -500,7 +500,7 @@ export const DashboardSection: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   {topProducts.map((p, i) => (
-                    <div key={p.name} className="grid grid-cols-12 gap-2 items-center py-2 px-1 rounded-lg hover:bg-[#F7F7F7] transition-colors">
+                    <div key={p.name} className="grid grid-cols-12 gap-2 items-center py-2 px-1 rounded-lg hover:bg-secondary transition-colors">
                       <div className="col-span-1">
                         <div className="w-6 h-6 rounded-lg bg-secondary flex items-center justify-center">
                           <span className="text-[10px] font-bold font-display text-muted-foreground">{i + 1}</span>
@@ -517,7 +517,7 @@ export const DashboardSection: React.FC = () => {
                         <span className="text-xs font-mono font-semibold text-foreground">€ {(p.revenue / 1000).toFixed(1)}k</span>
                       </div>
                       <div className="col-span-2 text-right">
-                        <span className={`text-[10px] font-semibold font-ui flex items-center justify-end gap-0.5 ${p.growth > 0 ? "text-[#0F6038]" : "text-[#A01A08]"}`}>
+                        <span className={`text-[10px] font-semibold font-ui flex items-center justify-end gap-0.5 ${p.growth > 0 ? "text-[#1A9E5A]" : "text-[#E8402A]"}`}>
                           {p.growth > 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                           {Math.abs(p.growth)}%
                         </span>
@@ -541,7 +541,7 @@ export const DashboardSection: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#1A9E5A] animate-pulse" />
-                    <span className="text-[10px] font-mono text-[#0F6038] font-semibold">Live</span>
+                    <span className="text-[10px] font-mono text-[#1A9E5A] font-semibold">Live</span>
                   </div>
                 </div>
               </GrainCardHeader>
@@ -572,7 +572,7 @@ export const DashboardSection: React.FC = () => {
       ══════════════════════════════════════════ */}
       {activeTab === "analytics" && (
         <div className="space-y-6">
-          <div className="rounded-2xl border border-border bg-[#F7F7F7] p-4 flex items-start gap-3">
+          <div className="rounded-2xl border border-border bg-secondary p-4 flex items-start gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#E4FF97] flex items-center justify-center flex-shrink-0">
               <Zap className="w-4 h-4 text-foreground" />
             </div>
@@ -633,7 +633,7 @@ export const DashboardSection: React.FC = () => {
                 <ResponsiveContainer width="100%" height={160}>
                   <RadialBarChart cx="50%" cy="50%" innerRadius={20} outerRadius={75} data={conversionData} startAngle={90} endAngle={-270}>
                     <RadialBar dataKey="value" cornerRadius={4} background={{ fill: "#F4F4F4" }} />
-                    <Tooltip formatter={(v) => `${v}%`} contentStyle={{ background: "#fff", border: "1px solid #E8E8E8", borderRadius: 12, fontSize: 11 }} />
+                    <Tooltip formatter={(v) => `${v}%`} contentStyle={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, fontSize: 11, color: "var(--card-foreground)" }} />
                   </RadialBarChart>
                 </ResponsiveContainer>
                 <div className="space-y-2 mt-2">
@@ -702,7 +702,7 @@ export const DashboardSection: React.FC = () => {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-border bg-[#F7F7F7]">
+                    <tr className="border-b border-border bg-secondary">
                       {["ID","Kunde","Produkt","Betrag","Status","Datum","Aktionen"].map((h,i) => (
                         <th key={i} className={`px-5 py-3 text-[10px] font-bold font-ui text-muted-foreground uppercase tracking-wider ${i===3?"text-right":i===6?"text-right":"text-left"} ${i===2?"hidden sm:table-cell":i===5?"hidden md:table-cell":""}`}>{h}</th>
                       ))}
@@ -712,7 +712,7 @@ export const DashboardSection: React.FC = () => {
                     {filteredOrders.length === 0 ? (
                       <tr><td colSpan={7} className="text-center py-12 text-sm font-ui text-muted-foreground">Keine Bestellungen gefunden für „{searchQuery}"</td></tr>
                     ) : filteredOrders.map((order, i) => (
-                      <tr key={order.id} className={`border-b border-border/50 hover:bg-[#F7F7F7] transition-colors ${i % 2 !== 0 ? "bg-[#FAFAFA]" : ""}`}>
+                      <tr key={order.id} className={`border-b border-border/50 hover:bg-secondary transition-colors ${i % 2 !== 0 ? "bg-secondary/50" : ""}`}>
                         <td className="px-5 py-3.5">
                           <span className="text-xs font-mono text-foreground font-semibold">{order.id}</span>
                         </td>
@@ -742,7 +742,7 @@ export const DashboardSection: React.FC = () => {
                             <button className="w-6 h-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                               <Edit2 className="w-3.5 h-3.5" />
                             </button>
-                            <button className="w-6 h-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-[#A01A08] hover:bg-[#FDEEE9] transition-colors">
+                            <button className="w-6 h-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-[#E8402A] hover:bg-destructive/10 transition-colors">
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -752,7 +752,7 @@ export const DashboardSection: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="px-5 py-3 border-t border-border bg-[#F7F7F7] flex items-center justify-between">
+              <div className="px-5 py-3 border-t border-border bg-secondary flex items-center justify-between">
                 <span className="text-[10px] font-mono text-muted-foreground">
                   {filteredOrders.length} von 248 Bestellungen{searchQuery && ` · Gefiltert nach „${searchQuery}"`}
                 </span>

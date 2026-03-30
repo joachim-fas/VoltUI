@@ -32,7 +32,7 @@ const CopyButton: React.FC<{ code: string }> = ({ code }) => {
 const CodeBlock: React.FC<{ code: string; label?: string }> = ({ code, label }) => (
   <div className="rounded-xl border border-border overflow-hidden">
     {label && (
-      <div className="px-4 py-2 bg-[#F7F7F7] border-b border-border flex items-center justify-between">
+      <div className="px-4 py-2 bg-secondary border-b border-border flex items-center justify-between">
         <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{label}</span>
         <CopyButton code={code} />
       </div>
@@ -54,7 +54,7 @@ const RuleCard: React.FC<{
   <div className="border border-border rounded-2xl overflow-hidden">
     <div className="px-5 py-4 bg-card">
       <div className="flex items-start gap-3 mb-2">
-        <span className="font-mono text-[10px] text-[#BEBEBE] mt-0.5 shrink-0">{number}</span>
+        <span className="font-mono text-[10px] text-muted-foreground/50 mt-0.5 shrink-0">{number}</span>
         <div>
           <p className="font-display font-bold text-sm text-foreground mb-1">{title}</p>
           <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
@@ -64,13 +64,13 @@ const RuleCard: React.FC<{
     {(good || bad) && (
       <div className="grid grid-cols-2 border-t border-border">
         {good && (
-          <div className="px-4 py-3 bg-[#F5FFF0] border-r border-border">
+          <div className="px-4 py-3 bg-[#1A9E5A]/10 border-r border-border">
             <p className="text-[9px] font-mono text-[#1A9E5A] uppercase tracking-widest mb-1">✓ Richtig</p>
             <p className="text-[11px] text-foreground">{good}</p>
           </div>
         )}
         {bad && (
-          <div className="px-4 py-3 bg-[#FFF5F5]">
+          <div className="px-4 py-3 bg-[#E8402A]/10">
             <p className="text-[9px] font-mono text-[#E8402A] uppercase tracking-widest mb-1">✗ Falsch</p>
             <p className="text-[11px] text-foreground">{bad}</p>
           </div>

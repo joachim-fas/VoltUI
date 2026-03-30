@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { GrainBubbleMap, BubbleNode } from "@/components/grain/GrainBubbleMap";
 
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-widest text-[#7A7A7A] mb-3">
+  <div className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-widest text-muted-foreground mb-3">
     {children}
   </div>
 );
@@ -238,7 +238,7 @@ const BubbleMapSection: React.FC = () => {
               {PROPS.map((p, i) => (
                 <tr key={p.prop} className={i % 2 === 0 ? "bg-card" : "bg-muted"}>
                   <td className="px-5 py-3 font-mono text-foreground font-medium">{p.prop}</td>
-                  <td className="px-5 py-3 font-mono text-[#7A7A7A] text-xs">{p.type}</td>
+                  <td className="px-5 py-3 font-mono text-muted-foreground text-xs">{p.type}</td>
                   <td className="px-4 py-3 text-center text-muted-foreground">{p.required}</td>
                   <td className="px-5 py-3 text-muted-foreground leading-relaxed">{p.desc}</td>
                 </tr>
@@ -292,11 +292,11 @@ const BubbleMapSection: React.FC = () => {
           ].map(item => (
             <div
               key={item.rule}
-              className={`p-5 rounded-xl border ${item.ok ? "border-[#B5EAD7] bg-[#F0FFF8]" : "border-[#FFB3BA] bg-[#FFF5F6]"}`}
+              className={`p-5 rounded-xl border ${item.ok ? "border-[#1A9E5A]/40 bg-[#1A9E5A]/10" : "border-[#E8402A]/40 bg-[#E8402A]/10"}`}
             >
               <div className="flex items-center gap-2 mb-2">
-                <span className="font-mono text-xs text-[#7A7A7A]">{item.rule}</span>
-                <span className={`text-xs font-mono font-bold ${item.ok ? "text-[#2A8A5A]" : "text-[#C0404A]"}`}>
+                <span className="font-mono text-xs text-muted-foreground">{item.rule}</span>
+                <span className={`text-xs font-mono font-bold ${item.ok ? "text-[#1A9E5A]" : "text-[#E8402A]"}`}>
                   {item.ok ? "✓ DO" : "✗ DON'T"}
                 </span>
               </div>

@@ -194,7 +194,7 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="p-4 rounded-xl bg-[oklch(0.14_0.025_268)] border border-border">
+          <div className="p-4 rounded-xl bg-[#0A0A14] border border-border">
             <p className="text-[11px] font-mono text-[oklch(0.75_0.04_268)] leading-relaxed">
               <span className="text-[#FA716B]">.grain</span> <span className="text-[#8888aa]">{"{"}</span><br />
               {"  "}<span className="text-[#4A8FD4]">position</span>: relative;<br />
@@ -260,7 +260,7 @@ export const FoundationsSection: React.FC = () => {
           <p className="text-xs text-muted-foreground font-body mt-0.5">Backdrop-Filter-Effekte für überlagerte Elemente</p>
         </GrainCardHeader>
         <GrainCardContent>
-          <div className="relative rounded-xl overflow-hidden p-6 bg-grain-gradient grain">
+          <div className="relative rounded-xl overflow-hidden p-6 grain" style={{ background: 'linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%)' }}>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {glassVariants.map((g) => (
                 <div key={g.label} className={`${g.cls} rounded-xl p-4`}>
@@ -356,7 +356,7 @@ export const FoundationsSection: React.FC = () => {
           <div className="flex flex-wrap items-end gap-3">
             {[1, 2, 3, 4, 6, 8, 10, 12, 16, 20].map((n) => (
               <div key={n} className="flex flex-col items-center gap-1.5">
-                <div className="bg-grain-blue rounded" style={{ width: `${n * 4}px`, height: `${n * 4}px` }} />
+                <div className="bg-primary/70 rounded" style={{ width: `${n * 4}px`, height: `${n * 4}px` }} />
                 <span className="text-[9px] font-mono text-muted-foreground">{n * 4}px</span>
               </div>
             ))}
@@ -382,7 +382,7 @@ export const FoundationsSection: React.FC = () => {
               { label: "full",r: "rounded-full", px: "∞" },
             ].map(({ label, r, px }) => (
               <div key={label} className="flex flex-col items-center gap-2">
-                <div className={`w-12 h-12 bg-grain-blue grain ${r}`} />
+                <div className={`w-12 h-12 bg-primary/70 grain ${r}`} />
                 <span className="text-[9px] font-mono text-muted-foreground text-center">{label}<br />{px}</span>
               </div>
             ))}
@@ -406,7 +406,7 @@ export const FoundationsSection: React.FC = () => {
               { label: "glow-violet",   cls: "glow-violet" },
             ].map(({ label, cls }) => (
               <div key={label} className="flex flex-col items-center gap-3">
-                <div className={`w-14 h-14 rounded-xl bg-card ${cls}`} />
+                <div className={`w-14 h-14 rounded-xl bg-secondary ${cls}`} />
                 <span className="text-[9px] font-mono text-muted-foreground text-center">{label}</span>
               </div>
             ))}
@@ -500,7 +500,7 @@ const ChartPalettesSection: React.FC = () => {
 
         {/* Neon-Hinweis */}
         {active === "neon" && (
-          <div className="mt-4 p-3 rounded-xl border border-border bg-[#0a0a14]">
+          <div className="mt-4 p-3 rounded-xl border border-border bg-[#0A0A14]">
             <p className="text-[11px] font-ui" style={{ color: "#00F5FF" }}>
               ⚡ Neon-Farben entfalten ihre volle Wirkung auf dunklen Hintergründen.
               Für Light-Mode-Interfaces empfiehlt sich die Standard- oder Pastel-Palette.

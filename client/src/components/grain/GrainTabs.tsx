@@ -71,13 +71,13 @@ export const GrainTabs: React.FC<GrainTabsProps> = ({
                 variant === "underline" && [
                   "px-4 py-2.5 rounded-none",
                   isActive
-                    ? "text-[#000000] font-bold"
+                    ? "text-foreground font-bold"
                     : "text-muted-foreground hover:text-foreground",
                 ],
                 (variant === "pills" || variant === "boxed" || variant === "glass") && [
                   "px-4 py-2 rounded-lg",
                   isActive
-                    ? "text-white"
+                    ? "text-background"
                     : "text-muted-foreground hover:text-foreground hover:bg-background/50",
                 ],
               )}
@@ -86,7 +86,7 @@ export const GrainTabs: React.FC<GrainTabsProps> = ({
               {variant === "underline" && isActive && (
                 <motion.div
                   layoutId="tab-underline"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#000000] rounded-full"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground rounded-full"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -97,7 +97,7 @@ export const GrainTabs: React.FC<GrainTabsProps> = ({
                   className={cn(
                     "absolute inset-0 rounded-lg",
                     variant === "pills"
-                      ? "bg-[#000000]"
+                      ? "bg-foreground"
                       : "bg-background ring-1 ring-border"
                   )}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}

@@ -349,7 +349,7 @@ export const DataSection: React.FC = () => {
                     <div className={`w-7 h-7 rounded-xl flex items-center justify-center ${(kpi as any).colorClass ? "bg-white/15" : "bg-foreground/10 text-foreground"}`}>{kpi.icon}</div>
                   </div>
                   <p className={`font-display font-black text-3xl leading-none tracking-tight mb-1.5 ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-foreground' : 'text-white') : "text-foreground"}`}>{kpi.value}</p>
-                  <div className={`flex items-center gap-1 mb-2 ${kpi.colorClass ? ((kpi as any).lime ? 'text-foreground/70' : 'text-white/80') : kpi.change > 0 ? "text-[#0F6038]" : kpi.change < 0 ? "text-[#A01A08]" : "text-muted-foreground"}`}>
+                  <div className={`flex items-center gap-1 mb-2 ${kpi.colorClass ? ((kpi as any).lime ? 'text-foreground/70' : 'text-white/80') : kpi.change > 0 ? "text-[#1A9E5A]" : kpi.change < 0 ? "text-[#E8402A]" : "text-muted-foreground"}`}>
                     {kpi.change > 0 ? <TrendingUp className="w-3 h-3" /> : kpi.change < 0 ? <TrendingUp className="w-3 h-3 rotate-180" /> : null}
                     <span className="text-[10px] font-semibold font-ui">{kpi.change > 0 ? "+" : ""}{kpi.change}%</span>
                   </div>

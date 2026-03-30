@@ -1,7 +1,7 @@
 /**
  * GrainButton – Flux UI
  * Primär: Lime (#E4FF97) + Schwarz (#0A0A0A)
- * Kein box-shadow – Tiefe durch Farbe und Border
+ * Semantische Tokens für vollständigen Dark-Mode-Support
  */
 
 import React from "react";
@@ -21,47 +21,47 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        /* ── Primär: Lime-Fläche, schwarzer Text ── */
+        /* ── Primär: Lime-Fläche, schwarzer Text – bleibt immer Lime ── */
         primary: [
           "bg-[#E4FF97] text-[#0A0A0A]",
           "hover:bg-[#D4F080]",
           "ring-1 ring-black/10",
         ],
-        /* ── Solid Schwarz ── */
+        /* ── Solid: Foreground-Fläche (Schwarz/Hell je nach Modus) ── */
         solid: [
-          "bg-[#0A0A0A] text-white",
-          "hover:bg-[#1A1A1A]",
+          "bg-foreground text-background",
+          "hover:bg-foreground/85",
         ],
-        /* ── Outline: schwarzer Rahmen ── */
+        /* ── Outline: semantische Border und Text ── */
         outline: [
-          "border border-[#0A0A0A]/25 text-[#0A0A0A] bg-transparent",
-          "hover:bg-[#0A0A0A]/5 hover:border-[#0A0A0A]/50",
+          "border border-border text-foreground bg-transparent",
+          "hover:bg-secondary hover:border-foreground/40",
         ],
         /* ── Ghost ── */
         ghost: [
           "text-foreground bg-transparent",
-          "hover:bg-[#0A0A0A]/5",
+          "hover:bg-secondary",
         ],
         /* ── Glass ── */
         glass: [
           "glass text-foreground border border-white/20",
           "hover:bg-white/25",
         ],
-        /* ── Secondary: helles Grau ── */
+        /* ── Secondary: sekundäre Fläche ── */
         secondary: [
-          "bg-[#F4F4F4] text-[#0A0A0A]",
-          "hover:bg-[#EBEBEB]",
-          "ring-1 ring-black/8",
+          "bg-secondary text-secondary-foreground",
+          "hover:bg-secondary/80",
+          "ring-1 ring-border",
         ],
         /* ── Destructive: Koralle ── */
         destructive: [
-          "bg-[#E8402A] text-white",
-          "hover:bg-[#D03020]",
+          "bg-destructive text-destructive-foreground",
+          "hover:bg-destructive/90",
         ],
         /* ── Legacy-Alias ── */
         gradient: [
-          "bg-[#0A0A0A] text-white",
-          "hover:bg-[#1A1A1A]",
+          "bg-foreground text-background",
+          "hover:bg-foreground/85",
         ],
       },
       size: {

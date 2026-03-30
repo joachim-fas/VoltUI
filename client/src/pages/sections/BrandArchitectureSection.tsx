@@ -173,7 +173,7 @@ export const BrandArchitectureSection: React.FC = () => {
 
       {/* ── HEADER ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Brand Architecture</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Brand Architecture</p>
         <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
           Eine Sprache.<br />Viele Projekte.
         </h1>
@@ -186,7 +186,7 @@ export const BrandArchitectureSection: React.FC = () => {
 
       {/* ── BRAND-SCHICHTEN ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Die 5 Schichten der Brand Language</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Die 5 Schichten der Brand Language</p>
         <div className="space-y-2">
           {BRAND_LAYERS.map((layer, i) => (
             <div
@@ -202,11 +202,11 @@ export const BrandArchitectureSection: React.FC = () => {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-0.5">
                   <p className="font-display font-bold text-sm text-foreground">{layer.layer}</p>
-                  <span className="text-[9px] font-mono text-[#BEBEBE] uppercase tracking-wider">{layer.token}</span>
+                  <span className="text-[9px] font-mono text-muted-foreground/50 uppercase tracking-wider">{layer.token}</span>
                 </div>
-                <p className="text-xs text-[#6B7A9A] leading-relaxed">{layer.desc}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{layer.desc}</p>
               </div>
-              <ChevronRight size={14} className="text-[#BEBEBE] group-hover:text-foreground transition-colors shrink-0" />
+              <ChevronRight size={14} className="text-muted-foreground/50 group-hover:text-foreground transition-colors shrink-0" />
             </div>
           ))}
         </div>
@@ -214,7 +214,7 @@ export const BrandArchitectureSection: React.FC = () => {
 
       {/* ── PROJEKT-UEBERSICHT ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Projekte & Farbcodierung</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Projekte & Farbcodierung</p>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           {/* Projekt-Liste */}
@@ -245,7 +245,7 @@ export const BrandArchitectureSection: React.FC = () => {
                         {s.label}
                       </span>
                     </div>
-                    <p className="text-[10px] text-[#6B7A9A] font-mono truncate">{project.domain}</p>
+                    <p className="text-[10px] text-muted-foreground font-mono truncate">{project.domain}</p>
                   </div>
                   {activeProject === project.id && (
                     <div className="w-1.5 h-1.5 rounded-full bg-[#0A0A0A] shrink-0" />
@@ -295,7 +295,7 @@ export const BrandArchitectureSection: React.FC = () => {
 
               {/* Design-Tokens */}
               <div className="p-5 bg-card">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-3">Design-Tokens</p>
+                <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3">Design-Tokens</p>
                 <div className="flex gap-2 flex-wrap">
                   {active.tokens.map((token, i) => (
                     <span
@@ -310,7 +310,7 @@ export const BrandArchitectureSection: React.FC = () => {
 
               {/* OP-Schema fuer dieses Projekt */}
               <div className="px-5 pb-5 bg-card border-t border-border pt-4">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-3">
+                <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3">
                   OP-Schema angewendet
                 </p>
                 <div className="grid grid-cols-4 gap-2">
@@ -329,7 +329,7 @@ export const BrandArchitectureSection: React.FC = () => {
                       </div>
                       {i < arr.length - 1 && (
                         <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10">
-                          <ArrowRight size={10} className="text-[#BEBEBE]" />
+                          <ArrowRight size={10} className="text-muted-foreground/50" />
                         </div>
                       )}
                     </div>
@@ -343,14 +343,14 @@ export const BrandArchitectureSection: React.FC = () => {
 
       {/* ── DESIGN-PRINZIPIEN ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Design-Prinzipien der Brand Architecture</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Design-Prinzipien der Brand Architecture</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {DESIGN_PRINCIPLES.map((p, i) => (
             <div key={i} className="flex gap-4 p-5 rounded-2xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
-              <span className="font-mono text-[10px] text-[#BEBEBE] shrink-0 mt-0.5">{String(i+1).padStart(2,"0")}</span>
+              <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-0.5">{String(i+1).padStart(2,"0")}</span>
               <div>
                 <p className="font-display font-bold text-sm text-foreground mb-1">{p.title}</p>
-                <p className="text-xs text-[#6B7A9A] leading-relaxed">{p.desc}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{p.desc}</p>
               </div>
             </div>
           ))}
@@ -359,7 +359,7 @@ export const BrandArchitectureSection: React.FC = () => {
 
       {/* ── FARBPALETTE PRO PROJEKT ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Farbcodierung im Ueberblick</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Farbcodierung im Ueberblick</p>
         <div className="rounded-2xl border border-border overflow-hidden">
           <div className="flex">
             {PROJECTS.map((project, i) => (
@@ -381,7 +381,7 @@ export const BrandArchitectureSection: React.FC = () => {
             {PROJECTS.map((project, i) => (
               <div key={i} className="px-3 py-2 border-r border-border last:border-0">
                 <p className="text-[9px] font-mono text-foreground font-semibold truncate">{project.name}</p>
-                <p className="text-[8px] font-mono text-[#6B7A9A] truncate">{project.tokens[0]}</p>
+                <p className="text-[8px] font-mono text-muted-foreground truncate">{project.tokens[0]}</p>
               </div>
             ))}
           </div>
@@ -390,7 +390,7 @@ export const BrandArchitectureSection: React.FC = () => {
 
       {/* ── SIGNET ALS KONSTANTE ── */}
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
           Das Signet als Konstante
         </p>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
@@ -411,7 +411,7 @@ export const BrandArchitectureSection: React.FC = () => {
             </div>
           ))}
         </div>
-        <p className="text-xs text-[#6B7A9A] mt-3 text-center font-mono">
+        <p className="text-xs text-muted-foreground mt-3 text-center font-mono">
           Dasselbe Signet. Sechs Kontexte. Eine Betriebssprache.
         </p>
       </div>

@@ -301,7 +301,7 @@ export const BackgroundsSection: React.FC = () => {
                     <p className="text-xs text-muted-foreground">{p.description}</p>
                   </div>
                 </div>
-                <div className="mt-3 bg-[#F8F8F8] rounded-lg p-2 font-mono text-[10px] text-muted-foreground leading-relaxed overflow-x-auto">
+                <div className="mt-3 bg-secondary rounded-lg p-2 font-mono text-[10px] text-muted-foreground leading-relaxed overflow-x-auto">
                   <code className="whitespace-pre">{p.code.split('\n')[0]}</code>
                 </div>
                 <div className="mt-2">
@@ -373,7 +373,7 @@ export const BackgroundsSection: React.FC = () => {
               </div>
               {/* Info */}
               <div className="p-3 border-t border-border bg-card">
-                <div className="bg-[#F8F8F8] rounded-lg p-2 font-mono text-[10px] text-muted-foreground leading-relaxed mb-2 overflow-x-auto">
+                <div className="bg-secondary rounded-lg p-2 font-mono text-[10px] text-muted-foreground leading-relaxed mb-2 overflow-x-auto">
                   <code className="whitespace-pre">{a.code}</code>
                 </div>
                 <CopyButton code={a.code} />

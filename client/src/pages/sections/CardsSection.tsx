@@ -75,7 +75,7 @@ export const CardsSection: React.FC = () => {
                 <GrainBadge variant="glass" size="sm">Gradient</GrainBadge>
                 <TrendingUp className="w-4 h-4 text-foreground" />
               </div>
-              <GrainCardTitle className="text-[#000000]">Lime Card</GrainCardTitle>
+              <GrainCardTitle className="text-foreground">Lime Card</GrainCardTitle>
               <GrainCardDescription className="text-[#000000]/70">
                 Neon-Yellow mit Flux-Textur. Für hervorgehobene Inhalte.
               </GrainCardDescription>
