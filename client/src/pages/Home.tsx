@@ -28,10 +28,9 @@ import NodeCanvasSection             from "./sections/NodeCanvasSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
-  LayoutDashboard, Shapes, Palette as Palette2, GitBranch, Layers,
-  BookOpen, Terminal,
+  LayoutDashboard, Shapes, Palette as Palette2, Workflow, Layers,
+  BookOpen, Terminal, Fingerprint, Network, Brush,
 } from "lucide-react";
-import { GrainCursor } from "@/components/grain/GrainCursor";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
 const ALL_SECTIONS = [
@@ -67,10 +66,10 @@ const sidebarSections = [
     title: "Design System",
     items: [
       { id: "foundations", label: "Foundations",          description: "Farben, Typo, Patterns, Tokens",        icon: <Palette className="w-4 h-4" /> },
-      { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette2 className="w-4 h-4" />, isNew: true },
-      { id: "icons",       label: "Icon-Set",             description: "150+ Icons, kategorisiert",             icon: <Shapes className="w-4 h-4" />, count: 150, isNew: true },
-      { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Flux",              icon: <Layers className="w-4 h-4" />, isNew: true },
-      { id: "signet",      label: ">_ Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <GrainCursor size="xs" color="black" animated={false} showBar={false} />, isNew: true },
+      { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette2 className="w-4 h-4" /> },
+      { id: "icons",       label: "Icon-Set",             description: "150+ Icons, kategorisiert",             icon: <Shapes className="w-4 h-4" />, count: 150 },
+      { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Brush className="w-4 h-4" /> },
+      { id: "signet",      label: ">_ Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Terminal className="w-4 h-4" />, isNew: true },
     ],
   },
   {
@@ -85,20 +84,20 @@ const sidebarSections = [
     ],
   },
   {
-    title: "Templates",
+    title: "Konzept & Marke",
     items: [
-      { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" />, isNew: true },
-      { id: "op",          label: "Operating Principle",  description: "Eingabe → Workflow → Ausgabe",          icon: <GitBranch className="w-4 h-4" />, isNew: true },
-      { id: "brand",       label: "Brand Architecture",   description: "Free Agents & Tochterprojekte",         icon: <Layers className="w-4 h-4" />, isNew: true },
-      { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <Terminal className="w-4 h-4" />, isNew: true },
-      { id: "brandstory",  label: "Brand Story",          description: "Free Agents.io Identität",              icon: <BookOpen className="w-4 h-4" />, isNew: true },
+      { id: "op",          label: "Operating Principle",  description: "Eingabe → Workflow → Ausgabe",          icon: <Workflow className="w-4 h-4" />, isNew: true },
+      { id: "brand",       label: "Brand Architecture",   description: "Flux UI & Tochterprojekte",             icon: <Fingerprint className="w-4 h-4" />, isNew: true },
+      { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" />, isNew: true },
+      { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" />, isNew: true },
     ],
   },
   {
-    title: "Visualisierung",
+    title: "Templates & Visualisierung",
     items: [
-      { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <Shapes className="w-4 h-4" />, isNew: true },
-      { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <GitBranch className="w-4 h-4" />, isNew: true },
+      { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" />, isNew: true },
+      { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <Network className="w-4 h-4" />, isNew: true },
+      { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <Workflow className="w-4 h-4" />, isNew: true },
     ],
   },
 ];
@@ -168,7 +167,9 @@ export default function Home() {
   const Logo = ({ showClose = false }: { showClose?: boolean }) => (
     <div className="flex items-center justify-between w-full">
       <div className="flex items-center gap-3">
-        <GrainCursor size="md" color="black" animated />
+        <div className="w-8 h-8 rounded-lg bg-[#0A0A0A] flex items-center justify-center flex-shrink-0">
+          <Terminal className="w-4 h-4 text-[#E4FF97]" />
+        </div>
         <div>
           <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
             flux<span className="opacity-30"> ui</span>
@@ -227,7 +228,9 @@ export default function Home() {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2.5">
-            <GrainCursor size="sm" color="black" animated />
+            <div className="w-6 h-6 rounded-md bg-[#0A0A0A] flex items-center justify-center">
+              <Terminal className="w-3 h-3 text-[#E4FF97]" />
+            </div>
             <span className="font-display font-bold text-sm text-[#0A0A0A] tracking-tight">
               flux<span className="opacity-30"> ui</span>
             </span>

@@ -178,10 +178,9 @@ export const BrandArchitectureSection: React.FC = () => {
           Eine Sprache.<br />Viele Projekte.
         </h1>
         <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed">
-          Flux UI ist nicht nur ein Design System. Es ist die visuelle Betriebssprache von
-          Free Agents und allen Projekten, die daraus entstehen. Das{" "}
-          <span className="font-mono font-bold text-[#0A0A0A]">&gt;_</span> Signet ist der Anker.
-          Das Operating Principle ist die Logik dahinter.
+          Flux UI ist das portable Design System von Free Agents und allen Projekten, die daraus entstehen.
+          Das{" "}<span className="font-mono font-bold text-[#0A0A0A]">&gt;_</span> Signet ist der visuelle Anker.
+          Das Operating Principle beschreibt die Arbeitslogik dahinter.
         </p>
       </div>
 

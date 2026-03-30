@@ -468,18 +468,7 @@
   background-clip: text;
 }
 
-/* ── Legacy-Klassen (für Rückwärtskompatibilität) ── */
-.bg-grain-blue   { background-color: #000000; color: #FFFFFF; }
-.bg-grain-red    { background-color: #E8402A; color: #FFFFFF; }
-.bg-grain-violet { background-color: #1A1A1A; color: #FFFFFF; }
-.bg-grain-coral  { background-color: #E4FF97; color: #000000; }
-.bg-grain-teal   { background-color: #1A9E5A; color: #FFFFFF; }
-.bg-grain-amber  { background-color: #E4FF97; color: #000000; }
-.bg-grain-green  { background-color: #1A9E5A; color: #FFFFFF; }
-.text-grain-blue   { color: #000000; }
-.text-grain-red    { color: #E8402A; }
-.text-grain-violet { color: #1A1A1A; }
-.text-grain-coral  { color: #9DC800; }
+
 
 /* ── Pastell-Utility-Klassen (exakte Palette) ── */
 .bg-pastel-rose    { background-color: #FFD6E0; color: #000000; }

@@ -37,7 +37,7 @@ const PROJECT_DATA: BubbleNode[] = [
   { id: "gai", label: "Gestalten mit AI", value: 165, maxValue: 200, category: "Produkt", description: "AI-Bildung und Workshops" },
   { id: "os", label: "Omnishopper", value: 130, maxValue: 200, category: "Produkt", description: "Smart Shopping Aggregator" },
   { id: "ze", label: "Zeiterfassung", value: 118, maxValue: 200, category: "Tool", description: "Freelancer Zeiterfassung & Abrechnung" },
-  { id: "fluxui", label: "Flux UI", value: 175, maxValue: 200, category: "Tool", description: "Operating Principles & Design System" },
+  { id: "fluxui", label: "Flux UI", value: 175, maxValue: 200, category: "Tool", description: "Portables Design System & Komponenten-Bibliothek" },
 ];
 
 const KEYWORD_DATA: BubbleNode[] = [
@@ -96,7 +96,7 @@ const BubbleMapSection: React.FC = () => {
   const demos = {
     skills: { data: SKILL_DATA, title: "Skill-Map", subtitle: "Kompetenz-Profil · Score 0–200 · Größe = Stärke", threshold: 155 },
     projects: { data: PROJECT_DATA, title: "Projekt-Portfolio", subtitle: "Free Agents Ökosystem · Priorität nach Score", threshold: 160 },
-    keywords: { data: KEYWORD_DATA, title: "Keyword-Cluster", subtitle: "Operating Principles · Werte & Prozesse", threshold: 160 },
+    keywords: { data: KEYWORD_DATA, title: "Keyword-Cluster", subtitle: "Flux UI Konzept · Werte & Prozesse", threshold: 160 },
   };
 
   const current = demos[activeDemo];

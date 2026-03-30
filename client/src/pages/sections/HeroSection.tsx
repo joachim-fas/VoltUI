@@ -5,43 +5,42 @@
 
 import React from "react";
 import { GrainButton } from "@/components/grain/GrainButton";
-import { GrainBadge } from "@/components/grain/GrainBadge";
 import { GrainCard } from "@/components/grain/GrainCard";
 import { GrainCursor } from "@/components/grain/GrainCursor";
 import { motion } from "framer-motion";
 import {
   ArrowRight, Code2, Palette, Zap, Layers, Package,
-  BarChart2, Cpu, GitBranch,
+  BarChart2, Cpu, Workflow, Fingerprint,
 } from "lucide-react";
 
 const features = [
-  { icon: <Palette className="w-4 h-4" />,   title: "Atmospheric Grain",  desc: "SVG-Rauschen als CSS-Textur", bg: "#E4FF97",  fg: "#0A0A0A" },
-  { icon: <Code2 className="w-4 h-4" />,     title: "Reiner Code",        desc: "Kein Bild-Asset, alles CSS", bg: "#0A0A0A",  fg: "#FFFFFF" },
-  { icon: <Zap className="w-4 h-4" />,       title: "Framer Motion",      desc: "Flüssige Übergänge",         bg: "#1A9E5A",  fg: "#FFFFFF" },
-  { icon: <Layers className="w-4 h-4" />,    title: "Design Tokens",      desc: "OKLCH-Farbraum",             bg: "#F4F4F4",  fg: "#0A0A0A" },
-  { icon: <BarChart2 className="w-4 h-4" />, title: "12 Graphen-Typen",   desc: "Recharts mit Grain-Styling", bg: "#E4FF97",  fg: "#0A0A0A" },
-  { icon: <Package className="w-4 h-4" />,   title: "16 Komponenten",     desc: "Vollständige Bibliothek",    bg: "#0A0A0A",  fg: "#FFFFFF" },
-  { icon: <Cpu className="w-4 h-4" />,       title: "React 19",           desc: "Modernste React-Version",    bg: "#6B7A9A",  fg: "#FFFFFF" },
-  { icon: <GitBranch className="w-4 h-4" />, title: "TypeScript",         desc: "Vollständig typisiert",      bg: "#F4F4F4",  fg: "#0A0A0A" },
-  { icon: <GitBranch className="w-4 h-4" />, title: "Operating Principle", desc: "Eingabe → Workflow → Ausgabe", bg: "#D4E8FF",  fg: "#0A0A0A" },
+  { icon: <Palette className="w-4 h-4" />,    title: "Atmosphärische Textur", desc: "SVG-Rauschen als CSS-Overlay",    bg: "#E4FF97",  fg: "#0A0A0A" },
+  { icon: <Code2 className="w-4 h-4" />,      title: "Reiner Code",           desc: "Kein Bild-Asset, alles CSS",      bg: "#0A0A0A",  fg: "#FFFFFF" },
+  { icon: <Zap className="w-4 h-4" />,        title: "Framer Motion",         desc: "Flüssige Übergänge",              bg: "#1A9E5A",  fg: "#FFFFFF" },
+  { icon: <Layers className="w-4 h-4" />,     title: "Design Tokens",         desc: "CSS-Variablen, portabel",         bg: "#F4F4F4",  fg: "#0A0A0A" },
+  { icon: <BarChart2 className="w-4 h-4" />,  title: "12 Graphen-Typen",      desc: "Recharts mit Flux-Styling",       bg: "#E4FF97",  fg: "#0A0A0A" },
+  { icon: <Package className="w-4 h-4" />,    title: "18 Komponenten",        desc: "Vollständige Bibliothek",         bg: "#0A0A0A",  fg: "#FFFFFF" },
+  { icon: <Cpu className="w-4 h-4" />,        title: "React 19",              desc: "Modernste React-Version",         bg: "#6B7A9A",  fg: "#FFFFFF" },
+  { icon: <Workflow className="w-4 h-4" />,   title: "Operating Principle",   desc: "Eingabe → Workflow → Ausgabe",    bg: "#D4E8FF",  fg: "#0A0A0A" },
+  { icon: <Fingerprint className="w-4 h-4" />,title: "TypeScript",            desc: "Vollständig typisiert",           bg: "#F4F4F4",  fg: "#0A0A0A" },
 ];
 
 const stats = [
   { value: "18",  label: "Komponenten",   suffix: "" },
   { value: "12",  label: "Graphen-Typen", suffix: "" },
   { value: "48",  label: "CSS-Variablen", suffix: "+" },
-  { value: "0",   label: "Bild-Assets",   suffix: "" },
+  { value: "4",   label: "Schriftschnitte", suffix: "" },
 ];
 
-const codeSnippet = `import { GrainButton } from "grain-ui";
+const codeSnippet = `import { GrainButton } from "flux-ui";
 
 export function App() {
   return (
     <GrainButton
-      variant="primary"
+      variant="lime"
       rightIcon={<ArrowRight />}
     >
-      Lime + Schwarz
+      Flux UI · Design Concept
     </GrainButton>
   );
 }`;
@@ -88,9 +87,9 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.2, duration: 0.7 }}
             className="text-display-xl text-[#0A0A0A] mb-6"
           >
-            Operating Principles<br />
-            <span className="font-body italic font-normal">von</span>{" "}
-            Free Agents
+            Flux UI<br />
+            <span className="font-body italic font-normal">das</span>{" "}
+            Design Concept
           </motion.h1>
 
           <motion.p
@@ -99,9 +98,8 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.35, duration: 0.6 }}
             className="font-ui text-[#0A0A0A]/60 text-lg leading-relaxed max-w-2xl mx-auto mb-10"
           >
-            Handlungsleitende Prinzipien, die Werte in tägliche Praxis übersetzen.
-            Wie Teams arbeiten, zusammenarbeiten und Entscheidungen treffen
-            – konsistent, skalierbar, nachvollziehbar.
+            Ein portables Design-System aus Tokens, Komponenten und Mustern –
+            übertragbar auf jedes Projekt. Klar, kontrastreich, terminal-inspiriert.
           </motion.p>
 
           <motion.div
@@ -180,7 +178,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
           </pre>
         </div>
 
-        {/* CTA: Lime-Card wie Figma-Referenz */}
+        {/* CTA: Lime-Card */}
         <div className="rounded-2xl p-8 flex flex-col justify-between"
           style={{ background: "#E4FF97" }}>
           <div>
@@ -188,8 +186,9 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               Von Tokens zu<br />fertigen Komponenten
             </p>
             <p className="font-ui text-[#0A0A0A]/60 text-sm leading-relaxed">
-              Konsistentes Design-System mit semantischen Farben,
-              präziser Typografie und atmosphärischer Textur.
+              Portables Design-System mit semantischen Farben,
+              präziser Typografie und atmosphärischer Textur –
+              importierbar in jedes Projekt.
             </p>
           </div>
           <GrainButton variant="solid" size="lg" className="mt-6 w-fit" onClick={() => onNavigate("foundations")}>
