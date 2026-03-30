@@ -7,6 +7,7 @@
  *   Farbe      → Kategorie (je Kategorie eine Farbe aus der Pastell-Palette)
  *   Lime-Rand  → Top-Performer (über accentThreshold)
  *
+ * Tooltip: floating HTML-Overlay, erscheint direkt an der Bubble beim Hover
  * theme="dark"  → schwarzer Hintergrund (Standard)
  * theme="light" → weißer Hintergrund
  */
@@ -15,7 +16,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as d3 from "d3";
 import { cn } from "@/lib/utils";
 
-/* ── Grain Kategorie-Farben (je Kategorie eine Farbe, klar unterscheidbar) ── */
+/* ── Grain Kategorie-Farben ── */
 const CATEGORY_COLORS: string[] = [
   "#F4A0B5", // Rose
   "#7AB8F5", // Sky
@@ -68,11 +69,20 @@ interface SimNode extends d3.SimulationNodeDatum {
   isAccent: boolean;
 }
 
+/* ── Tooltip-State ── */
+interface TooltipState {
+  visible: boolean;
+  x: number;
+  y: number;
+  node: BubbleNode | null;
+  categoryColor: string;
+  isAccent: boolean;
+}
+
 const getCategoryColor = (category: string | undefined, categories: string[]): string => {
   if (!category) return CATEGORY_COLORS[0];
   const idx = categories.indexOf(category);
   if (idx >= 0) return CATEGORY_COLORS[idx % CATEGORY_COLORS.length];
-  // Fallback: Hash-basiert
   const hash = Math.abs(category.split("").reduce((a, c) => a + c.charCodeAt(0), 0));
   return CATEGORY_COLORS[hash % CATEGORY_COLORS.length];
 };
@@ -96,10 +106,12 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
   const [activeFilter, setActiveFilter] = useState<string>("Alle");
   const [selectedNode, setSelectedNode] = useState<BubbleNode | null>(null);
   const [containerWidth, setContainerWidth] = useState(800);
+  const [tooltip, setTooltip] = useState<TooltipState>({
+    visible: false, x: 0, y: 0, node: null, categoryColor: "", isAccent: false,
+  });
 
   const isDark = theme === "dark";
 
-  // Theme-Tokens
   const bg            = isDark ? "#111111" : "#FAFAFA";
   const borderColor   = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
   const labelFill     = isDark ? "rgba(255,255,255,0.90)" : "rgba(10,10,10,0.85)";
@@ -109,6 +121,12 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
   const filterInactiveFg = isDark ? "rgba(255,255,255,0.50)" : "rgba(0,0,0,0.45)";
   const filterInactiveBd = isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)";
   const gridColor     = isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
+
+  // Tooltip-Farben
+  const ttBg      = isDark ? "rgba(18,18,18,0.97)" : "rgba(255,255,255,0.98)";
+  const ttBorder  = isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.10)";
+  const ttText    = isDark ? "#FFFFFF" : "#0A0A0A";
+  const ttMuted   = isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.42)";
 
   // Responsive width
   useEffect(() => {
@@ -169,7 +187,7 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
     const svgEl = d3.select(svg).attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
     const defs = svgEl.append("defs");
 
-    // Subtiler Glow-Filter für Accent-Nodes
+    // Glow-Filter
     const glow = defs.append("filter")
       .attr("id", "gbg-glow")
       .attr("x", "-40%").attr("y", "-40%")
@@ -179,14 +197,12 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
     fm.append("feMergeNode").attr("in", "blur");
     fm.append("feMergeNode").attr("in", "SourceGraphic");
 
-    // Radial-Gradienten: Kategorie-Farbe mit Tiefe
+    // Radial-Gradienten
     simNodes.forEach(node => {
       const g = defs.append("radialGradient")
         .attr("id", node.gradientId)
         .attr("cx", "35%").attr("cy", "30%").attr("r", "72%");
-
       if (node.isAccent) {
-        // Accent: Lime-Highlight → Kategorie-Farbe
         g.append("stop").attr("offset", "0%")
           .attr("stop-color", isDark ? "#F0FFD0" : "#EEFF99").attr("stop-opacity", "0.95");
         g.append("stop").attr("offset", "45%")
@@ -194,18 +210,16 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
         g.append("stop").attr("offset", "100%")
           .attr("stop-color", node.categoryColor).attr("stop-opacity", isDark ? "0.65" : "0.50");
       } else {
-        // Normal: Helles Highlight → Kategorie-Farbe → dunkler Rand
-        const lighterColor = node.categoryColor + "EE";
         g.append("stop").attr("offset", "0%")
           .attr("stop-color", "#FFFFFF").attr("stop-opacity", isDark ? "0.28" : "0.60");
         g.append("stop").attr("offset", "40%")
-          .attr("stop-color", lighterColor).attr("stop-opacity", "0.90");
+          .attr("stop-color", node.categoryColor + "EE").attr("stop-opacity", "0.90");
         g.append("stop").attr("offset", "100%")
           .attr("stop-color", node.categoryColor).attr("stop-opacity", isDark ? "0.55" : "0.70");
       }
     });
 
-    // Hintergrund-Raster (sehr dezent)
+    // Hintergrund-Raster
     const gridSize = 40;
     for (let x = 0; x < W; x += gridSize) {
       svgEl.append("line").attr("x1", x).attr("y1", 0).attr("x2", x).attr("y2", H)
@@ -216,18 +230,12 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
         .attr("stroke", gridColor).attr("stroke-width", 0.5);
     }
 
-    // ── D3 Force Simulation ──
+    // Force Simulation
     const simulation = d3.forceSimulation<SimNode>(simNodes)
       .alphaDecay(0.055)
       .velocityDecay(0.62)
       .force("center", d3.forceCenter(W / 2, H / 2).strength(0.05))
-      .force(
-        "collision",
-        d3.forceCollide<SimNode>()
-          .radius(d => d.radius + 5)
-          .strength(0.88)
-          .iterations(3),
-      )
+      .force("collision", d3.forceCollide<SimNode>().radius(d => d.radius + 5).strength(0.88).iterations(3))
       .force("x", d3.forceX(W / 2).strength(0.022))
       .force("y", d3.forceY(H / 2).strength(0.030));
 
@@ -240,26 +248,54 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       .enter()
       .append("g")
       .style("cursor", "pointer")
-      .on("mouseenter", function(_, d) {
+      .on("mouseenter", function(event: MouseEvent, d: SimNode) {
+        // Bubble leicht vergrößern
         d3.select(this).select("circle.main")
-          .transition().duration(180).ease(d3.easeQuadOut)
+          .transition().duration(150).ease(d3.easeQuadOut)
           .attr("r", d.radius * 1.06)
           .attr("stroke-opacity", 0.9);
+
+        // Tooltip positionieren: relativ zum SVG-Container
+        const svgRect = svg.getBoundingClientRect();
+        const rawX = (d.x ?? W / 2);
+        const rawY = (d.y ?? H / 2);
+
+        // Tooltip rechts der Bubble, falls Platz; sonst links
+        const tooltipW = 200;
+        const offsetX = rawX + d.radius + 14 + tooltipW > W ? -(d.radius + 14 + tooltipW) : d.radius + 14;
+
+        setTooltip({
+          visible: true,
+          x: rawX + offsetX,
+          y: rawY,
+          node: d,
+          categoryColor: d.categoryColor,
+          isAccent: d.isAccent,
+        });
+        void svgRect; // suppress unused warning
       })
-      .on("mouseleave", function(_, d) {
+      .on("mousemove", function(_event: MouseEvent, d: SimNode) {
+        // Tooltip-Position live aktualisieren (folgt der Bubble-Mitte, nicht der Maus)
+        const rawX = (d.x ?? W / 2);
+        const rawY = (d.y ?? H / 2);
+        const tooltipW = 200;
+        const offsetX = rawX + d.radius + 14 + tooltipW > W ? -(d.radius + 14 + tooltipW) : d.radius + 14;
+        setTooltip(prev => ({ ...prev, x: rawX + offsetX, y: rawY }));
+      })
+      .on("mouseleave", function(_event: MouseEvent, d: SimNode) {
         d3.select(this).select("circle.main")
-          .transition().duration(180).ease(d3.easeQuadOut)
+          .transition().duration(150).ease(d3.easeQuadOut)
           .attr("r", d.radius)
           .attr("stroke-opacity", d.isAccent ? 0.8 : 0.35);
+        setTooltip(prev => ({ ...prev, visible: false }));
       })
-      .on("click", (_, d) => {
+      .on("click", (_: MouseEvent, d: SimNode) => {
         setSelectedNode(prev => (prev?.id === d.id ? null : d));
         onNodeClick?.(d);
       });
 
     // Äußerer Glow-Ring für Accent-Nodes
-    groups
-      .filter(d => d.isAccent)
+    groups.filter(d => d.isAccent)
       .append("circle")
       .attr("r", d => d.radius + 8)
       .attr("fill", "none")
@@ -269,8 +305,7 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       .attr("stroke-dasharray", "4 3");
 
     // Haupt-Kreis
-    groups
-      .append("circle")
+    groups.append("circle")
       .attr("class", "main")
       .attr("r", d => d.radius)
       .attr("fill", d => `url(#${d.gradientId})`)
@@ -279,9 +314,8 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       .attr("stroke-opacity", d => d.isAccent ? 0.8 : 0.35)
       .attr("filter", d => d.isAccent ? "url(#gbg-glow)" : "none");
 
-    // Kategorie-Farbpunkt (oben links in der Bubble, als Orientierung)
-    groups
-      .filter(d => !!d.category && d.radius > 36)
+    // Kategorie-Farbpunkt
+    groups.filter(d => !!d.category && d.radius > 36)
       .append("circle")
       .attr("cx", d => -d.radius * 0.38)
       .attr("cy", d => -d.radius * 0.38)
@@ -289,15 +323,11 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       .attr("fill", d => d.isAccent ? LIME : d.categoryColor)
       .attr("opacity", isDark ? 0.7 : 0.6);
 
-    // Score-Text (innerhalb Bubble)
-    groups
-      .append("text")
+    // Score-Text
+    groups.append("text")
       .attr("text-anchor", "middle")
       .attr("dy", "0.15em")
-      .attr("fill", d => {
-        if (d.isAccent) return isDark ? "#0A0A0A" : "#1A3A00";
-        return labelFill;
-      })
+      .attr("fill", d => d.isAccent ? (isDark ? "#0A0A0A" : "#1A3A00") : labelFill)
       .attr("font-size", d => Math.max(10, d.radius * 0.28))
       .attr("font-family", '"DM Mono", "DM Sans", system-ui, sans-serif')
       .attr("font-weight", "700")
@@ -305,9 +335,8 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       .attr("pointer-events", "none")
       .text(d => (d.maxValue ? `${d.value}/${d.maxValue}` : `${d.value}`));
 
-    // Label unterhalb der Bubble
-    groups
-      .append("text")
+    // Label unterhalb
+    groups.append("text")
       .attr("text-anchor", "middle")
       .attr("dy", d => d.radius + 16)
       .attr("fill", labelSubFill)
@@ -322,16 +351,13 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
         if (d.label.length > 14 && words.length > 1) {
           const mid = Math.ceil(words.length / 2);
           el.text(words.slice(0, mid).join(" "));
-          el.append("tspan")
-            .attr("x", 0)
-            .attr("dy", "1.25em")
-            .text(words.slice(mid).join(" "));
+          el.append("tspan").attr("x", 0).attr("dy", "1.25em").text(words.slice(mid).join(" "));
         } else {
           el.text(d.label);
         }
       });
 
-    // Tick: Positionen + Bounds
+    // Tick
     simulation.on("tick", () => {
       groups.attr("transform", d => {
         const pad = d.radius + 22;
@@ -341,41 +367,32 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       });
     });
 
-    // Nach Ende: Positionen einfrieren
+    // Einfrieren nach Ende
     simulation.on("end", () => {
-      groups.each(function(d) {
-        d.fx = d.x;
-        d.fy = d.y;
-      });
+      groups.each(function(d) { d.fx = d.x; d.fy = d.y; });
     });
   }, [
-    filteredNodes,
-    containerWidth,
-    height,
-    accentThreshold,
-    allCategories,
-    isDark,
-    gridColor,
-    labelFill,
-    labelSubFill,
-    onNodeClick,
+    filteredNodes, containerWidth, height, accentThreshold, allCategories,
+    isDark, gridColor, labelFill, labelSubFill, onNodeClick,
   ]);
 
   useEffect(() => {
     drawBubbles();
-    return () => {
-      simRef.current?.stop();
-    };
+    return () => { simRef.current?.stop(); };
   }, [drawBubbles]);
 
   // Stats
   const stark   = filteredNodes.filter(n => n.value >= accentThreshold).length;
   const moderat = filteredNodes.filter(n => n.value >= accentThreshold * 0.6 && n.value < accentThreshold).length;
   const schwach = filteredNodes.filter(n => n.value < accentThreshold * 0.6).length;
-  const avg =
-    filteredNodes.length > 0
-      ? Math.round(filteredNodes.reduce((s, n) => s + n.value, 0) / filteredNodes.length)
-      : 0;
+  const avg = filteredNodes.length > 0
+    ? Math.round(filteredNodes.reduce((s, n) => s + n.value, 0) / filteredNodes.length)
+    : 0;
+
+  // Score-Balken-Breite für Tooltip
+  const tooltipPct = tooltip.node
+    ? Math.round((tooltip.node.value / (tooltip.node.maxValue ?? tooltip.node.value)) * 100)
+    : 0;
 
   return (
     <div
@@ -386,27 +403,21 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       {(title || subtitle) && (
         <div className="px-5 pt-4 pb-3.5" style={{ borderBottom: `1px solid ${borderColor}` }}>
           {title && (
-            <h3
-              className="font-display font-bold text-base"
-              style={{ color: isDark ? "#FFFFFF" : "#0A0A0A" }}
-            >
+            <h3 className="font-display font-bold text-base" style={{ color: isDark ? "#FFFFFF" : "#0A0A0A" }}>
               {title}
             </h3>
           )}
           {subtitle && (
-            <p className="text-[11px] font-mono mt-0.5" style={{ color: statsMuted }}>
-              {subtitle}
-            </p>
+            <p className="text-[11px] font-mono mt-0.5" style={{ color: statsMuted }}>{subtitle}</p>
           )}
         </div>
       )}
 
-      {/* Filter-Tags + Legende in einer Zeile */}
+      {/* Filter-Tags + Legende */}
       <div
         className="flex flex-wrap items-center justify-between gap-3 px-5 py-3"
         style={{ borderBottom: `1px solid ${borderColor}` }}
       >
-        {/* Filter-Tags */}
         <div className="flex flex-wrap items-center gap-1.5">
           {["Alle", ...allCategories].map(cat => {
             const active = activeFilter === cat;
@@ -420,22 +431,14 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
                   background: active
                     ? (cat === "Alle" ? (isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)") : catColor + "28")
                     : "transparent",
-                  color: active
-                    ? (cat === "Alle" ? statsStrong : isDark ? "#FFFFFF" : "#0A0A0A")
-                    : filterInactiveFg,
+                  color: active ? (cat === "Alle" ? statsStrong : isDark ? "#FFFFFF" : "#0A0A0A") : filterInactiveFg,
                   border: `1px solid ${active
                     ? (cat === "Alle" ? (isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)") : catColor + "60")
                     : filterInactiveBd}`,
                 }}
               >
                 {catColor && (
-                  <span
-                    style={{
-                      width: 7, height: 7, borderRadius: "50%",
-                      background: catColor,
-                      display: "inline-block", flexShrink: 0,
-                    }}
-                  />
+                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: catColor, display: "inline-block", flexShrink: 0 }} />
                 )}
                 {cat}
               </button>
@@ -443,9 +446,8 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
           })}
         </div>
 
-        {/* Legende: Hierarchie-Erklärung */}
+        {/* Legende */}
         <div className="flex items-center gap-4 text-[10px] font-mono" style={{ color: statsMuted }}>
-          {/* Größe = Wert */}
           <div className="flex items-center gap-1.5">
             <svg width="28" height="16" viewBox="0 0 28 16">
               <circle cx="6" cy="8" r="4" fill={isDark ? "rgba(255,255,255,0.20)" : "rgba(0,0,0,0.15)"} />
@@ -453,7 +455,6 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
             </svg>
             <span>Größe = Wert</span>
           </div>
-          {/* Farbe = Kategorie */}
           <div className="flex items-center gap-1.5">
             <div className="flex gap-0.5">
               {CATEGORY_COLORS.slice(0, 3).map((c, i) => (
@@ -462,22 +463,147 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
             </div>
             <span>Farbe = Kategorie</span>
           </div>
-          {/* Lime = Top */}
           <div className="flex items-center gap-1.5">
-            <span style={{
-              width: 14, height: 14, borderRadius: "50%",
-              background: LIME,
-              display: "inline-block",
-              boxShadow: `0 0 6px ${LIME}88`,
-            }} />
+            <span style={{ width: 14, height: 14, borderRadius: "50%", background: LIME, display: "inline-block", boxShadow: `0 0 6px ${LIME}88` }} />
             <span style={{ color: isDark ? LIME : "#4A7A00" }}>= Top-Performer</span>
           </div>
         </div>
       </div>
 
-      {/* SVG Canvas */}
-      <div ref={containerRef} className="relative flex-1 w-full">
+      {/* SVG Canvas + Tooltip */}
+      <div ref={containerRef} className="relative flex-1 w-full" style={{ overflow: "visible" }}>
         <svg ref={svgRef} className="w-full" style={{ height, display: "block" }} />
+
+        {/* Floating Tooltip */}
+        {tooltip.visible && tooltip.node && (
+          <div
+            style={{
+              position: "absolute",
+              left: tooltip.x,
+              top: tooltip.y,
+              transform: "translateY(-50%)",
+              pointerEvents: "none",
+              zIndex: 50,
+              width: 196,
+            }}
+          >
+            {/* Pfeil-Connector */}
+            <div
+              style={{
+                position: "absolute",
+                left: tooltip.x > containerWidth / 2 ? "auto" : -6,
+                right: tooltip.x > containerWidth / 2 ? -6 : "auto",
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: 0,
+                height: 0,
+                borderTop: "5px solid transparent",
+                borderBottom: "5px solid transparent",
+                ...(tooltip.x > containerWidth / 2
+                  ? { borderLeft: `6px solid ${ttBorder}` }
+                  : { borderRight: `6px solid ${ttBorder}` }),
+              }}
+            />
+            <div
+              style={{
+                background: ttBg,
+                border: `1px solid ${ttBorder}`,
+                borderRadius: 10,
+                padding: "10px 12px",
+                boxShadow: isDark
+                  ? "0 8px 32px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.35)"
+                  : "0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+              }}
+            >
+              {/* Kategorie-Badge */}
+              {tooltip.node.category && (
+                <div className="flex items-center gap-1.5 mb-2">
+                  <span style={{
+                    width: 7, height: 7, borderRadius: "50%",
+                    background: tooltip.categoryColor,
+                    display: "inline-block", flexShrink: 0,
+                  }} />
+                  <span style={{ fontSize: 10, fontFamily: '"DM Mono", monospace', color: ttMuted, letterSpacing: "0.04em", textTransform: "uppercase" }}>
+                    {tooltip.node.category}
+                  </span>
+                  {tooltip.isAccent && (
+                    <span style={{
+                      marginLeft: "auto",
+                      fontSize: 9, fontFamily: '"DM Mono", monospace',
+                      color: isDark ? LIME : "#3A6A00",
+                      background: isDark ? "rgba(228,255,151,0.12)" : "rgba(100,180,0,0.10)",
+                      border: `1px solid ${isDark ? "rgba(228,255,151,0.25)" : "rgba(100,180,0,0.25)"}`,
+                      borderRadius: 4, padding: "1px 5px",
+                    }}>
+                      TOP
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Label */}
+              <div style={{
+                fontSize: 13, fontWeight: 700,
+                fontFamily: '"DM Sans", system-ui, sans-serif',
+                color: ttText, lineHeight: 1.3, marginBottom: 6,
+              }}>
+                {tooltip.node.label}
+              </div>
+
+              {/* Score + Balken */}
+              <div style={{ marginBottom: tooltip.node.description ? 8 : 0 }}>
+                <div className="flex items-baseline justify-between mb-1.5">
+                  <span style={{ fontSize: 10, fontFamily: '"DM Mono", monospace', color: ttMuted }}>Score</span>
+                  <span style={{
+                    fontSize: 14, fontWeight: 700,
+                    fontFamily: '"DM Mono", monospace',
+                    color: tooltip.isAccent ? (isDark ? LIME : "#2A6A00") : ttText,
+                  }}>
+                    {tooltip.node.value}
+                    {tooltip.node.maxValue && (
+                      <span style={{ fontSize: 10, fontWeight: 400, color: ttMuted }}>/{tooltip.node.maxValue}</span>
+                    )}
+                  </span>
+                </div>
+                {/* Fortschrittsbalken */}
+                {tooltip.node.maxValue && (
+                  <div style={{
+                    height: 3, borderRadius: 2,
+                    background: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)",
+                    overflow: "hidden",
+                  }}>
+                    <div style={{
+                      height: "100%",
+                      width: `${tooltipPct}%`,
+                      borderRadius: 2,
+                      background: tooltip.isAccent
+                        ? `linear-gradient(90deg, ${LIME_DARK}, ${LIME})`
+                        : `linear-gradient(90deg, ${tooltip.categoryColor}CC, ${tooltip.categoryColor})`,
+                      transition: "width 0.3s ease",
+                    }} />
+                  </div>
+                )}
+              </div>
+
+              {/* Beschreibung */}
+              {tooltip.node.description && (
+                <p style={{
+                  fontSize: 11,
+                  fontFamily: '"DM Sans", system-ui, sans-serif',
+                  color: ttMuted,
+                  lineHeight: 1.5,
+                  margin: 0,
+                  borderTop: `1px solid ${ttBorder}`,
+                  paddingTop: 7,
+                }}>
+                  {tooltip.node.description}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Stats-Leiste */}
@@ -506,7 +632,7 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
         </div>
       )}
 
-      {/* Selected Node Detail */}
+      {/* Selected Node Detail (Klick) */}
       {selectedNode && (
         <div
           className="px-5 py-3 flex items-center justify-between gap-4"
@@ -521,10 +647,7 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
               }} />
             )}
             <div>
-              <span
-                className="font-semibold text-sm"
-                style={{ color: isDark ? "#FFFFFF" : "#0A0A0A" }}
-              >
+              <span className="font-semibold text-sm" style={{ color: isDark ? "#FFFFFF" : "#0A0A0A" }}>
                 {selectedNode.label}
               </span>
               {selectedNode.category && (
@@ -533,19 +656,13 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
                 </span>
               )}
               {selectedNode.description && (
-                <p className="text-[11px] mt-0.5" style={{ color: statsMuted }}>
-                  {selectedNode.description}
-                </p>
+                <p className="text-[11px] mt-0.5" style={{ color: statsMuted }}>{selectedNode.description}</p>
               )}
             </div>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
-            <span
-              className="font-bold font-mono text-sm"
-              style={{ color: isDark ? LIME : "#2A6A00" }}
-            >
-              {selectedNode.value}
-              {selectedNode.maxValue ? `/${selectedNode.maxValue}` : ""}
+            <span className="font-bold font-mono text-sm" style={{ color: isDark ? LIME : "#2A6A00" }}>
+              {selectedNode.value}{selectedNode.maxValue ? `/${selectedNode.maxValue}` : ""}
             </span>
             <button
               onClick={() => setSelectedNode(null)}
