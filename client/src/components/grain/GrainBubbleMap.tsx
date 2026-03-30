@@ -230,14 +230,18 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
         .attr("stroke", gridColor).attr("stroke-width", 0.5);
     }
 
-    // Force Simulation
+    // Force Simulation – bewusst kurz und ruhig:
+    // alphaDecay 0.12  → friert nach ~30 Ticks ein (statt 300)
+    // velocityDecay 0.8 → starke Dämpfung, kein Schwingen
+    // alphaMin 0.05    → Simulation stoppt früh
     const simulation = d3.forceSimulation<SimNode>(simNodes)
-      .alphaDecay(0.055)
-      .velocityDecay(0.62)
-      .force("center", d3.forceCenter(W / 2, H / 2).strength(0.05))
-      .force("collision", d3.forceCollide<SimNode>().radius(d => d.radius + 5).strength(0.88).iterations(3))
-      .force("x", d3.forceX(W / 2).strength(0.022))
-      .force("y", d3.forceY(H / 2).strength(0.030));
+      .alphaDecay(0.12)
+      .velocityDecay(0.80)
+      .alphaMin(0.05)
+      .force("center", d3.forceCenter(W / 2, H / 2).strength(0.04))
+      .force("collision", d3.forceCollide<SimNode>().radius(d => d.radius + 5).strength(0.85).iterations(2))
+      .force("x", d3.forceX(W / 2).strength(0.018))
+      .force("y", d3.forceY(H / 2).strength(0.025));
 
     simRef.current = simulation;
 
@@ -367,10 +371,19 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       });
     });
 
-    // Einfrieren nach Ende
+    // Einfrieren nach Ende – Positionen fixieren damit keine weiteren Bewegungen möglich
     simulation.on("end", () => {
+      simulation.stop();
       groups.each(function(d) { d.fx = d.x; d.fy = d.y; });
     });
+
+    // Sicherheitsnetz: nach 2 Sekunden hart stoppen und einfrieren
+    const hardStop = setTimeout(() => {
+      simulation.stop();
+      groups.each(function(d) { d.fx = d.x; d.fy = d.y; });
+    }, 2000);
+
+    simulation.on("end.cleanup", () => clearTimeout(hardStop));
   }, [
     filteredNodes, containerWidth, height, accentThreshold, allCategories,
     isDark, gridColor, labelFill, labelSubFill, onNodeClick,
