@@ -150,18 +150,18 @@ export const NODE_COLORS: Record<NodeType, string> = {
  * gesättigte Varianten ersetzt, die auf weißem Hintergrund gut lesbar sind.
  */
 export const NODE_COLORS_LIGHT: Record<NodeType, string> = {
-  trigger:   "#5A8A00",  // Neon-Gelb → Olivgrün
-  text:      "#1565C0",  // Hellblau → Dunkelblau
-  image:     "#E65100",  // Pfirsich → Dunkelorange
-  generator: "#1B7A4A",  // Mintgrün → Dunkelgrün
-  list:      "#5E35B1",  // Lavendel → Dunkelviolett
-  data:      "#C62828",  // Rosa → Dunkelrot
-  decision:  "#B8860B",  // Hellgelb → Dunkelgold
-  api:       "#00838F",  // Cyan → Dunkelteal
-  transform: "#AD1457",  // Hellrosa → Dunkelmagenta
-  output:    "#5A8A00",  // Neon-Gelb → Olivgrün
-  webhook:   "#BF360C",  // Lachs → Dunkelrot-Orange
-  note:      "#616161",  // Hellgrau → Dunkelgrau
+  trigger:   "#1A1A1A",  // Primär → Schwarz (Markenfarbe)
+  text:      "#2563EB",  // Hellblau → kräftiges Blau
+  image:     "#C2410C",  // Pfirsich → gedecktes Orange
+  generator: "#059669",  // Mintgrün → gedecktes Smaragd
+  list:      "#7C3AED",  // Lavendel → gedecktes Violett
+  data:      "#DC2626",  // Rosa → klares Rot
+  decision:  "#D97706",  // Hellgelb → gedecktes Amber
+  api:       "#0891B2",  // Cyan → gedecktes Cyan
+  transform: "#DB2777",  // Hellrosa → gedecktes Pink
+  output:    "#1A1A1A",  // Primär → Schwarz (Markenfarbe)
+  webhook:   "#EA580C",  // Lachs → gedecktes Orange-Rot
+  note:      "#6B7280",  // Hellgrau → neutrales Grau
 };
 
 export const NODE_ICONS: Record<NodeType, LucideIcon> = {
