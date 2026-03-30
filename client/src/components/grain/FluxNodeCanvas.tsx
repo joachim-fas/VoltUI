@@ -100,6 +100,27 @@ export interface FluxNodeCanvasProps {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
+   HILFSFUNKTIONEN
+══════════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Dunkelt eine Hex-Farbe für den Light-Mode ab, damit Icons und Badges
+ * genügend Kontrast auf weißem Hintergrund haben.
+ */
+function darkenColor(hex: string): string {
+  // Hex → RGB
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  // 55% dunkler
+  const factor = 0.45;
+  const dr = Math.round(r * factor);
+  const dg = Math.round(g * factor);
+  const db = Math.round(b * factor);
+  return `rgb(${dr},${dg},${db})`;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
    KONSTANTEN
 ══════════════════════════════════════════════════════════════════════════════ */
 
@@ -232,8 +253,8 @@ function buildPath(
 ══════════════════════════════════════════════════════════════════════════════ */
 
 function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
-  const textCol  = isDark ? "rgba(255,255,255,0.82)" : "rgba(0,0,0,0.78)";
-  const mutedCol = isDark ? "rgba(255,255,255,0.32)" : "rgba(0,0,0,0.32)";
+  const textCol  = isDark ? "rgba(255,255,255,0.88)" : "rgba(0,0,0,0.82)";
+  const mutedCol = isDark ? "rgba(255,255,255,0.40)" : "rgba(0,0,0,0.52)";
   const typeColor = NODE_COLORS[node.type];
   const bodyH = (node.height ?? NODE_DEFAULTS[node.type].height) - HEADER_H - 22;
 
@@ -257,7 +278,7 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
           }}>
             <Play size={13} style={{ color: "#000", marginLeft: 2 }} />
           </div>
-          <span style={{ fontSize: 11, color: content ? textCol : mutedCol, fontFamily: '"DM Mono", monospace' }}>
+          <span style={{ fontSize: 12, color: content ? textCol : mutedCol, fontFamily: '"DM Mono", monospace' }}>
             {content || (meta.event as string) || "on:start"}
           </span>
         </div>
@@ -266,7 +287,7 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
     case "text":
       return (
         <div style={{
-          minHeight: Math.max(bodyH, 36), fontSize: 11,
+          minHeight: Math.max(bodyH, 36), fontSize: 12,
           color: content ? textCol : mutedCol,
           fontFamily: '"DM Sans", sans-serif', lineHeight: 1.65,
         }}>
@@ -284,7 +305,7 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
           {url ? (
             <img src={url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           ) : (
-            <Image size={26} style={{ color: isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.14)" }} />
+            <Image size={26} style={{ color: isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.28)" }} />
           )}
         </div>
       );
@@ -308,7 +329,8 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
             fontSize: 11, color: content ? textCol : mutedCol,
             fontFamily: '"DM Mono", monospace',
             padding: "4px 8px",
-            background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+            background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.10)"}`,
             borderRadius: 6, marginBottom: 6,
           }}>
             {content || "Prompt eingeben…"}
@@ -316,7 +338,8 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span style={{
               fontSize: 10, color: mutedCol, fontFamily: '"DM Mono", monospace',
-              background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
+              background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+              border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.12)"}`,
               padding: "2px 6px", borderRadius: 4,
             }}>{modelName}</span>
             <div style={{
@@ -353,7 +376,7 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{
                 height: 7, borderRadius: 4,
-                background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)",
+                background: isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.14)",
                 width: `${w}%`, flex: "none",
               }} />
               <span style={{ fontSize: 9, color: mutedCol, fontFamily: '"DM Mono", monospace' }}>
@@ -371,7 +394,8 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
             fontSize: 11, color: content ? textCol : mutedCol,
             fontFamily: '"DM Mono", monospace',
             padding: "4px 8px",
-            background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+            background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.10)"}`,
             borderRadius: 6,
           }}>
             {content || "if condition…"}
@@ -401,13 +425,16 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
               fontSize: 9, fontFamily: '"DM Mono", monospace', fontWeight: 700,
               padding: "2px 6px", borderRadius: 4,
               background: (meta.method as string) === "POST"
-                ? "rgba(228,255,151,0.18)" : "rgba(128,222,234,0.18)",
-              color: (meta.method as string) === "POST" ? "#C8E84A" : "#80DEEA",
+                ? (isDark ? "rgba(228,255,151,0.18)" : "rgba(140,160,0,0.15)")
+                : (isDark ? "rgba(128,222,234,0.18)" : "rgba(0,130,160,0.12)"),
+              color: (meta.method as string) === "POST"
+                ? (isDark ? "#C8E84A" : "#5A7000")
+                : (isDark ? "#80DEEA" : "#006080"),
             }}>
               {(meta.method as string) || "GET"}
             </span>
             <span style={{
-              fontSize: 10, color: mutedCol, fontFamily: '"DM Mono", monospace',
+              fontSize: 10, color: textCol, fontFamily: '"DM Mono", monospace',
               overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
             }}>
               {(meta.endpoint as string) || "/api/endpoint"}
@@ -416,7 +443,8 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
           <div style={{
             fontSize: 10, color: mutedCol, fontFamily: '"DM Mono", monospace',
             padding: "4px 8px",
-            background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+            background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.10)"}`,
             borderRadius: 6,
           }}>
             {(meta.body as string) || '{ "key": "value" }'}
@@ -438,11 +466,10 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
               <React.Fragment key={lbl}>
                 <div style={{
                   flex: 1, height: 26, borderRadius: 6,
-                  background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)",
+                  background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                  border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.12)"}`,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
-                  <span style={{ fontSize: 9, color: mutedCol, fontFamily: '"DM Mono", monospace' }}>{lbl}</span>
-                </div>
+                }}><span style={{ fontSize: 9, color: mutedCol, fontFamily: '"DM Mono", monospace' }}>{lbl}</span></div>
                 {i === 0 && <Shuffle size={12} style={{ color: typeColor, flexShrink: 0 }} />}
               </React.Fragment>
             ))}
@@ -451,7 +478,8 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
             fontSize: 10, color: content ? textCol : mutedCol,
             fontFamily: '"DM Mono", monospace',
             padding: "3px 8px",
-            background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+            background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.10)"}`,
             borderRadius: 6,
           }}>
             {content || "map(x => x)"}
@@ -464,13 +492,13 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
           <div style={{
             height: Math.max(bodyH - 22, 36), borderRadius: 8,
-            background: isDark ? "rgba(228,255,151,0.05)" : "rgba(228,255,151,0.12)",
-            border: `1px dashed ${isDark ? "rgba(228,255,151,0.18)" : "rgba(0,0,0,0.10)"}`,
+            background: isDark ? "rgba(228,255,151,0.05)" : "rgba(0,0,0,0.04)",
+            border: `1px dashed ${isDark ? "rgba(228,255,151,0.22)" : "rgba(0,0,0,0.18)"}`,
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            <Download size={18} style={{ color: typeColor, opacity: 0.45 }} />
+            <Download size={18} style={{ color: isDark ? typeColor : darkenColor(typeColor), opacity: 0.65 }} />
           </div>
-          <span style={{ fontSize: 10, color: mutedCol, fontFamily: '"DM Mono", monospace', textAlign: "center" }}>
+          <span style={{ fontSize: 10, color: textCol, fontFamily: '"DM Mono", monospace', textAlign: "center" }}>
             {(meta.format as string) || "JSON · CSV · Webhook"}
           </span>
         </div>
@@ -488,7 +516,8 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
           <div style={{
             fontSize: 10, color: mutedCol, fontFamily: '"DM Mono", monospace',
             padding: "4px 8px",
-            background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+            background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+            border: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.10)"}`,
             borderRadius: 6,
           }}>
             {(meta.payload as string) || '{ "event": "…" }'}
@@ -499,9 +528,9 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
     case "note":
       return (
         <div style={{
-          fontSize: 11, color: textCol,
+          fontSize: 11, color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.60)",
           fontFamily: '"DM Sans", sans-serif',
-          lineHeight: 1.65, fontStyle: "italic", opacity: 0.72,
+          lineHeight: 1.65, fontStyle: "italic",
         }}>
           {content || "Notiz hier eingeben…"}
         </div>
@@ -674,7 +703,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
   }, [zoom, nodes, onNodeChange]);
 
   /* ── Farben ── */
-  const bg       = isDark ? "#0E0E0E" : "#F8F8F8";
+  const bg       = isDark ? "#0E0E0E" : "#F2F2F2";
   const dotColor = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
   const nodeMap  = new Map(nodes.map(n => [n.id, n]));
   const canvasW  = Math.max(...nodes.map(n => n.x + (n.width  ?? 300)), 800) + 200;
@@ -684,7 +713,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
     <div
       ref={containerRef}
       className={cn("relative overflow-hidden rounded-xl select-none", className)}
-      style={{ height, background: bg, border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}` }}
+      style={{ height, background: bg, border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.14)"}` }}
       onMouseDown={onMouseDown}
       onClick={() => { setSelectedId(null); onNodeSelect?.(null); }}
     >
@@ -713,8 +742,8 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
       <div style={{
         position: "absolute", top: 10, right: 12, zIndex: 10,
         fontSize: 10, fontFamily: '"DM Mono", monospace',
-        color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
-        background: isDark ? "rgba(0,0,0,0.40)" : "rgba(255,255,255,0.75)",
+        color: isDark ? "rgba(255,255,255,0.40)" : "rgba(0,0,0,0.50)",
+        background: isDark ? "rgba(0,0,0,0.40)" : "rgba(255,255,255,0.90)",
         padding: "2px 7px", borderRadius: 6, backdropFilter: "blur(4px)",
         pointerEvents: "none",
       }}>
@@ -763,7 +792,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
         <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }}>
           <defs>
             {edges.map(edge => {
-              const col = edge.color ?? (isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.22)");
+              const col = edge.color ?? (isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.45)");
               return (
                 <marker key={`arr-${edge.id}`} id={`arr-${edge.id}`}
                   markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
@@ -783,7 +812,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
             const from = portPos(fromNode, fp);
             const to   = portPos(toNode,   tp);
             const d = buildPath(from, to, fp, tp, edge.style ?? "bezier");
-            const edgeColor = edge.color ?? (isDark ? "rgba(255,255,255,0.20)" : "rgba(0,0,0,0.20)");
+            const edgeColor = edge.color ?? (isDark ? "rgba(255,255,255,0.30)" : "rgba(0,0,0,0.40)");
             const pulses = edge.pulseCount ?? (edge.animated ? 1 : 0);
 
             // Partikel-Positionen via linearer Interpolation
@@ -802,7 +831,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
               <g key={edge.id}>
                 <path
                   d={d} fill="none"
-                  stroke={edgeColor} strokeWidth={1.5} strokeLinecap="round"
+                  stroke={edgeColor} strokeWidth={2} strokeLinecap="round"
                   markerEnd={`url(#arr-${edge.id})`}
                   strokeDasharray={edge.animated ? "6 4" : undefined}
                   style={edge.animated ? { animation: "ncEdgeDash 0.7s linear infinite" } : undefined}
@@ -848,17 +877,17 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
 
           const nodeBg = node.type === "note"
             ? (isDark ? "#1E1E18" : "#FFFDE7")
-            : (isDark ? "#161616" : "#FFFFFF");
+            : (isDark ? "#161616" : "#FEFEFE");
 
           const border = isSelected
             ? typeColor
-            : isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)";
+            : isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.18)";
 
           const boxShadow = (() => {
             if (status === "running" || status === "success" || status === "error") return undefined;
-            if (isSelected) return `0 0 0 2px ${typeColor}55, 0 4px 24px rgba(0,0,0,0.22)`;
-            if (isHovered)  return isDark ? "0 4px 28px rgba(0,0,0,0.50)" : "0 4px 20px rgba(0,0,0,0.12)";
-            return isDark ? "0 2px 16px rgba(0,0,0,0.38)" : "0 2px 10px rgba(0,0,0,0.07)";
+            if (isSelected) return `0 0 0 2px ${typeColor}66, 0 4px 24px rgba(0,0,0,0.22)`;
+            if (isHovered)  return isDark ? "0 4px 28px rgba(0,0,0,0.50)" : "0 4px 20px rgba(0,0,0,0.16)";
+            return isDark ? "0 2px 16px rgba(0,0,0,0.38)" : "0 2px 12px rgba(0,0,0,0.10)";
           })();
 
           const animation = (() => {
@@ -891,16 +920,17 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
               <div style={{
                 display: "flex", alignItems: "center", gap: 8,
                 padding: "0 14px", height: HEADER_H,
-                background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
-                borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`,
+                background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
+                borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.12)"}`,
+                borderTopLeftRadius: 11, borderTopRightRadius: 11,
                 cursor: isDisabled ? "not-allowed" : "grab",
               }}
                 onMouseDown={isDisabled ? undefined : e => startNodeDrag(e, node.id)}
               >
-                <Icon size={16} style={{ color: typeColor, flexShrink: 0 }} strokeWidth={2} />
+                <Icon size={16} style={{ color: isDark ? typeColor : darkenColor(typeColor), flexShrink: 0 }} strokeWidth={2} />
                 <span style={{
                   fontSize: 13, fontFamily: '"DM Mono", monospace',
-                  color: isDark ? "rgba(255,255,255,0.82)" : "rgba(0,0,0,0.78)",
+                  color: isDark ? "rgba(255,255,255,0.88)" : "rgba(0,0,0,0.82)",
                   fontWeight: 600, flex: 1,
                   overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                 }}>
@@ -908,7 +938,8 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
                 </span>
                 <span style={{
                   fontSize: 9, fontFamily: '"DM Mono", monospace',
-                  color: typeColor, background: `${typeColor}1A`,
+                  color: isDark ? typeColor : darkenColor(typeColor),
+                  background: isDark ? `${typeColor}1A` : `${typeColor}33`,
                   padding: "2px 7px", borderRadius: 5, letterSpacing: "0.05em", flexShrink: 0,
                 }}>
                   {node.type.toUpperCase()}
@@ -925,7 +956,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
                 position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)",
                 width: 14, height: 14, borderRadius: "50%",
                 background: isDark ? "#1A1A1A" : "#FFFFFF",
-                border: `2px solid ${isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.22)"}`,
+                border: `2px solid ${isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)"}`,
                 zIndex: 3,
               }} />
 
@@ -934,8 +965,8 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
                 position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)",
                 width: 14, height: 14, borderRadius: "50%",
                 background: isDark ? "#1A1A1A" : "#FFFFFF",
-                border: `2px solid ${typeColor}`,
-                boxShadow: `0 0 8px ${typeColor}55`,
+                border: `2.5px solid ${isDark ? typeColor : darkenColor(typeColor)}`,
+                boxShadow: `0 0 8px ${typeColor}66`,
                 zIndex: 3,
               }} />
 
@@ -945,8 +976,8 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
                   position: "absolute", bottom: -7, left: "50%", transform: "translateX(-50%)",
                   width: 14, height: 14, borderRadius: "50%",
                   background: isDark ? "#1A1A1A" : "#FFFFFF",
-                  border: "2px solid #FF6B6B",
-                  boxShadow: "0 0 8px #FF6B6B55",
+                  border: `2.5px solid ${isDark ? "#FF6B6B" : "#D94040"}`,
+                  boxShadow: "0 0 8px #FF6B6B66",
                   zIndex: 3,
                 }} />
               )}
@@ -963,7 +994,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
                 >
                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                     <path d="M2 9 L9 2 M5 9 L9 5 M8 9 L9 8"
-                      stroke={isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.18)"}
+                      stroke={isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.30)"}
                       strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </div>
