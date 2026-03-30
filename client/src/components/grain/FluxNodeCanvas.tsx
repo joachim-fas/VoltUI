@@ -145,6 +145,25 @@ export const NODE_COLORS: Record<NodeType, string> = {
   note:      "#D4D4D4",
 };
 
+/**
+ * Im Light-Mode werden die Neon-Farben durch kontraststarke,
+ * gesättigte Varianten ersetzt, die auf weißem Hintergrund gut lesbar sind.
+ */
+export const NODE_COLORS_LIGHT: Record<NodeType, string> = {
+  trigger:   "#5A8A00",  // Neon-Gelb → Olivgrün
+  text:      "#1565C0",  // Hellblau → Dunkelblau
+  image:     "#E65100",  // Pfirsich → Dunkelorange
+  generator: "#1B7A4A",  // Mintgrün → Dunkelgrün
+  list:      "#5E35B1",  // Lavendel → Dunkelviolett
+  data:      "#C62828",  // Rosa → Dunkelrot
+  decision:  "#B8860B",  // Hellgelb → Dunkelgold
+  api:       "#00838F",  // Cyan → Dunkelteal
+  transform: "#AD1457",  // Hellrosa → Dunkelmagenta
+  output:    "#5A8A00",  // Neon-Gelb → Olivgrün
+  webhook:   "#BF360C",  // Lachs → Dunkelrot-Orange
+  note:      "#616161",  // Hellgrau → Dunkelgrau
+};
+
 export const NODE_ICONS: Record<NodeType, LucideIcon> = {
   trigger:   Play,
   text:      AlignLeft,
@@ -255,7 +274,7 @@ function buildPath(
 function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
   const textCol  = isDark ? "rgba(255,255,255,0.88)" : "rgba(0,0,0,0.82)";
   const mutedCol = isDark ? "rgba(255,255,255,0.40)" : "rgba(0,0,0,0.52)";
-  const typeColor = NODE_COLORS[node.type];
+  const typeColor = isDark ? NODE_COLORS[node.type] : NODE_COLORS_LIGHT[node.type];
   const bodyH = (node.height ?? NODE_DEFAULTS[node.type].height) - HEADER_H - 22;
 
   // Ältere Props → meta normalisieren
@@ -837,7 +856,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
                   style={edge.animated ? { animation: "ncEdgeDash 0.7s linear infinite" } : undefined}
                 />
                 {particlePositions.map((pos, i) => {
-                  const typeColor = NODE_COLORS[fromNode.type];
+                  const typeColor = isDark ? NODE_COLORS[fromNode.type] : NODE_COLORS_LIGHT[fromNode.type];
                   return (
                     <circle key={i} cx={pos.x} cy={pos.y} r={3.5}
                       fill={typeColor}
@@ -868,7 +887,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
         {nodes.map(node => {
           const w = node.width  ?? NODE_DEFAULTS[node.type].width;
           const h = node.height ?? NODE_DEFAULTS[node.type].height;
-          const typeColor = NODE_COLORS[node.type];
+          const typeColor = isDark ? NODE_COLORS[node.type] : NODE_COLORS_LIGHT[node.type];
           const Icon = NODE_ICONS[node.type];
           const isSelected = selectedId === node.id;
           const isHovered  = hoveredId  === node.id;

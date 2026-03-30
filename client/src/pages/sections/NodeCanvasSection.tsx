@@ -14,7 +14,7 @@
 import React, { useState, useMemo } from "react";
 import {
   FluxNodeCanvas,
-  NODE_COLORS, NODE_ICONS, NODE_DEFAULTS,
+  NODE_COLORS, NODE_COLORS_LIGHT, NODE_ICONS, NODE_DEFAULTS,
   type CanvasNode, type CanvasEdge, type CanvasGroup, type NodeType, type NodeStatus, type EdgeStyle,
 } from "@/components/grain/FluxNodeCanvas";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -311,7 +311,7 @@ interface ConfigPanelProps {
 }
 
 function ConfigPanel({ nodeType, isDark, onClose }: ConfigPanelProps) {
-  const typeColor = NODE_COLORS[nodeType];
+  const typeColor = isDark ? NODE_COLORS[nodeType] : NODE_COLORS_LIGHT[nodeType];
   const Icon = NODE_ICONS[nodeType];
   const defaults = NODE_DEFAULTS[nodeType];
 
@@ -613,7 +613,7 @@ const NodeCanvasSection: React.FC = () => {
         {/* Typ-Chips */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
           {ALL_NODE_TYPES.map(type => {
-            const color = NODE_COLORS[type];
+            const color = isDark ? NODE_COLORS[type] : NODE_COLORS_LIGHT[type];
             const Icon = NODE_ICONS[type];
             const isActive = selectedNodeType === type;
             return (
