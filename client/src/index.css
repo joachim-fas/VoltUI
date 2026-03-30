@@ -9,14 +9,14 @@
    Pastell:      Rose Quartz · Peach Cream · Mint Green · Soft Orchid
                  Baby Blue · Butter Yellow · Powder Orange · Aqua Mist
    Signale:      Smaragd (↑) · Koralle (↓) · Slate (→)
-   Schriften:    Bricolage Grotesque · DM Sans · Lora · JetBrains Mono
+   Schriften:    Space Grotesk · DM Sans · JetBrains Mono
    — KEINE ÄNDERUNGEN AN TYPOGRAFIE —
 ═══════════════════════════════════════════════════════ */
 
 :root {
-  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-ui:      "DM Sans", system-ui, sans-serif;
-  --font-body:    "Lora", Georgia, serif;
+  --font-body:    "DM Sans", system-ui, sans-serif;
   --font-mono:    "JetBrains Mono", "Fira Code", monospace;
 
   --radius: 0.5rem;

@@ -71,7 +71,7 @@ const sidebarSections = [
       { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette2 className="w-4 h-4" /> },
       { id: "icons",       label: "Icon-Set",             description: "150+ Icons, kategorisiert",             icon: <Shapes className="w-4 h-4" />, count: 150 },
       { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Brush className="w-4 h-4" /> },
-      { id: "signet",      label: ">_ Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Terminal className="w-4 h-4" />, isNew: true },
+      { id: "signet",      label: "Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Terminal className="w-4 h-4" />, isNew: true },
     ],
   },
   {
