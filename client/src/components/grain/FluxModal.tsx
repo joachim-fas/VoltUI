@@ -1,5 +1,5 @@
 /**
- * GrainModal – Atmospheric Grain Design System
+ * FluxModal – Atmospheric Grain Design System
  * Modal/Dialog mit Glasmorphismus und Flux-Textur.
  */
 
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export interface GrainModalProps {
+export interface FluxModalProps {
   open: boolean;
   onClose: () => void;
   title?: string;
@@ -27,7 +27,7 @@ const sizeClasses = {
   full: "max-w-[95vw] max-h-[95vh]",
 };
 
-export const GrainModal: React.FC<GrainModalProps> = ({
+export const FluxModal: React.FC<FluxModalProps> = ({
   open,
   onClose,
   title,

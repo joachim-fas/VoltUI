@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { GrainCursor } from "@/components/grain/GrainCursor";
+import { FluxCursor } from "@/components/grain/FluxCursor";
 import { cn } from "@/lib/utils";
 import { ArrowRight, ArrowLeftRight, User, Cpu, ChevronRight, Copy, Check } from "lucide-react";
 
@@ -230,7 +230,7 @@ export const DialogSection: React.FC = () => {
           Was reingeht, muss etwas Verwendbares produzieren.
         </p>
         <div className="flex items-center gap-3">
-          <GrainCursor size="sm" color="black" animated />
+          <FluxCursor size="sm" color="black" animated />
           <p className="font-mono text-sm text-foreground font-bold">
             Input mit Konsequenz.
           </p>

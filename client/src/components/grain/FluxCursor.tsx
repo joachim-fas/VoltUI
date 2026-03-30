@@ -1,5 +1,5 @@
 /**
- * GrainCursor – Flux UI Brand Element
+ * FluxCursor – Flux UI Brand Element
  * Das ikonische Pfeil+Cursor-Symbol: Terminal-Prompt-Ästhetik
  * Pfeil (links) + blinkender Balken (rechts unten)
  *
@@ -13,7 +13,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface GrainCursorProps {
+export interface FluxCursorProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
   color?: "black" | "lime" | "white" | "current";
   animated?: boolean;
@@ -38,7 +38,7 @@ const COLOR_MAP = {
   current: "currentColor",
 };
 
-export const GrainCursor: React.FC<GrainCursorProps> = ({
+export const FluxCursor: React.FC<FluxCursorProps> = ({
   size = "md",
   color = "black",
   animated = true,
@@ -87,20 +87,20 @@ export const GrainCursor: React.FC<GrainCursorProps> = ({
   );
 };
 
-GrainCursor.displayName = "GrainCursor";
+FluxCursor.displayName = "FluxCursor";
 
 /**
- * GrainCursorLogo – Logo-Kombination: Icon + Wortmarke
+ * FluxCursorLogo – Logo-Kombination: Icon + Wortmarke
  * Für Sidebar-Header und Splash-Screens
  */
-export interface GrainCursorLogoProps {
+export interface FluxCursorLogoProps {
   size?: "sm" | "md" | "lg";
   inverted?: boolean;  // Weißes Logo auf dunklem Hintergrund
   showTagline?: boolean;
   className?: string;
 }
 
-export const GrainCursorLogo: React.FC<GrainCursorLogoProps> = ({
+export const FluxCursorLogo: React.FC<FluxCursorLogoProps> = ({
   size = "md",
   inverted = false,
   showTagline = false,
@@ -119,7 +119,7 @@ export const GrainCursorLogo: React.FC<GrainCursorLogoProps> = ({
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <GrainCursor size={iconSize} color={iconColor} animated />
+      <FluxCursor size={iconSize} color={iconColor} animated />
       <div className="flex flex-col leading-none">
         <span className={cn("font-display tracking-tight", titleSize, textColor)}>
           grain
@@ -135,4 +135,4 @@ export const GrainCursorLogo: React.FC<GrainCursorLogoProps> = ({
   );
 };
 
-GrainCursorLogo.displayName = "GrainCursorLogo";
+FluxCursorLogo.displayName = "FluxCursorLogo";

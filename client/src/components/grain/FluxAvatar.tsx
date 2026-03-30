@@ -1,5 +1,5 @@
 /**
- * GrainAvatar – Flux UI
+ * FluxAvatar – Flux UI
  * Fallback-Gradienten: Neon Yellow + Black + Pastell-Töne
  */
 
@@ -30,7 +30,7 @@ function getGradientIndex(seed: string): number {
   return Math.abs(hash) % gradients.length;
 }
 
-export interface GrainAvatarProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FluxAvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   src?: string;
   alt?: string;
   name?: string;
@@ -55,7 +55,7 @@ const onlineSizes = {
   xl: "w-3.5 h-3.5 bottom-0.5 right-0.5",
 };
 
-export const GrainAvatar = React.forwardRef<HTMLDivElement, GrainAvatarProps>(
+export const FluxAvatar = React.forwardRef<HTMLDivElement, FluxAvatarProps>(
   ({ className, src, alt, name, size = "md", ring, online, ...props }, ref) => {
     const initials = name
       ? name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase()
@@ -98,16 +98,16 @@ export const GrainAvatar = React.forwardRef<HTMLDivElement, GrainAvatarProps>(
     );
   }
 );
-GrainAvatar.displayName = "GrainAvatar";
+FluxAvatar.displayName = "FluxAvatar";
 
 /* ── Avatar Group ── */
-export interface GrainAvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FluxAvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   avatars: Array<{ src?: string; name?: string; alt?: string }>;
   max?: number;
-  size?: GrainAvatarProps["size"];
+  size?: FluxAvatarProps["size"];
 }
 
-export const GrainAvatarGroup: React.FC<GrainAvatarGroupProps> = ({
+export const FluxAvatarGroup: React.FC<FluxAvatarGroupProps> = ({
   avatars,
   max = 4,
   size = "md",
@@ -120,7 +120,7 @@ export const GrainAvatarGroup: React.FC<GrainAvatarGroupProps> = ({
   return (
     <div className={cn("flex items-center", className)} {...props}>
       {visible.map((avatar, i) => (
-        <GrainAvatar
+        <FluxAvatar
           key={i}
           {...avatar}
           size={size}

@@ -1,5 +1,5 @@
 /**
- * GrainStat / GrainKPI – Atmospheric Grain Design System
+ * FluxStat / GrainKPI – Atmospheric Grain Design System
  * Kennzahlen-Karten für Dashboards.
  * Farbsystem: Lime+Schwarz primär, Pastell sekundär, Signale für Trends
  */
@@ -8,7 +8,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 
-export interface GrainStatProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FluxStatProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;
   value: string | number;
   unit?: string;
@@ -19,7 +19,7 @@ export interface GrainStatProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg";
 }
 
-export const GrainStat: React.FC<GrainStatProps> = ({
+export const FluxStat: React.FC<FluxStatProps> = ({
   label,
   value,
   unit,

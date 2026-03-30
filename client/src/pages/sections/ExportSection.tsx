@@ -118,21 +118,21 @@ import "flux-ui/styles";`,
         lang: "tsx",
         desc: "Kopiere die gewünschten Komponenten aus dem /components/grain/ Verzeichnis in dein Projekt. Jede Komponente ist eigenständig und hat keine externen Abhängigkeiten außer React.",
         code: `// Komponenten direkt aus dem Flux UI Repo kopieren:
-// src/components/grain/GrainButton.tsx
-// src/components/grain/GrainCard.tsx
-// src/components/grain/GrainBadge.tsx
+// src/components/grain/FluxButton.tsx
+// src/components/grain/FluxCard.tsx
+// src/components/grain/FluxBadge.tsx
 // ... etc.
 
-import { GrainButton } from "@/components/grain/GrainButton";
-import { GrainCard }   from "@/components/grain/GrainCard";
+import { FluxButton } from "@/components/grain/FluxButton";
+import { FluxCard }   from "@/components/grain/FluxCard";
 
 export function App() {
   return (
-    <GrainCard>
-      <GrainButton variant="lime">
+    <FluxCard>
+      <FluxButton variant="lime">
         Flux UI · Design Concept
-      </GrainButton>
-    </GrainCard>
+      </FluxButton>
+    </FluxCard>
   );
 }`,
       },
@@ -273,19 +273,19 @@ export default function RootLayout({ children }) {
         desc: "Kopiere das /components/grain/ Verzeichnis in dein Next.js-Projekt und passe den Import-Pfad an.",
         code: `// Komponenten kopieren nach: components/flux/
 // Dann importieren:
-import { GrainButton } from "@/components/flux/GrainButton";
-import { GrainCard }   from "@/components/flux/GrainCard";
-import { GrainBadge }  from "@/components/flux/GrainBadge";
+import { FluxButton } from "@/components/flux/FluxButton";
+import { FluxCard }   from "@/components/flux/FluxCard";
+import { FluxBadge }  from "@/components/flux/FluxBadge";
 
 export default function Page() {
   return (
     <main className="p-8">
-      <GrainCard>
+      <FluxCard>
         <h1 className="font-display font-bold text-3xl">
           Flux UI in Next.js
         </h1>
-        <GrainButton variant="lime">Los geht's →</GrainButton>
-      </GrainCard>
+        <FluxButton variant="lime">Los geht's →</FluxButton>
+      </FluxCard>
     </main>
   );
 }`,

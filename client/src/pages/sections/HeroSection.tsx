@@ -4,9 +4,9 @@
  */
 
 import React from "react";
-import { GrainButton } from "@/components/grain/GrainButton";
-import { GrainCard } from "@/components/grain/GrainCard";
-import { GrainCursor } from "@/components/grain/GrainCursor";
+import { FluxButton } from "@/components/grain/FluxButton";
+import { FluxCard } from "@/components/grain/FluxCard";
+import { FluxCursor } from "@/components/grain/FluxCursor";
 import { motion } from "framer-motion";
 import {
   ArrowRight, Code2, Palette, Zap, Layers, Package,
@@ -33,16 +33,16 @@ const stats = [
   { value: "4",   label: "Schriftschnitte", suffix: "" },
 ];
 
-const codeSnippet = `import { GrainButton } from "flux-ui";
+const codeSnippet = `import { FluxButton } from "flux-ui";
 
 export function App() {
   return (
-    <GrainButton
+    <FluxButton
       variant="lime"
       rightIcon={<ArrowRight />}
     >
       Flux UI · Design Concept
-    </GrainButton>
+    </FluxButton>
   );
 }`;
 
@@ -75,24 +75,13 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 max-w-4xl"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.7, x: -20 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ delay: 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center justify-center mb-8"
-          >
-            <GrainCursor size="2xl" color="black" animated />
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.7 }}
             className="text-display-xl text-[#0A0A0A] mb-6"
           >
-            Flux UI<br />
-            <span className="font-body italic font-normal">das</span>{" "}
-            Design Concept
+            <span className="font-mono font-black opacity-100 mr-3">&gt;_</span>Flux UI
           </motion.h1>
 
           <motion.p
@@ -111,13 +100,13 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.5, duration: 0.5 }}
             className="flex flex-wrap items-center justify-center gap-3"
           >
-            <GrainButton variant="solid" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />} onClick={() => onNavigate("foundations")}>
+            <FluxButton variant="solid" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />} onClick={() => onNavigate("foundations")}>
               Foundations erkunden
-            </GrainButton>
-            <GrainButton variant="outline" size="lg" onClick={() => onNavigate("dashboard")}
+            </FluxButton>
+            <FluxButton variant="outline" size="lg" onClick={() => onNavigate("dashboard")}
               className="border-[#0A0A0A]/30 text-[#0A0A0A] hover:bg-[#0A0A0A]/8">
               Dashboard ansehen
-            </GrainButton>
+            </FluxButton>
           </motion.div>
         </motion.div>
 
@@ -209,7 +198,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4 }}
             >
-              <GrainCard className="p-4 hover:-translate-y-0.5 transition-transform duration-200">
+              <FluxCard className="p-4 hover:-translate-y-0.5 transition-transform duration-200">
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-3"
                   style={{
                     background: isDark ? f.darkBg : f.lightBg,
@@ -219,7 +208,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
                 </div>
                 <p className="font-display font-bold text-sm text-card-foreground mb-0.5">{f.title}</p>
                 <p className="text-[0.65rem] font-ui text-muted-foreground leading-snug">{f.desc}</p>
-              </GrainCard>
+              </FluxCard>
             </motion.div>
           ))}
         </div>
@@ -253,9 +242,9 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               importierbar in jedes Projekt.
             </p>
           </div>
-          <GrainButton variant="solid" size="lg" className="mt-6 w-fit" onClick={() => onNavigate("foundations")}>
+          <FluxButton variant="solid" size="lg" className="mt-6 w-fit" onClick={() => onNavigate("foundations")}>
             Jetzt starten
-          </GrainButton>
+          </FluxButton>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 /**
- * GrainSidebar – Flux UI
+ * FluxSidebar – Flux UI
  * Hell: Weißer Hintergrund + schwarzer Text + Lime (#E4FF97) für aktive Items
  * Dark Mode: Sidebar wird dunkel via CSS-Klasse
  * Auto-Scroll: aktives Item scrollt immer in den sichtbaren Bereich
@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
-export interface GrainSidebarSection {
+export interface FluxSidebarSection {
   title: string;
   items: Array<{
     id: string;
@@ -23,14 +23,14 @@ export interface GrainSidebarSection {
   }>;
 }
 
-export interface GrainSidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, "onSelect"> {
-  sections: GrainSidebarSection[];
+export interface FluxSidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, "onSelect"> {
+  sections: FluxSidebarSection[];
   activeId?: string;
   onSelect?: (id: string) => void;
   logo?: React.ReactNode;
 }
 
-export const GrainSidebar: React.FC<GrainSidebarProps> = ({
+export const FluxSidebar: React.FC<FluxSidebarProps> = ({
   sections, activeId, onSelect, logo, className, ...props
 }) => {
   const { darkMode, toggleDarkMode } = useTheme();

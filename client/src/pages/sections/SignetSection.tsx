@@ -6,9 +6,9 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { GrainCursor } from "@/components/grain/GrainCursor";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
-import { GrainBadge } from "@/components/grain/GrainBadge";
+import { FluxCursor } from "@/components/grain/FluxCursor";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
+import { FluxBadge } from "@/components/grain/FluxBadge";
 
 /* ── Hilfsfunktion: Code-Kopieren ── */
 const CopyButton: React.FC<{ code: string }> = ({ code }) => {
@@ -119,7 +119,7 @@ export const SignetSection: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <GrainCursor size="2xl" color="black" animated />
+            <FluxCursor size="2xl" color="black" animated />
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -138,8 +138,8 @@ export const SignetSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* Pfeil-Teil */}
-          <GrainCard>
-            <GrainCardContent className="p-6">
+          <FluxCard>
+            <FluxCardContent className="p-6">
               <div className="flex items-start gap-5">
                 <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[#E4FF97] flex items-center justify-center">
                   <svg viewBox="0 0 207 214" width="36" height="36" aria-hidden="true">
@@ -149,7 +149,7 @@ export const SignetSection: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <p className="font-display font-bold text-sm text-foreground">Prompt-Pfeil</p>
-                    <GrainBadge variant="muted" size="sm">statisch</GrainBadge>
+                    <FluxBadge variant="muted" size="sm">statisch</FluxBadge>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Der nach rechts weisende Pfeil ist dem Terminal-Prompt nachempfunden.
@@ -161,12 +161,12 @@ export const SignetSection: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
 
           {/* Balken-Teil */}
-          <GrainCard>
-            <GrainCardContent className="p-6">
+          <FluxCard>
+            <FluxCardContent className="p-6">
               <div className="flex items-start gap-5">
                 <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[#0A0A0A] flex items-center justify-center">
                   <svg viewBox="0 0 207 56" width="36" height="14" aria-hidden="true">
@@ -177,7 +177,7 @@ export const SignetSection: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <p className="font-display font-bold text-sm text-foreground">Cursor-Balken</p>
-                    <GrainBadge variant="default" size="sm">animiert</GrainBadge>
+                    <FluxBadge variant="default" size="sm">animiert</FluxBadge>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Der blinkende Balken ist der klassische Text-Cursor aus Terminals und Code-Editoren.
@@ -189,22 +189,22 @@ export const SignetSection: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
         </div>
       </div>
 
       {/* ── Interaktiver Konfigurator ── */}
       <div>
         <p className="section-label mb-6">Konfigurator</p>
-        <GrainCard>
-          <GrainCardHeader>
-            <GrainCardTitle>Live-Vorschau</GrainCardTitle>
+        <FluxCard>
+          <FluxCardHeader>
+            <FluxCardTitle>Live-Vorschau</FluxCardTitle>
             <p className="text-xs text-muted-foreground font-ui mt-0.5">
               Variante, Größe und Eigenschaften einstellen
             </p>
-          </GrainCardHeader>
-          <GrainCardContent>
+          </FluxCardHeader>
+          <FluxCardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
               {/* Vorschau-Fläche */}
@@ -212,7 +212,7 @@ export const SignetSection: React.FC = () => {
                 className="rounded-2xl flex items-center justify-center transition-colors duration-300"
                 style={{ background: bgForVariant[activeVariant], minHeight: "220px" }}
               >
-                <GrainCursor
+                <FluxCursor
                   size={activeSize}
                   color={activeVariant}
                   animated={animated}
@@ -292,20 +292,20 @@ export const SignetSection: React.FC = () => {
                 <div>
                   <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Code</p>
                   <CodeBlock
-                    code={`<GrainCursor\n  size="${activeSize}"\n  color="${activeVariant}"\n  animated={${animated}}\n  showBar={${showBar}}\n/>`}
+                    code={`<FluxCursor\n  size="${activeSize}"\n  color="${activeVariant}"\n  animated={${animated}}\n  showBar={${showBar}}\n/>`}
                   />
                 </div>
               </div>
             </div>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       </div>
 
       {/* ── Größen-Übersicht ── */}
       <div>
         <p className="section-label mb-6">Größen</p>
-        <GrainCard>
-          <GrainCardContent className="p-6">
+        <FluxCard>
+          <FluxCardContent className="p-6">
             <div className="flex items-end gap-8 flex-wrap">
               {([
                 { size: "xs",  w: 20,  label: "20 px" },
@@ -316,7 +316,7 @@ export const SignetSection: React.FC = () => {
                 { size: "2xl", w: 144, label: "144 px" },
               ] as const).map(({ size, label }) => (
                 <div key={size} className="flex flex-col items-center gap-3">
-                  <GrainCursor size={size} color="black" animated />
+                  <FluxCursor size={size} color="black" animated />
                   <div className="text-center">
                     <p className="text-[11px] font-semibold font-ui text-foreground">{size}</p>
                     <p className="text-[9px] font-mono text-muted-foreground">{label}</p>
@@ -324,8 +324,8 @@ export const SignetSection: React.FC = () => {
                 </div>
               ))}
             </div>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       </div>
 
       {/* ── Farbvarianten ── */}
@@ -367,7 +367,7 @@ export const SignetSection: React.FC = () => {
                 className="flex items-center justify-center py-10"
                 style={{ background: bg }}
               >
-                <GrainCursor size="xl" color={color} animated />
+                <FluxCursor size="xl" color={color} animated />
               </div>
               <div className="px-5 py-4 bg-card border-t" style={{ borderColor: border }}>
                 <p className="font-display font-bold text-sm text-foreground mb-1">{label}</p>
@@ -436,13 +436,13 @@ export const SignetSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           {/* Sidebar-Logo */}
-          <GrainCard>
-            <GrainCardHeader>
-              <GrainCardTitle>Sidebar-Logo</GrainCardTitle>
-            </GrainCardHeader>
-            <GrainCardContent>
+          <FluxCard>
+            <FluxCardHeader>
+              <FluxCardTitle>Sidebar-Logo</FluxCardTitle>
+            </FluxCardHeader>
+            <FluxCardContent>
               <div className="rounded-xl border border-border bg-card p-4 flex items-center gap-3">
-                <GrainCursor size="md" color="black" animated />
+                <FluxCursor size="md" color="black" animated />
                 <div>
                   <p className="font-display font-bold text-sm text-foreground leading-tight tracking-tight">
                     flux<span className="opacity-30"> ui</span>
@@ -452,72 +452,72 @@ export const SignetSection: React.FC = () => {
               </div>
               <CodeBlock
                 label="JSX"
-                code={`<GrainCursor size="md" color="black" animated />`}
+                code={`<FluxCursor size="md" color="black" animated />`}
               />
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
 
           {/* Hero-Einsatz */}
-          <GrainCard>
-            <GrainCardHeader>
-              <GrainCardTitle>Hero-Einsatz</GrainCardTitle>
-            </GrainCardHeader>
-            <GrainCardContent>
+          <FluxCard>
+            <FluxCardHeader>
+              <FluxCardTitle>Hero-Einsatz</FluxCardTitle>
+            </FluxCardHeader>
+            <FluxCardContent>
               <div className="rounded-xl bg-[#E4FF97] flex items-center justify-center py-8">
-                <GrainCursor size="2xl" color="black" animated />
+                <FluxCursor size="2xl" color="black" animated />
               </div>
               <CodeBlock
                 label="JSX"
-                code={`<GrainCursor size="2xl" color="black" animated />`}
+                code={`<FluxCursor size="2xl" color="black" animated />`}
               />
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
 
           {/* Dark Mode */}
-          <GrainCard>
-            <GrainCardHeader>
-              <GrainCardTitle>Dark Mode</GrainCardTitle>
-            </GrainCardHeader>
-            <GrainCardContent>
+          <FluxCard>
+            <FluxCardHeader>
+              <FluxCardTitle>Dark Mode</FluxCardTitle>
+            </FluxCardHeader>
+            <FluxCardContent>
               <div className="rounded-xl bg-[#0A0A0A] flex items-center justify-center py-8">
-                <GrainCursor size="xl" color="lime" animated />
+                <FluxCursor size="xl" color="lime" animated />
               </div>
               <CodeBlock
                 label="JSX"
-                code={`<GrainCursor size="xl" color="lime" animated />`}
+                code={`<FluxCursor size="xl" color="lime" animated />`}
               />
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
 
           {/* Nur Pfeil */}
-          <GrainCard>
-            <GrainCardHeader>
-              <GrainCardTitle>Nur Pfeil (kein Balken)</GrainCardTitle>
-            </GrainCardHeader>
-            <GrainCardContent>
+          <FluxCard>
+            <FluxCardHeader>
+              <FluxCardTitle>Nur Pfeil (kein Balken)</FluxCardTitle>
+            </FluxCardHeader>
+            <FluxCardContent>
               <div className="rounded-xl border border-border bg-card flex items-center justify-center py-8">
-                <GrainCursor size="xl" color="black" animated={false} showBar={false} />
+                <FluxCursor size="xl" color="black" animated={false} showBar={false} />
               </div>
               <CodeBlock
                 label="JSX"
-                code={`<GrainCursor size="xl" color="black"\n  animated={false} showBar={false} />`}
+                code={`<FluxCursor size="xl" color="black"\n  animated={false} showBar={false} />`}
               />
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
         </div>
       </div>
 
       {/* ── SVG-Quellcode ── */}
       <div>
         <p className="section-label mb-6">SVG-Quellcode</p>
-        <GrainCard>
-          <GrainCardHeader>
-            <GrainCardTitle>Rohes SVG</GrainCardTitle>
+        <FluxCard>
+          <FluxCardHeader>
+            <FluxCardTitle>Rohes SVG</FluxCardTitle>
             <p className="text-xs text-muted-foreground font-ui mt-0.5">
               Für den Einsatz außerhalb von React – z. B. in Figma, Illustrator oder als Favicon
             </p>
-          </GrainCardHeader>
-          <GrainCardContent>
+          </FluxCardHeader>
+          <FluxCardContent>
             <CodeBlock
               label="SVG · vollständig mit Animation"
               code={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 414.24 269.82">
@@ -536,8 +536,8 @@ export const SignetSection: React.FC = () => {
                     v55.74h-207.12Z" fill="#0A0A0A"/>
 </svg>`}
             />
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       </div>
 
     </div>

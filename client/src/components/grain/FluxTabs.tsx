@@ -1,5 +1,5 @@
 /**
- * GrainTabs – Atmospheric Grain Design System
+ * FluxTabs – Atmospheric Grain Design System
  * Tab-Navigation mit atmosphärischen Übergängen.
  */
 
@@ -7,7 +7,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
-export interface GrainTabItem {
+export interface FluxTabItem {
   id: string;
   label: string;
   icon?: React.ReactNode;
@@ -15,15 +15,15 @@ export interface GrainTabItem {
   content?: React.ReactNode;
 }
 
-export interface GrainTabsProps extends React.HTMLAttributes<HTMLDivElement> {
-  tabs: GrainTabItem[];
+export interface FluxTabsProps extends React.HTMLAttributes<HTMLDivElement> {
+  tabs: FluxTabItem[];
   defaultTab?: string;
   activeTab?: string;
   onTabChange?: (id: string) => void;
   variant?: "underline" | "pills" | "glass" | "boxed";
 }
 
-export const GrainTabs: React.FC<GrainTabsProps> = ({
+export const FluxTabs: React.FC<FluxTabsProps> = ({
   tabs,
   defaultTab,
   activeTab,

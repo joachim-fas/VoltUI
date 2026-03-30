@@ -1,5 +1,5 @@
 /**
- * GrainAlert – Atmospheric Grain Design System
+ * FluxAlert – Atmospheric Grain Design System
  * Benachrichtigungs-Komponente mit Flux-Textur.
  */
 
@@ -46,14 +46,14 @@ const alertConfig: Record<AlertVariant, {
   },
 };
 
-export interface GrainAlertProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FluxAlertProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: AlertVariant;
   title?: string;
   dismissible?: boolean;
   onDismiss?: () => void;
 }
 
-export const GrainAlert = React.forwardRef<HTMLDivElement, GrainAlertProps>(
+export const FluxAlert = React.forwardRef<HTMLDivElement, FluxAlertProps>(
   ({ className, variant = "info", title, dismissible, onDismiss, children, ...props }, ref) => {
     const config = alertConfig[variant];
     const Icon = config.icon;
@@ -97,4 +97,4 @@ export const GrainAlert = React.forwardRef<HTMLDivElement, GrainAlertProps>(
     );
   }
 );
-GrainAlert.displayName = "GrainAlert";
+FluxAlert.displayName = "FluxAlert";

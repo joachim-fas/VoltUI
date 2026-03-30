@@ -3,10 +3,10 @@
  */
 
 import React, { useState } from "react";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle, GrainCardDescription } from "@/components/grain/GrainCard";
-import { GrainNavbar } from "@/components/grain/GrainNavbar";
-import { GrainButton } from "@/components/grain/GrainButton";
-import { GrainBadge } from "@/components/grain/GrainBadge";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription } from "@/components/grain/FluxCard";
+import { FluxNavbar } from "@/components/grain/FluxNavbar";
+import { FluxButton } from "@/components/grain/FluxButton";
+import { FluxBadge } from "@/components/grain/FluxBadge";
 import { ChevronRight, Home, ChevronLeft, Check, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -128,14 +128,14 @@ export const NavigationSection: React.FC = () => {
       </div>
 
       {/* Navbar */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Navbar</GrainCardTitle>
-          <GrainCardDescription>glass · solid · transparent – mit mobilem Hamburger-Menü</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent className="p-0 overflow-hidden rounded-b-2xl">
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Navbar</FluxCardTitle>
+          <FluxCardDescription>glass · solid · transparent – mit mobilem Hamburger-Menü</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent className="p-0 overflow-hidden rounded-b-2xl">
           <div className="border border-border rounded-xl overflow-hidden">
-            <GrainNavbar
+            <FluxNavbar
               sticky={false}
               variant="glass"
               logo={
@@ -149,8 +149,8 @@ export const NavigationSection: React.FC = () => {
               items={navItems}
               rightSlot={
                 <div className="flex items-center gap-2">
-                  <GrainBadge variant="default" size="sm">v1.0</GrainBadge>
-                  <GrainButton variant="primary" size="sm">Starten</GrainButton>
+                  <FluxBadge variant="default" size="sm">v1.0</FluxBadge>
+                  <FluxButton variant="primary" size="sm">Starten</FluxButton>
                 </div>
               }
             />
@@ -158,44 +158,44 @@ export const NavigationSection: React.FC = () => {
               <p className="text-sm font-body text-muted-foreground">Seiteninhalt</p>
             </div>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Breadcrumb */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Breadcrumb</GrainCardTitle>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Breadcrumb</FluxCardTitle>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="space-y-3">
             <Breadcrumb items={["", "Flux UI", "Komponenten"]} />
             <Breadcrumb items={["", "Flux UI", "Komponenten", "Buttons", "Primary"]} />
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Pagination */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Pagination</GrainCardTitle>
-          <GrainCardDescription>Aktuelle Seite: {page} von 7</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Pagination</FluxCardTitle>
+          <FluxCardDescription>Aktuelle Seite: {page} von 7</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <Pagination total={7} current={page} onChange={setPage} />
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Stepper */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Stepper</GrainCardTitle>
-          <GrainCardDescription>Schritt {step + 1} von {steps.length}</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Stepper</FluxCardTitle>
+          <FluxCardDescription>Schritt {step + 1} von {steps.length}</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="space-y-6">
             <Stepper current={step} />
             <div className="flex justify-between">
-              <GrainButton
+              <FluxButton
                 variant="outline"
                 size="sm"
                 disabled={step === 0}
@@ -203,19 +203,19 @@ export const NavigationSection: React.FC = () => {
                 leftIcon={<ChevronLeft className="w-4 h-4" />}
               >
                 Zurück
-              </GrainButton>
-              <GrainButton
+              </FluxButton>
+              <FluxButton
                 variant="primary"
                 size="sm"
                 onClick={() => setStep(s => Math.min(steps.length - 1, s + 1))}
                 rightIcon={step < steps.length - 1 ? <ChevronRight className="w-4 h-4" /> : <Check className="w-4 h-4" />}
               >
                 {step === steps.length - 1 ? "Abschließen" : "Weiter"}
-              </GrainButton>
+              </FluxButton>
             </div>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
     </div>
   );
 };

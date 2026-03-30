@@ -3,11 +3,11 @@
  */
 
 import React, { useState } from "react";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle, GrainCardDescription, GrainCardFooter } from "@/components/grain/GrainCard";
-import { GrainBadge } from "@/components/grain/GrainBadge";
-import { GrainAlert } from "@/components/grain/GrainAlert";
-import { GrainAvatar, GrainAvatarGroup } from "@/components/grain/GrainAvatar";
-import { GrainButton } from "@/components/grain/GrainButton";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription, FluxCardFooter } from "@/components/grain/FluxCard";
+import { FluxBadge } from "@/components/grain/FluxBadge";
+import { FluxAlert } from "@/components/grain/FluxAlert";
+import { FluxAvatar, FluxAvatarGroup } from "@/components/grain/FluxAvatar";
+import { FluxButton } from "@/components/grain/FluxButton";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 
 export const CardsSection: React.FC = () => {
@@ -31,107 +31,107 @@ export const CardsSection: React.FC = () => {
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Card-Varianten</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Default */}
-          <GrainCard variant="default">
-            <GrainCardHeader>
+          <FluxCard variant="default">
+            <FluxCardHeader>
               <div className="flex items-center justify-between">
-                <GrainBadge variant="muted" size="sm">Default</GrainBadge>
-                <GrainBadge variant="default" size="sm" dot>Aktiv</GrainBadge>
+                <FluxBadge variant="muted" size="sm">Default</FluxBadge>
+                <FluxBadge variant="default" size="sm" dot>Aktiv</FluxBadge>
               </div>
-              <GrainCardTitle>Standard Card</GrainCardTitle>
-              <GrainCardDescription>
+              <FluxCardTitle>Standard Card</FluxCardTitle>
+              <FluxCardDescription>
                 Mit subtiler Flux-Textur und weichem Schatten. Hover-Effekt inklusive.
-              </GrainCardDescription>
-            </GrainCardHeader>
-            <GrainCardFooter>
-              <GrainButton variant="outline" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
+              </FluxCardDescription>
+            </FluxCardHeader>
+            <FluxCardFooter>
+              <FluxButton variant="outline" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
                 Mehr erfahren
-              </GrainButton>
-            </GrainCardFooter>
-          </GrainCard>
+              </FluxButton>
+            </FluxCardFooter>
+          </FluxCard>
 
           {/* Glass */}
           <div className="bg-grain-hero rounded-2xl p-0.5">
-            <GrainCard variant="glass" className="h-full">
-              <GrainCardHeader>
+            <FluxCard variant="glass" className="h-full">
+              <FluxCardHeader>
                 <div className="flex items-center justify-between">
-                  <GrainBadge variant="glass" size="sm">Glass</GrainBadge>
+                  <FluxBadge variant="glass" size="sm">Glass</FluxBadge>
                   <Sparkles className="w-4 h-4 text-foreground" />
                 </div>
-                <GrainCardTitle>Glass Card</GrainCardTitle>
-                <GrainCardDescription>
+                <FluxCardTitle>Glass Card</FluxCardTitle>
+                <FluxCardDescription>
                   Backdrop-Blur mit Glasmorphismus-Effekt. Ideal für Hero-Bereiche.
-                </GrainCardDescription>
-              </GrainCardHeader>
-              <GrainCardFooter>
-                <GrainButton variant="glass" size="sm">Entdecken</GrainButton>
-              </GrainCardFooter>
-            </GrainCard>
+                </FluxCardDescription>
+              </FluxCardHeader>
+              <FluxCardFooter>
+                <FluxButton variant="glass" size="sm">Entdecken</FluxButton>
+              </FluxCardFooter>
+            </FluxCard>
           </div>
 
           {/* Gradient */}
-          <GrainCard variant="gradient">
-            <GrainCardHeader>
+          <FluxCard variant="gradient">
+            <FluxCardHeader>
               <div className="flex items-center justify-between">
-                <GrainBadge variant="glass" size="sm">Gradient</GrainBadge>
+                <FluxBadge variant="glass" size="sm">Gradient</FluxBadge>
                 <TrendingUp className="w-4 h-4 text-foreground" />
               </div>
-              <GrainCardTitle className="text-foreground">Lime Card</GrainCardTitle>
-              <GrainCardDescription className="text-[#000000]/70">
+              <FluxCardTitle className="text-foreground">Lime Card</FluxCardTitle>
+              <FluxCardDescription className="text-[#000000]/70">
                 Neon-Yellow mit Flux-Textur. Für hervorgehobene Inhalte.
-              </GrainCardDescription>
-            </GrainCardHeader>
-            <GrainCardFooter>
-              <GrainButton variant="solid" size="sm">
+              </FluxCardDescription>
+            </FluxCardHeader>
+            <FluxCardFooter>
+              <FluxButton variant="solid" size="sm">
                 Jetzt starten
-              </GrainButton>
-            </GrainCardFooter>
-          </GrainCard>
+              </FluxButton>
+            </FluxCardFooter>
+          </FluxCard>
 
           {/* Elevated */}
-          <GrainCard variant="elevated">
-            <GrainCardHeader>
-              <GrainBadge variant="muted" size="sm">Elevated</GrainBadge>
-              <GrainCardTitle>Elevated Card</GrainCardTitle>
-              <GrainCardDescription>
+          <FluxCard variant="elevated">
+            <FluxCardHeader>
+              <FluxBadge variant="muted" size="sm">Elevated</FluxBadge>
+              <FluxCardTitle>Elevated Card</FluxCardTitle>
+              <FluxCardDescription>
                 Stärkerer Schatten für visuelle Hierarchie und Tiefe.
-              </GrainCardDescription>
-            </GrainCardHeader>
-            <GrainCardContent>
+              </FluxCardDescription>
+            </FluxCardHeader>
+            <FluxCardContent>
               <div className="flex items-center gap-3">
-                <GrainAvatar name="Anna Müller" size="md" online />
+                <FluxAvatar name="Anna Müller" size="md" online />
                 <div>
                   <p className="text-sm font-semibold font-body">Anna Müller</p>
                   <p className="text-xs text-muted-foreground font-body">Design Lead</p>
                 </div>
               </div>
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
 
           {/* Outlined */}
-          <GrainCard variant="outlined">
-            <GrainCardHeader>
-              <GrainBadge variant="outline" size="sm">Outlined</GrainBadge>
-              <GrainCardTitle>Outlined Card</GrainCardTitle>
-              <GrainCardDescription>
+          <FluxCard variant="outlined">
+            <FluxCardHeader>
+              <FluxBadge variant="outline" size="sm">Outlined</FluxBadge>
+              <FluxCardTitle>Outlined Card</FluxCardTitle>
+              <FluxCardDescription>
                 Transparenter Hintergrund mit farbigem Rahmen. Für sekundäre Inhalte.
-              </GrainCardDescription>
-            </GrainCardHeader>
-            <GrainCardFooter>
-              <GrainButton variant="primary" size="sm">Auswählen</GrainButton>
-            </GrainCardFooter>
-          </GrainCard>
+              </FluxCardDescription>
+            </FluxCardHeader>
+            <FluxCardFooter>
+              <FluxButton variant="primary" size="sm">Auswählen</FluxButton>
+            </FluxCardFooter>
+          </FluxCard>
 
           {/* Subtle */}
-          <GrainCard variant="subtle">
-            <GrainCardHeader>
-              <GrainBadge variant="muted" size="sm">Subtle</GrainBadge>
-              <GrainCardTitle>Subtle Card</GrainCardTitle>
-              <GrainCardDescription>
+          <FluxCard variant="subtle">
+            <FluxCardHeader>
+              <FluxBadge variant="muted" size="sm">Subtle</FluxBadge>
+              <FluxCardTitle>Subtle Card</FluxCardTitle>
+              <FluxCardDescription>
                 Sehr zurückhaltend mit atmosphärischem Gradient-Hintergrund.
-              </GrainCardDescription>
-            </GrainCardHeader>
-            <GrainCardContent>
-              <GrainAvatarGroup
+              </FluxCardDescription>
+            </FluxCardHeader>
+            <FluxCardContent>
+              <FluxAvatarGroup
                 avatars={[
                   { name: "Max S." },
                   { name: "Lisa K." },
@@ -142,50 +142,50 @@ export const CardsSection: React.FC = () => {
                 max={4}
                 size="sm"
               />
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
         </div>
       </div>
 
       {/* Badges */}
       <div>
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Badge-Varianten</h3>
-        <GrainCard>
-          <GrainCardContent className="pt-6">
+        <FluxCard>
+          <FluxCardContent className="pt-6">
             <div className="space-y-4">
               <div>
                 <p className="section-label mb-3">Farb-Varianten</p>
                 <div className="flex flex-wrap gap-2">
-                  <GrainBadge variant="default">Lime</GrainBadge>
-                  <GrainBadge variant="solid">Solid</GrainBadge>
-                  <GrainBadge variant="outline">Outline</GrainBadge>
-                  <GrainBadge variant="muted">Muted</GrainBadge>
-                  <GrainBadge variant="glass">Glass</GrainBadge>
-                  <GrainBadge variant="positive">Positiv</GrainBadge>
-                  <GrainBadge variant="negative">Negativ</GrainBadge>
-                  <GrainBadge variant="neutral">Neutral</GrainBadge>
+                  <FluxBadge variant="default">Lime</FluxBadge>
+                  <FluxBadge variant="solid">Solid</FluxBadge>
+                  <FluxBadge variant="outline">Outline</FluxBadge>
+                  <FluxBadge variant="muted">Muted</FluxBadge>
+                  <FluxBadge variant="glass">Glass</FluxBadge>
+                  <FluxBadge variant="positive">Positiv</FluxBadge>
+                  <FluxBadge variant="negative">Negativ</FluxBadge>
+                  <FluxBadge variant="neutral">Neutral</FluxBadge>
                 </div>
               </div>
               <div>
                 <p className="section-label mb-3">Größen</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <GrainBadge variant="default" size="sm">Small</GrainBadge>
-                  <GrainBadge variant="default" size="md">Medium</GrainBadge>
-                  <GrainBadge variant="default" size="lg">Large</GrainBadge>
+                  <FluxBadge variant="default" size="sm">Small</FluxBadge>
+                  <FluxBadge variant="default" size="md">Medium</FluxBadge>
+                  <FluxBadge variant="default" size="lg">Large</FluxBadge>
                 </div>
               </div>
               <div>
                 <p className="section-label mb-3">Mit Status-Punkt</p>
                 <div className="flex flex-wrap gap-2">
-                  <GrainBadge variant="positive" dot dotColor="#1A9E5A">Online</GrainBadge>
-                  <GrainBadge variant="neutral" dot dotColor="#E8B800">Beschäftigt</GrainBadge>
-                  <GrainBadge variant="muted" dot dotColor="#6B6B6B">Abwesend</GrainBadge>
-                  <GrainBadge variant="default" dot>Neu</GrainBadge>
+                  <FluxBadge variant="positive" dot dotColor="#1A9E5A">Online</FluxBadge>
+                  <FluxBadge variant="neutral" dot dotColor="#E8B800">Beschäftigt</FluxBadge>
+                  <FluxBadge variant="muted" dot dotColor="#6B6B6B">Abwesend</FluxBadge>
+                  <FluxBadge variant="default" dot>Neu</FluxBadge>
                 </div>
               </div>
             </div>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       </div>
 
       {/* Alerts */}
@@ -193,44 +193,44 @@ export const CardsSection: React.FC = () => {
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Alert-Varianten</h3>
         <div className="space-y-3">
           {alerts.info && (
-            <GrainAlert
+            <FluxAlert
               variant="info"
               title="Information"
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, info: false }))}
             >
               Das Flux UI Design System ist vollständig in CSS und React implementiert – keine externen Bild-Assets.
-            </GrainAlert>
+            </FluxAlert>
           )}
           {alerts.success && (
-            <GrainAlert
+            <FluxAlert
               variant="success"
               title="Erfolgreich gespeichert"
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, success: false }))}
             >
               Alle Änderungen wurden erfolgreich gespeichert und sind sofort aktiv.
-            </GrainAlert>
+            </FluxAlert>
           )}
           {alerts.warning && (
-            <GrainAlert
+            <FluxAlert
               variant="warning"
               title="Achtung"
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, warning: false }))}
             >
               Diese Aktion kann nicht rückgängig gemacht werden. Bitte überprüfe deine Eingaben.
-            </GrainAlert>
+            </FluxAlert>
           )}
           {alerts.error && (
-            <GrainAlert
+            <FluxAlert
               variant="error"
               title="Fehler aufgetreten"
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, error: false }))}
             >
               Die Verbindung zum Server konnte nicht hergestellt werden. Bitte versuche es erneut.
-            </GrainAlert>
+            </FluxAlert>
           )}
           {!Object.values(alerts).some(Boolean) && (
             <div className="text-center py-8 text-muted-foreground font-body text-sm">
@@ -249,29 +249,29 @@ export const CardsSection: React.FC = () => {
       {/* Avatare */}
       <div>
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Avatar-Komponente</h3>
-        <GrainCard>
-          <GrainCardContent className="pt-6 space-y-6">
+        <FluxCard>
+          <FluxCardContent className="pt-6 space-y-6">
             <div>
               <p className="section-label mb-3">Größen mit Gradient-Fallback</p>
               <div className="flex items-end gap-4">
-                <GrainAvatar name="Anna Müller" size="xs" />
-                <GrainAvatar name="Max Schmidt" size="sm" />
-                <GrainAvatar name="Lisa Koch" size="md" />
-                <GrainAvatar name="Tom Braun" size="lg" />
-                <GrainAvatar name="Sara Weber" size="xl" />
+                <FluxAvatar name="Anna Müller" size="xs" />
+                <FluxAvatar name="Max Schmidt" size="sm" />
+                <FluxAvatar name="Lisa Koch" size="md" />
+                <FluxAvatar name="Tom Braun" size="lg" />
+                <FluxAvatar name="Sara Weber" size="xl" />
               </div>
             </div>
             <div>
               <p className="section-label mb-3">Online-Status</p>
               <div className="flex items-center gap-4">
-                <GrainAvatar name="Anna M." size="md" online />
-                <GrainAvatar name="Max S." size="md" ring />
-                <GrainAvatar name="Lisa K." size="lg" online ring />
+                <FluxAvatar name="Anna M." size="md" online />
+                <FluxAvatar name="Max S." size="md" ring />
+                <FluxAvatar name="Lisa K." size="lg" online ring />
               </div>
             </div>
             <div>
               <p className="section-label mb-3">Avatar-Gruppe</p>
-              <GrainAvatarGroup
+              <FluxAvatarGroup
                 avatars={[
                   { name: "Anna Müller" },
                   { name: "Max Schmidt" },
@@ -284,8 +284,8 @@ export const CardsSection: React.FC = () => {
                 size="md"
               />
             </div>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       </div>
     </div>
   );

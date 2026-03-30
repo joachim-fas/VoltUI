@@ -1,5 +1,5 @@
 /**
- * GrainChart – Atmospheric Grain Design System v3
+ * FluxChart – Atmospheric Grain Design System v3
  * Alle Graphen-Typen: Area, Bar, Line, Donut/Pie, Radar, Scatter, Composed, RadialBar, Funnel, Trend
  * Font: DM Sans überall – kein Serif, keine Monospace in Achsen/Labels
  */
@@ -63,9 +63,9 @@ export const GRAIN_PASTEL = [
 
 export const GRAIN_CHART_COLORS = GRAIN_PASTEL; // backwards compat – jetzt Pastell
 
-export type GrainPalette = "standard" | "neon" | "pastel";
+export type FluxPalette = "standard" | "neon" | "pastel";
 /** Alle Charts nutzen standardmäßig GRAIN_PASTEL. "standard" = Pastell. */
-export const getPalette = (p?: GrainPalette) =>
+export const getPalette = (p?: FluxPalette) =>
   p === "neon" ? GRAIN_NEON : GRAIN_PASTEL; // standard + pastel = immer Pastell
 
 /** Interner Alias – Charts verwenden immer Pastell */
@@ -113,7 +113,7 @@ export const ChartWrapper: React.FC<ChartWrapperProps> = ({
 );
 
 /* ── 1. Area Chart ── */
-export interface GrainAreaChartProps {
+export interface FluxAreaChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey?: string;
@@ -124,7 +124,7 @@ export interface GrainAreaChartProps {
   gradient?: boolean;
   className?: string;
 }
-export const GrainAreaChart: React.FC<GrainAreaChartProps> = ({
+export const FluxAreaChart: React.FC<FluxAreaChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle, stacked, gradient = true, className
 }) => (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
@@ -158,7 +158,7 @@ export const GrainAreaChart: React.FC<GrainAreaChartProps> = ({
 );
 
 /* ── 2. Bar Chart ── */
-export interface GrainBarChartProps {
+export interface FluxBarChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey?: string;
@@ -167,7 +167,7 @@ export interface GrainBarChartProps {
   subtitle?: string;
   stacked?: boolean;
   horizontal?: boolean;
-  palette?: GrainPalette;
+  palette?: FluxPalette;
   className?: string;
 }
 /** Einfaches horizontales Bar Chart – eigene SVG-Implementierung für zuverlässiges Rendering */
@@ -272,7 +272,7 @@ const HorizontalBarChart: React.FC<{
   );
 };
 
-export const GrainBarChart: React.FC<GrainBarChartProps> = ({
+export const FluxBarChart: React.FC<FluxBarChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle, stacked, horizontal, palette, className
 }) => {
   const colors = getPalette(palette);
@@ -305,7 +305,7 @@ export const GrainBarChart: React.FC<GrainBarChartProps> = ({
 };
 
 /* ── 3. Line Chart ── */
-export interface GrainLineChartProps {
+export interface FluxLineChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey?: string;
@@ -315,7 +315,7 @@ export interface GrainLineChartProps {
   curved?: boolean;
   className?: string;
 }
-export const GrainLineChart: React.FC<GrainLineChartProps> = ({
+export const FluxLineChart: React.FC<FluxLineChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle, curved = true, className
 }) => (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
@@ -339,7 +339,7 @@ export const GrainLineChart: React.FC<GrainLineChartProps> = ({
 );
 
 /* ── 4. Donut / Pie Chart ── */
-export interface GrainDonutChartProps {
+export interface FluxDonutChartProps {
   data: Array<{ name: string; value: number }>;
   height?: number;
   title?: string;
@@ -349,7 +349,7 @@ export interface GrainDonutChartProps {
   donut?: boolean;
   className?: string;
 }
-export const GrainDonutChart: React.FC<GrainDonutChartProps> = ({
+export const FluxDonutChart: React.FC<FluxDonutChartProps> = ({
   data, height = 280, title, subtitle, innerLabel, innerValue, donut = true, className
 }) => (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
@@ -376,7 +376,7 @@ export const GrainDonutChart: React.FC<GrainDonutChartProps> = ({
 );
 
 /* ── 5. Radar Chart ── */
-export interface GrainRadarChartProps {
+export interface FluxRadarChartProps {
   data: Array<Record<string, any>>;
   dataKeys: string[];
   angleKey?: string;
@@ -385,7 +385,7 @@ export interface GrainRadarChartProps {
   subtitle?: string;
   className?: string;
 }
-export const GrainRadarChart: React.FC<GrainRadarChartProps> = ({
+export const FluxRadarChart: React.FC<FluxRadarChartProps> = ({
   data, dataKeys, angleKey = "subject", height = 280, title, subtitle, className
 }) => (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
@@ -407,7 +407,7 @@ export const GrainRadarChart: React.FC<GrainRadarChartProps> = ({
 );
 
 /* ── 6. Scatter Chart ── */
-export interface GrainScatterChartProps {
+export interface FluxScatterChartProps {
   data: Array<{ x: number; y: number; z?: number }>;
   height?: number;
   title?: string;
@@ -416,7 +416,7 @@ export interface GrainScatterChartProps {
   yLabel?: string;
   className?: string;
 }
-export const GrainScatterChart: React.FC<GrainScatterChartProps> = ({
+export const FluxScatterChart: React.FC<FluxScatterChartProps> = ({
   data, height = 280, title, subtitle, xLabel = "X", yLabel = "Y", className
 }) => (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
@@ -434,7 +434,7 @@ export const GrainScatterChart: React.FC<GrainScatterChartProps> = ({
 );
 
 /* ── 7. Composed Chart (Bar + Line) ── */
-export interface GrainComposedChartProps {
+export interface FluxComposedChartProps {
   data: Record<string, unknown>[];
   barKeys: string[];
   lineKeys: string[];
@@ -444,7 +444,7 @@ export interface GrainComposedChartProps {
   subtitle?: string;
   className?: string;
 }
-export const GrainComposedChart: React.FC<GrainComposedChartProps> = ({
+export const FluxComposedChart: React.FC<FluxComposedChartProps> = ({
   data, barKeys, lineKeys, xKey = "name", height = 280, title, subtitle, className
 }) => (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
@@ -469,14 +469,14 @@ export const GrainComposedChart: React.FC<GrainComposedChartProps> = ({
 );
 
 /* ── 8. Radial Bar Chart ── */
-export interface GrainRadialBarChartProps {
+export interface FluxRadialBarChartProps {
   data: Array<{ name: string; value: number; fill?: string }>;
   height?: number;
   title?: string;
   subtitle?: string;
   className?: string;
 }
-export const GrainRadialBarChart: React.FC<GrainRadialBarChartProps> = ({
+export const FluxRadialBarChart: React.FC<FluxRadialBarChartProps> = ({
   data, height = 280, title, subtitle, className
 }) => {
   const coloredData = data.map((d, i) => ({ ...d, fill: d.fill || C[i % C.length] }));
@@ -496,14 +496,14 @@ export const GrainRadialBarChart: React.FC<GrainRadialBarChartProps> = ({
 };
 
 /* ── 9. Funnel Chart ── */
-export interface GrainFunnelChartProps {
+export interface FluxFunnelChartProps {
   data: Array<{ name: string; value: number }>;
   height?: number;
   title?: string;
   subtitle?: string;
   className?: string;
 }
-export const GrainFunnelChart: React.FC<GrainFunnelChartProps> = ({
+export const FluxFunnelChart: React.FC<FluxFunnelChartProps> = ({
   data, height = 280, title, subtitle, className
 }) => {
   const coloredData = data.map((d, i) => ({ ...d, fill: C[i % C.length] }));
@@ -523,7 +523,7 @@ export const GrainFunnelChart: React.FC<GrainFunnelChartProps> = ({
 };
 
 /* ── 10. Trend / Multi-Line with Reference ── */
-export interface GrainTrendChartProps {
+export interface FluxTrendChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey?: string;
@@ -533,7 +533,7 @@ export interface GrainTrendChartProps {
   showReferenceLine?: number;
   className?: string;
 }
-export const GrainTrendChart: React.FC<GrainTrendChartProps> = ({
+export const FluxTrendChart: React.FC<FluxTrendChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle, showReferenceLine, className
 }) => (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
@@ -558,11 +558,11 @@ export const GrainTrendChart: React.FC<GrainTrendChartProps> = ({
 );
 
 /* ── 11. Stacked Area ── */
-export const GrainStackedAreaChart: React.FC<GrainAreaChartProps> = (props) => (
-  <GrainAreaChart {...props} stacked gradient />
+export const FluxStackedAreaChart: React.FC<FluxAreaChartProps> = (props) => (
+  <FluxAreaChart {...props} stacked gradient />
 );
 
 /* ── 12. Stacked Bar ── */
-export const GrainStackedBarChart: React.FC<GrainBarChartProps> = (props) => (
-  <GrainBarChart {...props} stacked palette={props.palette ?? "pastel"} />
+export const FluxStackedBarChart: React.FC<FluxBarChartProps> = (props) => (
+  <FluxBarChart {...props} stacked palette={props.palette ?? "pastel"} />
 );

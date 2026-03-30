@@ -3,11 +3,11 @@
  */
 
 import React, { useState } from "react";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle, GrainCardDescription } from "@/components/grain/GrainCard";
-import { GrainInput, GrainTextarea, GrainSelect } from "@/components/grain/GrainInput";
-import { GrainToggle, GrainCheckbox, GrainRadioGroup } from "@/components/grain/GrainToggle";
-import { GrainProgress, GrainSlider } from "@/components/grain/GrainProgress";
-import { GrainButton } from "@/components/grain/GrainButton";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription } from "@/components/grain/FluxCard";
+import { FluxInput, FluxTextarea, FluxSelect } from "@/components/grain/FluxInput";
+import { FluxToggle, FluxCheckbox, FluxRadioGroup } from "@/components/grain/FluxToggle";
+import { FluxProgress, FluxSlider } from "@/components/grain/FluxProgress";
+import { FluxButton } from "@/components/grain/FluxButton";
 import { Mail, Lock, Search, User, Eye, EyeOff } from "lucide-react";
 
 export const FormsSection: React.FC = () => {
@@ -28,21 +28,21 @@ export const FormsSection: React.FC = () => {
       </div>
 
       {/* Inputs */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Text-Eingaben</GrainCardTitle>
-          <GrainCardDescription>default · filled · glass · error · success</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Text-Eingaben</FluxCardTitle>
+          <FluxCardDescription>default · filled · glass · error · success</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <GrainInput
+            <FluxInput
               label="E-Mail-Adresse"
               placeholder="name@beispiel.de"
               type="email"
               leftElement={<Mail className="w-4 h-4" />}
               hint="Wir teilen deine E-Mail niemals."
             />
-            <GrainInput
+            <FluxInput
               label="Passwort"
               placeholder="Mindestens 8 Zeichen"
               type={showPw ? "text" : "password"}
@@ -53,107 +53,107 @@ export const FormsSection: React.FC = () => {
                 </button>
               }
             />
-            <GrainInput
+            <FluxInput
               label="Suche"
               placeholder="Komponenten durchsuchen…"
               leftElement={<Search className="w-4 h-4" />}
               variant="filled"
             />
-            <GrainInput
+            <FluxInput
               label="Benutzername"
               placeholder="@username"
               leftElement={<User className="w-4 h-4" />}
               error="Dieser Benutzername ist bereits vergeben."
               defaultValue="john_doe"
             />
-            <GrainInput
+            <FluxInput
               label="Verifizierter Name"
               placeholder="Vollständiger Name"
               state="success"
               defaultValue="Anna Müller"
               hint="Name erfolgreich verifiziert."
             />
-            <GrainInput
+            <FluxInput
               label="Deaktiviert"
               placeholder="Nicht bearbeitbar"
               disabled
               defaultValue="Gesperrter Wert"
             />
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Textarea & Select */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Textarea & Select</GrainCardTitle>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Textarea & Select</FluxCardTitle>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <GrainTextarea
+            <FluxTextarea
               label="Nachricht"
               placeholder="Schreibe hier deine Nachricht…"
               hint="Maximal 500 Zeichen."
               rows={4}
             />
             <div className="flex flex-col gap-5">
-              <GrainSelect label="Kategorie" hint="Wähle eine Kategorie aus.">
+              <FluxSelect label="Kategorie" hint="Wähle eine Kategorie aus.">
                 <option value="" disabled>Bitte auswählen…</option>
                 <option value="design">Design System</option>
                 <option value="components">Komponenten</option>
                 <option value="tokens">Design Tokens</option>
                 <option value="animation">Animation</option>
-              </GrainSelect>
-              <GrainSelect label="Priorität">
+              </FluxSelect>
+              <FluxSelect label="Priorität">
                 <option value="low">Niedrig</option>
                 <option value="medium">Mittel</option>
                 <option value="high">Hoch</option>
                 <option value="critical">Kritisch</option>
-              </GrainSelect>
+              </FluxSelect>
             </div>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Toggles & Checkboxen */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <GrainCard>
-          <GrainCardHeader>
-            <GrainCardTitle>Toggle-Schalter</GrainCardTitle>
-            <GrainCardDescription>default · primary · positive · negative · neutral · sm · md · lg</GrainCardDescription>
-          </GrainCardHeader>
-          <GrainCardContent>
+        <FluxCard>
+          <FluxCardHeader>
+            <FluxCardTitle>Toggle-Schalter</FluxCardTitle>
+            <FluxCardDescription>default · primary · positive · negative · neutral · sm · md · lg</FluxCardDescription>
+          </FluxCardHeader>
+          <FluxCardContent>
             <div className="space-y-4">
-              <GrainToggle
+              <FluxToggle
                 label="Benachrichtigungen"
                 description="E-Mail-Benachrichtigungen aktivieren"
                 variant="default"
                 defaultChecked
               />
-              <GrainToggle
+              <FluxToggle
                 label="Lime / Primary"
                 description="Hauptfarbe als aktiver Zustand"
                 variant="primary"
                 defaultChecked
               />
-              <GrainToggle
+              <FluxToggle
                 label="Positiv"
                 description="Bestätigt, aktiv, erfolgreich"
                 variant="positive"
                 defaultChecked
               />
-              <GrainToggle
+              <FluxToggle
                 label="Negativ"
                 description="Gesperrt, Fehler, Warnung"
                 variant="negative"
               />
-              <GrainToggle
+              <FluxToggle
                 label="Neutral"
                 description="Inaktiv, sekundär"
                 variant="neutral"
                 defaultChecked
               />
-              <GrainToggle
+              <FluxToggle
                 label="Deaktiviert"
                 description="Diese Option ist nicht verfügbar"
                 disabled
@@ -163,47 +163,47 @@ export const FormsSection: React.FC = () => {
                 <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">Größen: sm · md · lg</p>
                 <div className="flex items-center gap-5">
                   <div className="flex flex-col items-center gap-1.5">
-                    <GrainToggle variant="default" toggleSize="sm" defaultChecked />
+                    <FluxToggle variant="default" toggleSize="sm" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">sm</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <GrainToggle variant="default" toggleSize="md" defaultChecked />
+                    <FluxToggle variant="default" toggleSize="md" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">md</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <GrainToggle variant="default" toggleSize="lg" defaultChecked />
+                    <FluxToggle variant="default" toggleSize="lg" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">lg</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <GrainToggle variant="primary" toggleSize="md" defaultChecked />
+                    <FluxToggle variant="primary" toggleSize="md" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">lime</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <GrainToggle variant="positive" toggleSize="md" defaultChecked />
+                    <FluxToggle variant="positive" toggleSize="md" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">pos</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <GrainToggle variant="negative" toggleSize="md" defaultChecked />
+                    <FluxToggle variant="negative" toggleSize="md" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">neg</span>
                   </div>
                 </div>
               </div>
             </div>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
 
-        <GrainCard>
-          <GrainCardHeader>
-            <GrainCardTitle>Checkboxen & Radio</GrainCardTitle>
-          </GrainCardHeader>
-          <GrainCardContent>
+        <FluxCard>
+          <FluxCardHeader>
+            <FluxCardTitle>Checkboxen & Radio</FluxCardTitle>
+          </FluxCardHeader>
+          <FluxCardContent>
             <div className="space-y-5">
               <div className="space-y-3">
                 <p className="section-label">Checkboxen</p>
-                <GrainCheckbox label="Design Tokens exportieren" variant="default" defaultChecked />
-                <GrainCheckbox label="Dark Mode aktivieren" variant="primary" />
-                <GrainCheckbox label="Teilweise ausgewählt" variant="default" indeterminate />
-                <GrainCheckbox
+                <FluxCheckbox label="Design Tokens exportieren" variant="default" defaultChecked />
+                <FluxCheckbox label="Dark Mode aktivieren" variant="primary" />
+                <FluxCheckbox label="Teilweise ausgewählt" variant="default" indeterminate />
+                <FluxCheckbox
                   label="Nutzungsbedingungen akzeptieren"
                   description="Ich stimme den AGB und der Datenschutzerklärung zu."
                   variant="primary"
@@ -211,7 +211,7 @@ export const FormsSection: React.FC = () => {
               </div>
               <div className="space-y-3 pt-2">
                 <p className="section-label">Radio-Gruppe</p>
-                <GrainRadioGroup
+                <FluxRadioGroup
                   name="plan"
                   value={radioVal}
                   onValueChange={setRadioVal}
@@ -224,35 +224,35 @@ export const FormsSection: React.FC = () => {
                 />
               </div>
             </div>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       </div>
 
       {/* Progress & Slider */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Progress & Slider</GrainCardTitle>
-          <GrainCardDescription>Fortschrittsbalken und interaktive Schieberegler</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Progress & Slider</FluxCardTitle>
+          <FluxCardDescription>Fortschrittsbalken und interaktive Schieberegler</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="space-y-6">
             <div className="space-y-4">
               <p className="section-label">Fortschrittsbalken</p>
-              <GrainProgress value={25}  variant="default"   size="sm" label="Upload"   showValue />
-              <GrainProgress value={60}  variant="lime"      size="md" label="Speicher"  showValue />
-              <GrainProgress value={85}  variant="negative"  size="md" label="CPU-Last"  showValue />
-              <GrainProgress value={100} variant="positive" size="lg" label="Abgeschlossen" showValue />
+              <FluxProgress value={25}  variant="default"   size="sm" label="Upload"   showValue />
+              <FluxProgress value={60}  variant="lime"      size="md" label="Speicher"  showValue />
+              <FluxProgress value={85}  variant="negative"  size="md" label="CPU-Last"  showValue />
+              <FluxProgress value={100} variant="positive" size="lg" label="Abgeschlossen" showValue />
             </div>
             <div className="space-y-4 pt-2">
               <p className="section-label">Schieberegler</p>
-              <GrainSlider
+              <FluxSlider
                 label="Lautstärke"
                 showValue
                 value={sliderA}
                 onChange={(v) => setSliderA(v)}
                 variant="default"
               />
-              <GrainSlider
+              <FluxSlider
                 label="Helligkeit"
                 showValue
                 value={sliderB}
@@ -262,60 +262,60 @@ export const FormsSection: React.FC = () => {
               />
             </div>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Vollständiges Formular-Beispiel */}
-      <GrainCard variant="elevated">
-        <GrainCardHeader>
-          <GrainCardTitle>Vollständiges Formular-Beispiel</GrainCardTitle>
-          <GrainCardDescription>Registrierungsformular mit allen Elementen</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard variant="elevated">
+        <FluxCardHeader>
+          <FluxCardTitle>Vollständiges Formular-Beispiel</FluxCardTitle>
+          <FluxCardDescription>Registrierungsformular mit allen Elementen</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <GrainInput label="Vorname" placeholder="Max" leftElement={<User className="w-4 h-4" />} />
-              <GrainInput label="Nachname" placeholder="Mustermann" />
+              <FluxInput label="Vorname" placeholder="Max" leftElement={<User className="w-4 h-4" />} />
+              <FluxInput label="Nachname" placeholder="Mustermann" />
             </div>
-            <GrainInput
+            <FluxInput
               label="E-Mail"
               type="email"
               placeholder="max@beispiel.de"
               leftElement={<Mail className="w-4 h-4" />}
             />
-            <GrainInput
+            <FluxInput
               label="Passwort"
               type="password"
               placeholder="Sicheres Passwort wählen"
               leftElement={<Lock className="w-4 h-4" />}
             />
-            <GrainSelect label="Rolle">
+            <FluxSelect label="Rolle">
               <option value="designer">Designer</option>
               <option value="developer">Developer</option>
               <option value="manager">Manager</option>
-            </GrainSelect>
-            <GrainTextarea label="Über mich" placeholder="Kurze Beschreibung…" rows={3} />
-            <GrainToggle
+            </FluxSelect>
+            <FluxTextarea label="Über mich" placeholder="Kurze Beschreibung…" rows={3} />
+            <FluxToggle
               label="Newsletter abonnieren"
               description="Erhalte Updates zu neuen Komponenten."
               variant="default"
               defaultChecked
             />
-            <GrainCheckbox
+            <FluxCheckbox
               label="Ich akzeptiere die Nutzungsbedingungen"
               variant="default"
             />
             <div className="flex gap-3 pt-2">
-              <GrainButton variant="primary" type="submit" className="flex-1">
+              <FluxButton variant="primary" type="submit" className="flex-1">
                 Registrieren
-              </GrainButton>
-              <GrainButton variant="outline" type="reset">
+              </FluxButton>
+              <FluxButton variant="outline" type="reset">
                 Zurücksetzen
-              </GrainButton>
+              </FluxButton>
             </div>
           </form>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
     </div>
   );
 };

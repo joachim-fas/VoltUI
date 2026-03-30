@@ -1,5 +1,5 @@
 /**
- * GrainToggle / GrainCheckbox / GrainRadio – Flux UI
+ * FluxToggle / FluxCheckbox / GrainRadio – Flux UI
  * KONTRAST-GARANTIE: Alle Farben über CSS-Variablen.
  * Light: text-foreground = #000000 auf #FFFFFF → 21:1
  * Dark:  text-foreground = #F5F5F5 auf #000000 → 19:1
@@ -54,16 +54,16 @@ const TOGGLE_SIZES = {
 };
 
 /* ════════════════════════════════════════════════
-   GrainToggle
+   FluxToggle
 ════════════════════════════════════════════════ */
-export interface GrainToggleProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface FluxToggleProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   description?: string;
   variant?: keyof typeof TRACK_ON_COLOR;
   toggleSize?: "sm" | "md" | "lg";
 }
 
-export const GrainToggle: React.FC<GrainToggleProps> = ({
+export const FluxToggle: React.FC<FluxToggleProps> = ({
   label,
   description,
   variant = "default",
@@ -155,16 +155,16 @@ export const GrainToggle: React.FC<GrainToggleProps> = ({
 };
 
 /* ════════════════════════════════════════════════
-   GrainCheckbox
+   FluxCheckbox
 ════════════════════════════════════════════════ */
-export interface GrainCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface FluxCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   description?: string;
   variant?: keyof typeof FILL_BG;
   indeterminate?: boolean;
 }
 
-export const GrainCheckbox: React.FC<GrainCheckboxProps> = ({
+export const FluxCheckbox: React.FC<FluxCheckboxProps> = ({
   label,
   description,
   variant = "default",
@@ -233,9 +233,9 @@ export const GrainCheckbox: React.FC<GrainCheckboxProps> = ({
 };
 
 /* ════════════════════════════════════════════════
-   GrainRadioGroup
+   FluxRadioGroup
 ════════════════════════════════════════════════ */
-export interface GrainRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+export interface FluxRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   options: Array<{ value: string; label: string; description?: string }>;
   value?: string;
   defaultValue?: string;
@@ -244,7 +244,7 @@ export interface GrainRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivE
   onValueChange?: (value: string) => void;
 }
 
-export const GrainRadioGroup: React.FC<GrainRadioGroupProps> = ({
+export const FluxRadioGroup: React.FC<FluxRadioGroupProps> = ({
   options,
   value,
   defaultValue,

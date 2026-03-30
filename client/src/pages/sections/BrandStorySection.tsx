@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from "react";
-import { GrainCursor } from "@/components/grain/GrainCursor";
+import { FluxCursor } from "@/components/grain/FluxCursor";
 import { cn } from "@/lib/utils";
 import { Copy, Check, ChevronRight } from "lucide-react";
 
@@ -186,7 +186,7 @@ export const BrandStorySection: React.FC = () => {
           </div>
           <div className="px-8 py-4 bg-[#0A0A0A] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <GrainCursor size="sm" color="lime" animated />
+              <FluxCursor size="sm" color="lime" animated />
               <p className="font-mono text-xs text-[#E4FF97]">free-agents.io</p>
             </div>
             <CopyButton text={CORE_STORY.lines.join("\n")} />
@@ -428,7 +428,7 @@ export const BrandStorySection: React.FC = () => {
             </div>
           </div>
           <div className="mt-5 pt-4 border-t border-border flex items-center gap-3">
-            <GrainCursor size="sm" color="lime" animated />
+            <FluxCursor size="sm" color="lime" animated />
             <p className="font-mono text-xs text-[#E4FF97] font-bold">Kein Pingpong. Kein Nebel. Input mit Konsequenz.</p>
           </div>
         </div>

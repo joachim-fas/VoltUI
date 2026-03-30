@@ -9,8 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import * as LucideIcons from "lucide-react";
 
 import { Search, Copy, CheckCheck, X } from "lucide-react";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
-import { GrainBadge } from "@/components/grain/GrainBadge";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
+import { FluxBadge } from "@/components/grain/FluxBadge";
 
 /* ── Icon-Kategorien ── */
 const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string; icons: string[] }> = {
@@ -250,7 +250,7 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
     color: "#1A3A1A",
     bg: "#C3F4D3",
     icons: [
-      // Node-Typen (direkt in GrainNodeCanvas verwendet)
+      // Node-Typen (direkt in FluxNodeCanvas verwendet)
       "AlignLeft", "Image", "Sparkles", "List", "Table2", "Play",
       // Workflow & Verbindungen
       "Workflow", "GitBranch", "GitMerge", "Network", "Share2",
@@ -359,10 +359,10 @@ export const IconsSection: React.FC = () => {
           Klicke auf ein Icon um den Import-Code zu kopieren.
         </p>
         <div className="flex flex-wrap gap-2">
-          <GrainBadge variant="solid" size="sm" dot>Lucide React</GrainBadge>
-          <GrainBadge variant="muted" size="sm">SVG-basiert</GrainBadge>
-          <GrainBadge variant="muted" size="sm">Skalierbar</GrainBadge>
-          <GrainBadge variant="muted" size="sm">Tree-shakeable</GrainBadge>
+          <FluxBadge variant="solid" size="sm" dot>Lucide React</FluxBadge>
+          <FluxBadge variant="muted" size="sm">SVG-basiert</FluxBadge>
+          <FluxBadge variant="muted" size="sm">Skalierbar</FluxBadge>
+          <FluxBadge variant="muted" size="sm">Tree-shakeable</FluxBadge>
         </div>
       </div>
 
@@ -410,12 +410,12 @@ export const IconsSection: React.FC = () => {
       </div>
 
       {/* ── Größen-Vorschau ── */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Icon-Größen</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Icon-Größen</FluxCardTitle>
           <p className="text-xs text-muted-foreground mt-0.5">6 Standardgrößen · Tailwind-Klassen</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="flex items-end gap-6 flex-wrap">
             {SIZES.map(size => (
               <button
@@ -452,8 +452,8 @@ export const IconsSection: React.FC = () => {
               <span className="text-muted-foreground">&lt;Layers className="{SIZES.find(s => s.label === activeSize)?.class}" /&gt;</span>
             </p>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* ── Suchergebnisse ── */}
       {search && (
@@ -462,7 +462,7 @@ export const IconsSection: React.FC = () => {
             <h3 className="font-ui font-semibold text-sm text-foreground">
               {filteredIcons?.length ?? 0} Ergebnisse für „{search}"
             </h3>
-            <GrainBadge variant="muted" size="sm">{filteredIcons?.length} Icons</GrainBadge>
+            <FluxBadge variant="muted" size="sm">{filteredIcons?.length} Icons</FluxBadge>
           </div>
           {filteredIcons && filteredIcons.length > 0 ? (
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
@@ -520,14 +520,14 @@ export const IconsSection: React.FC = () => {
 
       {/* ── Farbkodierte Icons ── */}
       {!search && !activeCategory && (
-        <GrainCard>
-          <GrainCardHeader>
-            <GrainCardTitle>Icons mit semantischer Farbkodierung</GrainCardTitle>
+        <FluxCard>
+          <FluxCardHeader>
+            <FluxCardTitle>Icons mit semantischer Farbkodierung</FluxCardTitle>
             <p className="text-xs text-muted-foreground mt-0.5">
               Icons kommunizieren Bedeutung durch Farbe – konsistent mit dem Datenfarbsystem
             </p>
-          </GrainCardHeader>
-          <GrainCardContent>
+          </FluxCardHeader>
+          <FluxCardContent>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
               {[
                 { icon: "TrendingUp",    label: "Positiv",  color: "#0F6038", bg: "#C3F4D3", desc: "Wachstum, Erfolg" },
@@ -553,8 +553,8 @@ export const IconsSection: React.FC = () => {
                 );
               })}
             </div>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       )}
 
     </section>

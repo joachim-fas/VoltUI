@@ -1,12 +1,12 @@
 /**
- * GrainTable – Atmospheric Grain Design System
+ * FluxTable – Atmospheric Grain Design System
  * Tabellen-Komponente mit atmosphärischen Hover-Effekten.
  */
 
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface GrainTableColumn<T> {
+export interface FluxTableColumn<T> {
   key: keyof T | string;
   header: string;
   width?: string;
@@ -14,8 +14,8 @@ export interface GrainTableColumn<T> {
   render?: (value: unknown, row: T, index: number) => React.ReactNode;
 }
 
-export interface GrainTableProps<T> extends React.HTMLAttributes<HTMLDivElement> {
-  columns: GrainTableColumn<T>[];
+export interface FluxTableProps<T> extends React.HTMLAttributes<HTMLDivElement> {
+  columns: FluxTableColumn<T>[];
   data: T[];
   striped?: boolean;
   hoverable?: boolean;
@@ -24,7 +24,7 @@ export interface GrainTableProps<T> extends React.HTMLAttributes<HTMLDivElement>
   emptyMessage?: string;
 }
 
-export function GrainTable<T extends Record<string, unknown>>({
+export function FluxTable<T extends Record<string, unknown>>({
   columns,
   data,
   striped = false,
@@ -34,7 +34,7 @@ export function GrainTable<T extends Record<string, unknown>>({
   emptyMessage = "Keine Daten vorhanden",
   className,
   ...props
-}: GrainTableProps<T>) {
+}: FluxTableProps<T>) {
   const cellPad = compact ? "px-4 py-2" : "px-5 py-3.5";
 
   return (

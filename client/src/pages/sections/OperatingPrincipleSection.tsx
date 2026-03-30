@@ -6,9 +6,9 @@
  */
 
 import { useState } from "react";
-import { GrainCursor } from "@/components/grain/GrainCursor";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
-import { GrainBadge } from "@/components/grain/GrainBadge";
+import { FluxCursor } from "@/components/grain/FluxCursor";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
+import { FluxBadge } from "@/components/grain/FluxBadge";
 import { cn } from "@/lib/utils";
 import {
   ArrowRight, Layers, Cpu, FileText, BarChart2,
@@ -327,7 +327,7 @@ export default function OperatingPrincipleSection() {
       {/* ── HEADER ── */}
       <div className="flex items-start gap-6">
         <div className="flex-shrink-0 mt-1">
-          <GrainCursor size="xl" color="black" animated />
+          <FluxCursor size="xl" color="black" animated />
         </div>
         <div>
           <SectionLabel>Operating Principle</SectionLabel>
@@ -514,11 +514,11 @@ export default function OperatingPrincipleSection() {
               <p className="text-xs text-muted-foreground italic">{item.rule}</p>
               <div className="space-y-2">
                 <div className="flex gap-2 items-start">
-                  <GrainBadge variant="muted" size="sm">IN</GrainBadge>
+                  <FluxBadge variant="muted" size="sm">IN</FluxBadge>
                   <span className="text-xs text-muted-foreground">{item.input}</span>
                 </div>
                 <div className="flex gap-2 items-start">
-                  <GrainBadge variant="default" size="sm">OUT</GrainBadge>
+                  <FluxBadge variant="default" size="sm">OUT</FluxBadge>
                   <span className="text-xs text-muted-foreground">{item.output}</span>
                 </div>
               </div>
@@ -591,15 +591,15 @@ export default function OperatingPrincipleSection() {
             </button>
           ))}
         </div>
-        <GrainCard>
-          <GrainCardHeader>
+        <FluxCard>
+          <FluxCardHeader>
             <div className="flex items-center gap-2">
               <span className="text-foreground">{ALL_WORKFLOWS[activeWorkflow].icon}</span>
-              <GrainCardTitle>{ALL_WORKFLOWS[activeWorkflow].title}</GrainCardTitle>
+              <FluxCardTitle>{ALL_WORKFLOWS[activeWorkflow].title}</FluxCardTitle>
             </div>
             <p className="text-xs text-muted-foreground mt-1">{ALL_WORKFLOWS[activeWorkflow].description}</p>
-          </GrainCardHeader>
-          <GrainCardContent>
+          </FluxCardHeader>
+          <FluxCardContent>
             <div className="space-y-0">
               {ALL_WORKFLOWS[activeWorkflow].steps.map((step, i, arr) => (
                 <WorkflowStep
@@ -615,8 +615,8 @@ export default function OperatingPrincipleSection() {
                 />
               ))}
             </div>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       </div>
 
       {/* ── GUARDRAILS ── */}
@@ -663,22 +663,22 @@ export default function OperatingPrincipleSection() {
       {/* ── TEMPLATE ── */}
       <div>
         <SectionLabel><Copy size={12} /> Template (copy/paste)</SectionLabel>
-        <GrainCard>
-          <GrainCardHeader>
+        <FluxCard>
+          <FluxCardHeader>
             <div className="flex items-center justify-between">
-              <GrainCardTitle>Standard-Template</GrainCardTitle>
+              <FluxCardTitle>Standard-Template</FluxCardTitle>
               <CopyButton text={TEMPLATE_TEXT} />
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Fuer jeden Workflow, jedes Projekt, jede Uebergabe - einmal ausfuellen, immer verwenden.
             </p>
-          </GrainCardHeader>
-          <GrainCardContent>
+          </FluxCardHeader>
+          <FluxCardContent>
             <pre className="text-[11px] font-mono text-foreground leading-relaxed whitespace-pre-wrap bg-muted rounded-xl p-4 border border-border">
               {TEMPLATE_TEXT}
             </pre>
-          </GrainCardContent>
-        </GrainCard>
+          </FluxCardContent>
+        </FluxCard>
       </div>
 
     </div>

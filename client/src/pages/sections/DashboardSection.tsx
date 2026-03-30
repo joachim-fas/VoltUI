@@ -19,9 +19,9 @@ import {
   Download, RefreshCw, Eye, Edit2, Trash2, Plus, Info,
   Target, Zap, AlertTriangle,
 } from "lucide-react";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
-import { GrainBadge } from "@/components/grain/GrainBadge";
-import { GrainButton } from "@/components/grain/GrainButton";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
+import { FluxBadge } from "@/components/grain/FluxBadge";
+import { FluxButton } from "@/components/grain/FluxButton";
 
 /* ── Farbpalette: Lime + Schwarz + Signale ── */
 const C = {
@@ -256,12 +256,12 @@ export const DashboardSection: React.FC = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <GrainButton variant="outline" size="sm" leftIcon={<RefreshCw className="w-3.5 h-3.5" />}>
+          <FluxButton variant="outline" size="sm" leftIcon={<RefreshCw className="w-3.5 h-3.5" />}>
             Aktualisieren
-          </GrainButton>
-          <GrainButton variant="solid" size="sm" leftIcon={<Download className="w-3.5 h-3.5" />}>
+          </FluxButton>
+          <FluxButton variant="solid" size="sm" leftIcon={<Download className="w-3.5 h-3.5" />}>
             Export
-          </GrainButton>
+          </FluxButton>
         </div>
       </div>
 
@@ -315,11 +315,11 @@ export const DashboardSection: React.FC = () => {
 
           {/* Revenue Chart + Channel Pie */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <GrainCard className="lg:col-span-2">
-              <GrainCardHeader>
+            <FluxCard className="lg:col-span-2">
+              <FluxCardHeader>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <GrainCardTitle>Umsatz & Ausgaben</GrainCardTitle>
+                    <FluxCardTitle>Umsatz & Ausgaben</FluxCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">Jan – Aug 2025 · Monatliche Entwicklung</p>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       <Insight text="Umsatz wächst schneller als Ausgaben" type="positive" />
@@ -330,8 +330,8 @@ export const DashboardSection: React.FC = () => {
                     <MoreHorizontal className="w-4 h-4" />
                   </button>
                 </div>
-              </GrainCardHeader>
-              <GrainCardContent>
+              </FluxCardHeader>
+              <FluxCardContent>
                 <ResponsiveContainer width="100%" height={220}>
                   <AreaChart data={revenueData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
                     <defs>
@@ -358,17 +358,17 @@ export const DashboardSection: React.FC = () => {
                     <Area type="monotone" dataKey="profit"   name="Gewinn"   stroke={C.positive} strokeWidth={2} fill="url(#gradProfit)" />
                   </AreaChart>
                 </ResponsiveContainer>
-              </GrainCardContent>
-            </GrainCard>
+              </FluxCardContent>
+            </FluxCard>
 
             {/* Pie Chart */}
-            <GrainCard>
-              <GrainCardHeader>
-                <GrainCardTitle>Traffic-Kanäle</GrainCardTitle>
+            <FluxCard>
+              <FluxCardHeader>
+                <FluxCardTitle>Traffic-Kanäle</FluxCardTitle>
                 <p className="text-xs text-muted-foreground font-ui mt-0.5">Woher kommen die Besucher?</p>
                 <Insight text="Organisch dominiert mit 38%" type="positive" />
-              </GrainCardHeader>
-              <GrainCardContent>
+              </FluxCardHeader>
+              <FluxCardContent>
                 <ResponsiveContainer width="100%" height={140}>
                   <PieChart>
                     <Pie data={channelData} cx="50%" cy="50%" innerRadius={40} outerRadius={62} paddingAngle={3} dataKey="value">
@@ -395,24 +395,24 @@ export const DashboardSection: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </GrainCardContent>
-            </GrainCard>
+              </FluxCardContent>
+            </FluxCard>
           </div>
 
           {/* Besucher + Ziele */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <GrainCard className="lg:col-span-2">
-              <GrainCardHeader>
+            <FluxCard className="lg:col-span-2">
+              <FluxCardHeader>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <GrainCardTitle>Besucher nach Kanal</GrainCardTitle>
+                    <FluxCardTitle>Besucher nach Kanal</FluxCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">Diese Woche · täglich aufgeschlüsselt</p>
                     <Insight text="Freitag ist stärkster Tag (+34% vs. Montag)" type="positive" />
                   </div>
-                  <GrainBadge variant="muted" size="sm">7 Tage</GrainBadge>
+                  <FluxBadge variant="muted" size="sm">7 Tage</FluxBadge>
                 </div>
-              </GrainCardHeader>
-              <GrainCardContent>
+              </FluxCardHeader>
+              <FluxCardContent>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={visitorData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }} barSize={10} barGap={2}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" vertical={false} />
@@ -430,21 +430,21 @@ export const DashboardSection: React.FC = () => {
                     <Bar dataKey="sonstige"  name="Sonstige"  fill={C.aqua}     radius={[4,4,0,0]} />
                   </BarChart>
                 </ResponsiveContainer>
-              </GrainCardContent>
-            </GrainCard>
+              </FluxCardContent>
+            </FluxCard>
 
             {/* Ziele */}
-            <GrainCard>
-              <GrainCardHeader>
+            <FluxCard>
+              <FluxCardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <GrainCardTitle>Monatsziele</GrainCardTitle>
+                    <FluxCardTitle>Monatsziele</FluxCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">August 2025 · 4 Tage verbleibend</p>
                   </div>
                   <Target className="w-4 h-4 text-muted-foreground" />
                 </div>
-              </GrainCardHeader>
-              <GrainCardContent>
+              </FluxCardHeader>
+              <FluxCardContent>
                 <div className="space-y-4">
                   {goals.map((g) => {
                     const pct = Math.min(100, Math.round((g.current / g.target) * 100));
@@ -476,23 +476,23 @@ export const DashboardSection: React.FC = () => {
                     );
                   })}
                 </div>
-              </GrainCardContent>
-            </GrainCard>
+              </FluxCardContent>
+            </FluxCard>
           </div>
 
           {/* Top Produkte + Activity */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <GrainCard className="lg:col-span-2">
-              <GrainCardHeader>
+            <FluxCard className="lg:col-span-2">
+              <FluxCardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <GrainCardTitle>Top Produkte</GrainCardTitle>
+                    <FluxCardTitle>Top Produkte</FluxCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">Nach Umsatz sortiert · August 2025</p>
                   </div>
-                  <GrainButton variant="ghost" size="sm" rightIcon={<ChevronRight className="w-3.5 h-3.5" />}>Alle anzeigen</GrainButton>
+                  <FluxButton variant="ghost" size="sm" rightIcon={<ChevronRight className="w-3.5 h-3.5" />}>Alle anzeigen</FluxButton>
                 </div>
-              </GrainCardHeader>
-              <GrainCardContent>
+              </FluxCardHeader>
+              <FluxCardContent>
                 <div className="grid grid-cols-12 gap-2 px-1 mb-2">
                   {["#","Produkt","Umsatz","Trend","Einheiten"].map((h,i) => (
                     <span key={i} className={`text-[9px] font-mono text-muted-foreground uppercase ${i===0?"col-span-1":i===1?"col-span-4":i===2?"col-span-3 text-right":i===3?"col-span-2 text-right":"col-span-2 text-right"}`}>{h}</span>
@@ -528,15 +528,15 @@ export const DashboardSection: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </GrainCardContent>
-            </GrainCard>
+              </FluxCardContent>
+            </FluxCard>
 
             {/* Activity Feed */}
-            <GrainCard>
-              <GrainCardHeader>
+            <FluxCard>
+              <FluxCardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <GrainCardTitle>Aktivitäten</GrainCardTitle>
+                    <FluxCardTitle>Aktivitäten</FluxCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">Letzte 3 Stunden</p>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -544,8 +544,8 @@ export const DashboardSection: React.FC = () => {
                     <span className="text-[10px] font-mono text-[#1A9E5A] font-semibold">Live</span>
                   </div>
                 </div>
-              </GrainCardHeader>
-              <GrainCardContent>
+              </FluxCardHeader>
+              <FluxCardContent>
                 <div className="space-y-0">
                   {activities.map((a, i) => (
                     <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
@@ -561,8 +561,8 @@ export const DashboardSection: React.FC = () => {
                     </motion.div>
                   ))}
                 </div>
-              </GrainCardContent>
-            </GrainCard>
+              </FluxCardContent>
+            </FluxCard>
           </div>
         </div>
       )}
@@ -599,16 +599,16 @@ export const DashboardSection: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <GrainCard className="lg:col-span-2">
-              <GrainCardHeader>
-                <GrainCardTitle>Performance vs. Ziel</GrainCardTitle>
+            <FluxCard className="lg:col-span-2">
+              <FluxCardHeader>
+                <FluxCardTitle>Performance vs. Ziel</FluxCardTitle>
                 <p className="text-xs text-muted-foreground font-ui mt-0.5">Wöchentlicher Vergleich · Ist vs. Soll (Ziel: 80%)</p>
                 <div className="flex gap-1.5 mt-2">
                   <Insight text="4 von 6 Wochen über Ziel" type="positive" />
                   <Insight text="Trend: steigend" type="positive" />
                 </div>
-              </GrainCardHeader>
-              <GrainCardContent>
+              </FluxCardHeader>
+              <FluxCardContent>
                 <ResponsiveContainer width="100%" height={220}>
                   <LineChart data={performanceData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" />
@@ -621,15 +621,15 @@ export const DashboardSection: React.FC = () => {
                     <Line type="monotone" dataKey="actual" name="Aktuell" stroke={C.black}   strokeWidth={2.5} dot={{ r: 4, fill: C.black, strokeWidth: 2, stroke: "white" }} activeDot={{ r: 6 }} />
                   </LineChart>
                 </ResponsiveContainer>
-              </GrainCardContent>
-            </GrainCard>
+              </FluxCardContent>
+            </FluxCard>
 
-            <GrainCard>
-              <GrainCardHeader>
-                <GrainCardTitle>Conversion Funnel</GrainCardTitle>
+            <FluxCard>
+              <FluxCardHeader>
+                <FluxCardTitle>Conversion Funnel</FluxCardTitle>
                 <p className="text-xs text-muted-foreground font-ui mt-0.5">Von Besucher zu Kunde: 21% Conversion</p>
-              </GrainCardHeader>
-              <GrainCardContent>
+              </FluxCardHeader>
+              <FluxCardContent>
                 <ResponsiveContainer width="100%" height={160}>
                   <RadialBarChart cx="50%" cy="50%" innerRadius={20} outerRadius={75} data={conversionData} startAngle={90} endAngle={-270}>
                     <RadialBar dataKey="value" cornerRadius={4} background={{ fill: "#F4F4F4" }} />
@@ -650,8 +650,8 @@ export const DashboardSection: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </GrainCardContent>
-            </GrainCard>
+              </FluxCardContent>
+            </FluxCard>
           </div>
 
           {/* Lime Hero Stats */}
@@ -692,13 +692,13 @@ export const DashboardSection: React.FC = () => {
                   onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
-              <GrainButton variant="outline" size="sm" leftIcon={<Filter className="w-3.5 h-3.5" />}>Filter</GrainButton>
+              <FluxButton variant="outline" size="sm" leftIcon={<Filter className="w-3.5 h-3.5" />}>Filter</FluxButton>
             </div>
-            <GrainButton variant="solid" size="sm" leftIcon={<Plus className="w-3.5 h-3.5" />}>Neue Bestellung</GrainButton>
+            <FluxButton variant="solid" size="sm" leftIcon={<Plus className="w-3.5 h-3.5" />}>Neue Bestellung</FluxButton>
           </div>
 
-          <GrainCard>
-            <GrainCardContent className="p-0">
+          <FluxCard>
+            <FluxCardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -764,8 +764,8 @@ export const DashboardSection: React.FC = () => {
                   ))}
                 </div>
               </div>
-            </GrainCardContent>
-          </GrainCard>
+            </FluxCardContent>
+          </FluxCard>
 
           <div className="grid grid-cols-3 gap-4">
             {[

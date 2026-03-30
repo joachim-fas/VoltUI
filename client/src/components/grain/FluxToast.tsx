@@ -1,5 +1,5 @@
 /**
- * GrainToast / GrainTooltip – Atmospheric Grain Design System
+ * FluxToast / FluxTooltip – Atmospheric Grain Design System
  * Benachrichtigungs- und Tooltip-Komponenten.
  */
 
@@ -8,10 +8,10 @@ import { cn } from "@/lib/utils";
 import { CheckCircle2, AlertCircle, Info, AlertTriangle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-/* ── GrainToast ── */
+/* ── FluxToast ── */
 export type ToastVariant = "success" | "error" | "info" | "warning";
 
-export interface GrainToastItem {
+export interface FluxToastItem {
   id: string;
   variant?: ToastVariant;
   title: string;
@@ -46,12 +46,12 @@ const toastConfig: Record<ToastVariant, {
   },
 };
 
-interface GrainToastItemProps {
-  toast: GrainToastItem;
+interface FluxToastItemProps {
+  toast: FluxToastItem;
   onDismiss: (id: string) => void;
 }
 
-const GrainToastItem: React.FC<GrainToastItemProps> = ({ toast, onDismiss }) => {
+const FluxToastItem: React.FC<FluxToastItemProps> = ({ toast, onDismiss }) => {
   const config = toastConfig[toast.variant ?? "info"];
   const Icon = config.icon;
 
@@ -96,8 +96,8 @@ const GrainToastItem: React.FC<GrainToastItemProps> = ({ toast, onDismiss }) => 
 };
 
 /* ── Toast Container ── */
-export interface GrainToastContainerProps {
-  toasts: GrainToastItem[];
+export interface FluxToastContainerProps {
+  toasts: FluxToastItem[];
   onDismiss: (id: string) => void;
   position?: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
 }
@@ -111,7 +111,7 @@ const positionClasses: Record<string, string> = {
   "bottom-center":"bottom-4 left-1/2 -translate-x-1/2 items-center",
 };
 
-export const GrainToastContainer: React.FC<GrainToastContainerProps> = ({
+export const FluxToastContainer: React.FC<FluxToastContainerProps> = ({
   toasts,
   onDismiss,
   position = "bottom-right",
@@ -126,7 +126,7 @@ export const GrainToastContainer: React.FC<GrainToastContainerProps> = ({
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => (
           <div key={toast.id} className="pointer-events-auto">
-            <GrainToastItem toast={toast} onDismiss={onDismiss} />
+            <FluxToastItem toast={toast} onDismiss={onDismiss} />
           </div>
         ))}
       </AnimatePresence>
@@ -134,11 +134,11 @@ export const GrainToastContainer: React.FC<GrainToastContainerProps> = ({
   );
 };
 
-/* ── useGrainToast Hook ── */
-export function useGrainToast() {
-  const [toasts, setToasts] = React.useState<GrainToastItem[]>([]);
+/* ── useFluxToast Hook ── */
+export function useFluxToast() {
+  const [toasts, setToasts] = React.useState<FluxToastItem[]>([]);
 
-  const add = React.useCallback((toast: Omit<GrainToastItem, "id">) => {
+  const add = React.useCallback((toast: Omit<FluxToastItem, "id">) => {
     const id = Math.random().toString(36).slice(2);
     setToasts(prev => [...prev, { ...toast, id }]);
   }, []);
@@ -150,15 +150,15 @@ export function useGrainToast() {
   return { toasts, add, dismiss };
 }
 
-/* ── GrainTooltip ── */
-export interface GrainTooltipProps {
+/* ── FluxTooltip ── */
+export interface FluxTooltipProps {
   content: React.ReactNode;
   children: React.ReactElement;
   side?: "top" | "bottom" | "left" | "right";
   delay?: number;
 }
 
-export const GrainTooltip: React.FC<GrainTooltipProps> = ({
+export const FluxTooltip: React.FC<FluxTooltipProps> = ({
   content,
   children,
   side = "top",

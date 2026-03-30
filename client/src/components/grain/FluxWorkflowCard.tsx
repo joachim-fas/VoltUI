@@ -1,4 +1,4 @@
-// GrainWorkflowCard – Operating Principle Component
+// FluxWorkflowCard – Operating Principle Component
 // Design: Semantische Tokens für vollständigen Dark-Mode-Support
 // Eingabe → Baby Blue | Ablauf → Butter Yellow | Ergebnis → Mint Green | Wirkung → Neon Yellow
 
@@ -18,7 +18,7 @@ export interface WorkflowStep {
   status?: WorkflowStatus;
 }
 
-interface GrainWorkflowCardProps {
+interface FluxWorkflowCardProps {
   title: string;
   description?: string;
   steps: WorkflowStep[];
@@ -132,13 +132,13 @@ function WorkflowStepCard({ step, isLast }: { step: WorkflowStep; isLast: boolea
   );
 }
 
-export function GrainWorkflowCard({
+export function FluxWorkflowCard({
   title,
   description,
   steps,
   compact = false,
   className,
-}: GrainWorkflowCardProps) {
+}: FluxWorkflowCardProps) {
   return (
     <div className={cn("bg-card border border-border rounded-2xl p-6", className)}>
       <div className="mb-5">
@@ -178,7 +178,7 @@ export function GrainWorkflowCard({
   );
 }
 
-// GrainOPBadge – kleine Labels für OP-Metadaten
+// FluxOPBadge – kleine Labels für OP-Metadaten
 export type OPLabel = "input" | "process" | "output" | "proof" | "dod" | "owner" | "handoff" | "guardrail" | "log";
 
 // Pastell-Badges bleiben intentional farbig (Datenkodierung), aber Text wird semantisch
@@ -194,13 +194,13 @@ const OP_BADGE_CONFIG: Record<OPLabel, { label: string; bgColor: string; textCla
   log:       { label: "Log",        bgColor: "",        textClass: "text-muted-foreground bg-muted" },
 };
 
-interface GrainOPBadgeProps {
+interface FluxOPBadgeProps {
   type: OPLabel;
   value?: string;
   className?: string;
 }
 
-export function GrainOPBadge({ type, value, className }: GrainOPBadgeProps) {
+export function FluxOPBadge({ type, value, className }: FluxOPBadgeProps) {
   const config = OP_BADGE_CONFIG[type];
   const style = config.bgColor ? { backgroundColor: config.bgColor } : {};
   return (

@@ -1,5 +1,5 @@
 /**
- * GrainCard – Flux UI Design System v4
+ * FluxCard – Flux UI Design System v4
  * Kein box-shadow – Tiefe durch Farbe, Borders und Hintergrundtöne
  * Theme-aware: nutzt CSS-Variablen statt hardcodierte Farben
  */
@@ -65,18 +65,18 @@ const cardVariants = cva(
   }
 );
 
-export interface GrainCardProps
+export interface FluxCardProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {
-  withGrain?: boolean;
+  withTexture?: boolean;
 }
 
-export const GrainCard = React.forwardRef<HTMLDivElement, GrainCardProps>(
-  ({ className, variant, withGrain = true, children, ...props }, ref) => {
+export const FluxCard = React.forwardRef<HTMLDivElement, FluxCardProps>(
+  ({ className, variant, withTexture = true, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn(cardVariants({ variant }), withGrain && "grain", className)}
+        className={cn(cardVariants({ variant }), withTexture && "grain", className)}
         {...props}
       >
         {children}
@@ -84,17 +84,17 @@ export const GrainCard = React.forwardRef<HTMLDivElement, GrainCardProps>(
     );
   }
 );
-GrainCard.displayName = "GrainCard";
+FluxCard.displayName = "FluxCard";
 
-export const GrainCardHeader = React.forwardRef<
+export const FluxCardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("flex flex-col gap-1.5 p-6", className)} {...props} />
 ));
-GrainCardHeader.displayName = "GrainCardHeader";
+FluxCardHeader.displayName = "FluxCardHeader";
 
-export const GrainCardTitle = React.forwardRef<
+export const FluxCardTitle = React.forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
@@ -104,9 +104,9 @@ export const GrainCardTitle = React.forwardRef<
     {...props}
   />
 ));
-GrainCardTitle.displayName = "GrainCardTitle";
+FluxCardTitle.displayName = "FluxCardTitle";
 
-export const GrainCardDescription = React.forwardRef<
+export const FluxCardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
@@ -116,17 +116,17 @@ export const GrainCardDescription = React.forwardRef<
     {...props}
   />
 ));
-GrainCardDescription.displayName = "GrainCardDescription";
+FluxCardDescription.displayName = "FluxCardDescription";
 
-export const GrainCardContent = React.forwardRef<
+export const FluxCardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
 ));
-GrainCardContent.displayName = "GrainCardContent";
+FluxCardContent.displayName = "FluxCardContent";
 
-export const GrainCardFooter = React.forwardRef<
+export const FluxCardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -136,4 +136,4 @@ export const GrainCardFooter = React.forwardRef<
     {...props}
   />
 ));
-GrainCardFooter.displayName = "GrainCardFooter";
+FluxCardFooter.displayName = "FluxCardFooter";

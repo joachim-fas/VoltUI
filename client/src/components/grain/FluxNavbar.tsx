@@ -1,5 +1,5 @@
 /**
- * GrainNavbar – Atmospheric Grain Design System
+ * FluxNavbar – Atmospheric Grain Design System
  * Top-Navigation mit Glasmorphismus und Flux-Textur.
  */
 
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export interface GrainNavItem {
+export interface FluxNavItem {
   label: string;
   href?: string;
   active?: boolean;
@@ -16,15 +16,15 @@ export interface GrainNavItem {
   onClick?: () => void;
 }
 
-export interface GrainNavbarProps extends React.HTMLAttributes<HTMLElement> {
+export interface FluxNavbarProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
-  items?: GrainNavItem[];
+  items?: FluxNavItem[];
   rightSlot?: React.ReactNode;
   variant?: "glass" | "solid" | "transparent";
   sticky?: boolean;
 }
 
-export const GrainNavbar: React.FC<GrainNavbarProps> = ({
+export const FluxNavbar: React.FC<FluxNavbarProps> = ({
   logo,
   items = [],
   rightSlot,

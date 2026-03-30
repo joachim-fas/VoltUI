@@ -3,14 +3,14 @@
  */
 
 import React, { useState } from "react";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle, GrainCardDescription } from "@/components/grain/GrainCard";
-import { GrainTabs } from "@/components/grain/GrainTabs";
-import { GrainModal } from "@/components/grain/GrainModal";
-import { GrainToastContainer, useGrainToast } from "@/components/grain/GrainToast";
-import { GrainTooltip } from "@/components/grain/GrainToast";
-import { GrainButton } from "@/components/grain/GrainButton";
-import { GrainBadge } from "@/components/grain/GrainBadge";
-import { GrainInput } from "@/components/grain/GrainInput";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription } from "@/components/grain/FluxCard";
+import { FluxTabs } from "@/components/grain/FluxTabs";
+import { FluxModal } from "@/components/grain/FluxModal";
+import { FluxToastContainer, useFluxToast } from "@/components/grain/FluxToast";
+import { FluxTooltip } from "@/components/grain/FluxToast";
+import { FluxButton } from "@/components/grain/FluxButton";
+import { FluxBadge } from "@/components/grain/FluxBadge";
+import { FluxInput } from "@/components/grain/FluxInput";
 import {
   Code2, Layers, Palette, Zap,
   Info, CheckCircle2, AlertCircle, AlertTriangle,
@@ -47,7 +47,7 @@ const tabContent = {
       {["--neon-yellow", "--black", "--signal-positive", "--signal-negative", "--signal-neutral"].map(t => (
         <div key={t} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
           <span className="text-xs font-mono text-foreground">{t}</span>
-          <GrainBadge variant="muted" size="sm">CSS Token</GrainBadge>
+          <FluxBadge variant="muted" size="sm">CSS Token</FluxBadge>
         </div>
       ))}
     </div>
@@ -63,11 +63,11 @@ const tabContent = {
 export const FeedbackSection: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const { toasts, add, dismiss } = useGrainToast();
+  const { toasts, add, dismiss } = useFluxToast();
 
   return (
     <div className="space-y-10">
-      <GrainToastContainer toasts={toasts} onDismiss={dismiss} position="bottom-right" />
+      <FluxToastContainer toasts={toasts} onDismiss={dismiss} position="bottom-right" />
 
       <div>
         <p className="section-label mb-2">05 — Feedback</p>
@@ -79,16 +79,16 @@ export const FeedbackSection: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Tab-Varianten</GrainCardTitle>
-          <GrainCardDescription>pills · underline · boxed · glass</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Tab-Varianten</FluxCardTitle>
+          <FluxCardDescription>pills · underline · boxed · glass</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="space-y-8">
             <div>
               <p className="section-label mb-3">Pills (Standard)</p>
-              <GrainTabs
+              <FluxTabs
                 variant="pills"
                 tabs={[
                   { id: "design", label: "Design",  icon: <Palette className="w-4 h-4" />, content: tabContent.design },
@@ -101,7 +101,7 @@ export const FeedbackSection: React.FC = () => {
             </div>
             <div>
               <p className="section-label mb-3">Underline</p>
-              <GrainTabs
+              <FluxTabs
                 variant="underline"
                 tabs={[
                   { id: "a", label: "Übersicht" },
@@ -114,7 +114,7 @@ export const FeedbackSection: React.FC = () => {
             </div>
             <div>
               <p className="section-label mb-3">Boxed</p>
-              <GrainTabs
+              <FluxTabs
                 variant="boxed"
                 tabs={[
                   { id: "x", label: "Monatlich" },
@@ -125,27 +125,27 @@ export const FeedbackSection: React.FC = () => {
               />
             </div>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Modal */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Modal-Dialoge</GrainCardTitle>
-          <GrainCardDescription>Glasmorphismus mit Flux-Textur, Escape-Taste und Backdrop-Klick zum Schließen</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Modal-Dialoge</FluxCardTitle>
+          <FluxCardDescription>Glasmorphismus mit Flux-Textur, Escape-Taste und Backdrop-Klick zum Schließen</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="flex flex-wrap gap-3">
-            <GrainButton variant="primary" onClick={() => setModalOpen(true)}>
+            <FluxButton variant="primary" onClick={() => setModalOpen(true)}>
               Modal öffnen
-            </GrainButton>
-            <GrainButton variant="destructive" onClick={() => setConfirmOpen(true)}>
+            </FluxButton>
+            <FluxButton variant="destructive" onClick={() => setConfirmOpen(true)}>
               Bestätigungs-Dialog
-            </GrainButton>
+            </FluxButton>
           </div>
 
           {/* Standard Modal */}
-          <GrainModal
+          <FluxModal
             open={modalOpen}
             onClose={() => setModalOpen(false)}
             title="Neues Projekt erstellen"
@@ -153,21 +153,21 @@ export const FeedbackSection: React.FC = () => {
             size="md"
             footer={
               <>
-                <GrainButton variant="ghost" onClick={() => setModalOpen(false)}>Abbrechen</GrainButton>
-                <GrainButton variant="gradient" onClick={() => setModalOpen(false)} rightIcon={<ArrowRight className="w-4 h-4" />}>
+                <FluxButton variant="ghost" onClick={() => setModalOpen(false)}>Abbrechen</FluxButton>
+                <FluxButton variant="gradient" onClick={() => setModalOpen(false)} rightIcon={<ArrowRight className="w-4 h-4" />}>
                   Erstellen
-                </GrainButton>
+                </FluxButton>
               </>
             }
           >
             <div className="space-y-4">
-              <GrainInput label="Projektname" placeholder="Mein neues Projekt" />
-              <GrainInput label="Beschreibung" placeholder="Kurze Beschreibung…" />
+              <FluxInput label="Projektname" placeholder="Mein neues Projekt" />
+              <FluxInput label="Beschreibung" placeholder="Kurze Beschreibung…" />
             </div>
-          </GrainModal>
+          </FluxModal>
 
           {/* Confirm Modal */}
-          <GrainModal
+          <FluxModal
             open={confirmOpen}
             onClose={() => setConfirmOpen(false)}
             title="Projekt löschen?"
@@ -175,82 +175,82 @@ export const FeedbackSection: React.FC = () => {
             size="sm"
             footer={
               <>
-                <GrainButton variant="ghost" onClick={() => setConfirmOpen(false)}>Abbrechen</GrainButton>
-                <GrainButton variant="destructive" onClick={() => setConfirmOpen(false)} leftIcon={<Trash2 className="w-4 h-4" />}>
+                <FluxButton variant="ghost" onClick={() => setConfirmOpen(false)}>Abbrechen</FluxButton>
+                <FluxButton variant="destructive" onClick={() => setConfirmOpen(false)} leftIcon={<Trash2 className="w-4 h-4" />}>
                   Endgültig löschen
-                </GrainButton>
+                </FluxButton>
               </>
             }
           />
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Toast */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Toast-Benachrichtigungen</GrainCardTitle>
-          <GrainCardDescription>Klicke einen Button um eine Toast-Benachrichtigung auszulösen</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Toast-Benachrichtigungen</FluxCardTitle>
+          <FluxCardDescription>Klicke einen Button um eine Toast-Benachrichtigung auszulösen</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="flex flex-wrap gap-3">
-            <GrainButton
+            <FluxButton
               variant="primary"
               leftIcon={<Info className="w-4 h-4" />}
               onClick={() => add({ variant: "info", title: "Information", description: "Flux UI wurde erfolgreich geladen." })}
             >
               Info
-            </GrainButton>
-            <GrainButton
+            </FluxButton>
+            <FluxButton
               variant="secondary"
               leftIcon={<CheckCircle2 className="w-4 h-4" />}
               onClick={() => add({ variant: "success", title: "Gespeichert!", description: "Alle Änderungen wurden erfolgreich gespeichert." })}
             >
               Erfolg
-            </GrainButton>
-            <GrainButton
+            </FluxButton>
+            <FluxButton
               variant="outline"
               leftIcon={<AlertTriangle className="w-4 h-4" />}
               onClick={() => add({ variant: "warning", title: "Achtung", description: "Bitte überprüfe deine Eingaben vor dem Absenden." })}
             >
               Warnung
-            </GrainButton>
-            <GrainButton
+            </FluxButton>
+            <FluxButton
               variant="destructive"
               leftIcon={<AlertCircle className="w-4 h-4" />}
               onClick={() => add({ variant: "error", title: "Fehler", description: "Verbindung zum Server unterbrochen." })}
             >
               Fehler
-            </GrainButton>
+            </FluxButton>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Tooltip */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Tooltips</GrainCardTitle>
-          <GrainCardDescription>Hover über die Buttons für Tooltips in alle Richtungen</GrainCardDescription>
-        </GrainCardHeader>
-        <GrainCardContent>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Tooltips</FluxCardTitle>
+          <FluxCardDescription>Hover über die Buttons für Tooltips in alle Richtungen</FluxCardDescription>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="flex flex-wrap gap-4 py-4 justify-center">
-            <GrainTooltip content="Oben angezeigt" side="top">
-              <GrainButton variant="outline" size="sm">Oben</GrainButton>
-            </GrainTooltip>
-            <GrainTooltip content="Unten angezeigt" side="bottom">
-              <GrainButton variant="outline" size="sm">Unten</GrainButton>
-            </GrainTooltip>
-            <GrainTooltip content="Links angezeigt" side="left">
-              <GrainButton variant="outline" size="sm">Links</GrainButton>
-            </GrainTooltip>
-            <GrainTooltip content="Rechts angezeigt" side="right">
-              <GrainButton variant="outline" size="sm">Rechts</GrainButton>
-            </GrainTooltip>
-            <GrainTooltip content={<span>Mit <strong>HTML</strong> Inhalt</span>} side="top">
-              <GrainButton variant="gradient" size="sm">Rich Tooltip</GrainButton>
-            </GrainTooltip>
+            <FluxTooltip content="Oben angezeigt" side="top">
+              <FluxButton variant="outline" size="sm">Oben</FluxButton>
+            </FluxTooltip>
+            <FluxTooltip content="Unten angezeigt" side="bottom">
+              <FluxButton variant="outline" size="sm">Unten</FluxButton>
+            </FluxTooltip>
+            <FluxTooltip content="Links angezeigt" side="left">
+              <FluxButton variant="outline" size="sm">Links</FluxButton>
+            </FluxTooltip>
+            <FluxTooltip content="Rechts angezeigt" side="right">
+              <FluxButton variant="outline" size="sm">Rechts</FluxButton>
+            </FluxTooltip>
+            <FluxTooltip content={<span>Mit <strong>HTML</strong> Inhalt</span>} side="top">
+              <FluxButton variant="gradient" size="sm">Rich Tooltip</FluxButton>
+            </FluxTooltip>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
     </div>
   );
 };

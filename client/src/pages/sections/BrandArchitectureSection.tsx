@@ -5,9 +5,9 @@
  */
 
 import React, { useState } from "react";
-import { GrainCursor } from "@/components/grain/GrainCursor";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
-import { GrainBadge } from "@/components/grain/GrainBadge";
+import { FluxCursor } from "@/components/grain/FluxCursor";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
+import { FluxBadge } from "@/components/grain/FluxBadge";
 import { ArrowRight, Layers, Cpu, Globe, BarChart2, ShoppingCart, Clock, Lightbulb, Megaphone, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -53,7 +53,7 @@ const PROJECTS = [
     id: "free-agents",
     name: "Free Agents",
     domain: "free-agents.io",
-    icon: <GrainCursor size="sm" color="black" animated />,
+    icon: <FluxCursor size="sm" color="black" animated />,
     role: "Muttermarke",
     desc: "Die Firma. Das Operating Principle in Reinform. Jedes Projekt ist ein Ausdruck dieser Betriebsart.",
     color: "#E4FF97",
@@ -278,7 +278,7 @@ export const BrandArchitectureSection: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <GrainBadge variant="muted" size="sm">{active.role}</GrainBadge>
+                    <FluxBadge variant="muted" size="sm">{active.role}</FluxBadge>
                     <span
                       className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold"
                       style={{ background: "rgba(255,255,255,0.6)", color: STATUS_LABELS[active.status].color }}
@@ -400,7 +400,7 @@ export const BrandArchitectureSection: React.FC = () => {
               className="rounded-2xl flex flex-col items-center justify-center gap-3 py-6 border"
               style={{ background: project.color, borderColor: project.border }}
             >
-              <GrainCursor
+              <FluxCursor
                 size="md"
                 color={project.id === "free-agents" ? "black" : "black"}
                 animated

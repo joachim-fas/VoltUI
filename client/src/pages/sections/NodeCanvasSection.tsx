@@ -1,18 +1,39 @@
 /**
- * NodeCanvasSection
- * Design: Flux OS · Node Canvas System Dokumentation
+ * NodeCanvasSection v2
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Design: Flux UI · Node Canvas Dokumentation
+ *
+ * Inhalte:
+ *   1. Node-Typen-Galerie (12 Typen in einer Reihe)
+ *   2. Pipeline-Templates (5 auswählbare Vorlagen)
+ *   3. Edge-Stile (4 Verbindungstypen)
+ *   4. Node-Status (6 Zustände)
+ *   5. Konfigurations-Panel (Sidebar mit Node-Details)
+ *   6. Code-Referenz & Props-Tabelle
  */
+import React, { useState, useMemo } from "react";
+import {
+  FluxNodeCanvas,
+  NODE_COLORS, NODE_ICONS, NODE_DEFAULTS,
+  type CanvasNode, type CanvasEdge, type CanvasGroup, type NodeType, type NodeStatus, type EdgeStyle,
+} from "@/components/grain/FluxNodeCanvas";
+import { useTheme } from "@/contexts/ThemeContext";
+import {
+  Play, AlignLeft, Image, Sparkles, List, Table2,
+  GitBranch, Globe, Shuffle, Download, Webhook, StickyNote,
+  Settings, ChevronRight, Info, Code2, Layers,
+} from "lucide-react";
 
-import React, { useState } from "react";
-import { GrainNodeCanvas, CanvasNode, CanvasEdge, CanvasGroup } from "@/components/grain/GrainNodeCanvas";
+/* ══════════════════════════════════════════════════════════════════════════════
+   HILFKOMPONENTEN
+══════════════════════════════════════════════════════════════════════════════ */
 
-/* ── SectionLabel ── */
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div style={{
     display: "inline-flex", alignItems: "center", gap: 6,
     fontSize: 10, fontFamily: '"DM Mono", monospace',
     fontWeight: 600, letterSpacing: "0.12em",
-    color: "#7A7A7A", textTransform: "uppercase",
+    color: "var(--muted-foreground)", textTransform: "uppercase",
     marginBottom: 12,
   }}>
     <span style={{ color: "#E4FF97" }}>&gt;_</span>
@@ -20,7 +41,6 @@ const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   </div>
 );
 
-/* ── Code-Block ── */
 const CodeBlock: React.FC<{ code: string; label?: string }> = ({ code, label }) => (
   <div style={{ borderRadius: 10, overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)" }}>
     {label && (
@@ -45,363 +65,912 @@ const CodeBlock: React.FC<{ code: string; label?: string }> = ({ code, label }) 
   </div>
 );
 
-/* ── Demo-Daten: Workflow ── */
-const WORKFLOW_NODES: CanvasNode[] = [
+/* ══════════════════════════════════════════════════════════════════════════════
+   PIPELINE-TEMPLATES
+══════════════════════════════════════════════════════════════════════════════ */
+
+interface PipelineTemplate {
+  id: string;
+  name: string;
+  description: string;
+  badge: string;
+  badgeColor: string;
+  nodes: CanvasNode[];
+  edges: CanvasEdge[];
+  groups?: CanvasGroup[];
+  canvasHeight: number;
+  initialZoom?: number;
+}
+
+const PIPELINES: PipelineTemplate[] = [
+  /* ── 1. KI-Bild-Generator ── */
   {
-    id: "trigger",
-    type: "trigger",
-    x: 30, y: 160,
-    label: "Start",
-    placeholder: "Workflow starten",
-    accent: true,
+    id: "ai-image",
+    name: "KI-Bild-Generator",
+    description: "Prompt → Generator → Ausgabe mit Qualitätsprüfung",
+    badge: "AI",
+    badgeColor: "#B5EAD7",
+    canvasHeight: 340,
+    nodes: [
+      { id: "t1",  type: "trigger",   x: 30,  y: 130, label: "Workflow Start",   placeholder: "on:submit" },
+      { id: "p1",  type: "text",      x: 220, y: 60,  label: "Stil-Prompt",      placeholder: "Cyberpunk, neon lights, rain…", status: "success" },
+      { id: "p2",  type: "text",      x: 220, y: 200, label: "Negativ-Prompt",   placeholder: "blurry, low quality…" },
+      { id: "g1",  type: "generator", x: 490, y: 80,  label: "Flux Image Gen",   model: "FLUX.1", imageColor: "#1A2030", status: "running" },
+      { id: "d1",  type: "decision",  x: 790, y: 110, label: "Qualitätsprüfung", placeholder: "score >= 0.85" },
+      { id: "o1",  type: "output",    x: 1040,y: 60,  label: "Veröffentlichen",  meta: { format: "PNG · WebP" } },
+      { id: "o2",  type: "output",    x: 1040,y: 200, label: "Verwerfen",        meta: { format: "Log · Retry" }, status: "disabled" },
+    ],
+    edges: [
+      { id: "e1", from: "t1", to: "p1", animated: true, color: "#E4FF97", pulseCount: 1 },
+      { id: "e2", from: "t1", to: "p2", animated: true, color: "#E4FF97" },
+      { id: "e3", from: "p1", to: "g1", animated: true, color: "#B5EAD7", pulseCount: 1 },
+      { id: "e4", from: "p2", to: "g1", color: "#B5EAD7" },
+      { id: "e5", from: "g1", to: "d1", animated: true, color: "#B5EAD7", pulseCount: 2, label: "result" },
+      { id: "e6", from: "d1", to: "o1", color: "#6DDBA0", label: "TRUE" },
+      { id: "e7", from: "d1", to: "o2", fromPort: "bottom", toPort: "left", color: "#FF6B6B", label: "FALSE" },
+    ],
   },
+
+  /* ── 2. API-Daten-Pipeline ── */
   {
-    id: "text-1",
-    type: "text",
-    x: 220, y: 80,
-    label: "Prompt #1",
-    placeholder: "Beschreibe den Charakter im Detail…",
+    id: "api-pipeline",
+    name: "API-Daten-Pipeline",
+    description: "Webhook → Fetch → Transform → Speichern",
+    badge: "ETL",
+    badgeColor: "#80DEEA",
+    canvasHeight: 300,
+    nodes: [
+      { id: "wh", type: "webhook",   x: 30,  y: 110, label: "Eingehender Hook", meta: { event: "POST /ingest", payload: '{ "source": "crm" }' } },
+      { id: "a1", type: "api",       x: 270, y: 110, label: "CRM API Fetch",    meta: { method: "GET", endpoint: "/contacts", body: '{ "limit": 100 }', status: "200 OK" }, status: "success" },
+      { id: "tr", type: "transform", x: 530, y: 110, label: "Normalize",        placeholder: "map(c => ({ id, email }))" },
+      { id: "dt", type: "data",      x: 780, y: 60,  label: "Staging DB" },
+      { id: "a2", type: "api",       x: 780, y: 200, label: "Notify Slack",     meta: { method: "POST", endpoint: "/slack/msg", body: '{ "text": "Done" }', status: "200 OK" } },
+      { id: "ou", type: "output",    x: 1020,y: 110, label: "Fertig",           meta: { format: "JSON · DB" } },
+    ],
+    edges: [
+      { id: "e1", from: "wh", to: "a1", animated: true, color: "#FF9E80", pulseCount: 1 },
+      { id: "e2", from: "a1", to: "tr", animated: true, color: "#80DEEA", pulseCount: 1 },
+      { id: "e3", from: "tr", to: "dt", color: "#F8BBD9" },
+      { id: "e4", from: "tr", to: "a2", color: "#F8BBD9" },
+      { id: "e5", from: "dt", to: "ou", color: "#FFB7C5" },
+      { id: "e6", from: "a2", to: "ou", color: "#80DEEA" },
+    ],
   },
+
+  /* ── 3. Content-Moderations-Pipeline ── */
   {
-    id: "text-2",
-    type: "text",
-    x: 220, y: 240,
-    label: "Prompt #2",
-    placeholder: "Wähle einen passenden Stil…",
+    id: "moderation",
+    name: "Content-Moderation",
+    description: "Text → Analyse → Entscheidungsbaum → Routing",
+    badge: "LOGIC",
+    badgeColor: "#FFE08A",
+    canvasHeight: 380,
+    groups: [
+      { id: "g1", label: "ANALYSE", x: 200, y: 20, width: 380, height: 300, color: "#FFE08A" },
+    ],
+    nodes: [
+      { id: "in", type: "text",     x: 30,  y: 160, label: "User Input",     placeholder: "Eingehender Kommentar…" },
+      { id: "a1", type: "api",      x: 230, y: 60,  label: "Toxizitäts-API", meta: { method: "POST", endpoint: "/moderate", body: '{ "text": "…" }', status: "200 OK" }, status: "running" },
+      { id: "a2", type: "api",      x: 230, y: 210, label: "Spam-Detektor",  meta: { method: "POST", endpoint: "/spam",     body: '{ "text": "…" }', status: "200 OK" } },
+      { id: "d1", type: "decision", x: 480, y: 130, label: "Toxic?",         placeholder: "score > 0.7" },
+      { id: "d2", type: "decision", x: 730, y: 60,  label: "Spam?",          placeholder: "spam_prob > 0.8" },
+      { id: "o1", type: "output",   x: 980, y: 30,  label: "Blockieren",     meta: { format: "Ban · Log" } },
+      { id: "o2", type: "output",   x: 980, y: 160, label: "Review-Queue",   meta: { format: "Ticket" } },
+      { id: "o3", type: "output",   x: 980, y: 290, label: "Freigeben",      meta: { format: "Publish" } },
+    ],
+    edges: [
+      { id: "e1", from: "in", to: "a1", animated: true, color: "#A8D8FF", pulseCount: 1 },
+      { id: "e2", from: "in", to: "a2", animated: true, color: "#A8D8FF" },
+      { id: "e3", from: "a1", to: "d1", color: "#FFE08A" },
+      { id: "e4", from: "a2", to: "d1", fromPort: "bottom", toPort: "bottom", color: "#FFE08A" },
+      { id: "e5", from: "d1", to: "d2", color: "#6DDBA0", label: "FALSE" },
+      { id: "e6", from: "d1", to: "o2", fromPort: "bottom", toPort: "left", color: "#FF6B6B", label: "TRUE" },
+      { id: "e7", from: "d2", to: "o1", color: "#FF6B6B", label: "TRUE" },
+      { id: "e8", from: "d2", to: "o3", fromPort: "bottom", toPort: "left", color: "#6DDBA0", label: "FALSE" },
+    ],
   },
+
+  /* ── 4. Multi-Modal-Workflow ── */
   {
-    id: "gen-1",
-    type: "generator",
-    x: 490, y: 60,
-    label: "Bild-Generator #1",
-    placeholder: "Beschreibe das Bild…",
-    model: "Auto",
-    imageColor: "#1A2A1A",
-    selected: true,
+    id: "multimodal",
+    name: "Multi-Modal-Workflow",
+    description: "Bild + Text → KI-Analyse → Strukturierte Ausgabe",
+    badge: "MM",
+    badgeColor: "#C9B8FF",
+    canvasHeight: 360,
+    nodes: [
+      { id: "t1",  type: "trigger",   x: 30,  y: 150, label: "Start",         placeholder: "on:upload" },
+      { id: "im",  type: "image",     x: 220, y: 60,  label: "Eingabebild",   imageColor: "#1A1A2E" },
+      { id: "tx",  type: "text",      x: 220, y: 220, label: "Kontext-Text",  placeholder: "Beschreibe was analysiert werden soll…" },
+      { id: "g1",  type: "generator", x: 490, y: 60,  label: "Vision-LLM",    model: "GPT-4V", imageColor: "#1A2030", status: "running" },
+      { id: "tr",  type: "transform", x: 490, y: 230, label: "JSON-Parser",   placeholder: "JSON.parse(response)" },
+      { id: "li",  type: "list",      x: 760, y: 60,  label: "Erkannte Tags", items: ["Person", "Outdoor", "Sunny", "Portrait"] },
+      { id: "dt",  type: "data",      x: 760, y: 220, label: "Metadaten",     status: "success" },
+      { id: "ou",  type: "output",    x: 1010,y: 140, label: "Ergebnis",      meta: { format: "JSON · Webhook" } },
+      { id: "nt",  type: "note",      x: 30,  y: 290, label: "Hinweis",       placeholder: "Bilder max. 4MB · JPEG/PNG/WebP" },
+    ],
+    edges: [
+      { id: "e1", from: "t1",  to: "im",  animated: true, color: "#E4FF97", pulseCount: 1 },
+      { id: "e2", from: "t1",  to: "tx",  animated: true, color: "#E4FF97" },
+      { id: "e3", from: "im",  to: "g1",  animated: true, color: "#C9B8FF", pulseCount: 1 },
+      { id: "e4", from: "tx",  to: "tr",  color: "#A8D8FF" },
+      { id: "e5", from: "g1",  to: "li",  animated: true, color: "#B5EAD7", pulseCount: 1 },
+      { id: "e6", from: "tr",  to: "dt",  color: "#F8BBD9" },
+      { id: "e7", from: "li",  to: "ou",  color: "#C9B8FF" },
+      { id: "e8", from: "dt",  to: "ou",  color: "#FFB7C5" },
+    ],
   },
+
+  /* ── 5. Scheduled-Report-Pipeline ── */
   {
-    id: "list-1",
-    type: "list",
-    x: 490, y: 290,
-    label: "Varianten",
-    items: ["Stil A – Minimalistisch", "Stil B – Editorial", "Stil C – Dramatisch"],
-  },
-  {
-    id: "gen-2",
-    type: "generator",
-    x: 790, y: 150,
-    label: "Bild-Generator #2",
-    placeholder: "Kombinierter Output…",
-    model: "GPT-5",
-    imageColor: "#1A1A2A",
+    id: "report",
+    name: "Scheduled Report",
+    description: "Cron → Daten abrufen → Aufbereiten → Versenden",
+    badge: "CRON",
+    badgeColor: "#FFD6A5",
+    canvasHeight: 300,
+    nodes: [
+      { id: "cr",  type: "trigger",   x: 30,  y: 110, label: "Cron: täglich 08:00", meta: { event: "0 8 * * *" } },
+      { id: "a1",  type: "api",       x: 230, y: 60,  label: "Analytics API",      meta: { method: "GET", endpoint: "/stats/daily", body: "", status: "200 OK" }, status: "success" },
+      { id: "a2",  type: "api",       x: 230, y: 190, label: "Revenue API",         meta: { method: "GET", endpoint: "/revenue",     body: "", status: "200 OK" }, status: "success" },
+      { id: "tr",  type: "transform", x: 490, y: 125, label: "Report Builder",     placeholder: "merge(analytics, revenue)" },
+      { id: "g1",  type: "generator", x: 730, y: 125, label: "PDF Generator",      model: "Puppeteer", imageColor: "#2A1A10" },
+      { id: "wh",  type: "webhook",   x: 980, y: 60,  label: "E-Mail Versand",     meta: { event: "POST /send-email", payload: '{ "to": "team@…" }' } },
+      { id: "dt",  type: "data",      x: 980, y: 190, label: "Report-Archiv",      status: "success" },
+    ],
+    edges: [
+      { id: "e1", from: "cr",  to: "a1",  animated: true, color: "#FFD6A5", pulseCount: 1 },
+      { id: "e2", from: "cr",  to: "a2",  animated: true, color: "#FFD6A5" },
+      { id: "e3", from: "a1",  to: "tr",  color: "#80DEEA" },
+      { id: "e4", from: "a2",  to: "tr",  color: "#80DEEA" },
+      { id: "e5", from: "tr",  to: "g1",  animated: true, color: "#F8BBD9", pulseCount: 1 },
+      { id: "e6", from: "g1",  to: "wh",  animated: true, color: "#FFD6A5", pulseCount: 1 },
+      { id: "e7", from: "g1",  to: "dt",  color: "#FFD6A5" },
+    ],
   },
 ];
 
-const WORKFLOW_EDGES: CanvasEdge[] = [
-  { id: "e1", from: "trigger", to: "text-1", fromPort: "right", toPort: "left" },
-  { id: "e2", from: "trigger", to: "text-2", fromPort: "right", toPort: "left" },
-  { id: "e3", from: "text-1", to: "gen-1", fromPort: "right", toPort: "left", animated: true, color: "#6DDBA0" },
-  { id: "e4", from: "text-2", to: "list-1", fromPort: "right", toPort: "left" },
-  { id: "e5", from: "gen-1", to: "gen-2", fromPort: "right", toPort: "left", animated: true, color: "#6DDBA0" },
-  { id: "e6", from: "list-1", to: "gen-2", fromPort: "right", toPort: "left" },
+/* ══════════════════════════════════════════════════════════════════════════════
+   EDGE-STIL-DEMOS
+══════════════════════════════════════════════════════════════════════════════ */
+
+const EDGE_STYLE_DEMOS: Array<{
+  style: EdgeStyle;
+  label: string;
+  desc: string;
+  useCase: string;
+}> = [
+  { style: "bezier",     label: "Bezier",     desc: "Geschwungene Kurven – Standard",    useCase: "Allgemeine Verbindungen" },
+  { style: "straight",   label: "Straight",   desc: "Direkte Geraden ohne Kurven",       useCase: "Einfache Abhängigkeiten" },
+  { style: "step",       label: "Step",       desc: "Rechtwinklige L-Verbindungen",      useCase: "Hierarchische Strukturen" },
+  { style: "smoothstep", label: "Smoothstep", desc: "Abgerundete Ecken, orthogonal",     useCase: "Flowcharts & Diagramme" },
 ];
 
-/* ── Demo-Daten: Gruppen ── */
-const GROUP_NODES: CanvasNode[] = [
-  { id: "g-img1", type: "image", x: 60,  y: 60,  label: "Charakter #1", imageColor: "#2A2030" },
-  { id: "g-img2", type: "image", x: 280, y: 60,  label: "Charakter #2", imageColor: "#1A2A30" },
-  { id: "g-img3", type: "image", x: 60,  y: 270, label: "Szene #1",     imageColor: "#1A2A1A" },
-  { id: "g-img4", type: "image", x: 280, y: 270, label: "Szene #2",     imageColor: "#2A1A1A" },
-  { id: "g-text", type: "text",  x: 540, y: 150, label: "Beschreibung", placeholder: "Kombiniere Charakter und Szene…" },
-  { id: "g-gen",  type: "generator", x: 790, y: 100, label: "Final Output", model: "Auto", imageColor: "#1E1E2A" },
+function EdgeStyleDemo({ style, isDark }: { style: EdgeStyle; isDark: boolean }) {
+  const nodes: CanvasNode[] = [
+    { id: "a", type: "trigger",  x: 20,  y: 55, width: 110, height: 60, label: "Von" },
+    { id: "b", type: "output",   x: 230, y: 55, width: 110, height: 60, label: "Nach" },
+  ];
+  const edges: CanvasEdge[] = [
+    { id: "e", from: "a", to: "b", style, color: "#E4FF97", animated: true },
+  ];
+  return (
+    <FluxNodeCanvas
+      nodes={nodes} edges={edges}
+      height={170} showGrid={false}
+      className="rounded-lg"
+    />
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   NODE-STATUS-DEMOS
+══════════════════════════════════════════════════════════════════════════════ */
+
+const STATUS_LIST: Array<{ status: NodeStatus; label: string; desc: string; color: string }> = [
+  { status: "idle",     label: "Idle",     desc: "Wartet auf Ausführung",     color: "rgba(255,255,255,0.15)" },
+  { status: "running",  label: "Running",  desc: "Wird gerade ausgeführt",    color: "#E4FF97" },
+  { status: "success",  label: "Success",  desc: "Erfolgreich abgeschlossen", color: "#6DDBA0" },
+  { status: "error",    label: "Error",    desc: "Fehler aufgetreten",        color: "#FF6B6B" },
+  { status: "warning",  label: "Warning",  desc: "Warnung – Prüfen nötig",    color: "#FFD93D" },
+  { status: "disabled", label: "Disabled", desc: "Deaktiviert / Übersprungen",color: "#666666" },
 ];
 
-const GROUP_GROUPS: CanvasGroup[] = [
-  { id: "grp-char", label: "Charaktere", x: 30,  y: 30,  width: 490, height: 220, color: "#7AB8F5" },
-  { id: "grp-scene",label: "Szenen",     x: 30,  y: 240, width: 490, height: 220, color: "#6DDBA0" },
+/* ══════════════════════════════════════════════════════════════════════════════
+   NODE-TYPEN-GALERIE
+══════════════════════════════════════════════════════════════════════════════ */
+
+const ALL_NODE_TYPES: NodeType[] = [
+  "trigger", "text", "image", "generator", "list", "data",
+  "decision", "api", "transform", "output", "webhook", "note",
 ];
 
-const GROUP_EDGES: CanvasEdge[] = [
-  { id: "ge1", from: "g-img1", to: "g-text", fromPort: "right", toPort: "left" },
-  { id: "ge2", from: "g-img3", to: "g-text", fromPort: "right", toPort: "left" },
-  { id: "ge3", from: "g-text", to: "g-gen",  fromPort: "right", toPort: "left", animated: true, color: "#6DDBA0" },
-];
+const NODE_TYPE_DESC: Record<NodeType, string> = {
+  trigger:   "Startet den Workflow",
+  text:      "Texteingabe / Prompt",
+  image:     "Bild-Eingabe oder -Ausgabe",
+  generator: "KI-Generierung (Text/Bild)",
+  list:      "Aufzählung von Elementen",
+  data:      "Datensatz / Tabelle",
+  decision:  "Verzweigung (if/else)",
+  api:       "HTTP-API-Aufruf",
+  transform: "Daten-Transformation",
+  output:    "Ergebnis-Ausgabe",
+  webhook:   "Eingehender Webhook",
+  note:      "Kommentar / Annotation",
+};
 
-/* ── Anatomie-Karten ── */
-const ANATOMY = [
-  {
-    title: "Node",
-    desc: "Grundbaustein des Canvas. Jeder Node hat einen Typ, einen Header mit Label und Icon, einen Body mit typspezifischem Inhalt sowie Input- und Output-Ports.",
-    color: "#7AB8F5",
-  },
-  {
-    title: "Port",
-    desc: "Kleine Kreise an den Kanten eines Nodes. Input-Ports (links) empfangen Daten, Output-Ports (rechts) senden sie. Ports sind der Verbindungspunkt für Edges.",
-    color: "#6DDBA0",
-  },
-  {
-    title: "Edge",
-    desc: "Bezier-Kurve zwischen zwei Ports. Statische Edges zeigen Datenfluss, animierte (gestrichelte) Edges zeigen aktive Verbindungen.",
-    color: "#F4A0B5",
-  },
-  {
-    title: "Gruppe",
-    desc: "Farbiger Container, der mehrere Nodes zusammenfasst. Gruppen haben ein Label und eine eigene Farbe aus der Pastell-Palette.",
-    color: "#F5C87A",
-  },
-  {
-    title: "Canvas",
-    desc: "Interaktive Arbeitsfläche mit Dotted-Grid. Pan per Mittlere Maustaste, Zoom per Scroll-Rad (0.2×–3×). Hintergrund passt sich dem Dark/Light-Mode an.",
-    color: "#D98AE8",
-  },
-  {
-    title: "Drag & Resize",
-    desc: "Nodes per Header-Drag verschieben. Resize-Handle (rechts unten) zum Skalieren. Callbacks über onNodeChange und onNodeSelect.",
-    color: "#F5C87A",
-  },
-  {
-    title: "Selektion",
-    desc: "Selektierte Nodes erhalten einen farbigen Ring und Glow-Schatten in der Farbe ihres Node-Typs.",
-    color: "#E4FF97",
-  },
-];
+/* ══════════════════════════════════════════════════════════════════════════════
+   KONFIGURATIONS-PANEL
+══════════════════════════════════════════════════════════════════════════════ */
 
-/* ── Props-Tabelle ── */
-const PROPS = [
-  { prop: "nodes",          type: "CanvasNode[]",                    req: "✓", desc: "Array der Nodes (id, type, x, y, label, …)" },
-  { prop: "edges",          type: "CanvasEdge[]",                    req: "–", desc: "Verbindungen zwischen Nodes (from, to, animated, color)" },
-  { prop: "groups",         type: "CanvasGroup[]",                   req: "–", desc: "Gruppen-Container (x, y, width, height, color, label)" },
-  { prop: "height",         type: "number",                         req: "–", desc: "Sichtbare Canvas-Höhe in px (Standard: 500)" },
-  { prop: "showGrid",       type: "boolean",                        req: "–", desc: "Dotted-Grid anzeigen (Standard: true)" },
-  { prop: "onNodeChange",   type: "(id, x, y, w, h) => void",       req: "–", desc: "Callback nach Node-Drag oder Resize mit neuer Position und Größe" },
-  { prop: "onNodeSelect",   type: "(id: string | null) => void",    req: "–", desc: "Callback bei Node-Selektion (null = Deselektierung)" },
-  { prop: "className",      type: "string",                         req: "–", desc: "Zusätzliche CSS-Klassen für den Container" },
-];
+interface ConfigPanelProps {
+  nodeType: NodeType;
+  isDark: boolean;
+  onClose: () => void;
+}
 
-/* ── Design-Regeln ── */
-const RULES = [
-  { num: "01", ok: true,  title: "Node-Typen farbkodieren",   desc: "Jeder Node-Typ hat eine feste Farbe. Text=Rose, Bild=Sky, Generator=Mint, Liste=Amber, Daten=Orchid, Trigger=Lime." },
-  { num: "02", ok: true,  title: "Animierte Edges sparsam",   desc: "Nur aktive Datenflüsse werden animiert. Statische Verbindungen bleiben ruhig." },
-  { num: "03", ok: true,  title: "Gruppen als Kontext",       desc: "Gruppen fassen thematisch zusammengehörige Nodes zusammen. Max. 2 Ebenen Verschachtelung." },
-  { num: "04", ok: false, title: "Keine Kreuz-Edges",         desc: "Edges sollten sich nicht kreuzen. Layout so wählen, dass der Datenfluss von links nach rechts lesbar ist." },
-  { num: "05", ok: false, title: "Max. 15 Nodes pro Canvas",  desc: "Bei mehr als 15 Nodes wird das Canvas unübersichtlich. Gruppen oder Unter-Canvas verwenden." },
-  { num: "06", ok: true,  title: "Selektion zeigt Kontext",   desc: "Nur ein Node gleichzeitig selektieren. Selektion hebt den aktiven Node hervor ohne andere zu dimmen." },
-];
+function ConfigPanel({ nodeType, isDark, onClose }: ConfigPanelProps) {
+  const typeColor = NODE_COLORS[nodeType];
+  const Icon = NODE_ICONS[nodeType];
+  const defaults = NODE_DEFAULTS[nodeType];
 
-/* ── Hauptkomponente ── */
-const NodeCanvasSection: React.FC = () => {
-  const [activeDemo, setActiveDemo] = useState<"workflow" | "groups">("workflow");
+  const fields: Array<{ key: string; label: string; type: "text" | "select" | "number"; options?: string[] }> = (() => {
+    switch (nodeType) {
+      case "trigger":   return [{ key: "event",    label: "Event",       type: "text"   }, { key: "schedule", label: "Schedule", type: "text" }];
+      case "text":      return [{ key: "content",  label: "Inhalt",      type: "text"   }, { key: "maxLen",   label: "Max. Länge", type: "number" }];
+      case "image":     return [{ key: "url",      label: "Bild-URL",    type: "text"   }, { key: "bgColor",  label: "Hintergrund", type: "text" }];
+      case "generator": return [{ key: "content",  label: "Prompt",      type: "text"   }, { key: "model",    label: "Modell", type: "select", options: ["Auto", "FLUX.1", "GPT-4V", "DALL-E 3", "Stable Diffusion"] }];
+      case "list":      return [{ key: "items",    label: "Einträge",    type: "text"   }];
+      case "data":      return [{ key: "source",   label: "Datenquelle", type: "text"   }, { key: "limit",    label: "Limit", type: "number" }];
+      case "decision":  return [{ key: "content",  label: "Bedingung",   type: "text"   }, { key: "operator", label: "Operator", type: "select", options: ["==", "!=", ">", "<", ">=", "<=", "includes"] }];
+      case "api":       return [{ key: "endpoint", label: "Endpoint",    type: "text"   }, { key: "method",   label: "Methode", type: "select", options: ["GET", "POST", "PUT", "PATCH", "DELETE"] }];
+      case "transform": return [{ key: "content",  label: "Funktion",    type: "text"   }, { key: "lang",     label: "Sprache", type: "select", options: ["JavaScript", "Python", "JSONata"] }];
+      case "output":    return [{ key: "format",   label: "Format",      type: "select", options: ["JSON", "CSV", "PDF", "Webhook", "Email"] }];
+      case "webhook":   return [{ key: "event",    label: "Event-URL",   type: "text"   }, { key: "payload",  label: "Payload-Schema", type: "text" }];
+      case "note":      return [{ key: "content",  label: "Text",        type: "text"   }];
+      default:          return [];
+    }
+  })();
+
+  const bg    = isDark ? "#161616" : "#FFFFFF";
+  const card  = isDark ? "#1E1E1E" : "#F8F8F8";
+  const border= isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
+  const text  = isDark ? "rgba(255,255,255,0.80)" : "rgba(0,0,0,0.78)";
+  const muted = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)";
+  const inputBg = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)";
 
   return (
-    <div className="space-y-16">
-      {/* Intro */}
-      <div className="max-w-3xl">
-        <p className="section-label mb-2">Visualisierung — Node Canvas</p>
-        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
-          Node Canvas
-        </h2>
-        <p className="text-muted-foreground text-lg leading-relaxed mb-3">
-          Das <strong>GrainNodeCanvas</strong> ist das visuelle System für node-basierte Workflows.
-          Nodes repräsentieren Verarbeitungsschritte — Text, Bild, Generator, Liste — und werden
-          über Bezier-Edges verbunden. Gruppen fassen thematisch zusammengehörige Nodes zusammen.
-        </p>
-        <p className="text-muted-foreground text-base leading-relaxed">
-          Einsatz: KI-Workflow-Builder, Daten-Pipelines, Prozess-Visualisierung,
-          Automations-Designer, Concept-Maps.
-        </p>
+    <div style={{
+      width: 280, background: bg, borderRadius: 14,
+      border: `1px solid ${border}`,
+      boxShadow: isDark ? "0 8px 32px rgba(0,0,0,0.50)" : "0 8px 32px rgba(0,0,0,0.12)",
+      overflow: "hidden", flexShrink: 0,
+    }}>
+      {/* Header */}
+      <div style={{
+        display: "flex", alignItems: "center", gap: 8,
+        padding: "12px 14px",
+        background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+        borderBottom: `1px solid ${border}`,
+      }}>
+        <div style={{
+          width: 28, height: 28, borderRadius: 8,
+          background: `${typeColor}22`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <Icon size={14} style={{ color: typeColor }} />
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 12, fontFamily: '"DM Mono", monospace', fontWeight: 600, color: text }}>
+            {defaults.label}
+          </div>
+          <div style={{ fontSize: 10, color: muted, fontFamily: '"DM Mono", monospace' }}>
+            {nodeType.toUpperCase()} · {defaults.width}×{defaults.height}px
+          </div>
+        </div>
+        <button onClick={onClose} style={{
+          width: 22, height: 22, borderRadius: 6, border: `1px solid ${border}`,
+          background: "transparent", cursor: "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          color: muted, fontSize: 14,
+        }}>×</button>
       </div>
 
-      {/* Live Demo */}
-      <div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-          <h3 className="font-display font-bold text-xl text-foreground">
-            Live Demo
-          </h3>
-          <div style={{ display: "flex", gap: 8 }}>
-            {(["workflow", "groups"] as const).map(key => (
-              <button
-                key={key}
-                onClick={() => setActiveDemo(key)}
-                style={{
-                  padding: "6px 16px", borderRadius: 20,
-                  fontSize: 12, fontFamily: '"DM Mono", monospace', fontWeight: 500,
-                  border: `1px solid ${activeDemo === key ? "#0A0A0A" : "#CCCCCC"}`,
-                  background: activeDemo === key ? "#0A0A0A" : "transparent",
-                  color: activeDemo === key ? "#E4FF97" : "#4A4A4A",
-                  cursor: "pointer", transition: "all 0.15s",
-                }}
-              >
-                {key === "workflow" ? "Workflow" : "Gruppen"}
-              </button>
-            ))}
+      {/* Felder */}
+      <div style={{ padding: "14px", display: "flex", flexDirection: "column", gap: 12 }}>
+        {/* Farb-Chip */}
+        <div>
+          <div style={{ fontSize: 10, color: muted, fontFamily: '"DM Mono", monospace', marginBottom: 6, letterSpacing: "0.06em" }}>
+            AKZENTFARBE
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ width: 24, height: 24, borderRadius: 6, background: typeColor, border: `1px solid ${border}` }} />
+            <span style={{ fontSize: 11, fontFamily: '"DM Mono", monospace', color: text }}>{typeColor}</span>
           </div>
         </div>
 
-        {activeDemo === "workflow" ? (
-          <GrainNodeCanvas
-            nodes={WORKFLOW_NODES}
-            edges={WORKFLOW_EDGES}
-            height={480}
-            showGrid
-          />
-        ) : (
-          <GrainNodeCanvas
-            nodes={GROUP_NODES}
-            edges={GROUP_EDGES}
-            groups={GROUP_GROUPS}
-            height={480}
-            showGrid
-          />
-        )}
-      </div>
-
-      {/* Anatomie */}
-      <div>
-        <h3 className="font-display font-bold text-xl text-foreground mb-5">
-          Anatomie
-        </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {ANATOMY.map(item => (
-            <div key={item.title} style={{
-              padding: "18px 20px",
-              background: "#FFFFFF",
-              border: "1px solid rgba(0,0,0,0.08)",
-              borderRadius: 12,
-              borderTop: `3px solid ${item.color}`,
-            }}>
-              <div style={{
-                fontSize: 12, fontFamily: '"DM Mono", monospace',
-                fontWeight: 700, color: "#0A0A0A", marginBottom: 8,
-              }}>
-                {item.title}
-              </div>
-              <div style={{ fontSize: 12, color: "var(--muted-foreground)", lineHeight: 1.6 }}>
-                {item.desc}
-              </div>
+        {/* Konfigurationsfelder */}
+        {fields.map(field => (
+          <div key={field.key}>
+            <div style={{ fontSize: 10, color: muted, fontFamily: '"DM Mono", monospace', marginBottom: 5, letterSpacing: "0.06em" }}>
+              {field.label.toUpperCase()}
             </div>
-          ))}
+            {field.type === "select" ? (
+              <div style={{
+                padding: "6px 10px",
+                background: inputBg, borderRadius: 7,
+                border: `1px solid ${border}`,
+                fontSize: 11, fontFamily: '"DM Mono", monospace', color: text,
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+              }}>
+                <span>{field.options?.[0]}</span>
+                <ChevronRight size={12} style={{ color: muted, transform: "rotate(90deg)" }} />
+              </div>
+            ) : (
+              <div style={{
+                padding: "6px 10px",
+                background: inputBg, borderRadius: 7,
+                border: `1px solid ${border}`,
+                fontSize: 11, fontFamily: '"DM Mono", monospace', color: muted,
+              }}>
+                {field.type === "number" ? "100" : "Eingabe…"}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Node-Beschreibung */}
+        <div style={{
+          padding: "10px 12px",
+          background: `${typeColor}0D`,
+          borderRadius: 8,
+          border: `1px solid ${typeColor}22`,
+          display: "flex", gap: 8,
+        }}>
+          <Info size={13} style={{ color: typeColor, flexShrink: 0, marginTop: 1 }} />
+          <span style={{ fontSize: 11, color: text, fontFamily: '"DM Sans", sans-serif', lineHeight: 1.55 }}>
+            {NODE_TYPE_DESC[nodeType]}
+          </span>
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* Node-Typen */}
-      <div>
-        <h3 className="font-display font-bold text-xl text-foreground mb-5">
-          Node-Typen
-        </h3>
-        <GrainNodeCanvas
-          nodes={[
-            { id: "nt-trigger", type: "trigger",   x: 20,  y: 30, label: "Trigger",    placeholder: "Ausführen" },
-            { id: "nt-text",    type: "text",       x: 210, y: 30, label: "Text #1",    placeholder: "Prompt oder Texteingabe…" },
-            { id: "nt-list",    type: "list",       x: 460, y: 30, label: "Liste #1",   items: ["Element A", "Element B", "Element C"] },
-            { id: "nt-image",   type: "image",      x: 710, y: 30, label: "Bild #1",    imageColor: "#1A2030" },
-            { id: "nt-gen",     type: "generator",  x: 940, y: 30, label: "Generator",  model: "Auto", imageColor: "#1A2A1A", selected: true },
-            { id: "nt-data",    type: "data",       x: 1230,y: 30, label: "Daten #1" },
-          ]}
-          height={220}
-          showGrid={false}
-        />
-      </div>
+/* ══════════════════════════════════════════════════════════════════════════════
+   PROPS-TABELLE
+══════════════════════════════════════════════════════════════════════════════ */
 
-      {/* Code */}
-      <div>
-        <h3 className="font-display font-bold text-xl text-foreground mb-5">
-          Verwendung
-        </h3>
-        <CodeBlock
-          label="GrainNodeCanvas · Beispiel"
-          code={`import { GrainNodeCanvas } from "@/components/grain/GrainNodeCanvas";
-
-const nodes = [
-  { id: "prompt", type: "text",      x: 40,  y: 80,  label: "Prompt #1" },
-  { id: "gen",    type: "generator", x: 320, y: 60,  label: "Generator", model: "Auto" },
-  { id: "output", type: "image",     x: 620, y: 80,  label: "Output",    selected: true },
+const CANVAS_PROPS = [
+  { prop: "nodes",          type: "CanvasNode[]",  req: "✓", desc: "Array aller Nodes im Canvas" },
+  { prop: "edges",          type: "CanvasEdge[]",  req: "–", desc: "Verbindungen zwischen Nodes" },
+  { prop: "groups",         type: "CanvasGroup[]", req: "–", desc: "Farbige Gruppen-Container" },
+  { prop: "height",         type: "number",        req: "–", desc: "Canvas-Höhe in px (Standard: 500)" },
+  { prop: "showGrid",       type: "boolean",       req: "–", desc: "Dotted-Grid anzeigen (Standard: true)" },
+  { prop: "onNodeChange",   type: "function",      req: "–", desc: "Callback bei Node-Verschiebung/Resize" },
+  { prop: "onNodeSelect",   type: "function",      req: "–", desc: "Callback bei Node-Selektion" },
 ];
 
-const edges = [
-  { id: "e1", from: "prompt", to: "gen",    animated: true, color: "#6DDBA0" },
-  { id: "e2", from: "gen",    to: "output", animated: true, color: "#6DDBA0" },
+const NODE_PROPS = [
+  { prop: "id",       type: "string",     req: "✓", desc: "Eindeutige Node-ID" },
+  { prop: "type",     type: "NodeType",   req: "✓", desc: "Einer der 12 Node-Typen" },
+  { prop: "x / y",   type: "number",     req: "✓", desc: "Position im Canvas (px)" },
+  { prop: "label",    type: "string",     req: "–", desc: "Angezeigter Name im Header" },
+  { prop: "status",   type: "NodeStatus", req: "–", desc: "idle | running | success | error | warning | disabled" },
+  { prop: "meta",     type: "object",     req: "–", desc: "Typ-spezifische Daten (content, url, method, …)" },
+  { prop: "width",    type: "number",     req: "–", desc: "Breite in px (Standard je nach Typ)" },
+  { prop: "height",   type: "number",     req: "–", desc: "Höhe in px (Standard je nach Typ)" },
 ];
 
-<GrainNodeCanvas
-  nodes={nodes}
-  edges={edges}
-  height={400}
-  showGrid
-/>`}
-        />
-      </div>
+const EDGE_PROPS = [
+  { prop: "id",         type: "string",    req: "✓", desc: "Eindeutige Edge-ID" },
+  { prop: "from / to",  type: "string",    req: "✓", desc: "Node-IDs der Verbindungsenden" },
+  { prop: "style",      type: "EdgeStyle", req: "–", desc: "bezier | straight | step | smoothstep" },
+  { prop: "animated",   type: "boolean",   req: "–", desc: "Animierte gestrichelte Linie" },
+  { prop: "pulseCount", type: "number",    req: "–", desc: "Anzahl Datenfluss-Partikel (1–3)" },
+  { prop: "color",      type: "string",    req: "–", desc: "Hex-Farbe der Edge" },
+  { prop: "label",      type: "string",    req: "–", desc: "Beschriftung in der Mitte" },
+  { prop: "fromPort",   type: "string",    req: "–", desc: "right | bottom | left | top" },
+  { prop: "toPort",     type: "string",    req: "–", desc: "right | bottom | left | top" },
+];
 
-      {/* Props */}
+/* ══════════════════════════════════════════════════════════════════════════════
+   HAUPT-SECTION
+══════════════════════════════════════════════════════════════════════════════ */
+
+const NodeCanvasSection: React.FC = () => {
+  const { darkMode } = useTheme();
+  const isDark = darkMode === "dark";
+
+  const [activePipeline, setActivePipeline] = useState(0);
+  const [selectedNodeType, setSelectedNodeType] = useState<NodeType | null>(null);
+  const [showConfigPanel, setShowConfigPanel] = useState(false);
+  const [activeTab, setActiveTab] = useState<"canvas" | "props" | "code">("canvas");
+
+  const pipeline = PIPELINES[activePipeline];
+
+  const bg    = isDark ? "#0A0A0A" : "#FAFAFA";
+  const card  = isDark ? "#141414" : "#FFFFFF";
+  const border= isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
+  const text  = isDark ? "rgba(255,255,255,0.82)" : "rgba(0,0,0,0.78)";
+  const muted = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)";
+
+  /* Node-Typen-Galerie: alle 12 Typen als einzelne Mini-Canvas */
+  const galleryNodes = useMemo<CanvasNode[]>(() =>
+    ALL_NODE_TYPES.map((type, i) => ({
+      id: `gallery-${type}`,
+      type,
+      x: 20 + i * (NODE_DEFAULTS[type].width + 20),
+      y: 20,
+      label: NODE_DEFAULTS[type].label,
+      status: type === "generator" ? "running" : type === "output" ? "success" : "idle",
+      meta: type === "api"
+        ? { method: "GET", endpoint: "/api/data", body: "", status: "200 OK" }
+        : type === "decision"
+        ? { content: "score > 0.8" }
+        : type === "transform"
+        ? { content: "map(x => x.value)" }
+        : type === "webhook"
+        ? { event: "POST /hook", payload: '{ "id": 42 }' }
+        : type === "note"
+        ? { content: "Dokumentation hier…" }
+        : undefined,
+      items: type === "list" ? ["Element A", "Element B", "Element C"] : undefined,
+      imageColor: type === "image" ? (isDark ? "#1A1A2E" : "#E8EAF6") : undefined,
+    })), [isDark]);
+
+  const galleryWidth = ALL_NODE_TYPES.reduce((acc, t) => acc + NODE_DEFAULTS[t].width + 20, 20);
+
+  /* Props-Tabelle */
+  function PropsTable({ rows, title }: { rows: typeof CANVAS_PROPS; title: string }) {
+    return (
       <div>
-        <h3 className="font-display font-bold text-xl text-foreground mb-5">
-          Props
-        </h3>
-        <div style={{ border: "1px solid rgba(0,0,0,0.08)", borderRadius: 12, overflow: "hidden" }}>
+        <h4 style={{ fontSize: 12, fontFamily: '"DM Mono", monospace', color: muted, marginBottom: 8, letterSpacing: "0.08em" }}>
+          {title}
+        </h4>
+        <div style={{ border: `1px solid ${border}`, borderRadius: 10, overflow: "hidden" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
-              <tr style={{ background: "var(--muted)" }}>
+              <tr style={{ background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}>
                 {["Prop", "Typ", "Req.", "Beschreibung"].map(h => (
                   <th key={h} style={{
-                    padding: "10px 14px", textAlign: "left",
-                    fontSize: 11, fontFamily: '"DM Mono", monospace',
-                    fontWeight: 600, color: "#4A4A4A",
-                    borderBottom: "1px solid rgba(0,0,0,0.08)",
+                    padding: "8px 12px", textAlign: "left",
+                    fontSize: 10, fontFamily: '"DM Mono", monospace',
+                    fontWeight: 600, color: muted,
+                    borderBottom: `1px solid ${border}`,
                   }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {PROPS.map((row, i) => (
-                <tr key={row.prop} style={{ background: i % 2 === 0 ? "#FFFFFF" : "#FAFAFA" }}>
-                  <td style={{ padding: "9px 14px", fontSize: 12, fontFamily: '"DM Mono", monospace', color: "#0A0A0A", fontWeight: 600 }}>{row.prop}</td>
-                  <td style={{ padding: "9px 14px", fontSize: 11, fontFamily: '"DM Mono", monospace', color: "#6DDBA0" }}>{row.type}</td>
-                  <td style={{ padding: "9px 14px", fontSize: 12, color: row.req === "✓" ? "#0A0A0A" : "#AAAAAA", textAlign: "center" }}>{row.req}</td>
-                  <td style={{ padding: "9px 14px", fontSize: 12, color: "var(--muted-foreground)", lineHeight: 1.5 }}>{row.desc}</td>
+              {rows.map((row, i) => (
+                <tr key={row.prop} style={{ background: i % 2 === 0 ? card : (isDark ? "#181818" : "#F5F5F5") }}>
+                  <td style={{ padding: "8px 12px", fontSize: 11, fontFamily: '"DM Mono", monospace', color: "#E4FF97", fontWeight: 600 }}>{row.prop}</td>
+                  <td style={{ padding: "8px 12px", fontSize: 10, fontFamily: '"DM Mono", monospace', color: "#80DEEA" }}>{row.type}</td>
+                  <td style={{ padding: "8px 12px", fontSize: 12, color: row.req === "✓" ? "#6DDBA0" : muted, textAlign: "center" }}>{row.req}</td>
+                  <td style={{ padding: "8px 12px", fontSize: 11, color: text, lineHeight: 1.5 }}>{row.desc}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+    );
+  }
 
-      {/* Design-Regeln */}
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 56 }}>
+
+      {/* ── Titel ── */}
       <div>
-        <h3 className="font-display font-bold text-xl text-foreground mb-5">
-          Design-Regeln
+        <SectionLabel>Templates &amp; Visualisierung</SectionLabel>
+        <h2 className="font-display font-bold text-3xl text-foreground mb-4">
+          Node Canvas
+        </h2>
+        <p style={{ fontSize: 14, color: muted, lineHeight: 1.7, maxWidth: 640 }}>
+          Ein interaktives Canvas-System für visuelle Workflows, KI-Pipelines und Datenflüsse.
+          12 Node-Typen, 4 Edge-Stile, 6 Status-Zustände und vollständige Drag-Interaktion.
+        </p>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          1. NODE-TYPEN-GALERIE
+      ══════════════════════════════════════════════════════════════════ */}
+      <div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+          <h3 className="font-display font-bold text-xl text-foreground">
+            Node-Typen <span style={{ fontSize: 13, color: muted, fontWeight: 400, fontFamily: '"DM Mono", monospace' }}>(12)</span>
+          </h3>
+          <div style={{
+            fontSize: 10, fontFamily: '"DM Mono", monospace', color: muted,
+            background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
+            padding: "4px 10px", borderRadius: 6,
+          }}>
+            Klick → Konfigurations-Panel
+          </div>
+        </div>
+
+        {/* Galerie-Canvas */}
+        <div style={{ overflowX: "auto", borderRadius: 12 }}>
+          <FluxNodeCanvas
+            nodes={galleryNodes}
+            height={260}
+            showGrid={false}
+            className="rounded-xl"
+            onNodeSelect={id => {
+              if (id) {
+                const node = galleryNodes.find(n => n.id === id);
+                if (node) {
+                  setSelectedNodeType(node.type);
+                  setShowConfigPanel(true);
+                }
+              }
+            }}
+          />
+        </div>
+
+        {/* Typ-Chips */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
+          {ALL_NODE_TYPES.map(type => {
+            const color = NODE_COLORS[type];
+            const Icon = NODE_ICONS[type];
+            const isActive = selectedNodeType === type;
+            return (
+              <button key={type}
+                onClick={() => { setSelectedNodeType(type); setShowConfigPanel(true); }}
+                style={{
+                  display: "flex", alignItems: "center", gap: 6,
+                  padding: "5px 10px", borderRadius: 8,
+                  border: `1px solid ${isActive ? color : border}`,
+                  background: isActive ? `${color}18` : "transparent",
+                  cursor: "pointer", transition: "all 0.15s",
+                }}
+              >
+                <Icon size={11} style={{ color }} />
+                <span style={{ fontSize: 11, fontFamily: '"DM Mono", monospace', color: isActive ? color : muted }}>
+                  {type}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Konfigurations-Panel */}
+        {showConfigPanel && selectedNodeType && (
+          <div style={{ marginTop: 20 }}>
+            <ConfigPanel
+              nodeType={selectedNodeType}
+              isDark={isDark}
+              onClose={() => setShowConfigPanel(false)}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          2. PIPELINE-TEMPLATES
+      ══════════════════════════════════════════════════════════════════ */}
+      <div>
+        <h3 className="font-display font-bold text-xl text-foreground mb-6">
+          Pipeline-Templates
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-          {RULES.map(rule => (
-            <div key={rule.num} style={{
-              padding: "18px 20px",
-              background: "#FFFFFF",
-              border: `1px solid ${rule.ok ? "rgba(0,0,0,0.08)" : "rgba(220,60,60,0.15)"}`,
-              borderRadius: 12,
-              display: "flex", gap: 14,
+
+        {/* Template-Auswahl */}
+        <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap" }}>
+          {PIPELINES.map((p, i) => (
+            <button key={p.id}
+              onClick={() => setActivePipeline(i)}
+              style={{
+                display: "flex", alignItems: "center", gap: 8,
+                padding: "8px 14px", borderRadius: 10,
+                border: `1px solid ${activePipeline === i ? p.badgeColor : border}`,
+                background: activePipeline === i ? `${p.badgeColor}18` : "transparent",
+                cursor: "pointer", transition: "all 0.15s",
+              }}
+            >
+              <span style={{
+                fontSize: 9, fontFamily: '"DM Mono", monospace', fontWeight: 700,
+                padding: "2px 6px", borderRadius: 4,
+                background: `${p.badgeColor}22`,
+                color: p.badgeColor,
+                letterSpacing: "0.08em",
+              }}>{p.badge}</span>
+              <span style={{
+                fontSize: 12, fontFamily: '"DM Mono", monospace',
+                color: activePipeline === i ? text : muted,
+              }}>{p.name}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Pipeline-Info */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: 10, marginBottom: 14,
+          padding: "10px 14px", borderRadius: 10,
+          background: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
+          border: `1px solid ${border}`,
+        }}>
+          <Layers size={14} style={{ color: pipeline.badgeColor, flexShrink: 0 }} />
+          <div>
+            <span style={{ fontSize: 13, fontFamily: '"DM Mono", monospace', fontWeight: 600, color: text }}>
+              {pipeline.name}
+            </span>
+            <span style={{ fontSize: 12, color: muted, marginLeft: 10, fontFamily: '"DM Sans", sans-serif' }}>
+              {pipeline.description}
+            </span>
+          </div>
+          <div style={{ marginLeft: "auto", display: "flex", gap: 12 }}>
+            <span style={{ fontSize: 10, color: muted, fontFamily: '"DM Mono", monospace' }}>
+              {pipeline.nodes.length} Nodes
+            </span>
+            <span style={{ fontSize: 10, color: muted, fontFamily: '"DM Mono", monospace' }}>
+              {pipeline.edges.length} Edges
+            </span>
+          </div>
+        </div>
+
+        {/* Canvas */}
+        <FluxNodeCanvas
+          key={pipeline.id}
+          nodes={pipeline.nodes}
+          edges={pipeline.edges}
+          groups={pipeline.groups}
+          height={pipeline.canvasHeight}
+          showGrid
+        />
+
+        {/* Node-Status-Legende */}
+        <div style={{ display: "flex", gap: 16, marginTop: 12, flexWrap: "wrap" }}>
+          {pipeline.nodes
+            .filter(n => n.status && n.status !== "idle")
+            .map(n => {
+              const statusInfo = STATUS_LIST.find(s => s.status === n.status);
+              if (!statusInfo) return null;
+              return (
+                <div key={n.id} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: statusInfo.color }} />
+                  <span style={{ fontSize: 10, color: muted, fontFamily: '"DM Mono", monospace' }}>
+                    {n.label}: {statusInfo.label}
+                  </span>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          3. EDGE-STILE
+      ══════════════════════════════════════════════════════════════════ */}
+      <div>
+        <h3 className="font-display font-bold text-xl text-foreground mb-6">
+          Edge-Stile
+        </h3>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
+          {EDGE_STYLE_DEMOS.map(demo => (
+            <div key={demo.style} style={{
+              padding: "18px 18px 14px",
+              background: card, borderRadius: 14,
+              border: `1px solid ${border}`,
             }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: 6, flexShrink: 0,
-                background: rule.ok ? "#E4FF97" : "#FFE0E0",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 10, fontFamily: '"DM Mono", monospace', fontWeight: 700,
-                color: rule.ok ? "#0A0A0A" : "#CC2222",
-              }}>
-                {rule.ok ? "✓" : "✗"}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                <div>
+                  <span style={{
+                    fontSize: 12, fontFamily: '"DM Mono", monospace',
+                    fontWeight: 700, color: text,
+                  }}>{demo.label}</span>
+                  <span style={{
+                    fontSize: 10, color: muted, marginLeft: 8,
+                    fontFamily: '"DM Sans", sans-serif',
+                  }}>{demo.desc}</span>
+                </div>
+                <span style={{
+                  fontSize: 9, fontFamily: '"DM Mono", monospace',
+                  color: "#80DEEA",
+                  background: isDark ? "rgba(128,222,234,0.10)" : "rgba(128,222,234,0.15)",
+                  padding: "2px 7px", borderRadius: 4,
+                }}>style="{demo.style}"</span>
               </div>
-              <div>
-                <div style={{
-                  fontSize: 12, fontFamily: '"DM Mono", monospace',
-                  fontWeight: 700, color: "#0A0A0A", marginBottom: 4,
-                }}>
-                  <span style={{ color: "var(--muted-foreground)", marginRight: 6 }}>{rule.num}</span>
-                  {rule.title}
-                </div>
-                <div style={{ fontSize: 12, color: "var(--muted-foreground)", lineHeight: 1.6 }}>
-                  {rule.desc}
-                </div>
+              <EdgeStyleDemo style={demo.style} isDark={isDark} />
+              <div style={{ marginTop: 8, fontSize: 10, color: muted, fontFamily: '"DM Sans", sans-serif' }}>
+                Empfohlen für: {demo.useCase}
               </div>
             </div>
           ))}
         </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          4. NODE-STATUS
+      ══════════════════════════════════════════════════════════════════ */}
+      <div>
+        <h3 className="font-display font-bold text-xl text-foreground mb-6">
+          Node-Status
+        </h3>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+          {STATUS_LIST.map(s => (
+            <div key={s.status} style={{
+              padding: "16px",
+              background: card, borderRadius: 12,
+              border: `1px solid ${s.status !== "idle" ? `${s.color}33` : border}`,
+            }}>
+              <FluxNodeCanvas
+                nodes={[{
+                  id: `status-${s.status}`,
+                  type: "api",
+                  x: 20, y: 20,
+                  width: 180, height: 90,
+                  label: `API-Call`,
+                  status: s.status,
+                  meta: { method: "GET", endpoint: "/status", body: "", status: s.label },
+                }]}
+                height={130}
+                showGrid={false}
+              />
+              <div style={{ marginTop: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: s.color }} />
+                  <span style={{ fontSize: 12, fontFamily: '"DM Mono", monospace', fontWeight: 600, color: s.color }}>
+                    {s.label}
+                  </span>
+                </div>
+                <span style={{ fontSize: 11, color: muted, fontFamily: '"DM Sans", sans-serif' }}>
+                  {s.desc}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          5. TABS: CODE / PROPS
+      ══════════════════════════════════════════════════════════════════ */}
+      <div>
+        {/* Tab-Bar */}
+        <div style={{ display: "flex", gap: 4, marginBottom: 20, borderBottom: `1px solid ${border}`, paddingBottom: 0 }}>
+          {([
+            { id: "canvas", label: "Interaktives Beispiel", icon: Layers },
+            { id: "props",  label: "Props-Referenz",        icon: Settings },
+            { id: "code",   label: "Code-Beispiel",         icon: Code2 },
+          ] as const).map(tab => (
+            <button key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "8px 14px",
+                border: "none", background: "transparent",
+                borderBottom: `2px solid ${activeTab === tab.id ? "#E4FF97" : "transparent"}`,
+                cursor: "pointer", transition: "all 0.15s",
+                marginBottom: -1,
+              }}
+            >
+              <tab.icon size={13} style={{ color: activeTab === tab.id ? "#E4FF97" : muted }} />
+              <span style={{
+                fontSize: 12, fontFamily: '"DM Mono", monospace',
+                color: activeTab === tab.id ? text : muted,
+              }}>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Tab-Inhalt */}
+        {activeTab === "canvas" && (
+          <div>
+            <p style={{ fontSize: 13, color: muted, marginBottom: 16, fontFamily: '"DM Sans", sans-serif' }}>
+              Vollständig interaktiver Canvas mit allen 12 Node-Typen, Gruppen und animierten Edges.
+              Mittlere Maustaste zum Panning, Scroll zum Zoomen.
+            </p>
+            <FluxNodeCanvas
+              nodes={[
+                { id: "wh",  type: "webhook",   x: 30,  y: 40,  label: "Eingehend",       meta: { event: "POST /trigger", payload: '{ "run": true }' } },
+                { id: "t1",  type: "trigger",   x: 30,  y: 200, label: "Manuell",         placeholder: "on:click" },
+                { id: "tx",  type: "text",      x: 280, y: 40,  label: "Prompt",          placeholder: "Erstelle eine Zusammenfassung von…" },
+                { id: "dt",  type: "data",      x: 280, y: 200, label: "Quelldaten",      status: "success" },
+                { id: "tr",  type: "transform", x: 560, y: 120, label: "Merge & Format",  placeholder: "{ ...a, ...b }" },
+                { id: "g1",  type: "generator", x: 820, y: 40,  label: "LLM Generator",   model: "GPT-4o", imageColor: isDark ? "#1A2030" : "#E8EAF6", status: "running" },
+                { id: "dc",  type: "decision",  x: 820, y: 230, label: "Länge OK?",       placeholder: "tokens < 4096" },
+                { id: "a1",  type: "api",       x: 1100,y: 40,  label: "Speichern",       meta: { method: "POST", endpoint: "/save", body: '{ "content": "…" }', status: "200 OK" } },
+                { id: "nt",  type: "note",      x: 1100,y: 200, label: "Hinweis",         placeholder: "Max. 4096 Tokens pro Request" },
+                { id: "ou",  type: "output",    x: 1100,y: 310, label: "Fertig",          meta: { format: "JSON · Webhook" }, status: "success" },
+              ]}
+              edges={[
+                { id: "e1", from: "wh",  to: "tx",  animated: true, color: "#FF9E80", pulseCount: 1 },
+                { id: "e2", from: "t1",  to: "dt",  animated: true, color: "#E4FF97" },
+                { id: "e3", from: "tx",  to: "tr",  color: "#A8D8FF" },
+                { id: "e4", from: "dt",  to: "tr",  color: "#FFB7C5" },
+                { id: "e5", from: "tr",  to: "g1",  animated: true, color: "#F8BBD9", pulseCount: 2 },
+                { id: "e6", from: "tr",  to: "dc",  color: "#FFE08A" },
+                { id: "e7", from: "g1",  to: "a1",  animated: true, color: "#B5EAD7", pulseCount: 1 },
+                { id: "e8", from: "dc",  to: "ou",  color: "#6DDBA0", label: "OK" },
+                { id: "e9", from: "dc",  to: "nt",  fromPort: "bottom", toPort: "left", color: "#FF6B6B", label: "zu lang" },
+                { id: "e10",from: "a1",  to: "ou",  color: "#B5EAD7" },
+              ]}
+              groups={[
+                { id: "g1", label: "EINGABE",      x: 10,  y: 10, width: 520, height: 280, color: "#A8D8FF" },
+                { id: "g2", label: "VERARBEITUNG", x: 540, y: 10, width: 250, height: 280, color: "#F8BBD9" },
+              ]}
+              height={430}
+              showGrid
+            />
+          </div>
+        )}
+
+        {activeTab === "props" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <PropsTable rows={CANVAS_PROPS} title="FluxNodeCanvas Props" />
+            <PropsTable rows={NODE_PROPS}   title="CanvasNode Props" />
+            <PropsTable rows={EDGE_PROPS}   title="CanvasEdge Props" />
+          </div>
+        )}
+
+        {activeTab === "code" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <CodeBlock label="Minimales Beispiel" code={`import { FluxNodeCanvas } from "@/components/grain/FluxNodeCanvas";
+
+const nodes = [
+  { id: "start", type: "trigger",   x: 30,  y: 80, label: "Start" },
+  { id: "gen",   type: "generator", x: 240, y: 60, label: "LLM",
+    model: "GPT-4o", status: "running" },
+  { id: "out",   type: "output",    x: 550, y: 80, label: "Ergebnis",
+    meta: { format: "JSON" } },
+];
+
+const edges = [
+  { id: "e1", from: "start", to: "gen",  animated: true, pulseCount: 1, color: "#E4FF97" },
+  { id: "e2", from: "gen",   to: "out",  animated: true, pulseCount: 2, color: "#B5EAD7" },
+];
+
+<FluxNodeCanvas nodes={nodes} edges={edges} height={300} showGrid />`} />
+
+            <CodeBlock label="Decision-Pipeline mit Gruppen" code={`const nodes = [
+  { id: "in",  type: "text",     x: 30,  y: 100, label: "Eingabe" },
+  { id: "api", type: "api",      x: 280, y: 100, label: "Analyse",
+    meta: { method: "POST", endpoint: "/analyze", body: "{}", status: "200 OK" } },
+  { id: "dec", type: "decision", x: 560, y: 100, label: "Ergebnis OK?",
+    meta: { content: "score >= 0.9" } },
+  { id: "ok",  type: "output",   x: 820, y: 50,  label: "Veröffentlichen",
+    meta: { format: "Webhook" } },
+  { id: "err", type: "output",   x: 820, y: 180, label: "Review",
+    meta: { format: "Ticket" }, status: "warning" },
+];
+
+const edges = [
+  { id: "e1", from: "in",  to: "api", animated: true, pulseCount: 1 },
+  { id: "e2", from: "api", to: "dec", animated: true, pulseCount: 1, color: "#80DEEA" },
+  { id: "e3", from: "dec", to: "ok",  color: "#6DDBA0", label: "TRUE" },
+  { id: "e4", from: "dec", to: "err", fromPort: "bottom", toPort: "left",
+               color: "#FF6B6B", label: "FALSE", style: "smoothstep" },
+];
+
+const groups = [
+  { id: "g1", label: "PIPELINE", x: 10, y: 20, width: 900, height: 260, color: "#FFE08A" },
+];
+
+<FluxNodeCanvas nodes={nodes} edges={edges} groups={groups} height={320} />`} />
+
+            <CodeBlock label="Alle Node-Typen" code={`// Alle 12 Node-Typen:
+type NodeType =
+  | "trigger"    // Workflow-Startpunkt
+  | "text"       // Texteingabe / Prompt
+  | "image"      // Bild-Input/Output
+  | "generator"  // KI-Generierung
+  | "list"       // Aufzählung
+  | "data"       // Datensatz / Tabelle
+  | "decision"   // Verzweigung (if/else)
+  | "api"        // HTTP-API-Aufruf
+  | "transform"  // Daten-Transformation
+  | "output"     // Ergebnis-Ausgabe
+  | "webhook"    // Eingehender Webhook
+  | "note";      // Kommentar / Annotation
+
+// Alle 6 Status-Zustände:
+type NodeStatus = "idle" | "running" | "success" | "error" | "warning" | "disabled";
+
+// Alle 4 Edge-Stile:
+type EdgeStyle = "bezier" | "straight" | "step" | "smoothstep";`} />
+          </div>
+        )}
       </div>
     </div>
   );

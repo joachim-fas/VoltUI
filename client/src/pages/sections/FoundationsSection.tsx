@@ -4,9 +4,9 @@
  */
 
 import React, { useState } from "react";
-import { GrainCard, GrainCardContent, GrainCardHeader, GrainCardTitle } from "@/components/grain/GrainCard";
-import { GrainBadge } from "@/components/grain/GrainBadge";
-import { GRAIN_NEON, GRAIN_PASTEL } from "@/components/grain/GrainChart";
+import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
+import { FluxBadge } from "@/components/grain/FluxBadge";
+import { GRAIN_NEON, GRAIN_PASTEL } from "@/components/grain/FluxChart";
 
 const colorTokens = [
   { name: "--neon-yellow",     hex: "#E4FF97", role: "Neon Yellow (Leading)", bg: "bg-[#E4FF97]" },
@@ -127,12 +127,12 @@ export const FoundationsSection: React.FC = () => {
       </div>
 
       {/* Brand Colors */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Markenfarben</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Markenfarben</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Hauptfarben: Neon Yellow #E4FF97 + Black #000000 · Signalfarben: Smaragd · Koralle · Slate</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {colorTokens.map((token) => (
               <div key={token.name} className="flex flex-col gap-2">
@@ -140,7 +140,7 @@ export const FoundationsSection: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                     <span className="text-xs font-semibold font-ui text-foreground">{token.role}</span>
-                    <GrainBadge variant="muted" size="sm">{token.hex}</GrainBadge>
+                    <FluxBadge variant="muted" size="sm">{token.hex}</FluxBadge>
                   </div>
                   <p className="text-[0.65rem] font-mono text-muted-foreground leading-relaxed break-all">
                     {token.name}
@@ -149,16 +149,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Semantic Tokens */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Semantische Tokens</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Semantische Tokens</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Kontextbezogene CSS-Variablen für Light- und Dark-Mode</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {semanticTokens.map((token) => (
               <div key={token.name} className="flex flex-col gap-2">
@@ -170,16 +170,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Flux Textures */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Flux-Texturen</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Flux-Texturen</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">SVG-basierte Rausch-Texturen – kein Bild-Asset, reiner CSS-Code</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             {[
               { label: "Lime Grain",     cls: "",    text: "text-foreground", bg: "#E4FF97" },
@@ -206,16 +206,16 @@ export const FoundationsSection: React.FC = () => {
               {"}"}
             </p>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Geometric Patterns */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Geometrische Patterns</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Geometrische Patterns</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">CSS-basierte Hintergrundmuster – kein Bild, reines CSS</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {patterns.map((p) => (
               <div key={p.label} className={`h-28 rounded-xl ${p.cls} border border-border flex items-end p-3`}>
@@ -226,16 +226,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Gradient Backgrounds */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Gradient-Hintergründe</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Gradient-Hintergründe</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Atmosphärische Gradienten für verschiedene Einsatzbereiche</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {gradients.map((g) => (
               <div
@@ -250,16 +250,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Glassmorphism */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Glassmorphismus</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Glassmorphismus</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Backdrop-Filter-Effekte für überlagerte Elemente</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="relative rounded-xl overflow-hidden p-6 grain" style={{ background: 'linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%)' }}>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {glassVariants.map((g) => (
@@ -270,18 +270,18 @@ export const FoundationsSection: React.FC = () => {
               ))}
             </div>
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Typography */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Typografie-System</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Typografie-System</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">
             Bricolage Grotesque (Display) · DM Sans (UI) · Lora (Body Serif) · JetBrains Mono (Code)
           </p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           {/* Font Specimens */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[
@@ -312,16 +312,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Theme Overview */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Farbpaletten-System</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Farbpaletten-System</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">1 Primärpalette + 5 Pastell-Erweiterungen · alle auf Schwarz #0A0A0A als Basis</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {themes.map((t) => (
               <div key={t.id} className="p-4 rounded-xl border border-border bg-muted/20">
@@ -343,16 +343,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Spacing */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Abstands-System</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Abstands-System</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">8pt-Raster – alle Abstände sind Vielfache von 4px</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="flex flex-wrap items-end gap-3">
             {[1, 2, 3, 4, 6, 8, 10, 12, 16, 20].map((n) => (
               <div key={n} className="flex flex-col items-center gap-1.5">
@@ -361,16 +361,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Border Radius */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Border-Radius-System</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Border-Radius-System</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Konsistente Abrundungen für alle Komponenten</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="flex flex-wrap items-end gap-4">
             {[
               { label: "sm",  r: "rounded-sm",   px: "4px" },
@@ -387,16 +387,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Tiefe-System (ohne Schatten) */}
-      <GrainCard>
-        <GrainCardHeader>
-          <GrainCardTitle>Tiefe & Glow-Effekte</GrainCardTitle>
+      <FluxCard>
+        <FluxCardHeader>
+          <FluxCardTitle>Tiefe & Glow-Effekte</FluxCardTitle>
           <p className="text-xs text-muted-foreground font-ui mt-0.5">Tiefe durch Farbe und Glow – kein klassischer Schlagschatten</p>
-        </GrainCardHeader>
-        <GrainCardContent>
+        </FluxCardHeader>
+        <FluxCardContent>
           <div className="flex flex-wrap gap-6 items-end">
             {[
               { label: "border only",   cls: "border border-border" },
@@ -411,8 +411,8 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </GrainCardContent>
-      </GrainCard>
+        </FluxCardContent>
+      </FluxCard>
 
       {/* Chart-Farbpaletten */}
       <ChartPalettesSection />
@@ -453,14 +453,14 @@ const ChartPalettesSection: React.FC = () => {
   const palette = PALETTES.find(p => p.id === active) || PALETTES[0];
 
   return (
-    <GrainCard>
-      <GrainCardHeader>
-        <GrainCardTitle>Chart-Farbpaletten</GrainCardTitle>
+    <FluxCard>
+      <FluxCardHeader>
+        <FluxCardTitle>Chart-Farbpaletten</FluxCardTitle>
         <p className="text-xs text-muted-foreground font-ui mt-0.5">
           3 Paletten · Konsistent über alle Visualisierungen · Neon Yellow + 8 Pastell-Töne + Signalfarben
         </p>
-      </GrainCardHeader>
-      <GrainCardContent>
+      </FluxCardHeader>
+      <FluxCardContent>
         {/* Palette-Switcher */}
         <div className="flex gap-2 mb-6">
           {PALETTES.map(p => (
@@ -507,7 +507,7 @@ const ChartPalettesSection: React.FC = () => {
             </p>
           </div>
         )}
-      </GrainCardContent>
-    </GrainCard>
+      </FluxCardContent>
+    </FluxCard>
   );
 };

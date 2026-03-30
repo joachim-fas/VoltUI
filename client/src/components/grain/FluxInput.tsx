@@ -1,5 +1,5 @@
 /**
- * GrainInput / GrainTextarea / GrainSelect – Flux UI
+ * FluxInput / FluxTextarea / FluxSelect – Flux UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Design: Raffiniert, leicht, dünnere Linien, elegante Fokus-Übergänge
  */
@@ -18,7 +18,7 @@ const baseInput = [
   "outline-none",
 ].join(" ");
 
-export interface GrainInputProps
+export interface FluxInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   hint?: string;
@@ -30,7 +30,7 @@ export interface GrainInputProps
   rightElement?: React.ReactNode;
 }
 
-export const GrainInput = React.forwardRef<HTMLInputElement, GrainInputProps>(
+export const FluxInput = React.forwardRef<HTMLInputElement, FluxInputProps>(
   ({ className, variant = "default", inputSize = "md", state, label, hint, error, leftElement, rightElement, id, ...props }, ref) => {
     const inputId = id || React.useId();
     const hasError = !!error;
@@ -110,10 +110,10 @@ export const GrainInput = React.forwardRef<HTMLInputElement, GrainInputProps>(
     );
   }
 );
-GrainInput.displayName = "GrainInput";
+FluxInput.displayName = "FluxInput";
 
-/* ── GrainTextarea ── */
-export interface GrainTextareaProps
+/* ── FluxTextarea ── */
+export interface FluxTextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   hint?: string;
@@ -121,7 +121,7 @@ export interface GrainTextareaProps
   variant?: "default" | "filled" | "boxed";
 }
 
-export const GrainTextarea = React.forwardRef<HTMLTextAreaElement, GrainTextareaProps>(
+export const FluxTextarea = React.forwardRef<HTMLTextAreaElement, FluxTextareaProps>(
   ({ className, variant = "default", label, hint, error, id, ...props }, ref) => {
     const textareaId = id || React.useId();
     const hasError = !!error;
@@ -178,10 +178,10 @@ export const GrainTextarea = React.forwardRef<HTMLTextAreaElement, GrainTextarea
     );
   }
 );
-GrainTextarea.displayName = "GrainTextarea";
+FluxTextarea.displayName = "FluxTextarea";
 
-/* ── GrainSelect ── */
-export interface GrainSelectProps
+/* ── FluxSelect ── */
+export interface FluxSelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   hint?: string;
@@ -189,7 +189,7 @@ export interface GrainSelectProps
   variant?: "default" | "filled" | "boxed";
 }
 
-export const GrainSelect = React.forwardRef<HTMLSelectElement, GrainSelectProps>(
+export const FluxSelect = React.forwardRef<HTMLSelectElement, FluxSelectProps>(
   ({ className, variant = "default", label, hint, error, id, children, ...props }, ref) => {
     const selectId = id || React.useId();
     const hasError = !!error;
@@ -243,4 +243,4 @@ export const GrainSelect = React.forwardRef<HTMLSelectElement, GrainSelectProps>
     );
   }
 );
-GrainSelect.displayName = "GrainSelect";
+FluxSelect.displayName = "FluxSelect";

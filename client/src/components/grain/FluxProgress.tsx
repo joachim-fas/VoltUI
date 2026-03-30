@@ -1,9 +1,9 @@
 /**
- * GrainProgress & GrainSlider – Flux UI
+ * FluxProgress & FluxSlider – Flux UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Design: Raffiniert, dünn, präzise
  *
- * GrainSlider: Kein nackter Kreis auf dünner Linie.
+ * FluxSlider: Kein nackter Kreis auf dünner Linie.
  * Stattdessen: dicker Pill-Track (8px), abgerundeter Thumb mit Inset-Ring,
  * Filled-Track zeigt Fortschritt, Hover-State mit Glow.
  */
@@ -35,8 +35,8 @@ const SIZE_H: Record<string, string> = {
   xl: "h-3",
 };
 
-/* ── GrainProgress ── */
-export interface GrainProgressProps extends React.HTMLAttributes<HTMLDivElement> {
+/* ── FluxProgress ── */
+export interface FluxProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: number;
   max?: number;
   variant?: keyof typeof FILL_COLORS;
@@ -46,7 +46,7 @@ export interface GrainProgressProps extends React.HTMLAttributes<HTMLDivElement>
   animated?: boolean;
 }
 
-export const GrainProgress = React.forwardRef<HTMLDivElement, GrainProgressProps>(
+export const FluxProgress = React.forwardRef<HTMLDivElement, FluxProgressProps>(
   ({ value = 0, max = 100, variant = "default", size = "md", label, showValue, animated, className, ...props }, ref) => {
     const pct = Math.min(100, Math.max(0, (value / max) * 100));
     const fillColor = FILL_COLORS[variant] ?? "#0A0A0A";
@@ -76,10 +76,10 @@ export const GrainProgress = React.forwardRef<HTMLDivElement, GrainProgressProps
     );
   }
 );
-GrainProgress.displayName = "GrainProgress";
+FluxProgress.displayName = "FluxProgress";
 
-/* ── GrainSlider ── */
-export interface GrainSliderProps {
+/* ── FluxSlider ── */
+export interface FluxSliderProps {
   variant?: keyof typeof FILL_COLORS;
   sliderSize?: "sm" | "md" | "lg";
   label?: string;
@@ -94,7 +94,7 @@ export interface GrainSliderProps {
   className?: string;
 }
 
-export const GrainSlider: React.FC<GrainSliderProps> = ({
+export const FluxSlider: React.FC<FluxSliderProps> = ({
   variant = "default",
   sliderSize = "md",
   label,

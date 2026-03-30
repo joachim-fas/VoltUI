@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { GrainSidebar } from "@/components/grain/GrainSidebar";
+import { FluxSidebar } from "@/components/grain/FluxSidebar";
 import { HeroSection }               from "./sections/HeroSection";
 import { FoundationsSection }        from "./sections/FoundationsSection";
 import { ButtonsSection }            from "./sections/ButtonsSection";
@@ -201,7 +201,7 @@ export default function Home() {
 
       {/* ── Desktop Sidebar (sticky) ── */}
       <div className="hidden lg:flex flex-col h-full">
-        <GrainSidebar
+        <FluxSidebar
           sections={sidebarSections}
           activeId={activeId}
           onSelect={scrollToSection}
@@ -214,7 +214,7 @@ export default function Home() {
         <div className="lg:hidden fixed inset-0 z-50 flex">
           <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
           <div className="relative z-10 flex flex-col">
-            <GrainSidebar
+            <FluxSidebar
               sections={sidebarSections}
               activeId={activeId}
               onSelect={scrollToSection}
