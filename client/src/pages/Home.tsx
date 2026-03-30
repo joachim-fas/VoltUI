@@ -3,7 +3,7 @@
  * Layout: Schwarze Sidebar (links) + weißer Hauptinhalt (rechts)
  */
 
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { GrainSidebar } from "@/components/grain/GrainSidebar";
 import { HeroSection }       from "./sections/HeroSection";
 import { FoundationsSection } from "./sections/FoundationsSection";
@@ -73,12 +73,16 @@ const sidebarSections = [
 export default function Home() {
   const [activeId, setActiveId] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
 
-  const navigate = (id: string) => {
+  const navigate = useCallback((id: string) => {
     setActiveId(id);
     setMobileOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    // Scroll den inneren Container (nicht window) sofort nach oben
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+  }, []);
 
   const renderSection = () => {
     switch (activeId) {
@@ -173,7 +177,7 @@ export default function Home() {
         </header>
 
         {/* Scrollbarer Inhalt */}
-        <main className="flex-1 overflow-y-auto bg-white">
+        <main ref={mainRef} className="flex-1 overflow-y-auto bg-white">
           <div className="max-w-5xl mx-auto px-4 md:px-8 py-8 md:py-12">
             {renderSection()}
           </div>
