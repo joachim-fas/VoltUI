@@ -31,9 +31,12 @@ const C = {
   positive: "#1A9E5A",   /* Signal Positiv */
   negative: "#E8402A",   /* Signal Negativ */
   neutral:  "#6B7A9A",   /* Signal Neutral */
-  ink1:     "#1A1A1A",   /* Dunkelgrau 1 */
-  ink2:     "#3A3A3A",   /* Dunkelgrau 2 */
-  ink3:     "#5A5A5A",   /* Dunkelgrau 3 */
+  /* Pastell-Palette für Charts */
+  rose:     "#F2B8C6",   /* Pastell Rose */
+  mint:     "#A8E6CF",   /* Pastell Mint */
+  orchid:   "#D4A8E0",   /* Pastell Orchid */
+  butter:   "#F5E6A3",   /* Pastell Butter */
+  sky:      "#A8D4F2",   /* Pastell Sky */
 };
 
 /* ── Chart-Daten ── */
@@ -60,16 +63,16 @@ const visitorData = [
 
 const channelData = [
   { name: "Organisch", value: 38, color: C.black },
-  { name: "Paid",      value: 27, color: C.ink2 },
-  { name: "Social",    value: 18, color: C.positive },
-  { name: "Direkt",    value: 12, color: C.neutral },
-  { name: "Sonstige",  value: 5,  color: C.ink3 },
+  { name: "Paid",      value: 27, color: C.rose },
+  { name: "Social",    value: 18, color: C.mint },
+  { name: "Direkt",    value: 12, color: C.sky },
+  { name: "Sonstige",  value: 5,  color: C.butter },
 ];
 
 const conversionData = [
   { name: "Besucher",      value: 100, fill: C.black },
-  { name: "Interessenten", value: 68,  fill: C.ink2 },
-  { name: "Leads",         value: 42,  fill: C.positive },
+  { name: "Interessenten", value: 68,  fill: C.orchid },
+  { name: "Leads",         value: 42,  fill: C.mint },
   { name: "Kunden",        value: 21,  fill: C.lime },
 ];
 
@@ -95,9 +98,9 @@ const activities = [
   { icon: <Users className="w-3.5 h-3.5" />,       color: C.black,    text: "Anna Müller hat sich registriert",    time: "vor 2 Min." },
   { icon: <DollarSign className="w-3.5 h-3.5" />,  color: C.positive, text: "Neue Zahlung: € 899 von Ben Schmidt",  time: "vor 8 Min." },
   { icon: <AlertCircle className="w-3.5 h-3.5" />, color: C.negative, text: "Zahlung #4818 fehlgeschlagen",         time: "vor 15 Min." },
-  { icon: <Package className="w-3.5 h-3.5" />,     color: C.ink2,     text: "Neues Paket deployt: v2.4.1",          time: "vor 32 Min." },
+  { icon: <Package className="w-3.5 h-3.5" />,     color: C.sky,      text: "Neues Paket deployt: v2.4.1",          time: "vor 32 Min." },
   { icon: <Star className="w-3.5 h-3.5" />,        color: C.neutral,  text: "5-Sterne-Bewertung von Clara Weber",   time: "vor 1 Std." },
-  { icon: <Globe className="w-3.5 h-3.5" />,       color: C.ink3,     text: "Traffic-Spike: +340% aus Deutschland", time: "vor 2 Std." },
+  { icon: <Globe className="w-3.5 h-3.5" />,       color: C.butter,   text: "Traffic-Spike: +340% aus Deutschland", time: "vor 2 Std." },
   { icon: <CheckCircle2 className="w-3.5 h-3.5" />,color: C.positive, text: "Backup erfolgreich abgeschlossen",     time: "vor 3 Std." },
 ];
 
@@ -415,8 +418,8 @@ export const DashboardSection: React.FC = () => {
                     <Tooltip content={<CustomTooltip />} />
                     <Legend iconType="circle" iconSize={6} wrapperStyle={{ fontSize: 10, fontFamily: "DM Sans" }} />
                     <Bar dataKey="organic" name="Organisch" fill={C.black}    radius={[4,4,0,0]} />
-                    <Bar dataKey="paid"    name="Paid"      fill={C.ink2}     radius={[4,4,0,0]} />
-                    <Bar dataKey="direct"  name="Direkt"    fill={C.neutral}  radius={[4,4,0,0]} />
+                    <Bar dataKey="paid"    name="Paid"      fill={C.rose}     radius={[4,4,0,0]} />
+                    <Bar dataKey="direct"  name="Direkt"    fill={C.sky}      radius={[4,4,0,0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </GrainCardContent>
