@@ -266,11 +266,11 @@ export const BackgroundsSection: React.FC = () => {
 
       {/* Header */}
       <div>
-        <p className="text-xs font-mono tracking-widest text-[#AAAAAA] uppercase mb-2">Design System</p>
-        <h1 className="font-display font-black text-4xl md:text-5xl text-[#0A0A0A] leading-tight mb-3">
+        <p className="section-label mb-2">Design System — Hintergründe</p>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
           Hintergründe & Patterns
-        </h1>
-        <p className="text-[#6B6B6B] text-lg max-w-2xl">
+        </h2>
+        <p className="text-muted-foreground text-lg max-w-2xl">
           Alle Muster, Verläufe und atmosphärischen Hintergründe aus dem Grain UI Farbsystem –
           direkt als CSS-Klassen und Custom Properties einsetzbar.
         </p>
@@ -278,7 +278,7 @@ export const BackgroundsSection: React.FC = () => {
 
       {/* ── Patterns ── */}
       <section>
-        <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-1">Patterns</h2>
+        <h3 className="font-display font-bold text-xl text-foreground mb-1">Patterns</h3>
         <p className="text-[#6B6B6B] text-sm mb-6">Wiederholbare Muster für strukturierte Oberflächen und Texturen.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {PATTERNS.map((p, i) => (
@@ -315,7 +315,7 @@ export const BackgroundsSection: React.FC = () => {
 
       {/* ── Verläufe ── */}
       <section>
-        <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-1">Farbverläufe</h2>
+        <h3 className="font-display font-bold text-xl text-foreground mb-1">Farbverläufe</h3>
         <p className="text-[#6B6B6B] text-sm mb-6">Lineare und radiale Verläufe aus der Grain UI Palette.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {GRADIENTS.map((g, i) => (

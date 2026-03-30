@@ -105,11 +105,11 @@ const BubbleMapSection: React.FC = () => {
     <div className="space-y-16">
       {/* ── Intro ── */}
       <div className="max-w-3xl">
-        <SectionLabel>Visualisierung</SectionLabel>
-        <h1 className="font-display font-bold text-4xl text-[#0A0A0A] mb-4 leading-tight">
+        <p className="section-label mb-2">Visualisierung — Bubble Map</p>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
           Bubble Map
-        </h1>
-        <p className="text-[#4A4A4A] text-lg leading-relaxed mb-3">
+        </h2>
+        <p className="text-muted-foreground text-lg leading-relaxed mb-3">
           Die <strong>GrainBubbleMap</strong> visualisiert gewichtete Datenpunkte als Force-Layout.
           Jede Bubble repräsentiert einen Eintrag — ihre Größe entspricht dem Score-Wert.
           Radial-Gradienten aus der Pastell-Palette, Lime-Akzent für Top-Performer,
@@ -125,7 +125,7 @@ const BubbleMapSection: React.FC = () => {
       {/* ── Live Demo ── */}
       <div>
         <div className="flex items-center justify-between mb-5">
-          <h2 className="font-display font-bold text-2xl text-[#0A0A0A]">Live Demo</h2>
+          <h3 className="font-display font-bold text-xl text-foreground">Live Demo</h3>
           <div className="flex items-center gap-3">
             {(["skills", "projects", "keywords"] as const).map(key => (
               <button
@@ -156,7 +156,7 @@ const BubbleMapSection: React.FC = () => {
 
       {/* ── Anatomie ── */}
       <div>
-        <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-6">Anatomie</h2>
+        <h3 className="font-display font-bold text-xl text-foreground mb-6">Anatomie</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {[
             {
@@ -209,7 +209,7 @@ const BubbleMapSection: React.FC = () => {
 
       {/* ── Code-Snippet ── */}
       <div>
-        <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-5">Verwendung</h2>
+        <h3 className="font-display font-bold text-xl text-foreground mb-5">Verwendung</h3>
         <div className="rounded-2xl overflow-hidden border border-[#E8E8E8]">
           <div className="flex items-center gap-2 px-5 py-3 bg-[#0A0A0A] border-b border-white/10">
             <span className="text-[#E4FF97] font-mono text-xs">&gt;_</span>
@@ -223,7 +223,7 @@ const BubbleMapSection: React.FC = () => {
 
       {/* ── Props-Tabelle ── */}
       <div>
-        <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-5">Props</h2>
+        <h3 className="font-display font-bold text-xl text-foreground mb-5">Props</h3>
         <div className="rounded-2xl overflow-hidden border border-[#E8E8E8]">
           <table className="w-full text-sm">
             <thead>
@@ -250,7 +250,7 @@ const BubbleMapSection: React.FC = () => {
 
       {/* ── Design-Regeln ── */}
       <div>
-        <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-5">Design-Regeln</h2>
+        <h3 className="font-display font-bold text-xl text-foreground mb-5">Design-Regeln</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             {

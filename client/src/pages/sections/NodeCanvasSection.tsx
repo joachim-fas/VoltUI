@@ -196,19 +196,16 @@ const NodeCanvasSection: React.FC = () => {
     <div className="space-y-16">
       {/* Intro */}
       <div className="max-w-3xl">
-        <SectionLabel>Visualisierung</SectionLabel>
-        <h1 style={{
-          fontFamily: '"DM Sans", sans-serif', fontWeight: 800,
-          fontSize: 36, color: "#0A0A0A", marginBottom: 16, lineHeight: 1.15,
-        }}>
+        <p className="section-label mb-2">Visualisierung — Node Canvas</p>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
           Node Canvas
-        </h1>
-        <p style={{ color: "#4A4A4A", fontSize: 17, lineHeight: 1.7, marginBottom: 12 }}>
+        </h2>
+        <p className="text-muted-foreground text-lg leading-relaxed mb-3">
           Das <strong>GrainNodeCanvas</strong> ist das visuelle System für node-basierte Workflows.
           Nodes repräsentieren Verarbeitungsschritte — Text, Bild, Generator, Liste — und werden
           über Bezier-Edges verbunden. Gruppen fassen thematisch zusammengehörige Nodes zusammen.
         </p>
-        <p style={{ color: "#4A4A4A", fontSize: 15, lineHeight: 1.7 }}>
+        <p className="text-muted-foreground text-base leading-relaxed">
           Einsatz: KI-Workflow-Builder, Daten-Pipelines, Prozess-Visualisierung,
           Automations-Designer, Concept-Maps.
         </p>
@@ -217,9 +214,9 @@ const NodeCanvasSection: React.FC = () => {
       {/* Live Demo */}
       <div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-          <h2 style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: 22, color: "#0A0A0A" }}>
+          <h3 className="font-display font-bold text-xl text-foreground">
             Live Demo
-          </h2>
+          </h3>
           <div style={{ display: "flex", gap: 8 }}>
             {(["workflow", "groups"] as const).map(key => (
               <button
@@ -260,9 +257,9 @@ const NodeCanvasSection: React.FC = () => {
 
       {/* Anatomie */}
       <div>
-        <h2 style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: 22, color: "#0A0A0A", marginBottom: 20 }}>
+        <h3 className="font-display font-bold text-xl text-foreground mb-5">
           Anatomie
-        </h2>
+        </h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {ANATOMY.map(item => (
             <div key={item.title} style={{
@@ -288,9 +285,9 @@ const NodeCanvasSection: React.FC = () => {
 
       {/* Node-Typen */}
       <div>
-        <h2 style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: 22, color: "#0A0A0A", marginBottom: 20 }}>
+        <h3 className="font-display font-bold text-xl text-foreground mb-5">
           Node-Typen
-        </h2>
+        </h3>
         <GrainNodeCanvas
           nodes={[
             { id: "nt-trigger", type: "trigger",   x: 20,  y: 30, label: "Trigger",    placeholder: "Ausführen" },
@@ -307,9 +304,9 @@ const NodeCanvasSection: React.FC = () => {
 
       {/* Code */}
       <div>
-        <h2 style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: 22, color: "#0A0A0A", marginBottom: 20 }}>
+        <h3 className="font-display font-bold text-xl text-foreground mb-5">
           Verwendung
-        </h2>
+        </h3>
         <CodeBlock
           label="GrainNodeCanvas · Beispiel"
           code={`import { GrainNodeCanvas } from "@/components/grain/GrainNodeCanvas";
@@ -336,9 +333,9 @@ const edges = [
 
       {/* Props */}
       <div>
-        <h2 style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: 22, color: "#0A0A0A", marginBottom: 20 }}>
+        <h3 className="font-display font-bold text-xl text-foreground mb-5">
           Props
-        </h2>
+        </h3>
         <div style={{ border: "1px solid rgba(0,0,0,0.08)", borderRadius: 12, overflow: "hidden" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
@@ -369,9 +366,9 @@ const edges = [
 
       {/* Design-Regeln */}
       <div>
-        <h2 style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 700, fontSize: 22, color: "#0A0A0A", marginBottom: 20 }}>
+        <h3 className="font-display font-bold text-xl text-foreground mb-5">
           Design-Regeln
-        </h2>
+        </h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
           {RULES.map(rule => (
             <div key={rule.num} style={{

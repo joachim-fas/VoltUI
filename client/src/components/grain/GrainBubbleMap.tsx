@@ -16,7 +16,7 @@
  *   Dauer/Verzögerung), kein D3-Eingriff beim Hover.
  */
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import * as d3 from "d3";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -242,22 +242,26 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
     return () => obs.disconnect();
   }, []);
 
-  const allCategories =
-    categories.length > 0
+  // Stabile Referenzen mit useMemo – verhindert Endlosschleife durch neue Array-Referenzen bei jedem Render
+  const allCategories = useMemo(
+    () => categories.length > 0
       ? categories
-      : (Array.from(new Set(nodes.map(n => n.category).filter(Boolean))) as string[]);
+      : (Array.from(new Set(nodes.map(n => n.category).filter(Boolean))) as string[]),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [nodes, categories.length]
+  );
 
-  const filteredNodes =
-    activeFilter === "Alle" ? nodes : nodes.filter(n => n.category === activeFilter);
+  const filteredNodes = useMemo(
+    () => activeFilter === "Alle" ? nodes : nodes.filter(n => n.category === activeFilter),
+    [nodes, activeFilter]
+  );
 
   // Positionen berechnen wenn sich Daten oder Größe ändern
-  const computeLayout = useCallback(() => {
+  useEffect(() => {
     if (containerWidth < 10) return;
     computePositions(filteredNodes, allCategories, containerWidth, height, accentThreshold)
       .then(setBubbles);
   }, [filteredNodes, allCategories, containerWidth, height, accentThreshold]);
-
-  useEffect(() => { computeLayout(); }, [computeLayout]);
 
   // Stats
   const stark   = filteredNodes.filter(n => n.value >= accentThreshold).length;
