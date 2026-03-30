@@ -179,24 +179,24 @@ const BubbleMapSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {[
             {
-              title: "Radial-Gradient",
-              desc: "Jede Bubble hat einen einzigartigen Radial-Gradienten aus der Pastell-Palette. Highlight bei 35%/35% erzeugt Tiefe und Volumen.",
+              title: "Größe = Wert",
+              desc: "Die Größe jeder Bubble kodiert den Score-Wert. Größere Bubble = höherer Wert. Skalierung über d3.scaleSqrt() für proportionale Flächen.",
+              color: "#7AB8F5",
+            },
+            {
+              title: "Farbe = Kategorie",
+              desc: "Jede Kategorie erhält eine feste Farbe aus der Pastell-Palette. Die Farbe erscheint im Radial-Gradienten und im Filter-Tag-Punkt.",
               color: "#F4A0B5",
             },
             {
-              title: "Lime-Akzent",
-              desc: "Nodes über dem accentThreshold erhalten Lime (#E4FF97) als Primärfarbe, einen Glow-Ring und einen schwarzen Score-Text.",
+              title: "Lime-Rand = Top-Performer",
+              desc: "Nodes über dem accentThreshold erhalten Lime (#E4FF97) als Gradient-Highlight, einen gestrichelten Glow-Ring und fetten Score-Text.",
               color: "#E4FF97",
             },
             {
-              title: "Score-Label",
-              desc: "Der Wert wird mittig in die Bubble geschrieben. Bei maxValue wird 'value/maxValue' angezeigt. Schriftgröße skaliert mit Radius.",
-              color: "#B5EAD7",
-            },
-            {
-              title: "Name-Label",
-              desc: "Der Name erscheint unterhalb der Bubble. Lange Labels werden automatisch auf zwei Zeilen umgebrochen.",
-              color: "#C7CEEA",
+              title: "Score + Name-Label",
+              desc: "Der Wert steht mittig in der Bubble (skaliert mit Radius). Der Name erscheint darunter, lange Labels umbrechen auf zwei Zeilen.",
+              color: "#6DDBA0",
             },
             {
               title: "Filter-Tags",
