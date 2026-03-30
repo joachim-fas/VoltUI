@@ -15,6 +15,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as d3 from "d3";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/contexts/ThemeContext";
 
 /* ── Grain Kategorie-Farben ── */
 const CATEGORY_COLORS: string[] = [
@@ -51,8 +52,6 @@ export interface GrainBubbleMapProps {
   title?: string;
   subtitle?: string;
   accentThreshold?: number;
-  /** "dark" = schwarzer Hintergrund (Standard), "light" = weißer Hintergrund */
-  theme?: "dark" | "light";
 }
 
 /* ── Interne D3-Node ── */
@@ -98,8 +97,8 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
   title,
   subtitle,
   accentThreshold = 140,
-  theme = "dark",
 }) => {
+  const { darkMode } = useTheme();
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const simRef = useRef<d3.Simulation<SimNode, undefined> | null>(null);
@@ -110,7 +109,7 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
     visible: false, x: 0, y: 0, node: null, categoryColor: "", isAccent: false,
   });
 
-  const isDark = theme === "dark";
+  const isDark = darkMode === "dark";
 
   const bg            = isDark ? "#111111" : "#FAFAFA";
   const borderColor   = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
@@ -253,11 +252,11 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       .append("g")
       .style("cursor", "pointer")
       .on("mouseenter", function(event: MouseEvent, d: SimNode) {
-        // Bubble leicht vergrößern
+        // Nur visuelle Hervorhebung – KEIN Radius-Change (würde Kollision verletzen + Simulation aufwecken)
         d3.select(this).select("circle.main")
-          .transition().duration(150).ease(d3.easeQuadOut)
-          .attr("r", d.radius * 1.06)
-          .attr("stroke-opacity", 0.9);
+          .attr("stroke-opacity", 0.9)
+          .attr("stroke-width", d.isAccent ? 2.5 : 1.5);
+        d3.select(this).style("filter", "brightness(1.12)");
 
         // Tooltip positionieren: relativ zum SVG-Container
         const svgRect = svg.getBoundingClientRect();
@@ -288,9 +287,9 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       })
       .on("mouseleave", function(_event: MouseEvent, d: SimNode) {
         d3.select(this).select("circle.main")
-          .transition().duration(150).ease(d3.easeQuadOut)
-          .attr("r", d.radius)
-          .attr("stroke-opacity", d.isAccent ? 0.8 : 0.35);
+          .attr("stroke-opacity", d.isAccent ? 0.8 : 0.35)
+          .attr("stroke-width", d.isAccent ? 2 : 1);
+        d3.select(this).style("filter", null);
         setTooltip(prev => ({ ...prev, visible: false }));
       })
       .on("click", (_: MouseEvent, d: SimNode) => {
