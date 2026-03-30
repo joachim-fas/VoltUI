@@ -173,7 +173,7 @@ export default function Home() {
           <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
             flux<span className="opacity-30"> ui</span>
           </p>
-          <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Flux UI Concept</p>
+          <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Design Concept</p>
         </div>
       </div>
       {showClose && (

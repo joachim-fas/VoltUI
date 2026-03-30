@@ -2,9 +2,10 @@
  * GrainSidebar – Flux UI
  * Hell: Weißer Hintergrund + schwarzer Text + Lime (#E4FF97) für aktive Items
  * Dark Mode: Sidebar wird dunkel via CSS-Klasse
+ * Auto-Scroll: aktives Item scrollt immer in den sichtbaren Bereich
  */
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -35,9 +36,32 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
   const { darkMode, toggleDarkMode } = useTheme();
   const isDark = darkMode === "dark";
 
+  const navRef      = useRef<HTMLElement>(null);
+  const activeRef   = useRef<HTMLButtonElement>(null);
+  const asideRef    = useRef<HTMLElement>(null);
+
   const allItems = sections.flatMap(s => s.items);
   const activeIndex = allItems.findIndex(i => i.id === activeId);
   const progress = allItems.length > 1 ? Math.round((activeIndex / (allItems.length - 1)) * 100) : 0;
+
+  /* ── Auto-Scroll: aktives Item in den sichtbaren Bereich scrollen ── */
+  useEffect(() => {
+    const aside  = asideRef.current;
+    const active = activeRef.current;
+    if (!aside || !active) return;
+
+    const asideTop    = aside.scrollTop;
+    const asideBottom = asideTop + aside.clientHeight;
+    const itemTop     = active.offsetTop;
+    const itemBottom  = itemTop + active.offsetHeight;
+
+    // Nur scrollen wenn das Item außerhalb des sichtbaren Bereichs liegt
+    if (itemTop < asideTop + 80) {
+      aside.scrollTo({ top: itemTop - 80, behavior: "smooth" });
+    } else if (itemBottom > asideBottom - 80) {
+      aside.scrollTo({ top: itemBottom - aside.clientHeight + 80, behavior: "smooth" });
+    }
+  }, [activeId]);
 
   /* ── Farbwerte je nach Modus ── */
   const bg          = isDark ? "#0F0F0F" : "#FFFFFF";
@@ -58,6 +82,7 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
 
   return (
     <aside
+      ref={asideRef}
       className={cn(
         "flex flex-col h-full w-64 flex-shrink-0 overflow-y-auto transition-colors duration-300",
         className
@@ -87,7 +112,7 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
       </div>
 
       {/* ── Nav Sections ── */}
-      <nav className="flex-1 px-3 py-4 space-y-5">
+      <nav ref={navRef} className="flex-1 px-3 py-4 space-y-5">
         {sections.map((section, si) => (
           <div key={si}>
             <div className="px-2 mb-1.5 flex items-center gap-2">
@@ -103,6 +128,7 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
                 return (
                   <li key={item.id}>
                     <button
+                      ref={isActive ? activeRef : undefined}
                       onClick={() => onSelect?.(item.id)}
                       className="w-full flex items-start gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all duration-150 group"
                       style={isActive

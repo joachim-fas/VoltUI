@@ -423,7 +423,7 @@ export const SignetSection: React.FC = () => {
           <RuleCard
             number="06"
             title="Kein Text im Signet"
-            desc="Das Signet steht für sich. Kein Schriftzug innerhalb der Schutzzone. Wortmarke 'grainui' wird separat gesetzt."
+            desc="Das Signet steht für sich. Kein Schriftzug innerhalb der Schutzzone. Wortmarke 'flux ui' wird separat gesetzt."
             good="Signet + Wortmarke nebeneinander"
             bad="Text über oder im Signet"
           />
@@ -445,9 +445,9 @@ export const SignetSection: React.FC = () => {
                 <GrainCursor size="md" color="black" animated />
                 <div>
                   <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
-                    grain<span className="opacity-30">ui</span>
+                    flux<span className="opacity-30"> ui</span>
                   </p>
-                  <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Design System</p>
+                  <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Design Concept</p>
                 </div>
               </div>
               <CodeBlock

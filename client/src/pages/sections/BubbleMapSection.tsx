@@ -37,7 +37,7 @@ const PROJECT_DATA: BubbleNode[] = [
   { id: "gai", label: "Gestalten mit AI", value: 165, maxValue: 200, category: "Produkt", description: "AI-Bildung und Workshops" },
   { id: "os", label: "Omnishopper", value: 130, maxValue: 200, category: "Produkt", description: "Smart Shopping Aggregator" },
   { id: "ze", label: "Zeiterfassung", value: 118, maxValue: 200, category: "Tool", description: "Freelancer Zeiterfassung & Abrechnung" },
-  { id: "grainui", label: "Flux UI", value: 175, maxValue: 200, category: "Tool", description: "Operating Principles & Design System" },
+  { id: "fluxui", label: "Flux UI", value: 175, maxValue: 200, category: "Tool", description: "Operating Principles & Design System" },
 ];
 
 const KEYWORD_DATA: BubbleNode[] = [

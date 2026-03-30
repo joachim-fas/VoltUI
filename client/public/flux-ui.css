@@ -1,0 +1,925 @@
+/*
+ * ╔══════════════════════════════════════════════════════════════╗
+ * ║  FLUX UI — Portable Design System                           ║
+ * ║  Version 1.0 · Free Agents Design Concept                  ║
+ * ║                                                              ║
+ * ║  VERWENDUNG:                                                 ║
+ * ║  <link rel="stylesheet" href="flux-ui.css">                 ║
+ * ║  <link rel="preconnect" href="https://fonts.googleapis.com">║
+ * ║  Dann die Google Fonts einbinden (siehe unten).             ║
+ * ╚══════════════════════════════════════════════════════════════╝
+ *
+ * GOOGLE FONTS (in <head> einbinden):
+ * @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   1. DESIGN TOKENS — CSS Custom Properties
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Typografie ── */
+  --flux-font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --flux-font-ui:      "DM Sans", system-ui, sans-serif;
+  --flux-font-mono:    "DM Mono", "JetBrains Mono", monospace;
+
+  /* ── Primärfarben ── */
+  --flux-lime:         #E4FF97;   /* Neon Lime — Hauptakzent */
+  --flux-lime-deep:    #C8F060;   /* Lime tiefer */
+  --flux-lime-darker:  #9DC800;   /* Lime dunkel */
+  --flux-black:        #0A0A0A;   /* Fast-Schwarz — Fundament */
+  --flux-white:        #FFFFFF;
+
+  /* ── Pastell-Palette (Projekt-Kodierung) ── */
+  --flux-rose:         #F9D0D0;   /* Rose Quartz   · Project Alpha */
+  --flux-orchid:       #E8D0F0;   /* Soft Orchid   · Project Beta */
+  --flux-mint:         #C8F0E0;   /* Mint Green    · Project Gamma */
+  --flux-butter:       #FFF0C0;   /* Butter Yellow · Project Delta */
+  --flux-sky:          #C8E8FF;   /* Baby Blue     · Project Epsilon */
+  --flux-peach:        #FFE0CC;   /* Peach Cream   · Erweiterung */
+  --flux-aqua:         #D6F5F5;   /* Aqua Mist     · Erweiterung */
+
+  /* ── Signalfarben ── */
+  --flux-positive:        #1A9E5A;
+  --flux-positive-light:  #E8F8EF;
+  --flux-positive-border: #7DD4A8;
+  --flux-positive-text:   #0F6038;
+
+  --flux-negative:        #E8402A;
+  --flux-negative-light:  #FDEEE9;
+  --flux-negative-border: #F4A090;
+  --flux-negative-text:   #A01A08;
+
+  --flux-neutral:         #6B7A9A;
+  --flux-neutral-light:   #F0F2F7;
+  --flux-neutral-border:  #B0BACC;
+  --flux-neutral-text:    #3A4560;
+
+  /* ── UI-Tokens (Light Mode) ── */
+  --flux-bg:             #FFFFFF;
+  --flux-surface:        #F7F7F7;
+  --flux-surface-raised: #FFFFFF;
+  --flux-border:         #E8E8E8;
+  --flux-border-strong:  #D0D0D0;
+  --flux-text:           #0A0A0A;
+  --flux-text-muted:     #6B6B6B;
+  --flux-text-faint:     #AAAAAA;
+
+  /* ── Radius ── */
+  --flux-radius-sm:   6px;
+  --flux-radius-md:   10px;
+  --flux-radius-lg:   14px;
+  --flux-radius-xl:   20px;
+  --flux-radius-full: 9999px;
+
+  /* ── Schatten ── */
+  --flux-shadow-sm:  0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --flux-shadow-md:  0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --flux-shadow-lg:  0 12px 32px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.05);
+  --flux-shadow-lime: 0 4px 20px rgba(228,255,151,0.35);
+
+  /* ── Übergänge ── */
+  --flux-transition: 150ms ease;
+  --flux-transition-slow: 300ms ease;
+}
+
+/* ── Dark Mode ── */
+.flux-dark, [data-theme="dark"] {
+  --flux-bg:             #0A0A0A;
+  --flux-surface:        #141414;
+  --flux-surface-raised: #1A1A1A;
+  --flux-border:         #2A2A2A;
+  --flux-border-strong:  #3A3A3A;
+  --flux-text:           #F5F5F5;
+  --flux-text-muted:     #888888;
+  --flux-text-faint:     #555555;
+
+  --flux-positive:        #2ECC7A;
+  --flux-positive-light:  #0A2018;
+  --flux-positive-border: #1A6040;
+  --flux-positive-text:   #5EEAA0;
+
+  --flux-negative:        #FF6050;
+  --flux-negative-light:  #200A08;
+  --flux-negative-border: #802010;
+  --flux-negative-text:   #FF9080;
+
+  --flux-neutral:         #8899BB;
+  --flux-neutral-light:   #141820;
+  --flux-neutral-border:  #3A4560;
+  --flux-neutral-text:    #AABBDD;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   2. RESET & BASE
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-root, .flux-root * {
+  box-sizing: border-box;
+}
+
+.flux-root {
+  font-family: var(--flux-font-ui);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--flux-text);
+  background-color: var(--flux-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Alternativ: globaler Reset ohne Wrapper-Klasse */
+body.flux-body {
+  font-family: var(--flux-font-ui);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--flux-text);
+  background-color: var(--flux-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   3. TYPOGRAFIE
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-display-xl {
+  font-family: var(--flux-font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  color: var(--flux-text);
+}
+
+.flux-display-lg {
+  font-family: var(--flux-font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--flux-text);
+}
+
+.flux-display-md {
+  font-family: var(--flux-font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--flux-text);
+}
+
+.flux-heading {
+  font-family: var(--flux-font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--flux-text);
+}
+
+.flux-body {
+  font-family: var(--flux-font-ui);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--flux-text);
+}
+
+.flux-body-sm {
+  font-family: var(--flux-font-ui);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--flux-text-muted);
+}
+
+.flux-label {
+  font-family: var(--flux-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--flux-text-faint);
+}
+
+.flux-mono {
+  font-family: var(--flux-font-mono);
+  font-size: 0.875rem;
+  color: var(--flux-text);
+}
+
+.flux-text-gradient {
+  background: linear-gradient(135deg, var(--flux-lime) 0%, var(--flux-lime-deep) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   4. BUTTONS
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--flux-radius-md);
+  font-family: var(--flux-font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all var(--flux-transition);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.flux-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Solid (Primär) */
+.flux-btn-solid {
+  background-color: var(--flux-black);
+  color: var(--flux-white);
+}
+.flux-btn-solid:hover:not(:disabled) {
+  background-color: #1A1A1A;
+  transform: translateY(-1px);
+  box-shadow: var(--flux-shadow-md);
+}
+
+/* Lime (Akzent) */
+.flux-btn-lime {
+  background-color: var(--flux-lime);
+  color: var(--flux-black);
+}
+.flux-btn-lime:hover:not(:disabled) {
+  background-color: var(--flux-lime-deep);
+  transform: translateY(-1px);
+  box-shadow: var(--flux-shadow-lime);
+}
+
+/* Outline */
+.flux-btn-outline {
+  background-color: transparent;
+  color: var(--flux-text);
+  border: 1.5px solid var(--flux-border-strong);
+}
+.flux-btn-outline:hover:not(:disabled) {
+  border-color: var(--flux-black);
+  background-color: var(--flux-surface);
+}
+
+/* Ghost */
+.flux-btn-ghost {
+  background-color: transparent;
+  color: var(--flux-text-muted);
+  border: none;
+}
+.flux-btn-ghost:hover:not(:disabled) {
+  background-color: var(--flux-surface);
+  color: var(--flux-text);
+}
+
+/* Destructive */
+.flux-btn-danger {
+  background-color: var(--flux-negative);
+  color: var(--flux-white);
+}
+.flux-btn-danger:hover:not(:disabled) {
+  background-color: #C03020;
+  transform: translateY(-1px);
+}
+
+/* Größen */
+.flux-btn-sm {
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  border-radius: var(--flux-radius-sm);
+}
+.flux-btn-lg {
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  border-radius: var(--flux-radius-lg);
+}
+.flux-btn-xl {
+  padding: 1.125rem 2.25rem;
+  font-size: 1.0625rem;
+  border-radius: var(--flux-radius-lg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   5. CARDS & SURFACES
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-card {
+  background-color: var(--flux-surface-raised);
+  border: 1px solid var(--flux-border);
+  border-radius: var(--flux-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--flux-shadow-sm);
+}
+
+.flux-card-elevated {
+  background-color: var(--flux-surface-raised);
+  border: 1px solid var(--flux-border);
+  border-radius: var(--flux-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--flux-shadow-md);
+}
+
+.flux-card-lime {
+  background-color: var(--flux-lime);
+  border: 1px solid var(--flux-lime-deep);
+  border-radius: var(--flux-radius-lg);
+  padding: 1.5rem;
+  color: var(--flux-black);
+}
+
+.flux-card-dark {
+  background-color: var(--flux-black);
+  border: 1px solid #2A2A2A;
+  border-radius: var(--flux-radius-lg);
+  padding: 1.5rem;
+  color: var(--flux-white);
+}
+
+.flux-card-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--flux-border);
+}
+
+.flux-card-title {
+  font-family: var(--flux-font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--flux-text);
+  margin: 0;
+}
+
+.flux-card-description {
+  font-size: 0.8125rem;
+  color: var(--flux-text-muted);
+  margin: 0.25rem 0 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   6. BADGES & TAGS
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--flux-radius-full);
+  font-family: var(--flux-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.flux-badge-default {
+  background-color: var(--flux-black);
+  color: var(--flux-white);
+}
+
+.flux-badge-lime {
+  background-color: var(--flux-lime);
+  color: var(--flux-black);
+}
+
+.flux-badge-muted {
+  background-color: var(--flux-surface);
+  color: var(--flux-text-muted);
+  border: 1px solid var(--flux-border);
+}
+
+.flux-badge-positive {
+  background-color: var(--flux-positive-light);
+  color: var(--flux-positive-text);
+  border: 1.5px solid var(--flux-positive-border);
+}
+
+.flux-badge-negative {
+  background-color: var(--flux-negative-light);
+  color: var(--flux-negative-text);
+  border: 1.5px solid var(--flux-negative-border);
+}
+
+.flux-badge-neutral {
+  background-color: var(--flux-neutral-light);
+  color: var(--flux-neutral-text);
+  border: 1.5px solid var(--flux-neutral-border);
+}
+
+/* Pastell-Badges (Projekt-Kodierung) */
+.flux-badge-rose    { background-color: var(--flux-rose);   color: var(--flux-black); }
+.flux-badge-orchid  { background-color: var(--flux-orchid); color: var(--flux-black); }
+.flux-badge-mint    { background-color: var(--flux-mint);   color: var(--flux-black); }
+.flux-badge-butter  { background-color: var(--flux-butter); color: var(--flux-black); }
+.flux-badge-sky     { background-color: var(--flux-sky);    color: var(--flux-black); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   7. FORM ELEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-input {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background-color: var(--flux-bg);
+  border: 1.5px solid var(--flux-border);
+  border-radius: var(--flux-radius-md);
+  font-family: var(--flux-font-ui);
+  font-size: 0.9375rem;
+  color: var(--flux-text);
+  outline: none;
+  transition: border-color var(--flux-transition), box-shadow var(--flux-transition);
+}
+
+.flux-input::placeholder {
+  color: var(--flux-text-faint);
+}
+
+.flux-input:focus {
+  border-color: var(--flux-black);
+  box-shadow: 0 0 0 3px rgba(10,10,10,0.08);
+}
+
+.flux-input:focus.flux-dark,
+.flux-dark .flux-input:focus {
+  border-color: var(--flux-lime);
+  box-shadow: 0 0 0 3px rgba(228,255,151,0.15);
+}
+
+.flux-label-text {
+  display: block;
+  font-family: var(--flux-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--flux-text-muted);
+  margin-bottom: 0.375rem;
+}
+
+.flux-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.flux-select {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background-color: var(--flux-bg);
+  border: 1.5px solid var(--flux-border);
+  border-radius: var(--flux-radius-md);
+  font-family: var(--flux-font-ui);
+  font-size: 0.9375rem;
+  color: var(--flux-text);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  padding-right: 2.5rem;
+}
+
+.flux-select:focus {
+  border-color: var(--flux-black);
+  box-shadow: 0 0 0 3px rgba(10,10,10,0.08);
+}
+
+.flux-textarea {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background-color: var(--flux-bg);
+  border: 1.5px solid var(--flux-border);
+  border-radius: var(--flux-radius-md);
+  font-family: var(--flux-font-ui);
+  font-size: 0.9375rem;
+  color: var(--flux-text);
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color var(--flux-transition);
+}
+
+.flux-textarea:focus {
+  border-color: var(--flux-black);
+  box-shadow: 0 0 0 3px rgba(10,10,10,0.08);
+}
+
+.flux-checkbox {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--flux-black);
+  cursor: pointer;
+}
+
+.flux-helper {
+  font-size: 0.75rem;
+  color: var(--flux-text-faint);
+  margin-top: 0.25rem;
+}
+
+.flux-error-text {
+  font-size: 0.75rem;
+  color: var(--flux-negative-text);
+  margin-top: 0.25rem;
+}
+
+.flux-input-error {
+  border-color: var(--flux-negative);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   8. SIGNET — >_ Cursor-Symbol
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-signet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--flux-font-mono);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  user-select: none;
+  line-height: 1;
+}
+
+.flux-signet::before {
+  content: ">_";
+}
+
+.flux-signet-sm  { font-size: 0.875rem; }
+.flux-signet-md  { font-size: 1.5rem; }
+.flux-signet-lg  { font-size: 2.5rem; }
+.flux-signet-xl  { font-size: 4rem; }
+
+.flux-signet-lime { color: var(--flux-lime); }
+.flux-signet-dark { color: var(--flux-black); }
+.flux-signet-white { color: var(--flux-white); }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   9. BACKGROUNDS & GRADIENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-bg-lime {
+  background-color: var(--flux-lime);
+  color: var(--flux-black);
+}
+
+.flux-bg-dark {
+  background-color: var(--flux-black);
+  color: var(--flux-white);
+}
+
+.flux-bg-surface {
+  background-color: var(--flux-surface);
+  color: var(--flux-text);
+}
+
+/* Gradient: Lime → Schwarz */
+.flux-gradient-brand {
+  background: linear-gradient(135deg, var(--flux-lime) 0%, var(--flux-black) 100%);
+}
+
+/* Gradient: Atmospheric (dunkler Hintergrund mit Lime-Orbs) */
+.flux-gradient-atmospheric {
+  background:
+    radial-gradient(ellipse at 25% 35%, rgba(228,255,151,0.50) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 65%, rgba(228,255,151,0.20) 0%, transparent 50%),
+    var(--flux-black);
+  color: var(--flux-white);
+}
+
+/* Gradient: Hero (Lime-Basis mit subtilen Orbs) */
+.flux-gradient-hero {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(10,10,10,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(10,10,10,0.05) 0%, transparent 50%),
+    var(--flux-lime);
+  color: var(--flux-black);
+}
+
+/* Gradient: Soft Lime */
+.flux-gradient-soft {
+  background: linear-gradient(135deg, var(--flux-lime) 0%, var(--flux-lime-deep) 100%);
+  color: var(--flux-black);
+}
+
+/* Gradient: Pastel Blend */
+.flux-gradient-pastel {
+  background: linear-gradient(135deg, var(--flux-rose) 0%, var(--flux-mint) 100%);
+  color: var(--flux-black);
+}
+
+/* Grain-Textur (als Overlay) */
+.flux-grain {
+  position: relative;
+}
+.flux-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   10. PATTERNS (SVG-Hintergrundmuster)
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-pattern-dots {
+  background-image: radial-gradient(circle, rgba(10,10,10,0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.flux-pattern-grid {
+  background-image:
+    linear-gradient(rgba(10,10,10,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,10,10,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.flux-pattern-diagonal {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(10,10,10,0.05) 10px,
+    rgba(10,10,10,0.05) 11px
+  );
+}
+
+.flux-pattern-cross {
+  background-image:
+    linear-gradient(rgba(10,10,10,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,10,10,0.06) 1px, transparent 1px),
+    linear-gradient(rgba(10,10,10,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,10,10,0.03) 1px, transparent 1px);
+  background-size: 48px 48px, 48px 48px, 12px 12px, 12px 12px;
+}
+
+/* Dark-Mode Varianten */
+.flux-dark .flux-pattern-dots {
+  background-image: radial-gradient(circle, rgba(228,255,151,0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.flux-dark .flux-pattern-grid {
+  background-image:
+    linear-gradient(rgba(228,255,151,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(228,255,151,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   11. DATA & SIGNAL UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-delta-up {
+  color: var(--flux-positive-text);
+  font-family: var(--flux-font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.flux-delta-down {
+  color: var(--flux-negative-text);
+  font-family: var(--flux-font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.flux-delta-neutral {
+  color: var(--flux-neutral-text);
+  font-family: var(--flux-font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.flux-kpi {
+  font-family: var(--flux-font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--flux-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.flux-kpi-sm {
+  font-family: var(--flux-font-mono);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--flux-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tabelle */
+.flux-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--flux-font-ui);
+  font-size: 0.875rem;
+}
+
+.flux-table th {
+  font-family: var(--flux-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--flux-text-faint);
+  text-align: left;
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--flux-border);
+}
+
+.flux-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--flux-border);
+  color: var(--flux-text);
+  vertical-align: middle;
+}
+
+.flux-table tr:last-child td {
+  border-bottom: none;
+}
+
+.flux-table tr:hover td {
+  background-color: var(--flux-surface);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   12. LAYOUT UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.flux-section {
+  padding: 4rem 0;
+}
+
+.flux-section-label {
+  font-family: var(--flux-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--flux-text-faint);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.flux-divider {
+  border: none;
+  border-top: 1px solid var(--flux-border);
+  margin: 1.5rem 0;
+}
+
+.flux-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.flux-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.flux-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.flux-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.flux-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .flux-grid-2,
+  .flux-grid-3,
+  .flux-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   13. ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes flux-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flux-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%       { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes flux-pulse-lime {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(228,255,151,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(228,255,151,0); }
+}
+
+.flux-animate-in {
+  animation: flux-fade-in 0.3s ease forwards;
+}
+
+.flux-animate-breathe {
+  animation: flux-breathe 6s ease-in-out infinite;
+}
+
+.flux-animate-pulse {
+  animation: flux-pulse-lime 2s ease-in-out infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   14. GLASSMORPHISM
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-glass {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: var(--flux-radius-lg);
+}
+
+.flux-glass-dark {
+  background: rgba(10, 10, 10, 0.60);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--flux-radius-lg);
+}
+
+.flux-glass-lime {
+  background: rgba(228, 255, 151, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(228, 255, 151, 0.30);
+  border-radius: var(--flux-radius-lg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   15. PASTEL COLOR UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+
+.flux-rose    { background-color: var(--flux-rose);   color: var(--flux-black); }
+.flux-orchid  { background-color: var(--flux-orchid); color: var(--flux-black); }
+.flux-mint    { background-color: var(--flux-mint);   color: var(--flux-black); }
+.flux-butter  { background-color: var(--flux-butter); color: var(--flux-black); }
+.flux-sky     { background-color: var(--flux-sky);    color: var(--flux-black); }
+.flux-peach   { background-color: var(--flux-peach);  color: var(--flux-black); }
+.flux-aqua    { background-color: var(--flux-aqua);   color: var(--flux-black); }
