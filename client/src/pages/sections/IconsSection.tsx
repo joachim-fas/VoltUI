@@ -228,7 +228,7 @@ const ICON_CATEGORIES: Record<string, { label: string; color: string; bg: string
       "Target", "Crosshair", "Swords", "Sword", "Axe", "Shield", "ShieldCheck",
       "Wind", "Waves", "Flame", "Zap", "Battery", "BatteryFull", "BatteryCharging",
       "Volleyball", "Mountain", "MountainSnow", "Snowflake", "Tent",
-      "Flag", "AlarmClock",
+      "Flag",
     ],
   },
   lifestyle: {

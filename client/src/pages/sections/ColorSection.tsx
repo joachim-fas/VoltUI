@@ -62,6 +62,16 @@ const SIGNAL = {
 
 const SEMANTIC_COLORS = Object.values(SIGNAL);
 
+/* ── Pastell-Palette ── */
+const PASTEL_PALETTE = [
+  { name: "Lime",           sub: "#E4FF97",  bg: "#E4FF97", fg: "#0A0A0A" },
+  { name: "Blau-Pastell",   sub: "#C8DCFF",  bg: "#C8DCFF", fg: "#1A2A4A" },
+  { name: "Orchid-Pastell", sub: "#E8D4FF",  bg: "#E8D4FF", fg: "#3A1A5A" },
+  { name: "Rose-Pastell",   sub: "#FFD4E4",  bg: "#FFD4E4", fg: "#5A1A2A" },
+  { name: "Mint-Pastell",   sub: "#C8F0DC",  bg: "#C8F0DC", fg: "#0A3A20" },
+  { name: "Butter-Pastell", sub: "#FFF4C0",  bg: "#FFF4C0", fg: "#4A3A00" },
+];
+
 /* ── Primäre Systemfarben ── */
 const PRIMARY_COLORS = [
   { name: "Lime (Leading)",   hex: "#E4FF97", fg: "#0A0A0A", desc: "Primäre Akzentfarbe · Buttons · Highlights · CTAs" },
@@ -171,6 +181,25 @@ const SignalCard: React.FC<{ item: typeof SEMANTIC_COLORS[0] }> = ({ item }) => 
 export const ColorSection: React.FC = () => {
   return (
     <section className="space-y-10">
+
+      {/* ── Pastell-Palette Übersicht ── */}
+      <div>
+        <p className="section-label mb-3">FARBCODIERUNG IM UEBERBLICK</p>
+        <div className="rounded-2xl overflow-hidden border border-[#E8E8E8] flex">
+          {PASTEL_PALETTE.map((c, i) => (
+            <div key={c.name} className="flex-1 flex flex-col" style={{ minWidth: 0 }}>
+              <div className="h-40" style={{ background: c.bg }} />
+              <div
+                className="p-4 border-t border-[#E8E8E8]"
+                style={{ borderLeft: i > 0 ? "1px solid #E8E8E8" : "none" }}
+              >
+                <p className="text-xs font-semibold font-ui text-[#0A0A0A] leading-tight">{c.name}</p>
+                <p className="text-[10px] font-mono mt-0.5" style={{ color: "#6B6B6B" }}>{c.sub}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* ── Header ── */}
       <div>
