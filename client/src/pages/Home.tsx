@@ -111,38 +111,38 @@ export default function Home() {
   /* Flag: verhindert dass Scroll-Spy den State überschreibt während wir programmatisch scrollen */
   const isScrollingTo = useRef(false);
 
-  /* ── Scroll-Spy via IntersectionObserver ── */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (isScrollingTo.current) return;
-        // Nimm den sichtbarsten Abschnitt (höchste intersectionRatio)
-        let best: { id: string; ratio: number } | null = null;
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            if (!best || entry.intersectionRatio > best.ratio) {
-              best = { id: entry.target.id, ratio: entry.intersectionRatio };
-            }
-          }
-        });
-        if (best) setActiveId((best as { id: string }).id);
-      },
-      {
-        root: mainRef.current,
-        // Obere 20% des Viewports als Trigger-Zone – sobald ein Abschnitt
-        // den oberen Bereich erreicht, gilt er als aktiv
-        rootMargin: "0px 0px -60% 0px",
-        threshold: [0, 0.1, 0.25, 0.5],
-      }
-    );
+  /* ── Scroll-Spy via onScroll ── */
+  const handleScroll = useCallback(() => {
+    if (isScrollingTo.current) return;
+    const container = mainRef.current;
+    if (!container) return;
 
-    ALL_SECTIONS.forEach(({ id }) => {
+    // Trigger-Linie: 30% vom oberen Rand des Scroll-Containers
+    const triggerY = container.scrollTop + container.clientHeight * 0.30;
+
+    // Finde den letzten Abschnitt, dessen Oberkante die Trigger-Linie überschritten hat
+    let current: string = ALL_SECTIONS[0].id;
+    for (const { id } of ALL_SECTIONS) {
       const el = sectionRefs.current[id];
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
+      if (!el) continue;
+      const elTop = el.offsetTop;
+      if (elTop <= triggerY) {
+        current = id;
+      } else {
+        break;
+      }
+    }
+    setActiveId(current);
   }, []);
+
+  useEffect(() => {
+    const container = mainRef.current;
+    if (!container) return;
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    // Einmal direkt aufrufen um Initialzustand zu setzen
+    handleScroll();
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   /* ── Programmatisches Scrollen beim Klick auf Sidebar-Item ── */
   const scrollToSection = useCallback((id: string) => {
