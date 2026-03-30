@@ -244,58 +244,14 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
 
     simRef.current = simulation;
 
-    // Bubble-Gruppen
+    // Bubble-Gruppen – KEINE D3-Event-Handler hier, nur Struktur
+    // Hover-Events werden nach dem Einfrieren via native addEventListener registriert
     const groups = svgEl.append("g")
       .selectAll<SVGGElement, SimNode>("g")
       .data(simNodes)
       .enter()
       .append("g")
-      .style("cursor", "pointer")
-      .on("mouseenter", function(event: MouseEvent, d: SimNode) {
-        // Nur visuelle Hervorhebung – KEIN Radius-Change (würde Kollision verletzen + Simulation aufwecken)
-        d3.select(this).select("circle.main")
-          .attr("stroke-opacity", 0.9)
-          .attr("stroke-width", d.isAccent ? 2.5 : 1.5);
-        d3.select(this).style("filter", "brightness(1.12)");
-
-        // Tooltip positionieren: relativ zum SVG-Container
-        const svgRect = svg.getBoundingClientRect();
-        const rawX = (d.x ?? W / 2);
-        const rawY = (d.y ?? H / 2);
-
-        // Tooltip rechts der Bubble, falls Platz; sonst links
-        const tooltipW = 200;
-        const offsetX = rawX + d.radius + 14 + tooltipW > W ? -(d.radius + 14 + tooltipW) : d.radius + 14;
-
-        setTooltip({
-          visible: true,
-          x: rawX + offsetX,
-          y: rawY,
-          node: d,
-          categoryColor: d.categoryColor,
-          isAccent: d.isAccent,
-        });
-        void svgRect; // suppress unused warning
-      })
-      .on("mousemove", function(_event: MouseEvent, d: SimNode) {
-        // Tooltip-Position live aktualisieren (folgt der Bubble-Mitte, nicht der Maus)
-        const rawX = (d.x ?? W / 2);
-        const rawY = (d.y ?? H / 2);
-        const tooltipW = 200;
-        const offsetX = rawX + d.radius + 14 + tooltipW > W ? -(d.radius + 14 + tooltipW) : d.radius + 14;
-        setTooltip(prev => ({ ...prev, x: rawX + offsetX, y: rawY }));
-      })
-      .on("mouseleave", function(_event: MouseEvent, d: SimNode) {
-        d3.select(this).select("circle.main")
-          .attr("stroke-opacity", d.isAccent ? 0.8 : 0.35)
-          .attr("stroke-width", d.isAccent ? 2 : 1);
-        d3.select(this).style("filter", null);
-        setTooltip(prev => ({ ...prev, visible: false }));
-      })
-      .on("click", (_: MouseEvent, d: SimNode) => {
-        setSelectedNode(prev => (prev?.id === d.id ? null : d));
-        onNodeClick?.(d);
-      });
+      .style("cursor", "pointer");
 
     // Äußerer Glow-Ring für Accent-Nodes
     groups.filter(d => d.isAccent)
@@ -370,18 +326,57 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
       });
     });
 
-    // Einfrieren nach Ende – Positionen fixieren damit keine weiteren Bewegungen möglich
-    simulation.on("end", () => {
+    // Nach Ende: Simulation vollständig stoppen + zerstören,
+    // dann native Event-Handler registrieren (kein D3-Kontext mehr aktiv)
+    const freezeAndBind = () => {
+      // 1. Alle Positionen fixieren
+      simNodes.forEach(d => { d.fx = d.x; d.fy = d.y; });
+      // 2. Simulation stoppen und aus Ref entfernen
       simulation.stop();
-      groups.each(function(d) { d.fx = d.x; d.fy = d.y; });
-    });
+      simulation.on("tick", null).on("end", null);
+      simRef.current = null;
 
-    // Sicherheitsnetz: nach 2 Sekunden hart stoppen und einfrieren
-    const hardStop = setTimeout(() => {
-      simulation.stop();
-      groups.each(function(d) { d.fx = d.x; d.fy = d.y; });
-    }, 2000);
+      // 3. Native Hover-Handler auf jedes <g>-Element setzen
+      groups.each(function(d) {
+        const el = this as SVGGElement;
+        const mainCircle = el.querySelector("circle.main") as SVGCircleElement | null;
 
+        el.addEventListener("mouseenter", () => {
+          if (mainCircle) {
+            mainCircle.setAttribute("stroke-opacity", "0.9");
+            mainCircle.setAttribute("stroke-width", d.isAccent ? "2.5" : "1.5");
+          }
+          el.style.opacity = "1";
+          // Tooltip
+          const rawX = d.x ?? W / 2;
+          const rawY = d.y ?? H / 2;
+          const tooltipW = 200;
+          const offsetX = rawX + d.radius + 14 + tooltipW > W
+            ? -(d.radius + 14 + tooltipW)
+            : d.radius + 14;
+          setTooltip({ visible: true, x: rawX + offsetX, y: rawY, node: d, categoryColor: d.categoryColor, isAccent: d.isAccent });
+        });
+
+        el.addEventListener("mouseleave", () => {
+          if (mainCircle) {
+            mainCircle.setAttribute("stroke-opacity", d.isAccent ? "0.8" : "0.35");
+            mainCircle.setAttribute("stroke-width", d.isAccent ? "2" : "1");
+          }
+          el.style.opacity = "";
+          setTooltip(prev => ({ ...prev, visible: false }));
+        });
+
+        el.addEventListener("click", () => {
+          setSelectedNode(prev => (prev?.id === d.id ? null : d));
+          onNodeClick?.(d);
+        });
+      });
+    };
+
+    simulation.on("end", freezeAndBind);
+
+    // Sicherheitsnetz: nach 1.5s auf jeden Fall einfrieren
+    const hardStop = setTimeout(freezeAndBind, 1500);
     simulation.on("end.cleanup", () => clearTimeout(hardStop));
   }, [
     filteredNodes, containerWidth, height, accentThreshold, allCategories,
