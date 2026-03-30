@@ -412,16 +412,6 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
             return (
               <g
                 key={b.id}
-                className="gbm-bubble"
-                style={{
-                  // CSS-Custom-Properties für die Float-Animation
-                  "--gbm-ax": `${b.floatAmpX}px`,
-                  "--gbm-ay": `${b.floatAmpY}px`,
-                  "--gbm-dur": `${b.floatDuration}s`,
-                  "--gbm-delay": `${b.floatDelay}s`,
-                  cursor: "pointer",
-                  transformOrigin: `${b.x}px ${b.y}px`,
-                } as React.CSSProperties}
                 transform={`translate(${b.x}, ${b.y})`}
                 onMouseEnter={() => {
                   const tooltipW = 200;
@@ -440,6 +430,18 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
                 onMouseLeave={() => setTooltip(prev => ({ ...prev, visible: false }))}
                 onClick={() => { onNodeClick?.(b); }}
               >
+                {/* Inneres g: CSS-Float-Animation – transformOrigin relativ zur Bubble-Mitte (0,0) */}
+                <g
+                  className="gbm-bubble"
+                  style={{
+                    "--gbm-ax": `${b.floatAmpX}px`,
+                    "--gbm-ay": `${b.floatAmpY}px`,
+                    "--gbm-dur": `${b.floatDuration}s`,
+                    "--gbm-delay": `${b.floatDelay}s`,
+                    cursor: "pointer",
+                    transformOrigin: "0px 0px",
+                  } as React.CSSProperties}
+                >
                 {/* Äußerer Glow-Ring für Accent-Nodes */}
                 {b.isAccent && (
                   <circle
@@ -505,6 +507,7 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
                     </tspan>
                   ))}
                 </text>
+                </g>{/* end animation-g */}
               </g>
             );
           })}
