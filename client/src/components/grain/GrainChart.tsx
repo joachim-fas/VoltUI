@@ -170,27 +170,127 @@ export interface GrainBarChartProps {
   palette?: GrainPalette;
   className?: string;
 }
+/** Einfaches horizontales Bar Chart – eigene SVG-Implementierung für zuverlässiges Rendering */
+const HorizontalBarChart: React.FC<{
+  data: Record<string, unknown>[];
+  dataKeys: string[];
+  xKey: string;
+  height: number;
+  colors: string[];
+}> = ({ data, dataKeys, xKey, height, colors }) => {
+  const labelW = Math.max(64, Math.max(...data.map(d => String(d[xKey] ?? "").length)) * 8 + 8);
+  const padT = 12, padB = 24, padR = 16;
+  const chartH = height - padT - padB;
+  const rowH = chartH / data.length;
+  const barH = Math.min(22, rowH * 0.52);
+  const maxVal = Math.max(...data.flatMap(d => dataKeys.map(k => Number(d[k] ?? 0))), 1);
+  const xTicks = [0, 0.25, 0.5, 0.75, 1].map(f => Math.round(f * maxVal));
+  return (
+    <div style={{ height, position: "relative", fontFamily: '"DM Sans", system-ui, sans-serif' }}>
+      <svg width="100%" height={height} style={{ overflow: "visible" }}>
+        {/* Grid lines */}
+        {xTicks.map(v => {
+          const xPct = v / maxVal;
+          return (
+            <line key={v}
+              x1={`calc(${labelW}px + ${xPct * 100}% - ${xPct * (labelW + padR)}px)`}
+              x2={`calc(${labelW}px + ${xPct * 100}% - ${xPct * (labelW + padR)}px)`}
+              y1={padT} y2={height - padB}
+              stroke="var(--border)" strokeDasharray="3 3" strokeWidth={1} />
+          );
+        })}
+        {data.map((row, ri) => {
+          const label = String(row[xKey] ?? "");
+          const cy = padT + ri * rowH + rowH / 2;
+          return (
+            <g key={ri}>
+              {/* Label */}
+              <text x={labelW - 8} y={cy + 4} textAnchor="end"
+                fontSize={12} fontWeight={500} fill="var(--foreground)">
+                {label}
+              </text>
+              {/* Bars */}
+              {dataKeys.map((key, ki) => {
+                const val = Number(row[key] ?? 0);
+                const barY = cy - (dataKeys.length * barH) / 2 + ki * barH;
+                return (
+                  <g key={key}>
+                    <rect
+                      x={labelW}
+                      y={barY}
+                      height={barH - 2}
+                      width={0}
+                      rx={3} ry={3}
+                      fill={colors[ki % colors.length]}
+                      opacity={0.88}
+                    >
+                      <animate attributeName="width"
+                        from="0"
+                        to={`calc(${(val / maxVal) * 100}% - ${(val / maxVal) * (labelW + padR)}px)`}
+                        dur="0.5s" fill="freeze" calcMode="spline"
+                        keySplines="0.4 0 0.2 1" keyTimes="0;1" />
+                    </rect>
+                    {/* Value label */}
+                    <text
+                      x={labelW + 4}
+                      y={barY + barH / 2 + 3}
+                      fontSize={10} fill="var(--foreground)" opacity={0.6}
+                    >
+                      {val}
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+          );
+        })}
+        {/* X-Axis labels */}
+        {xTicks.map(v => {
+          const xPct = v / maxVal;
+          return (
+            <text key={v}
+              x={`calc(${labelW}px + ${xPct * 100}% - ${xPct * (labelW + padR)}px)`}
+              y={height - padB + 14}
+              textAnchor="middle" fontSize={10} fill="var(--muted-foreground)">
+              {v}
+            </text>
+          );
+        })}
+      </svg>
+      {/* Legend */}
+      {dataKeys.length > 1 && (
+        <div style={{ position: "absolute", bottom: 0, left: labelW, display: "flex", gap: 12, fontSize: 11 }}>
+          {dataKeys.map((k, i) => (
+            <span key={k} style={{ display: "flex", alignItems: "center", gap: 4, color: "var(--muted-foreground)" }}>
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: colors[i % colors.length], display: "inline-block" }} />
+              {k}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const GrainBarChart: React.FC<GrainBarChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle, stacked, horizontal, palette, className
 }) => {
   const colors = getPalette(palette);
+  if (horizontal) {
+    return (
+      <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
+        <HorizontalBarChart data={data} dataKeys={dataKeys} xKey={xKey} height={height} colors={colors} />
+      </ChartWrapper>
+    );
+  }
   return (
   <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data} layout={horizontal ? "vertical" : "horizontal"}
-        margin={{ top: 8, right: 8, left: horizontal ? 60 : -16, bottom: 0 }} barCategoryGap="30%">
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={!horizontal} horizontal={horizontal} />
-        {horizontal ? (
-          <>
-            <XAxis type="number" tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-            <YAxis type="category" dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} width={55} />
-          </>
-        ) : (
-          <>
-            <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-          </>
-        )}
+      <BarChart data={data} layout="horizontal"
+        margin={{ top: 8, right: 8, left: -16, bottom: 0 }} barCategoryGap="28%">
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
         <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
         <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
         {dataKeys.map((key, i) => (

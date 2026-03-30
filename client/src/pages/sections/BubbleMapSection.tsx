@@ -92,6 +92,7 @@ const PROPS = [
 /* ── Hauptkomponente ── */
 const BubbleMapSection: React.FC = () => {
   const [activeDemo, setActiveDemo] = useState<"skills" | "projects" | "keywords">("skills");
+  const [activeTheme, setActiveTheme] = useState<"dark" | "light">("dark");
 
   const demos = {
     skills: { data: SKILL_DATA, title: "Skill-Map", subtitle: "Kompetenz-Profil · Score 0–200 · Größe = Stärke", threshold: 155 },
@@ -126,7 +127,24 @@ const BubbleMapSection: React.FC = () => {
       <div>
         <div className="flex items-center justify-between mb-5">
           <h2 className="font-display font-bold text-2xl text-[#0A0A0A]">Live Demo</h2>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <div className="flex rounded-full border border-[#CCCCCC] overflow-hidden">
+              {(["dark", "light"] as const).map(t => (
+                <button
+                  key={t}
+                  onClick={() => setActiveTheme(t)}
+                  className={`px-3 py-1.5 text-xs font-mono font-medium transition-all duration-150 ${
+                    activeTheme === t
+                      ? "bg-[#0A0A0A] text-[#E4FF97]"
+                      : "bg-transparent text-[#7A7A7A] hover:text-[#0A0A0A]"
+                  }`}
+                >
+                  {t === "dark" ? "Dark" : "Light"}
+                </button>
+              ))}
+            </div>
+            <div className="w-px h-4 bg-[#CCCCCC]" />
             {(["skills", "projects", "keywords"] as const).map(key => (
               <button
                 key={key}
@@ -147,9 +165,10 @@ const BubbleMapSection: React.FC = () => {
           nodes={current.data}
           title={current.title}
           subtitle={current.subtitle}
-          height={560}
+          height={520}
           accentThreshold={current.threshold}
           showStats
+          theme={activeTheme}
           onNodeClick={(node) => console.log("Bubble clicked:", node)}
         />
       </div>
@@ -268,7 +287,7 @@ const BubbleMapSection: React.FC = () => {
             {
               rule: "03",
               title: "Dunkler Hintergrund",
-              desc: "GrainBubbleMap funktioniert ausschließlich auf dunklem Hintergrund (#0A0A0A). Kein Light-Mode.",
+              desc: "GrainBubbleMap funktioniert auf dunklem (#0A0A0A) und hellem (#FFFFFF) Hintergrund. Prop: theme=\"dark\" | \"light\".",
               ok: true,
             },
             {

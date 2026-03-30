@@ -388,10 +388,10 @@ export const DataSection: React.FC = () => {
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <GrainBarChart data={weeklyData} dataKeys={["Design", "Code", "Review"]} xKey="name"
-            title="Wöchentliche Aktivität" subtitle="Bar Chart · Gruppenvergleich · Design / Code / Review" height={260} />
+            title="Wöchentliche Aktivität" subtitle="Bar Chart · Gruppenvergleich · Design / Code / Review" height={300} />
           <GrainBarChart data={frameworkData} dataKeys={["Nutzung"]} xKey="name"
             title="Framework-Popularität" subtitle="Horizontales Bar Chart · Lesbarer bei langen Labels"
-            horizontal height={260} />
+            horizontal height={300} />
         </div>
       </div>
 
