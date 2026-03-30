@@ -31,12 +31,15 @@ const C = {
   positive: "#1A9E5A",   /* Signal Positiv */
   negative: "#E8402A",   /* Signal Negativ */
   neutral:  "#6B7A9A",   /* Signal Neutral */
-  /* Pastell-Palette für Charts */
-  rose:     "#F2B8C6",   /* Pastell Rose */
-  mint:     "#A8E6CF",   /* Pastell Mint */
-  orchid:   "#D4A8E0",   /* Pastell Orchid */
-  butter:   "#F5E6A3",   /* Pastell Butter */
-  sky:      "#A8D4F2",   /* Pastell Sky */
+  /* Pastell-Palette für Charts – alle 8 GRAIN_PASTEL Töne */
+  rose:     "#F4A0B5",   /* Pastell Rose Quartz */
+  peach:    "#F5C87A",   /* Pastell Peach Cream */
+  mint:     "#6DDBA0",   /* Pastell Mint Green */
+  orchid:   "#D98AE8",   /* Pastell Soft Orchid */
+  sky:      "#7AB8F5",   /* Pastell Baby Blue */
+  butter:   "#E8C840",   /* Pastell Butter Yellow */
+  orange:   "#F0956A",   /* Pastell Powder Orange */
+  aqua:     "#5ECECE",   /* Pastell Aqua Mist */
 };
 
 /* ── Chart-Daten ── */
@@ -52,13 +55,13 @@ const revenueData = [
 ];
 
 const visitorData = [
-  { day: "Mo", organic: 1200, paid: 800, direct: 400 },
-  { day: "Di", organic: 1800, paid: 1100, direct: 600 },
-  { day: "Mi", organic: 1400, paid: 900, direct: 500 },
-  { day: "Do", organic: 2200, paid: 1400, direct: 700 },
-  { day: "Fr", organic: 2600, paid: 1600, direct: 900 },
-  { day: "Sa", organic: 1900, paid: 1200, direct: 650 },
-  { day: "So", organic: 1100, paid: 700, direct: 350 },
+  { day: "Mo", organisch: 1200, paid: 800, direkt: 400, social: 320, email: 180, referral: 140, affiliate: 90, sonstige: 60 },
+  { day: "Di", organisch: 1800, paid: 1100, direkt: 600, social: 480, email: 260, referral: 200, affiliate: 130, sonstige: 80 },
+  { day: "Mi", organisch: 1400, paid: 900, direkt: 500, social: 380, email: 210, referral: 160, affiliate: 100, sonstige: 70 },
+  { day: "Do", organisch: 2200, paid: 1400, direkt: 700, social: 560, email: 310, referral: 240, affiliate: 150, sonstige: 95 },
+  { day: "Fr", organisch: 2600, paid: 1600, direkt: 900, social: 680, email: 380, referral: 290, affiliate: 180, sonstige: 110 },
+  { day: "Sa", organisch: 1900, paid: 1200, direkt: 650, social: 500, email: 280, referral: 210, affiliate: 130, sonstige: 85 },
+  { day: "So", organisch: 1100, paid: 700, direkt: 350, social: 290, email: 160, referral: 120, affiliate: 75, sonstige: 50 },
 ];
 
 const channelData = [
@@ -417,9 +420,14 @@ export const DashboardSection: React.FC = () => {
                     <YAxis tick={TICK_STYLE} axisLine={false} tickLine={false} />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend iconType="circle" iconSize={6} wrapperStyle={{ fontSize: 10, fontFamily: "DM Sans" }} />
-                    <Bar dataKey="organic" name="Organisch" fill={C.black}    radius={[4,4,0,0]} />
-                    <Bar dataKey="paid"    name="Paid"      fill={C.rose}     radius={[4,4,0,0]} />
-                    <Bar dataKey="direct"  name="Direkt"    fill={C.sky}      radius={[4,4,0,0]} />
+                    <Bar dataKey="organisch" name="Organisch" fill={C.black}     radius={[4,4,0,0]} />
+                    <Bar dataKey="paid"      name="Paid"      fill={C.rose}     radius={[4,4,0,0]} />
+                    <Bar dataKey="direkt"    name="Direkt"    fill={C.sky}      radius={[4,4,0,0]} />
+                    <Bar dataKey="social"    name="Social"    fill={C.mint}     radius={[4,4,0,0]} />
+                    <Bar dataKey="email"     name="E-Mail"    fill={C.butter}   radius={[4,4,0,0]} />
+                    <Bar dataKey="referral"  name="Referral"  fill={C.orchid}   radius={[4,4,0,0]} />
+                    <Bar dataKey="affiliate" name="Affiliate" fill={C.peach}    radius={[4,4,0,0]} />
+                    <Bar dataKey="sonstige"  name="Sonstige"  fill={C.aqua}     radius={[4,4,0,0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </GrainCardContent>
