@@ -1,7 +1,7 @@
 /**
  * OperatingPrincipleSection - Grain UI
  * Vollstaendige inhaltliche Ausarbeitung des Operating Principle
- * Quelle: Notion - "Idee -- Eingabe -> Ausgabe (Operating Principle)"
+ * Quelle: Notion - "Idee -- Eingabe &rarr; Ausgabe (Operating Principle)"
  * Design: Weiss/Hell, Lime+Schwarz System, Pastell-Farbzuordnung
  */
 
@@ -84,7 +84,7 @@ const ALL_WORKFLOWS = [
     description: "Gespraeche sind kein Selbstzweck - jedes Meeting produziert ein Artefakt.",
     steps: [
       { phase: "input" as const,   label: "Agenda + Teilnehmer + Transcript", owner: "Initiator",  status: "done" as const,    content: "Ziele des Meetings, Teilnehmerliste, Notizen oder Aufzeichnung." },
-      { phase: "process" as const, label: "Verdichten -> Entscheidungen markieren -> Tasks extrahieren", owner: "Moderator", status: "active" as const, content: "Rohmaterial wird strukturiert: Entscheidungen markiert, Next Actions mit Owner und Datum." },
+      { phase: "process" as const, label: "Verdichten &rarr; Entscheidungen markieren &rarr; Tasks extrahieren", owner: "Moderator", status: "active" as const, content: "Rohmaterial wird strukturiert: Entscheidungen markiert, Next Actions mit Owner und Datum." },
       { phase: "output" as const,  label: "Summary + Decisions + Next Actions", dod: "Alle Actions haben Owner + Datum", handoff: "Slack / Notion / Ticket-System", status: "pending" as const, content: "5 Bullets Summary, Decisions mit Owner, Next Actions mit Datum." },
       { phase: "proof" as const,   label: "Weniger Pingpong, klare Owners", status: "pending" as const, content: "Signal: naechste Schritte laufen ohne Nachfrage an." },
     ],
@@ -96,7 +96,7 @@ const ALL_WORKFLOWS = [
     description: "Schnellere Entscheidungen durch strukturierte Evidenz statt Bauchgefuehl.",
     steps: [
       { phase: "input" as const,   label: "5-20 Quellen + Fragestellung + Zeitfenster", owner: "Researcher", status: "done" as const, content: "Rohmaterial: Links, Dokumente, Signale. Klare Fragestellung und Zeitrahmen." },
-      { phase: "process" as const, label: "Clustern -> Muster -> Interpretation -> Implikationen", owner: "Analyst", status: "done" as const, content: "Quellen werden geclustert, Muster identifiziert, Implikationen abgeleitet." },
+      { phase: "process" as const, label: "Clustern &rarr; Muster &rarr; Interpretation &rarr; Implikationen", owner: "Analyst", status: "done" as const, content: "Quellen werden geclustert, Muster identifiziert, Implikationen abgeleitet." },
       { phase: "output" as const,  label: "1 Insight-Note + 3 Hypothesen + 1 Empfehlung", dod: "Empfehlung ist umsetzbar ohne Meeting", handoff: "Decision Log / Produktteam", status: "active" as const, content: "Kompaktes Dokument: Kerninsight, testbare Hypothesen, klare Handlungsempfehlung." },
       { phase: "proof" as const,   label: "Schnellere Entscheidungen, mehr Evidenz", status: "pending" as const, content: "Signal: Entscheidungen werden in < 24h getroffen, nicht in Meetings diskutiert." },
     ],
@@ -104,11 +104,11 @@ const ALL_WORKFLOWS = [
   {
     id: "idea",
     icon: <Lightbulb size={16} />,
-    title: "Idee -> Konzept",
+    title: "Idee &rarr; Konzept",
     description: "Rohe Ideen werden zu strukturierten Konzepten mit naechsten Schritten.",
     steps: [
       { phase: "input" as const,   label: "Rohidee + Kontext + Zielgruppe", owner: "Ideengeber", status: "done" as const, content: "Unstrukturierte Gedanken, Marktbeobachtung, Problem-Hypothese." },
-      { phase: "process" as const, label: "Validieren -> Strukturieren -> Priorisieren", owner: "Stratege", status: "active" as const, content: "Idee wird gegen Markt, Ressourcen und Strategie geprueft. Scope wird definiert." },
+      { phase: "process" as const, label: "Validieren &rarr; Strukturieren &rarr; Priorisieren", owner: "Stratege", status: "active" as const, content: "Idee wird gegen Markt, Ressourcen und Strategie geprueft. Scope wird definiert." },
       { phase: "output" as const,  label: "Idea Page + naechste 3 Schritte", dod: "Naechste Schritte sind konkret und zugewiesen", handoff: "Projektteam / Notion", status: "pending" as const, content: "1-seitige Ideen-Dokumentation mit Vision, Scope, Risiken und Next Actions." },
       { phase: "proof" as const,   label: "Idee ist entscheidbar", status: "pending" as const, content: "Signal: Entscheidung Ja/Nein in < 1 Woche moeglich." },
     ],
@@ -120,7 +120,7 @@ const ALL_WORKFLOWS = [
     description: "Aus Kundenbedarf wird ein konkretes, verkaufbares Angebot.",
     steps: [
       { phase: "input" as const,   label: "Kundenbedarf + Budget + Zeitrahmen", owner: "Sales", status: "done" as const, content: "Briefing, Erstgespraech-Notizen, Rahmenbedingungen." },
-      { phase: "process" as const, label: "Scope definieren -> Deliverables -> Preis", owner: "Lead", status: "active" as const, content: "Leistungsumfang wird praezisiert, Deliverables definiert, Preis kalkuliert." },
+      { phase: "process" as const, label: "Scope definieren &rarr; Deliverables &rarr; Preis", owner: "Lead", status: "active" as const, content: "Leistungsumfang wird praezisiert, Deliverables definiert, Preis kalkuliert." },
       { phase: "output" as const,  label: "1 Pager + Scope + Deliverables", dod: "Kunde kann Ja/Nein sagen ohne Rueckfragen", handoff: "Kunde / CRM", status: "pending" as const, content: "Klares Angebot: Was, Wie, Wann, Wieviel. Keine Interpretationsspielraeume." },
       { phase: "proof" as const,   label: "Conversion Rate steigt", status: "pending" as const, content: "Signal: Angebote werden haeufiger ohne Nachverhandlung angenommen." },
     ],
@@ -132,7 +132,7 @@ const ALL_WORKFLOWS = [
     description: "Konsistente Markenkommunikation durch klare Regeln und Templates.",
     steps: [
       { phase: "input" as const,   label: "Zielgruppe + Tonalitaet + Kontext", owner: "Stratege", status: "done" as const, content: "Brand-Briefing, bestehende Assets, Wettbewerbsanalyse." },
-      { phase: "process" as const, label: "Rules definieren -> Templates bauen -> Beispiele", owner: "Creative", status: "active" as const, content: "Sprachregeln werden festgelegt, Templates fuer haeufige Formate erstellt." },
+      { phase: "process" as const, label: "Rules definieren &rarr; Templates bauen &rarr; Beispiele", owner: "Creative", status: "active" as const, content: "Sprachregeln werden festgelegt, Templates fuer haeufige Formate erstellt." },
       { phase: "output" as const,  label: "Rules + Templates + Beispiele", dod: "Jedes Teammitglied kann konsistent kommunizieren", handoff: "Team / Brand Guide", status: "pending" as const, content: "Dokumentiertes Brand-System: Tonalitaet, Vokabular, Formatvorlagen." },
       { phase: "proof" as const,   label: "Konsistente Aussenwirkung", status: "pending" as const, content: "Signal: Externe erkennen die Marke ohne Logo." },
     ],
@@ -144,7 +144,7 @@ const ALL_WORKFLOWS = [
     description: "Komplexe Entscheidungen werden durch strukturierte Evidenz entscheidbar.",
     steps: [
       { phase: "input" as const,   label: "Optionen + Kriterien + Stakeholder", owner: "PM", status: "done" as const, content: "Alle relevanten Optionen, Entscheidungskriterien, betroffene Personen." },
-      { phase: "process" as const, label: "Bewerten -> Abwaegen -> Experiment planen", owner: "Team", status: "active" as const, content: "Optionen werden gegen Kriterien bewertet, Risiken abgewogen, Test-Hypothese formuliert." },
+      { phase: "process" as const, label: "Bewerten &rarr; Abwaegen &rarr; Experiment planen", owner: "Team", status: "active" as const, content: "Optionen werden gegen Kriterien bewertet, Risiken abgewogen, Test-Hypothese formuliert." },
       { phase: "output" as const,  label: "Decision Log + Experiment Plan", dod: "Entscheidung ist dokumentiert und kommuniziert", handoff: "Entwicklung / Stakeholder", status: "pending" as const, content: "Klare Entscheidung mit Begruendung, Alternativen und Experiment-Setup." },
       { phase: "proof" as const,   label: "Weniger Reverts, mehr Lernen", status: "pending" as const, content: "Signal: Entscheidungen werden selten revidiert, Learnings werden dokumentiert." },
     ],
@@ -156,7 +156,7 @@ const ALL_WORKFLOWS = [
     description: "Von Briefing bis Publishing - reproduzierbar und skalierbar.",
     steps: [
       { phase: "input" as const,   label: "Briefing + Zielgruppe + Format + Kanal", owner: "Editor", status: "done" as const, content: "Thema, Ziel, Zielgruppe, Format (Artikel/Video/Post), Kanal und Deadline." },
-      { phase: "process" as const, label: "Varianten erstellen -> Review -> Freigabe", owner: "Creator", status: "active" as const, content: "Inhalt wird produziert, Varianten erstellt, intern reviewed und freigegeben." },
+      { phase: "process" as const, label: "Varianten erstellen &rarr; Review &rarr; Freigabe", owner: "Creator", status: "active" as const, content: "Inhalt wird produziert, Varianten erstellt, intern reviewed und freigegeben." },
       { phase: "output" as const,  label: "Briefing + Varianten + Publishing-Paket", dod: "Alle Assets sind publish-ready", handoff: "Publishing / Social", status: "pending" as const, content: "Fertiges Content-Paket: Hauptstueck + Varianten + Metadaten + Publishing-Plan." },
       { phase: "proof" as const,   label: "Reichweite und Engagement steigen", status: "pending" as const, content: "Signal: Content performt messbar besser als ohne Briefing-Prozess." },
     ],
@@ -168,7 +168,7 @@ const ALL_WORKFLOWS = [
     description: "Von Spec bis Release - strukturiert, dokumentiert, uebergabefaehig.",
     steps: [
       { phase: "input" as const,   label: "Spec + Akzeptanzkriterien + Prioritaet", owner: "PM", status: "done" as const, content: "Technische Anforderungen, User Stories, Akzeptanzkriterien, Prioritaet." },
-      { phase: "process" as const, label: "Ticket-Backlog -> Entwicklung -> Review", owner: "Dev", status: "active" as const, content: "Spec wird in Tickets zerlegt, entwickelt, code-reviewed und getestet." },
+      { phase: "process" as const, label: "Ticket-Backlog &rarr; Entwicklung &rarr; Review", owner: "Dev", status: "active" as const, content: "Spec wird in Tickets zerlegt, entwickelt, code-reviewed und getestet." },
       { phase: "output" as const,  label: "Spec + Ticket-Backlog + Release-Notes", dod: "Feature ist deployed und dokumentiert", handoff: "Ops / Kunde", status: "pending" as const, content: "Fertiges Feature mit Dokumentation, Release Notes und Uebergabe-Protokoll." },
       { phase: "proof" as const,   label: "Weniger Bugs, schnellere Releases", status: "pending" as const, content: "Signal: Cycle Time sinkt, Bug-Rate nach Release sinkt." },
     ],
@@ -180,7 +180,7 @@ const ALL_WORKFLOWS = [
     description: "Leads werden systematisch qualifiziert und weitergefuehrt.",
     steps: [
       { phase: "input" as const,   label: "Lead-Info + Quelle + Erstkontext", owner: "Sales", status: "done" as const, content: "Kontaktdaten, Herkunft des Leads, erster Kontext und Bedarf." },
-      { phase: "process" as const, label: "Qualifizieren -> Pitch -> Next Step definieren", owner: "Sales", status: "active" as const, content: "Lead wird gegen ICP geprueft, Pitch angepasst, konkreter naechster Schritt vereinbart." },
+      { phase: "process" as const, label: "Qualifizieren &rarr; Pitch &rarr; Next Step definieren", owner: "Sales", status: "active" as const, content: "Lead wird gegen ICP geprueft, Pitch angepasst, konkreter naechster Schritt vereinbart." },
       { phase: "output" as const,  label: "Qualifizierung + Next Step + Follow-up", dod: "Naechster Schritt ist terminiert", handoff: "CRM / Account Manager", status: "pending" as const, content: "Qualifiziertes Lead-Profil mit klarem Next Step und Follow-up-Datum." },
       { phase: "proof" as const,   label: "Conversion Rate steigt", status: "pending" as const, content: "Signal: Mehr Leads werden zu Kunden, Cycle Time sinkt." },
     ],
@@ -192,7 +192,7 @@ const ALL_WORKFLOWS = [
     description: "Wiederkehrende Aufgaben werden zu Standards - einmal dokumentiert, immer reproduzierbar.",
     steps: [
       { phase: "input" as const,   label: "Aufgabe + Haeufigkeit + Verantwortlicher", owner: "Ops", status: "done" as const, content: "Beschreibung der Aufgabe, wie oft sie vorkommt, wer sie ausfuehrt." },
-      { phase: "process" as const, label: "SOP schreiben -> Checkliste -> Testen", owner: "Ops", status: "active" as const, content: "Standard Operating Procedure wird dokumentiert, Checkliste erstellt, einmal durchgespielt." },
+      { phase: "process" as const, label: "SOP schreiben &rarr; Checkliste &rarr; Testen", owner: "Ops", status: "active" as const, content: "Standard Operating Procedure wird dokumentiert, Checkliste erstellt, einmal durchgespielt." },
       { phase: "output" as const,  label: "SOP + Checkliste + Uebergabe", dod: "Neue Person kann Aufgabe ohne Rueckfragen ausfuehren", handoff: "Team / Notion", status: "pending" as const, content: "Dokumentierter Standard: Schritt-fuer-Schritt-Anleitung, Checkliste, Uebergabe-Protokoll." },
       { phase: "proof" as const,   label: "Weniger Fehler, weniger Rueckfragen", status: "pending" as const, content: "Signal: Aufgabe laeuft ohne Eskalation, neue Mitarbeitende onboarden schneller." },
     ],
@@ -332,7 +332,7 @@ export default function OperatingPrincipleSection() {
         <div>
           <SectionLabel>Operating Principle</SectionLabel>
           <h1 className="font-display font-bold text-4xl text-[#0A0A0A] mb-4 leading-tight">
-            Eingabe → Workflow → Ausgabe
+            Eingabe &rarr; Workflow &rarr; Ausgabe
           </h1>
           <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed mb-4">
             Ein universelles Schema, nach dem jede Aktivitaet bei Free-Agents.io gedacht,
@@ -497,11 +497,11 @@ export default function OperatingPrincipleSection() {
               rule: "Gespraeche sind kein Selbstzweck.",
               input: "Frage + Kontext",
               output: "Entscheidung / naechster Schritt / kurzes Artefakt" },
-            { dir: "Mensch → Maschine", icon: <Cpu size={16} />, bg: "#FFF5BA", border: "#FFE87A",
+            { dir: "Mensch &rarr; Maschine", icon: <Cpu size={16} />, bg: "#FFF5BA", border: "#FFE87A",
               rule: "Gute Outputs brauchen gute Inputs.",
               input: "Ziel + Beispiele/Daten + Grenzen + Format",
               output: "Draft / Struktur / Code, der sich weiterverwenden laesst" },
-            { dir: "Maschine → Mensch", icon: <FileText size={16} />, bg: "#C3F4D3", border: "#7ADEA0",
+            { dir: "Maschine &rarr; Mensch", icon: <FileText size={16} />, bg: "#C3F4D3", border: "#7ADEA0",
               rule: "KI liefert Arbeitsstuecke, keine Texte.",
               input: "Anfrage + Kontext",
               output: "Format + Annahmen + offene Punkte + Next Actions" },

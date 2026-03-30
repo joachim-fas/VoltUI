@@ -22,6 +22,7 @@ import SignetSection from "./sections/SignetSection";
 import BrandArchitectureSection from "./sections/BrandArchitectureSection";
 import DialogSection from "./sections/DialogSection";
 import BrandStorySection from "./sections/BrandStorySection";
+import BubbleMapSection from "./sections/BubbleMapSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
@@ -68,6 +69,12 @@ const sidebarSections = [
       { id: "brandstory", label: "Brand Story",            description: "Free Agents.io Identitaet",    icon: <BookOpen className="w-4 h-4" />, isNew: true },
     ],
   },
+  {
+    title: "Visualisierung",
+    items: [
+      { id: "bubblemap",  label: "Bubble Map",             description: "Force-Layout Bubble Visualisierung", icon: <Shapes className="w-4 h-4" />, isNew: true },
+    ],
+  },
 ];
 
 export default function Home() {
@@ -103,6 +110,7 @@ export default function Home() {
       case "brand":       return <BrandArchitectureSection />;
       case "dialog":      return <DialogSection />;
       case "brandstory":  return <BrandStorySection />;
+      case "bubblemap":   return <BubbleMapSection />;
       default:            return <HeroSection onNavigate={navigate} />;
     }
   };
