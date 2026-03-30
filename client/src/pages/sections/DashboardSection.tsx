@@ -141,15 +141,15 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white rounded-xl px-3.5 py-2.5 border border-[#E8E8E8]">
-      <p className="text-xs font-semibold font-ui text-[#0A0A0A] mb-2 pb-1.5 border-b border-[#E8E8E8]">{label}</p>
+    <div className="bg-card rounded-xl px-3.5 py-2.5 border border-border">
+      <p className="text-xs font-semibold font-ui text-foreground mb-2 pb-1.5 border-b border-border">{label}</p>
       {payload.map((p: any, i: number) => (
         <div key={i} className="flex items-center justify-between gap-4 mt-1">
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full" style={{ background: p.color }} />
-            <span className="text-[11px] font-ui text-[#6B6B6B]">{p.name}</span>
+            <span className="text-[11px] font-ui text-muted-foreground">{p.name}</span>
           </div>
-          <span className="text-[11px] font-semibold font-ui text-[#0A0A0A]">
+          <span className="text-[11px] font-semibold font-ui text-foreground">
             {typeof p.value === "number" && p.value > 1000 ? `€ ${(p.value / 1000).toFixed(0)}k` : p.value}
           </span>
         </div>
@@ -194,15 +194,15 @@ const KPICard: React.FC<KPICardProps> = ({
   const isPositive = change > 0;
   const isNegative = change < 0;
 
-  const bg = lime ? "bg-[#E4FF97]" : dark ? "bg-[#0A0A0A]" : "bg-white border border-[#E8E8E8]";
-  const textMain = lime || dark ? (lime ? "text-[#0A0A0A]" : "text-white") : "text-[#0A0A0A]";
-  const textSub  = lime ? "text-[#0A0A0A]/50" : dark ? "text-white/50" : "text-[#6B6B6B]";
-  const iconBg   = lime ? "bg-[#0A0A0A]/10" : dark ? "bg-white/10" : "bg-[#F4F4F4]";
-  const iconColor= lime ? "text-[#0A0A0A]" : dark ? "text-white" : "text-[#0A0A0A]";
+  const bg = lime ? "bg-[#E4FF97]" : dark ? "bg-[#0A0A0A]" : "bg-card border border-border";
+  const textMain = lime || dark ? (lime ? "text-foreground" : "text-white") : "text-foreground";
+  const textSub  = lime ? "text-foreground/50" : dark ? "text-white/50" : "text-muted-foreground";
+  const iconBg   = lime ? "bg-[#0A0A0A]/10" : dark ? "bg-white/10" : "bg-secondary";
+  const iconColor= lime ? "text-foreground" : dark ? "text-white" : "text-foreground";
 
   const changeColor = (lime || dark)
-    ? (lime ? "text-[#0A0A0A]/70" : "text-white/70")
-    : isPositive ? "text-[#0F6038]" : isNegative ? "text-[#A01A08]" : "text-[#6B6B6B]";
+    ? (lime ? "text-foreground/70" : "text-white/70")
+    : isPositive ? "text-[#0F6038]" : isNegative ? "text-[#A01A08]" : "text-muted-foreground";
 
   return (
     <div className={`relative rounded-2xl p-5 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${bg}`}>
@@ -248,10 +248,10 @@ export const DashboardSection: React.FC = () => {
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <p className="section-label mb-2">08 — Dashboard</p>
-          <h2 className="font-display font-bold text-3xl text-[#0A0A0A] tracking-tight mb-2">
+          <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-2">
             Analytics Dashboard
           </h2>
-          <p className="text-[#6B6B6B] font-ui text-sm leading-relaxed max-w-xl">
+          <p className="text-muted-foreground font-ui text-sm leading-relaxed max-w-xl">
             Echtzeit-Überblick über Umsatz, Nutzer und Performance.
           </p>
         </div>
@@ -266,7 +266,7 @@ export const DashboardSection: React.FC = () => {
       </div>
 
       {/* ── Tabs ── */}
-      <div className="flex items-center gap-1 p-1 bg-[#F4F4F4] rounded-xl w-fit">
+      <div className="flex items-center gap-1 p-1 bg-secondary rounded-xl w-fit">
         {([
           { id: "overview",  label: "Übersicht",    desc: "KPIs & Charts" },
           { id: "analytics", label: "Analytics",    desc: "Traffic & Funnel" },
@@ -277,8 +277,8 @@ export const DashboardSection: React.FC = () => {
             onClick={() => setActiveTab(tab.id)}
             className={`px-4 py-2 rounded-lg text-left transition-all duration-200 ${
               activeTab === tab.id
-                ? "bg-white text-[#0A0A0A] ring-1 ring-[#E8E8E8]"
-                : "text-[#6B6B6B] hover:text-[#0A0A0A]"
+                ? "bg-card text-foreground ring-1 ring-border"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             <span className="text-xs font-semibold font-ui block">{tab.label}</span>
@@ -296,8 +296,8 @@ export const DashboardSection: React.FC = () => {
           {/* KPI-Karten */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-ui font-semibold text-sm text-[#0A0A0A]">Kennzahlen August 2025</h3>
-              <span className="text-[10px] font-mono text-[#6B6B6B]">Vergleich zum Vormonat</span>
+              <h3 className="font-ui font-semibold text-sm text-foreground">Kennzahlen August 2025</h3>
+              <span className="text-[10px] font-mono text-muted-foreground">Vergleich zum Vormonat</span>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {([
@@ -320,13 +320,13 @@ export const DashboardSection: React.FC = () => {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <GrainCardTitle>Umsatz & Ausgaben</GrainCardTitle>
-                    <p className="text-xs text-[#6B6B6B] font-ui mt-0.5">Jan – Aug 2025 · Monatliche Entwicklung</p>
+                    <p className="text-xs text-muted-foreground font-ui mt-0.5">Jan – Aug 2025 · Monatliche Entwicklung</p>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       <Insight text="Umsatz wächst schneller als Ausgaben" type="positive" />
                       <Insight text="Gewinn +18.4% vs. Vorjahr" type="positive" />
                     </div>
                   </div>
-                  <button className="w-7 h-7 flex items-center justify-center rounded-lg text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#F4F4F4] flex-shrink-0">
+                  <button className="w-7 h-7 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary flex-shrink-0">
                     <MoreHorizontal className="w-4 h-4" />
                   </button>
                 </div>
@@ -365,7 +365,7 @@ export const DashboardSection: React.FC = () => {
             <GrainCard>
               <GrainCardHeader>
                 <GrainCardTitle>Traffic-Kanäle</GrainCardTitle>
-                <p className="text-xs text-[#6B6B6B] font-ui mt-0.5">Woher kommen die Besucher?</p>
+                <p className="text-xs text-muted-foreground font-ui mt-0.5">Woher kommen die Besucher?</p>
                 <Insight text="Organisch dominiert mit 38%" type="positive" />
               </GrainCardHeader>
               <GrainCardContent>
@@ -385,10 +385,10 @@ export const DashboardSection: React.FC = () => {
                       <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c.color }} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-ui text-[#0A0A0A]">{c.name}</span>
-                          <span className="text-xs font-semibold font-ui text-[#0A0A0A]">{c.value}%</span>
+                          <span className="text-xs font-ui text-foreground">{c.name}</span>
+                          <span className="text-xs font-semibold font-ui text-foreground">{c.value}%</span>
                         </div>
-                        <div className="h-1 bg-[#F4F4F4] rounded-full mt-0.5 overflow-hidden">
+                        <div className="h-1 bg-secondary rounded-full mt-0.5 overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${c.value}%`, background: c.color }} />
                         </div>
                       </div>
@@ -406,7 +406,7 @@ export const DashboardSection: React.FC = () => {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <GrainCardTitle>Besucher nach Kanal</GrainCardTitle>
-                    <p className="text-xs text-[#6B6B6B] font-ui mt-0.5">Diese Woche · täglich aufgeschlüsselt</p>
+                    <p className="text-xs text-muted-foreground font-ui mt-0.5">Diese Woche · täglich aufgeschlüsselt</p>
                     <Insight text="Freitag ist stärkster Tag (+34% vs. Montag)" type="positive" />
                   </div>
                   <GrainBadge variant="muted" size="sm">7 Tage</GrainBadge>
@@ -439,9 +439,9 @@ export const DashboardSection: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <GrainCardTitle>Monatsziele</GrainCardTitle>
-                    <p className="text-xs text-[#6B6B6B] font-ui mt-0.5">August 2025 · 4 Tage verbleibend</p>
+                    <p className="text-xs text-muted-foreground font-ui mt-0.5">August 2025 · 4 Tage verbleibend</p>
                   </div>
-                  <Target className="w-4 h-4 text-[#6B6B6B]" />
+                  <Target className="w-4 h-4 text-muted-foreground" />
                 </div>
               </GrainCardHeader>
               <GrainCardContent>
@@ -454,20 +454,20 @@ export const DashboardSection: React.FC = () => {
                       <div key={g.label}>
                         <div className="flex items-start justify-between mb-1.5 gap-2">
                           <div>
-                            <span className="text-xs font-semibold font-ui text-[#0A0A0A] block">{g.label}</span>
-                            <span className="text-[9px] font-ui text-[#6B6B6B]">{g.note}</span>
+                            <span className="text-xs font-semibold font-ui text-foreground block">{g.label}</span>
+                            <span className="text-[9px] font-ui text-muted-foreground">{g.note}</span>
                           </div>
                           <div className="text-right flex-shrink-0">
-                            <span className="text-xs font-mono text-[#0A0A0A] block">{g.unit}{g.current}</span>
-                            <span className="text-[9px] font-mono text-[#6B6B6B]">/ {g.unit}{g.target}</span>
+                            <span className="text-xs font-mono text-foreground block">{g.unit}{g.current}</span>
+                            <span className="text-[9px] font-mono text-muted-foreground">/ {g.unit}{g.target}</span>
                           </div>
                         </div>
-                        <div className="h-2 bg-[#F4F4F4] rounded-full overflow-hidden">
+                        <div className="h-2 bg-secondary rounded-full overflow-hidden">
                           <motion.div className="h-full rounded-full" style={{ background: g.color }}
                             initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.8, ease: "easeOut" }} />
                         </div>
                         <div className="flex items-center justify-between mt-1">
-                          <span className="text-[9px] font-mono text-[#6B6B6B]">{pct}%</span>
+                          <span className="text-[9px] font-mono text-muted-foreground">{pct}%</span>
                           <span className={`text-[9px] font-semibold font-ui flex items-center gap-0.5 ${good ? "text-[#0F6038]" : "text-[#A01A08]"}`}>
                             {good ? <><CheckCircle2 className="w-2.5 h-2.5" /> On Track</> : <><AlertTriangle className="w-2.5 h-2.5" /> Hinter Plan</>}
                           </span>
@@ -487,7 +487,7 @@ export const DashboardSection: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <GrainCardTitle>Top Produkte</GrainCardTitle>
-                    <p className="text-xs text-[#6B6B6B] font-ui mt-0.5">Nach Umsatz sortiert · August 2025</p>
+                    <p className="text-xs text-muted-foreground font-ui mt-0.5">Nach Umsatz sortiert · August 2025</p>
                   </div>
                   <GrainButton variant="ghost" size="sm" rightIcon={<ChevronRight className="w-3.5 h-3.5" />}>Alle anzeigen</GrainButton>
                 </div>
@@ -495,26 +495,26 @@ export const DashboardSection: React.FC = () => {
               <GrainCardContent>
                 <div className="grid grid-cols-12 gap-2 px-1 mb-2">
                   {["#","Produkt","Umsatz","Trend","Einheiten"].map((h,i) => (
-                    <span key={i} className={`text-[9px] font-mono text-[#6B6B6B] uppercase ${i===0?"col-span-1":i===1?"col-span-4":i===2?"col-span-3 text-right":i===3?"col-span-2 text-right":"col-span-2 text-right"}`}>{h}</span>
+                    <span key={i} className={`text-[9px] font-mono text-muted-foreground uppercase ${i===0?"col-span-1":i===1?"col-span-4":i===2?"col-span-3 text-right":i===3?"col-span-2 text-right":"col-span-2 text-right"}`}>{h}</span>
                   ))}
                 </div>
                 <div className="space-y-2">
                   {topProducts.map((p, i) => (
                     <div key={p.name} className="grid grid-cols-12 gap-2 items-center py-2 px-1 rounded-lg hover:bg-[#F7F7F7] transition-colors">
                       <div className="col-span-1">
-                        <div className="w-6 h-6 rounded-lg bg-[#F4F4F4] flex items-center justify-center">
-                          <span className="text-[10px] font-bold font-display text-[#6B6B6B]">{i + 1}</span>
+                        <div className="w-6 h-6 rounded-lg bg-secondary flex items-center justify-center">
+                          <span className="text-[10px] font-bold font-display text-muted-foreground">{i + 1}</span>
                         </div>
                       </div>
                       <div className="col-span-4">
-                        <span className="text-xs font-semibold font-ui text-[#0A0A0A] block truncate">{p.name}</span>
-                        <div className="h-1 bg-[#F4F4F4] rounded-full mt-1 overflow-hidden">
+                        <span className="text-xs font-semibold font-ui text-foreground block truncate">{p.name}</span>
+                        <div className="h-1 bg-secondary rounded-full mt-1 overflow-hidden">
                           <motion.div className="h-full rounded-full bg-[#0A0A0A]"
                             initial={{ width: 0 }} animate={{ width: `${p.bar}%` }} transition={{ duration: 0.7, delay: i * 0.1 }} />
                         </div>
                       </div>
                       <div className="col-span-3 text-right">
-                        <span className="text-xs font-mono font-semibold text-[#0A0A0A]">€ {(p.revenue / 1000).toFixed(1)}k</span>
+                        <span className="text-xs font-mono font-semibold text-foreground">€ {(p.revenue / 1000).toFixed(1)}k</span>
                       </div>
                       <div className="col-span-2 text-right">
                         <span className={`text-[10px] font-semibold font-ui flex items-center justify-end gap-0.5 ${p.growth > 0 ? "text-[#0F6038]" : "text-[#A01A08]"}`}>
@@ -523,7 +523,7 @@ export const DashboardSection: React.FC = () => {
                         </span>
                       </div>
                       <div className="col-span-2 text-right">
-                        <span className="text-[10px] font-mono text-[#6B6B6B]">{p.units}</span>
+                        <span className="text-[10px] font-mono text-muted-foreground">{p.units}</span>
                       </div>
                     </div>
                   ))}
@@ -537,7 +537,7 @@ export const DashboardSection: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <GrainCardTitle>Aktivitäten</GrainCardTitle>
-                    <p className="text-xs text-[#6B6B6B] font-ui mt-0.5">Letzte 3 Stunden</p>
+                    <p className="text-xs text-muted-foreground font-ui mt-0.5">Letzte 3 Stunden</p>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#1A9E5A] animate-pulse" />
@@ -549,14 +549,14 @@ export const DashboardSection: React.FC = () => {
                 <div className="space-y-0">
                   {activities.map((a, i) => (
                     <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-                      className={`flex items-start gap-2.5 py-2.5 ${i < activities.length - 1 ? "border-b border-[#E8E8E8]" : ""}`}>
+                      className={`flex items-start gap-2.5 py-2.5 ${i < activities.length - 1 ? "border-b border-border" : ""}`}>
                       <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 text-white mt-0.5"
                         style={{ background: a.color }}>
                         {a.icon}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-ui text-[#0A0A0A] leading-snug">{a.text}</p>
-                        <p className="text-[10px] font-mono text-[#6B6B6B] mt-0.5">{a.time}</p>
+                        <p className="text-xs font-ui text-foreground leading-snug">{a.text}</p>
+                        <p className="text-[10px] font-mono text-muted-foreground mt-0.5">{a.time}</p>
                       </div>
                     </motion.div>
                   ))}
@@ -572,13 +572,13 @@ export const DashboardSection: React.FC = () => {
       ══════════════════════════════════════════ */}
       {activeTab === "analytics" && (
         <div className="space-y-6">
-          <div className="rounded-2xl border border-[#E8E8E8] bg-[#F7F7F7] p-4 flex items-start gap-3">
+          <div className="rounded-2xl border border-border bg-[#F7F7F7] p-4 flex items-start gap-3">
             <div className="w-8 h-8 rounded-xl bg-[#E4FF97] flex items-center justify-center flex-shrink-0">
-              <Zap className="w-4 h-4 text-[#0A0A0A]" />
+              <Zap className="w-4 h-4 text-foreground" />
             </div>
             <div>
-              <p className="text-sm font-semibold font-ui text-[#0A0A0A]">Traffic-Analyse August 2025</p>
-              <p className="text-xs font-ui text-[#6B6B6B] mt-0.5 leading-relaxed">
+              <p className="text-sm font-semibold font-ui text-foreground">Traffic-Analyse August 2025</p>
+              <p className="text-xs font-ui text-muted-foreground mt-0.5 leading-relaxed">
                 Organischer Traffic wächst um 22.1%. Die Absprungrate ist leicht gestiegen –
                 Checkout-Flow und Ladezeiten sollten überprüft werden.
               </p>
@@ -602,7 +602,7 @@ export const DashboardSection: React.FC = () => {
             <GrainCard className="lg:col-span-2">
               <GrainCardHeader>
                 <GrainCardTitle>Performance vs. Ziel</GrainCardTitle>
-                <p className="text-xs text-[#6B6B6B] font-ui mt-0.5">Wöchentlicher Vergleich · Ist vs. Soll (Ziel: 80%)</p>
+                <p className="text-xs text-muted-foreground font-ui mt-0.5">Wöchentlicher Vergleich · Ist vs. Soll (Ziel: 80%)</p>
                 <div className="flex gap-1.5 mt-2">
                   <Insight text="4 von 6 Wochen über Ziel" type="positive" />
                   <Insight text="Trend: steigend" type="positive" />
@@ -627,7 +627,7 @@ export const DashboardSection: React.FC = () => {
             <GrainCard>
               <GrainCardHeader>
                 <GrainCardTitle>Conversion Funnel</GrainCardTitle>
-                <p className="text-xs text-[#6B6B6B] font-ui mt-0.5">Von Besucher zu Kunde: 21% Conversion</p>
+                <p className="text-xs text-muted-foreground font-ui mt-0.5">Von Besucher zu Kunde: 21% Conversion</p>
               </GrainCardHeader>
               <GrainCardContent>
                 <ResponsiveContainer width="100%" height={160}>
@@ -641,10 +641,10 @@ export const DashboardSection: React.FC = () => {
                     <div key={c.name} className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c.fill }} />
                       <div className="flex-1 min-w-0 flex items-center justify-between">
-                        <span className="text-xs font-ui text-[#6B6B6B]">{c.name}</span>
+                        <span className="text-xs font-ui text-muted-foreground">{c.name}</span>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-semibold font-ui text-[#0A0A0A]">{c.value}%</span>
-                          {i > 0 && <span className="text-[9px] font-mono text-[#6B6B6B]">-{conversionData[i-1].value - c.value}%</span>}
+                          <span className="text-xs font-semibold font-ui text-foreground">{c.value}%</span>
+                          {i > 0 && <span className="text-[9px] font-mono text-muted-foreground">-{conversionData[i-1].value - c.value}%</span>}
                         </div>
                       </div>
                     </div>
@@ -665,7 +665,7 @@ export const DashboardSection: React.FC = () => {
                 { value: "62%",   label: "Wiederkehrend",   sub: "Starke Kundenbindung", icon: <RefreshCw className="w-5 h-5" /> },
               ].map((s, i) => (
                 <motion.div key={s.label} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center gap-2">
-                  <div className="w-10 h-10 rounded-xl bg-[#E4FF97] flex items-center justify-center text-[#0A0A0A]">{s.icon}</div>
+                  <div className="w-10 h-10 rounded-xl bg-[#E4FF97] flex items-center justify-center text-foreground">{s.icon}</div>
                   <p className="font-display font-black text-3xl text-white">{s.value}</p>
                   <p className="text-xs font-semibold font-ui text-white/80">{s.label}</p>
                   <p className="text-[10px] font-ui text-white/40">{s.sub}</p>
@@ -683,10 +683,10 @@ export const DashboardSection: React.FC = () => {
         <div className="space-y-5">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2 px-3 py-2 bg-[#F4F4F4] rounded-xl border border-[#E8E8E8]">
-                <Search className="w-3.5 h-3.5 text-[#6B6B6B]" />
+              <div className="flex items-center gap-2 px-3 py-2 bg-secondary rounded-xl border border-border">
+                <Search className="w-3.5 h-3.5 text-muted-foreground" />
                 <input
-                  className="bg-transparent text-xs font-ui text-[#0A0A0A] placeholder:text-[#6B6B6B] outline-none w-44"
+                  className="bg-transparent text-xs font-ui text-foreground placeholder:text-muted-foreground outline-none w-44"
                   placeholder="Bestellung suchen…"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
@@ -702,47 +702,47 @@ export const DashboardSection: React.FC = () => {
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-[#E8E8E8] bg-[#F7F7F7]">
+                    <tr className="border-b border-border bg-[#F7F7F7]">
                       {["ID","Kunde","Produkt","Betrag","Status","Datum","Aktionen"].map((h,i) => (
-                        <th key={i} className={`px-5 py-3 text-[10px] font-bold font-ui text-[#6B6B6B] uppercase tracking-wider ${i===3?"text-right":i===6?"text-right":"text-left"} ${i===2?"hidden sm:table-cell":i===5?"hidden md:table-cell":""}`}>{h}</th>
+                        <th key={i} className={`px-5 py-3 text-[10px] font-bold font-ui text-muted-foreground uppercase tracking-wider ${i===3?"text-right":i===6?"text-right":"text-left"} ${i===2?"hidden sm:table-cell":i===5?"hidden md:table-cell":""}`}>{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {filteredOrders.length === 0 ? (
-                      <tr><td colSpan={7} className="text-center py-12 text-sm font-ui text-[#6B6B6B]">Keine Bestellungen gefunden für „{searchQuery}"</td></tr>
+                      <tr><td colSpan={7} className="text-center py-12 text-sm font-ui text-muted-foreground">Keine Bestellungen gefunden für „{searchQuery}"</td></tr>
                     ) : filteredOrders.map((order, i) => (
-                      <tr key={order.id} className={`border-b border-[#E8E8E8]/50 hover:bg-[#F7F7F7] transition-colors ${i % 2 !== 0 ? "bg-[#FAFAFA]" : ""}`}>
+                      <tr key={order.id} className={`border-b border-border/50 hover:bg-[#F7F7F7] transition-colors ${i % 2 !== 0 ? "bg-[#FAFAFA]" : ""}`}>
                         <td className="px-5 py-3.5">
-                          <span className="text-xs font-mono text-[#0A0A0A] font-semibold">{order.id}</span>
+                          <span className="text-xs font-mono text-foreground font-semibold">{order.id}</span>
                         </td>
                         <td className="px-5 py-3.5">
                           <div className="flex items-center gap-2.5">
                             <div className="w-7 h-7 rounded-full bg-[#0A0A0A] flex items-center justify-center flex-shrink-0">
                               <span className="text-[9px] font-bold text-white">{order.avatar}</span>
                             </div>
-                            <span className="text-xs font-semibold font-ui text-[#0A0A0A]">{order.customer}</span>
+                            <span className="text-xs font-semibold font-ui text-foreground">{order.customer}</span>
                           </div>
                         </td>
                         <td className="px-5 py-3.5 hidden sm:table-cell">
-                          <span className="text-xs font-ui text-[#6B6B6B]">{order.product}</span>
+                          <span className="text-xs font-ui text-muted-foreground">{order.product}</span>
                         </td>
                         <td className="px-5 py-3.5 text-right">
-                          <span className="text-xs font-mono font-semibold text-[#0A0A0A]">€ {order.amount.toLocaleString("de-DE")}</span>
+                          <span className="text-xs font-mono font-semibold text-foreground">€ {order.amount.toLocaleString("de-DE")}</span>
                         </td>
                         <td className="px-5 py-3.5"><StatusBadge status={order.status} /></td>
                         <td className="px-5 py-3.5 hidden md:table-cell">
-                          <span className="text-[10px] font-mono text-[#6B6B6B]">{order.date}</span>
+                          <span className="text-[10px] font-mono text-muted-foreground">{order.date}</span>
                         </td>
                         <td className="px-5 py-3.5">
                           <div className="flex items-center justify-end gap-1">
-                            <button className="w-6 h-6 flex items-center justify-center rounded-md text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#F4F4F4] transition-colors">
+                            <button className="w-6 h-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                               <Eye className="w-3.5 h-3.5" />
                             </button>
-                            <button className="w-6 h-6 flex items-center justify-center rounded-md text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#F4F4F4] transition-colors">
+                            <button className="w-6 h-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                               <Edit2 className="w-3.5 h-3.5" />
                             </button>
-                            <button className="w-6 h-6 flex items-center justify-center rounded-md text-[#6B6B6B] hover:text-[#A01A08] hover:bg-[#FDEEE9] transition-colors">
+                            <button className="w-6 h-6 flex items-center justify-center rounded-md text-muted-foreground hover:text-[#A01A08] hover:bg-[#FDEEE9] transition-colors">
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -752,14 +752,14 @@ export const DashboardSection: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="px-5 py-3 border-t border-[#E8E8E8] bg-[#F7F7F7] flex items-center justify-between">
-                <span className="text-[10px] font-mono text-[#6B6B6B]">
+              <div className="px-5 py-3 border-t border-border bg-[#F7F7F7] flex items-center justify-between">
+                <span className="text-[10px] font-mono text-muted-foreground">
                   {filteredOrders.length} von 248 Bestellungen{searchQuery && ` · Gefiltert nach „${searchQuery}"`}
                 </span>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, "…", 12].map((p, i) => (
                     <button key={i} className={`w-6 h-6 flex items-center justify-center rounded-md text-[10px] font-mono transition-colors ${
-                      p === 1 ? "bg-[#0A0A0A] text-white" : "text-[#6B6B6B] hover:bg-[#F4F4F4]"
+                      p === 1 ? "bg-[#0A0A0A] text-white" : "text-muted-foreground hover:bg-secondary"
                     }`}>{p}</button>
                   ))}
                 </div>

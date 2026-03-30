@@ -73,7 +73,7 @@ export const CardsSection: React.FC = () => {
             <GrainCardHeader>
               <div className="flex items-center justify-between">
                 <GrainBadge variant="glass" size="sm">Gradient</GrainBadge>
-                <TrendingUp className="w-4 h-4 text-[#0A0A0A]" />
+                <TrendingUp className="w-4 h-4 text-foreground" />
               </div>
               <GrainCardTitle className="text-[#000000]">Lime Card</GrainCardTitle>
               <GrainCardDescription className="text-[#000000]/70">

@@ -115,7 +115,7 @@ const BubbleMapSection: React.FC = () => {
           Radial-Gradienten aus der Pastell-Palette, Lime-Akzent für Top-Performer,
           Flux-Textur als atmosphärischer Hintergrund.
         </p>
-        <p className="text-[#4A4A4A] text-base leading-relaxed">
+        <p className="text-muted-foreground text-base leading-relaxed">
           Einsatz: Skill-Maps, Projekt-Priorisierung, Keyword-Cluster, Kompetenz-Radar,
           Themen-Landkarten. Das D3-Force-Simulation-Layout verhindert Überlappungen
           und erzeugt organische, lesbare Anordnungen.
@@ -134,7 +134,7 @@ const BubbleMapSection: React.FC = () => {
                 className={`px-4 py-1.5 rounded-full text-sm font-mono font-medium border transition-all duration-200 ${
                   activeDemo === key
                     ? "bg-[#0A0A0A] text-[#E4FF97] border-[#0A0A0A]"
-                    : "bg-transparent text-[#4A4A4A] border-[#CCCCCC] hover:border-[#0A0A0A] hover:text-[#0A0A0A]"
+                    : "bg-transparent text-muted-foreground border-[#CCCCCC] hover:border-[#0A0A0A] hover:text-foreground"
                 }`}
               >
                 {key === "skills" ? "Skills" : key === "projects" ? "Projekte" : "Keywords"}
@@ -192,15 +192,15 @@ const BubbleMapSection: React.FC = () => {
           ].map(item => (
             <div
               key={item.title}
-              className="p-5 rounded-xl border border-[#E8E8E8] bg-white flex gap-4 items-start"
+              className="p-5 rounded-xl border border-border bg-card flex gap-4 items-start"
             >
               <div
                 className="w-10 h-10 rounded-full flex-shrink-0 mt-0.5"
                 style={{ background: `radial-gradient(circle at 35% 35%, ${item.color}, #0A0A0A88)` }}
               />
               <div>
-                <h3 className="font-display font-semibold text-[#0A0A0A] mb-1">{item.title}</h3>
-                <p className="text-[#4A4A4A] text-sm leading-relaxed">{item.desc}</p>
+                <h3 className="font-display font-semibold text-foreground mb-1">{item.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -210,7 +210,7 @@ const BubbleMapSection: React.FC = () => {
       {/* ── Code-Snippet ── */}
       <div>
         <h3 className="font-display font-bold text-xl text-foreground mb-5">Verwendung</h3>
-        <div className="rounded-2xl overflow-hidden border border-[#E8E8E8]">
+        <div className="rounded-2xl overflow-hidden border border-border">
           <div className="flex items-center gap-2 px-5 py-3 bg-[#0A0A0A] border-b border-white/10">
             <span className="text-[#E4FF97] font-mono text-xs">&gt;_</span>
             <span className="text-white/50 font-mono text-xs">GrainBubbleMap · Beispiel</span>
@@ -224,23 +224,23 @@ const BubbleMapSection: React.FC = () => {
       {/* ── Props-Tabelle ── */}
       <div>
         <h3 className="font-display font-bold text-xl text-foreground mb-5">Props</h3>
-        <div className="rounded-2xl overflow-hidden border border-[#E8E8E8]">
+        <div className="rounded-2xl overflow-hidden border border-border">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#F5F5F5] border-b border-[#E8E8E8]">
-                <th className="text-left px-5 py-3 font-mono font-semibold text-[#0A0A0A]">Prop</th>
-                <th className="text-left px-5 py-3 font-mono font-semibold text-[#0A0A0A]">Typ</th>
-                <th className="text-left px-4 py-3 font-mono font-semibold text-[#0A0A0A]">Req.</th>
-                <th className="text-left px-5 py-3 font-semibold text-[#0A0A0A]">Beschreibung</th>
+              <tr className="bg-secondary border-b border-border">
+                <th className="text-left px-5 py-3 font-mono font-semibold text-foreground">Prop</th>
+                <th className="text-left px-5 py-3 font-mono font-semibold text-foreground">Typ</th>
+                <th className="text-left px-4 py-3 font-mono font-semibold text-foreground">Req.</th>
+                <th className="text-left px-5 py-3 font-semibold text-foreground">Beschreibung</th>
               </tr>
             </thead>
             <tbody>
               {PROPS.map((p, i) => (
-                <tr key={p.prop} className={i % 2 === 0 ? "bg-white" : "bg-[#FAFAFA]"}>
-                  <td className="px-5 py-3 font-mono text-[#0A0A0A] font-medium">{p.prop}</td>
+                <tr key={p.prop} className={i % 2 === 0 ? "bg-card" : "bg-muted"}>
+                  <td className="px-5 py-3 font-mono text-foreground font-medium">{p.prop}</td>
                   <td className="px-5 py-3 font-mono text-[#7A7A7A] text-xs">{p.type}</td>
-                  <td className="px-4 py-3 text-center text-[#4A4A4A]">{p.required}</td>
-                  <td className="px-5 py-3 text-[#4A4A4A] leading-relaxed">{p.desc}</td>
+                  <td className="px-4 py-3 text-center text-muted-foreground">{p.required}</td>
+                  <td className="px-5 py-3 text-muted-foreground leading-relaxed">{p.desc}</td>
                 </tr>
               ))}
             </tbody>
@@ -300,8 +300,8 @@ const BubbleMapSection: React.FC = () => {
                   {item.ok ? "✓ DO" : "✗ DON'T"}
                 </span>
               </div>
-              <h3 className="font-display font-semibold text-[#0A0A0A] mb-1.5">{item.title}</h3>
-              <p className="text-[#4A4A4A] text-sm leading-relaxed">{item.desc}</p>
+              <h3 className="font-display font-semibold text-foreground mb-1.5">{item.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>

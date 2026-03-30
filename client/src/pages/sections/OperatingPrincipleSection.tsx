@@ -279,8 +279,8 @@ const WorkflowStep: React.FC<{
           </div>
           <span className="text-[9px] font-mono text-[#BEBEBE] shrink-0">{s.text}</span>
         </div>
-        <p className="font-display font-bold text-sm text-[#0A0A0A] mb-1">{label}</p>
-        <p className="text-xs text-[#4A4A4A] leading-relaxed mb-2">{content}</p>
+        <p className="font-display font-bold text-sm text-foreground mb-1">{label}</p>
+        <p className="text-xs text-muted-foreground leading-relaxed mb-2">{content}</p>
         {(dod || handoff) && (
           <div className="flex gap-3 flex-wrap">
             {dod && (
@@ -305,7 +305,7 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1800); }}
-      className="flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 rounded border border-[#E8E8E8] text-[#6B6B6B] hover:border-[#0A0A0A] hover:text-[#0A0A0A] transition-all"
+      className="flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 rounded border border-border text-muted-foreground hover:border-[#0A0A0A] hover:text-foreground transition-all"
     >
       <Copy size={10} />
       {copied ? "✓ kopiert" : "kopieren"}
@@ -331,16 +331,16 @@ export default function OperatingPrincipleSection() {
         </div>
         <div>
           <SectionLabel>Operating Principle</SectionLabel>
-          <h1 className="font-display font-bold text-4xl text-[#0A0A0A] mb-4 leading-tight">
+          <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
             Eingabe &rarr; Workflow &rarr; Ausgabe
           </h1>
-          <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed mb-4">
+          <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed mb-4">
             Ein universelles Schema, nach dem jede Aktivitaet bei Free-Agents.io gedacht,
             geplant und dokumentiert wird. Kein Input ohne Output. Kein Output ohne Owner.
           </p>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E4FF97] border border-[#C8F060]">
-            <Zap size={12} className="text-[#0A0A0A]" />
-            <span className="text-[11px] font-mono font-semibold text-[#0A0A0A] uppercase tracking-wider">
+            <Zap size={12} className="text-foreground" />
+            <span className="text-[11px] font-mono font-semibold text-foreground uppercase tracking-wider">
               Merksatz: Weniger Abstimmung. Mehr Ergebnis.
             </span>
           </div>
@@ -378,10 +378,10 @@ export default function OperatingPrincipleSection() {
               { icon: <ArrowRight size={14} />, label: "Klare naechste Schritte", sub: "Mit Owner und Datum" },
               { icon: <BookOpen size={14} />, label: "Transparenz", sub: "Annahmen + offene Punkte sichtbar" },
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-[#E8E8E8] bg-white">
-                <span className="text-[#0A0A0A] mt-0.5">{item.icon}</span>
+              <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-card">
+                <span className="text-foreground mt-0.5">{item.icon}</span>
                 <div>
-                  <p className="text-xs font-semibold text-[#0A0A0A]">{item.label}</p>
+                  <p className="text-xs font-semibold text-foreground">{item.label}</p>
                   <p className="text-[10px] text-[#6B7A9A]">{item.sub}</p>
                 </div>
               </div>
@@ -393,7 +393,7 @@ export default function OperatingPrincipleSection() {
       {/* ── DIE BRUeCKE: OS <-> OP ── */}
       <div>
         <SectionLabel><Cpu size={12} /> Die Bruecke: Digitales OS vs. Menschliches OP</SectionLabel>
-        <div className="rounded-2xl border border-[#E8E8E8] overflow-hidden">
+        <div className="rounded-2xl border border-border overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-6 bg-[#0A0A0A] text-white">
               <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-3">Digitales OS</p>
@@ -408,8 +408,8 @@ export default function OperatingPrincipleSection() {
             </div>
             <div className="p-6 bg-[#F9F9F9]">
               <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-3">Menschliches OP</p>
-              <p className="font-display font-bold text-lg mb-4 text-[#0A0A0A]">Operating Principle</p>
-              <div className="space-y-2 text-sm text-[#4A4A4A]">
+              <p className="font-display font-bold text-lg mb-4 text-foreground">Operating Principle</p>
+              <div className="space-y-2 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2"><span className="font-mono text-xs" style={{color:"#A8CEFF"}}>EINGANG</span><span>Rohmaterial, Kontext, Constraints</span></div>
                 <div className="flex items-center gap-2 pl-4"><ArrowRight size={12} className="text-[#BEBEBE]" /></div>
                 <div className="flex items-center gap-2"><span className="font-mono text-xs" style={{color:"#FFE87A"}}>ABLAUF</span><span>Routinen, Guardrails, Schritte</span></div>
@@ -419,7 +419,7 @@ export default function OperatingPrincipleSection() {
             </div>
           </div>
           <div className="px-6 py-3 bg-[#E4FF97] border-t border-[#C8F060]">
-            <p className="text-xs font-mono text-[#0A0A0A] text-center">
+            <p className="text-xs font-mono text-foreground text-center">
               <strong>Wichtig:</strong> Das OP ist kein „Framework", sondern eine <strong>Betriebsart</strong>.
             </p>
           </div>
@@ -429,7 +429,7 @@ export default function OperatingPrincipleSection() {
       {/* ── KERN-SCHEMA ── */}
       <div>
         <SectionLabel><Layers size={12} /> Das Kern-Schema</SectionLabel>
-        <div className="flex items-stretch gap-0 rounded-2xl overflow-hidden border border-[#E8E8E8]">
+        <div className="flex items-stretch gap-0 rounded-2xl overflow-hidden border border-border">
           {(["input","process","output","proof"] as const).map((phase, i, arr) => {
             const c = PHASE_COLORS[phase];
             const icons = [<Layers size={20} />, <Cpu size={20} />, <FileText size={20} />, <BarChart2 size={20} />];
@@ -443,15 +443,15 @@ export default function OperatingPrincipleSection() {
               <div key={phase} className="flex-1 relative">
                 <div className="h-full p-5 flex flex-col gap-3" style={{ backgroundColor: c.bg }}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#0A0A0A]">{icons[i]}</span>
+                    <span className="text-foreground">{icons[i]}</span>
                     <span className="text-[10px] font-mono text-[#6B7A9A] uppercase tracking-widest">{c.sub}</span>
                   </div>
-                  <p className="font-display font-bold text-[#0A0A0A] text-base">{c.label}</p>
-                  <p className="text-[#4A4A4A] text-xs leading-relaxed">{descs[i]}</p>
+                  <p className="font-display font-bold text-foreground text-base">{c.label}</p>
+                  <p className="text-muted-foreground text-xs leading-relaxed">{descs[i]}</p>
                 </div>
                 {i < arr.length - 1 && (
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 rounded-full bg-white border border-[#E8E8E8] flex items-center justify-center">
-                    <ArrowRight size={12} className="text-[#0A0A0A]" />
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 rounded-full bg-card border border-border flex items-center justify-center">
+                    <ArrowRight size={12} className="text-foreground" />
                   </div>
                 )}
               </div>
@@ -463,20 +463,20 @@ export default function OperatingPrincipleSection() {
       {/* ── OUTPUT-TYPEN ── */}
       <div>
         <SectionLabel><Package size={12} /> Output-Typen</SectionLabel>
-        <p className="text-sm text-[#4A4A4A] mb-4 max-w-xl">
+        <p className="text-sm text-muted-foreground mb-4 max-w-xl">
           Damit „Output" nicht schwammig bleibt - jeder Output gehoert zu einem dieser fuenf Typen.
         </p>
         <div className="flex gap-3 flex-wrap">
           {OUTPUT_TYPES.map((ot, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#E8E8E8] bg-white hover:border-[#0A0A0A] transition-colors cursor-default group"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors cursor-default group"
             >
               <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: ot.color }}>
-                <span className="text-[#0A0A0A]">{ot.icon}</span>
+                <span className="text-foreground">{ot.icon}</span>
               </div>
               <div>
-                <p className="text-xs font-semibold text-[#0A0A0A]">{ot.type}</p>
+                <p className="text-xs font-semibold text-foreground">{ot.type}</p>
                 <p className="text-[10px] text-[#6B7A9A] hidden group-hover:block">{ot.desc}</p>
               </div>
             </div>
@@ -487,7 +487,7 @@ export default function OperatingPrincipleSection() {
       {/* ── 3 KOMMUNIKATIONSRICHTUNGEN ── */}
       <div>
         <SectionLabel><MessageSquare size={12} /> 3 Kommunikationsrichtungen</SectionLabel>
-        <p className="text-sm text-[#4A4A4A] mb-4 max-w-xl">
+        <p className="text-sm text-muted-foreground mb-4 max-w-xl">
           Dieses OP ist eine einfache Regel fuer <em>jede</em> Interaktion:{" "}
           <strong>Wenn etwas reingeht, muss etwas Verwendbares rauskommen.</strong>
         </p>
@@ -508,18 +508,18 @@ export default function OperatingPrincipleSection() {
           ].map((item, i) => (
             <div key={i} className="rounded-xl border p-5 space-y-3" style={{ backgroundColor: item.bg + "40", borderColor: item.border }}>
               <div className="flex items-center gap-2">
-                <span className="text-[#0A0A0A]">{item.icon}</span>
-                <span className="font-display font-bold text-[#0A0A0A] text-sm">{item.dir}</span>
+                <span className="text-foreground">{item.icon}</span>
+                <span className="font-display font-bold text-foreground text-sm">{item.dir}</span>
               </div>
               <p className="text-xs text-[#6B7A9A] italic">{item.rule}</p>
               <div className="space-y-2">
                 <div className="flex gap-2 items-start">
                   <GrainBadge variant="muted" size="sm">IN</GrainBadge>
-                  <span className="text-xs text-[#4A4A4A]">{item.input}</span>
+                  <span className="text-xs text-muted-foreground">{item.input}</span>
                 </div>
                 <div className="flex gap-2 items-start">
                   <GrainBadge variant="default" size="sm">OUT</GrainBadge>
-                  <span className="text-xs text-[#4A4A4A]">{item.output}</span>
+                  <span className="text-xs text-muted-foreground">{item.output}</span>
                 </div>
               </div>
             </div>
@@ -537,17 +537,17 @@ export default function OperatingPrincipleSection() {
         <SectionLabel><Zap size={12} /> Expert-to-Expert (E2E)</SectionLabel>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <p className="text-sm text-[#4A4A4A] leading-relaxed mb-4">
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
               Der OP-Ansatz ist nicht „Erklaerbaer". Er ist <strong>Expert-to-Expert</strong>:
               Wir behandeln Gegenueber als kompetent, sprechen praezise und liefern Artefakte,
               die Expert:innen sofort weiterverwenden koennen.
             </p>
             <div className="space-y-3">
               {E2E_PRINCIPLES.map((p, i) => (
-                <div key={i} className="flex gap-3 p-3 rounded-xl border border-[#E8E8E8] bg-white hover:border-[#0A0A0A] transition-colors">
+                <div key={i} className="flex gap-3 p-3 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
                   <span className="font-mono text-[10px] text-[#BEBEBE] shrink-0 mt-0.5">{String(i+1).padStart(2,"0")}</span>
                   <div>
-                    <p className="text-xs font-semibold text-[#0A0A0A] mb-0.5">{p.title}</p>
+                    <p className="text-xs font-semibold text-foreground mb-0.5">{p.title}</p>
                     <p className="text-[11px] text-[#6B7A9A] leading-relaxed">{p.desc}</p>
                   </div>
                 </div>
@@ -556,14 +556,14 @@ export default function OperatingPrincipleSection() {
           </div>
           <div>
             <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-3">E2E Quick-Check</p>
-            <div className="rounded-2xl border border-[#E8E8E8] overflow-hidden">
-              <div className="px-4 py-3 bg-[#F7F7F7] border-b border-[#E8E8E8]">
-                <p className="text-xs font-semibold text-[#0A0A0A]">3 Fragen, die jeder Output beantworten muss:</p>
+            <div className="rounded-2xl border border-border overflow-hidden">
+              <div className="px-4 py-3 bg-[#F7F7F7] border-b border-border">
+                <p className="text-xs font-semibold text-foreground">3 Fragen, die jeder Output beantworten muss:</p>
               </div>
               {E2E_CRITERIA.map((c, i) => (
-                <div key={i} className="flex gap-3 px-4 py-3 border-b border-[#E8E8E8] last:border-0 bg-white">
+                <div key={i} className="flex gap-3 px-4 py-3 border-b border-border last:border-0 bg-card">
                   <CheckCircle2 size={14} className="text-[#1A9E5A] shrink-0 mt-0.5" />
-                  <p className="text-xs text-[#0A0A0A] leading-relaxed">{c}</p>
+                  <p className="text-xs text-foreground leading-relaxed">{c}</p>
                 </div>
               ))}
             </div>
@@ -583,7 +583,7 @@ export default function OperatingPrincipleSection() {
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all",
                 activeWorkflow === i
                   ? "bg-[#0A0A0A] text-white border-[#0A0A0A]"
-                  : "bg-white text-[#0A0A0A] border-[#E8E8E8] hover:border-[#0A0A0A]"
+                  : "bg-card text-foreground border-border hover:border-foreground"
               )}
             >
               {wf.icon}
@@ -594,7 +594,7 @@ export default function OperatingPrincipleSection() {
         <GrainCard>
           <GrainCardHeader>
             <div className="flex items-center gap-2">
-              <span className="text-[#0A0A0A]">{ALL_WORKFLOWS[activeWorkflow].icon}</span>
+              <span className="text-foreground">{ALL_WORKFLOWS[activeWorkflow].icon}</span>
               <GrainCardTitle>{ALL_WORKFLOWS[activeWorkflow].title}</GrainCardTitle>
             </div>
             <p className="text-xs text-[#6B7A9A] mt-1">{ALL_WORKFLOWS[activeWorkflow].description}</p>
@@ -624,10 +624,10 @@ export default function OperatingPrincipleSection() {
         <SectionLabel><Shield size={12} /> Design-Regeln (Guardrails)</SectionLabel>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {GUARDRAILS.map((g, i) => (
-            <div key={i} className="flex gap-3 p-4 rounded-xl border border-[#E8E8E8] bg-white hover:border-[#0A0A0A] transition-colors">
+            <div key={i} className="flex gap-3 p-4 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
               <span className="font-mono text-[10px] text-[#BEBEBE] shrink-0 mt-0.5">{g.n}</span>
               <div>
-                <p className="text-xs font-semibold text-[#0A0A0A] mb-0.5">{g.title}</p>
+                <p className="text-xs font-semibold text-foreground mb-0.5">{g.title}</p>
                 <p className="text-[11px] text-[#6B7A9A] leading-relaxed">{g.desc}</p>
               </div>
             </div>
@@ -641,7 +641,7 @@ export default function OperatingPrincipleSection() {
           <SectionLabel><BookOpen size={12} /> Standard-Vokabular</SectionLabel>
           <button
             onClick={() => setExpandedGlossary(!expandedGlossary)}
-            className="flex items-center gap-1 text-[10px] font-mono text-[#6B7A9A] hover:text-[#0A0A0A] transition-colors"
+            className="flex items-center gap-1 text-[10px] font-mono text-[#6B7A9A] hover:text-foreground transition-colors"
           >
             {expandedGlossary ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             {expandedGlossary ? "weniger" : "alle zeigen"}
@@ -649,9 +649,9 @@ export default function OperatingPrincipleSection() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {(expandedGlossary ? GLOSSARY : GLOSSARY.slice(0, 6)).map((g, i) => (
-            <div key={i} className="p-3 rounded-xl border border-[#E8E8E8] bg-white">
+            <div key={i} className="p-3 rounded-xl border border-border bg-card">
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-display font-bold text-sm text-[#0A0A0A]">{g.term}</span>
+                <span className="font-display font-bold text-sm text-foreground">{g.term}</span>
                 <span className="text-[9px] font-mono text-[#BEBEBE] uppercase">{g.en}</span>
               </div>
               <p className="text-[11px] text-[#6B7A9A] leading-relaxed">{g.desc}</p>
@@ -674,7 +674,7 @@ export default function OperatingPrincipleSection() {
             </p>
           </GrainCardHeader>
           <GrainCardContent>
-            <pre className="text-[11px] font-mono text-[#0A0A0A] leading-relaxed whitespace-pre-wrap bg-[#F7F7F7] rounded-xl p-4 border border-[#E8E8E8]">
+            <pre className="text-[11px] font-mono text-foreground leading-relaxed whitespace-pre-wrap bg-[#F7F7F7] rounded-xl p-4 border border-border">
               {TEMPLATE_TEXT}
             </pre>
           </GrainCardContent>

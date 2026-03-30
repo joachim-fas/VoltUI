@@ -182,12 +182,12 @@ export const FoundationsSection: React.FC = () => {
         <GrainCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             {[
-              { label: "Lime Grain",     cls: "",    text: "text-[#0A0A0A]", bg: "#E4FF97" },
+              { label: "Lime Grain",     cls: "",    text: "text-foreground", bg: "#E4FF97" },
               { label: "Dark Grain",     cls: "",    text: "text-white",     bg: "#0A0A0A" },
-              { label: "Rose Grain",     cls: "",    text: "text-[#0A0A0A]", bg: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)" },
-              { label: "Mint Grain",     cls: "",    text: "text-[#0A0A0A]", bg: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)" },
-              { label: "Orchid Grain",   cls: "",    text: "text-[#0A0A0A]", bg: "linear-gradient(135deg, #FDE2FF 0%, #E8D0F0 100%)" },
-              { label: "Butter Grain",   cls: "",    text: "text-[#0A0A0A]", bg: "linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%)" },
+              { label: "Rose Grain",     cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)" },
+              { label: "Mint Grain",     cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)" },
+              { label: "Orchid Grain",   cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FDE2FF 0%, #E8D0F0 100%)" },
+              { label: "Butter Grain",   cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%)" },
             ].map((item) => (
               <div key={item.label} className={`h-24 rounded-xl grain relative overflow-hidden flex items-end p-3`} style={{ background: item.bg }}>
                 <span className={`text-xs font-semibold font-ui ${item.text} relative z-10`}>{item.label}</span>
@@ -244,8 +244,8 @@ export const FoundationsSection: React.FC = () => {
                 style={g.style}
               >
                 <div>
-                  <p className={`text-xs font-semibold font-ui ${g.textDark ? "text-[#0A0A0A]" : "text-white"}`}>{g.label}</p>
-                  <p className={`text-[10px] font-mono ${g.textDark ? "text-[#0A0A0A]/60" : "text-white/60"}`}>{g.desc}</p>
+                  <p className={`text-xs font-semibold font-ui ${g.textDark ? "text-foreground" : "text-white"}`}>{g.label}</p>
+                  <p className={`text-[10px] font-mono ${g.textDark ? "text-foreground/60" : "text-white/60"}`}>{g.desc}</p>
                 </div>
               </div>
             ))}

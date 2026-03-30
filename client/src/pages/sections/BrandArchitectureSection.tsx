@@ -174,12 +174,12 @@ export const BrandArchitectureSection: React.FC = () => {
       {/* ── HEADER ── */}
       <div>
         <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Brand Architecture</p>
-        <h1 className="font-display font-bold text-4xl text-[#0A0A0A] mb-4 leading-tight">
+        <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
           Eine Sprache.<br />Viele Projekte.
         </h1>
-        <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed">
+        <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
           Flux UI ist das portable Design System von Free Agents und allen Projekten, die daraus entstehen.
-          Das{" "}<span className="font-mono font-bold text-[#0A0A0A]">&gt;_</span> Signet ist der visuelle Anker.
+          Das{" "}<span className="font-mono font-bold text-foreground">&gt;_</span> Signet ist der visuelle Anker.
           Das Operating Principle beschreibt die Arbeitslogik dahinter.
         </p>
       </div>
@@ -191,22 +191,22 @@ export const BrandArchitectureSection: React.FC = () => {
           {BRAND_LAYERS.map((layer, i) => (
             <div
               key={i}
-              className="flex items-center gap-4 p-4 rounded-xl border border-[#E8E8E8] bg-white hover:border-[#0A0A0A] transition-colors group"
+              className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors group"
             >
               <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 font-mono font-bold text-sm text-[#0A0A0A]"
+                className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 font-mono font-bold text-sm text-foreground"
                 style={{ background: layer.color }}
               >
                 {String(i + 1).padStart(2, "0")}
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-0.5">
-                  <p className="font-display font-bold text-sm text-[#0A0A0A]">{layer.layer}</p>
+                  <p className="font-display font-bold text-sm text-foreground">{layer.layer}</p>
                   <span className="text-[9px] font-mono text-[#BEBEBE] uppercase tracking-wider">{layer.token}</span>
                 </div>
                 <p className="text-xs text-[#6B7A9A] leading-relaxed">{layer.desc}</p>
               </div>
-              <ChevronRight size={14} className="text-[#BEBEBE] group-hover:text-[#0A0A0A] transition-colors shrink-0" />
+              <ChevronRight size={14} className="text-[#BEBEBE] group-hover:text-foreground transition-colors shrink-0" />
             </div>
           ))}
         </div>
@@ -228,19 +228,19 @@ export const BrandArchitectureSection: React.FC = () => {
                   className={cn(
                     "w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all",
                     activeProject === project.id
-                      ? "border-[#0A0A0A] bg-white shadow-sm"
-                      : "border-[#E8E8E8] bg-white hover:border-[#0A0A0A]/40"
+                      ? "border-foreground bg-card shadow-sm"
+                      : "border-border bg-card hover:border-foreground/40"
                   )}
                 >
                   <div
                     className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                     style={{ background: project.color, border: `1px solid ${project.border}` }}
                   >
-                    <span className="text-[#0A0A0A] scale-75">{project.icon}</span>
+                    <span className="text-foreground scale-75">{project.icon}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <p className="text-xs font-semibold text-[#0A0A0A] truncate">{project.name}</p>
+                      <p className="text-xs font-semibold text-foreground truncate">{project.name}</p>
                       <span className="text-[9px] font-mono shrink-0" style={{ color: s.color }}>
                         {s.label}
                       </span>
@@ -257,7 +257,7 @@ export const BrandArchitectureSection: React.FC = () => {
 
           {/* Projekt-Detail */}
           <div className="lg:col-span-2">
-            <div className="rounded-2xl overflow-hidden border border-[#E8E8E8]">
+            <div className="rounded-2xl overflow-hidden border border-border">
 
               {/* Header mit Projektfarbe */}
               <div
@@ -270,11 +270,11 @@ export const BrandArchitectureSection: React.FC = () => {
                       className="w-12 h-12 rounded-xl flex items-center justify-center"
                       style={{ background: "rgba(255,255,255,0.6)", border: `1px solid ${active.border}` }}
                     >
-                      <span className="text-[#0A0A0A]">{active.icon}</span>
+                      <span className="text-foreground">{active.icon}</span>
                     </div>
                     <div>
-                      <p className="font-display font-bold text-lg text-[#0A0A0A]">{active.name}</p>
-                      <p className="text-[10px] font-mono text-[#0A0A0A]/60">{active.domain}</p>
+                      <p className="font-display font-bold text-lg text-foreground">{active.name}</p>
+                      <p className="text-[10px] font-mono text-foreground/60">{active.domain}</p>
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -287,20 +287,20 @@ export const BrandArchitectureSection: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <p className="text-sm text-[#0A0A0A]/80 leading-relaxed mb-3">{active.desc}</p>
-                <p className="font-mono text-sm font-bold text-[#0A0A0A] italic">
+                <p className="text-sm text-foreground/80 leading-relaxed mb-3">{active.desc}</p>
+                <p className="font-mono text-sm font-bold text-foreground italic">
                   &ldquo;{active.tagline}&rdquo;
                 </p>
               </div>
 
               {/* Design-Tokens */}
-              <div className="p-5 bg-white">
+              <div className="p-5 bg-card">
                 <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-3">Design-Tokens</p>
                 <div className="flex gap-2 flex-wrap">
                   {active.tokens.map((token, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] font-mono text-[#0A0A0A] border border-[#E8E8E8] bg-[#F7F7F7]"
+                      className="inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] font-mono text-foreground border border-border bg-[#F7F7F7]"
                     >
                       {token}
                     </span>
@@ -309,7 +309,7 @@ export const BrandArchitectureSection: React.FC = () => {
               </div>
 
               {/* OP-Schema fuer dieses Projekt */}
-              <div className="px-5 pb-5 bg-white border-t border-[#E8E8E8] pt-4">
+              <div className="px-5 pb-5 bg-card border-t border-border pt-4">
                 <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-3">
                   OP-Schema angewendet
                 </p>
@@ -325,7 +325,7 @@ export const BrandArchitectureSection: React.FC = () => {
                         className="rounded-lg p-2 text-center"
                         style={{ background: p.color }}
                       >
-                        <p className="text-[10px] font-mono font-semibold text-[#0A0A0A]">{p.phase}</p>
+                        <p className="text-[10px] font-mono font-semibold text-foreground">{p.phase}</p>
                       </div>
                       {i < arr.length - 1 && (
                         <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10">
@@ -346,10 +346,10 @@ export const BrandArchitectureSection: React.FC = () => {
         <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Design-Prinzipien der Brand Architecture</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {DESIGN_PRINCIPLES.map((p, i) => (
-            <div key={i} className="flex gap-4 p-5 rounded-2xl border border-[#E8E8E8] bg-white hover:border-[#0A0A0A] transition-colors">
+            <div key={i} className="flex gap-4 p-5 rounded-2xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
               <span className="font-mono text-[10px] text-[#BEBEBE] shrink-0 mt-0.5">{String(i+1).padStart(2,"0")}</span>
               <div>
-                <p className="font-display font-bold text-sm text-[#0A0A0A] mb-1">{p.title}</p>
+                <p className="font-display font-bold text-sm text-foreground mb-1">{p.title}</p>
                 <p className="text-xs text-[#6B7A9A] leading-relaxed">{p.desc}</p>
               </div>
             </div>
@@ -360,7 +360,7 @@ export const BrandArchitectureSection: React.FC = () => {
       {/* ── FARBPALETTE PRO PROJEKT ── */}
       <div>
         <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">Farbcodierung im Ueberblick</p>
-        <div className="rounded-2xl border border-[#E8E8E8] overflow-hidden">
+        <div className="rounded-2xl border border-border overflow-hidden">
           <div className="flex">
             {PROJECTS.map((project, i) => (
               <div
@@ -370,17 +370,17 @@ export const BrandArchitectureSection: React.FC = () => {
                 onClick={() => setActiveProject(project.id)}
               >
                 <div className="h-full flex flex-col justify-end p-3">
-                  <p className="text-[9px] font-mono font-bold text-[#0A0A0A] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-[9px] font-mono font-bold text-foreground uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
                     {project.name}
                   </p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="grid border-t border-[#E8E8E8]" style={{ gridTemplateColumns: `repeat(${PROJECTS.length}, 1fr)` }}>
+          <div className="grid border-t border-border" style={{ gridTemplateColumns: `repeat(${PROJECTS.length}, 1fr)` }}>
             {PROJECTS.map((project, i) => (
-              <div key={i} className="px-3 py-2 border-r border-[#E8E8E8] last:border-0">
-                <p className="text-[9px] font-mono text-[#0A0A0A] font-semibold truncate">{project.name}</p>
+              <div key={i} className="px-3 py-2 border-r border-border last:border-0">
+                <p className="text-[9px] font-mono text-foreground font-semibold truncate">{project.name}</p>
                 <p className="text-[8px] font-mono text-[#6B7A9A] truncate">{project.tokens[0]}</p>
               </div>
             ))}
@@ -405,7 +405,7 @@ export const BrandArchitectureSection: React.FC = () => {
                 color={project.id === "free-agents" ? "black" : "black"}
                 animated
               />
-              <p className="text-[9px] font-mono font-bold text-[#0A0A0A] uppercase tracking-wider text-center px-2">
+              <p className="text-[9px] font-mono font-bold text-foreground uppercase tracking-wider text-center px-2">
                 {project.name}
               </p>
             </div>

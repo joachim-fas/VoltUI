@@ -165,7 +165,7 @@ const TerminalDemo: React.FC = () => {
           <div key={i} className={cn(
             "text-xs leading-relaxed",
             line.startsWith(">") ? "text-[#E4FF97]" :
-            line.startsWith("_") ? "text-[#AAAAAA]" :
+            line.startsWith("_") ? "text-muted-foreground" :
             line.startsWith("output:") ? "text-[#C3F4D3]" :
             line.startsWith("log:") ? "text-[#D4E8FF]" :
             "text-white"
@@ -200,7 +200,7 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
     setTimeout(() => setCopied(false), 1500);
   };
   return (
-    <button onClick={copy} className="flex items-center gap-1 text-[10px] font-mono text-[#6B7A9A] hover:text-[#0A0A0A] transition-colors">
+    <button onClick={copy} className="flex items-center gap-1 text-[10px] font-mono text-[#6B7A9A] hover:text-foreground transition-colors">
       {copied ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
       {copied ? "kopiert" : "kopieren"}
     </button>
@@ -221,17 +221,17 @@ export const DialogSection: React.FC = () => {
       {/* ── HEADER ── */}
       <div>
         <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Dialog-Prinzip</p>
-        <h1 className="font-display font-bold text-4xl text-[#0A0A0A] mb-4 leading-tight">
+        <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
           Kein Pingpong.<br />Kein Nebel.
         </h1>
-        <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed mb-6">
+        <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed mb-6">
           Dialog ist kein Selbstzweck. Jede Interaktion folgt dem Prinzip:{" "}
-          <span className="font-mono font-bold text-[#0A0A0A]">Input mit Konsequenz.</span>{" "}
+          <span className="font-mono font-bold text-foreground">Input mit Konsequenz.</span>{" "}
           Was reingeht, muss etwas Verwendbares produzieren.
         </p>
         <div className="flex items-center gap-3">
           <GrainCursor size="sm" color="black" animated />
-          <p className="font-mono text-sm text-[#0A0A0A] font-bold">
+          <p className="font-mono text-sm text-foreground font-bold">
             Input mit Konsequenz.
           </p>
         </div>
@@ -261,18 +261,18 @@ export const DialogSection: React.FC = () => {
                 className={cn(
                   "w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all",
                   activeDir === dir.id
-                    ? "border-[#0A0A0A] bg-white shadow-sm"
-                    : "border-[#E8E8E8] bg-white hover:border-[#0A0A0A]/40"
+                    ? "border-foreground bg-card shadow-sm"
+                    : "border-border bg-card hover:border-foreground/40"
                 )}
               >
                 <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-mono font-bold text-sm text-[#0A0A0A]"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-mono font-bold text-sm text-foreground"
                   style={{ background: dir.color, border: `1px solid ${dir.border}` }}
                 >
                   {dir.label}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-[#0A0A0A] truncate">{dir.title}</p>
+                  <p className="text-xs font-semibold text-foreground truncate">{dir.title}</p>
                   <p className="text-[10px] text-[#6B7A9A] truncate">{dir.subtitle}</p>
                 </div>
                 {activeDir === dir.id && (
@@ -299,21 +299,21 @@ export const DialogSection: React.FC = () => {
               style={{ background: active.color, border: `1px solid ${active.border}` }}
             >
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[#0A0A0A]">{active.icon}</span>
-                <p className="font-display font-bold text-lg text-[#0A0A0A]">{active.title}</p>
+                <span className="text-foreground">{active.icon}</span>
+                <p className="font-display font-bold text-lg text-foreground">{active.title}</p>
               </div>
-              <p className="text-sm text-[#0A0A0A]/70">{active.subtitle}</p>
+              <p className="text-sm text-foreground/70">{active.subtitle}</p>
             </div>
 
             {/* Input → Transform → Output */}
             {[active.input, active.transform, active.output].map((step, i) => (
-              <div key={i} className="rounded-xl border border-[#E8E8E8] bg-white p-4">
+              <div key={i} className="rounded-xl border border-border bg-card p-4">
                 <div className="flex items-start gap-3">
-                  <span className="font-mono text-[11px] font-bold text-[#0A0A0A] bg-[#F0F0F0] px-2 py-0.5 rounded shrink-0 mt-0.5">
+                  <span className="font-mono text-[11px] font-bold text-foreground bg-muted px-2 py-0.5 rounded shrink-0 mt-0.5">
                     {step.label}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-[#0A0A0A] mb-1">{step.content}</p>
+                    <p className="text-sm font-semibold text-foreground mb-1">{step.content}</p>
                     <p className="text-xs text-[#6B7A9A] leading-relaxed">{step.detail}</p>
                   </div>
                 </div>
@@ -331,13 +331,13 @@ export const DialogSection: React.FC = () => {
               <div className="space-y-2">
                 <p className={cn(
                   "font-mono text-xs leading-relaxed",
-                  active.example.prompt.startsWith(">") ? "text-[#E4FF97]" : "text-[#AAAAAA]"
+                  active.example.prompt.startsWith(">") ? "text-[#E4FF97]" : "text-muted-foreground"
                 )}>
                   {active.example.prompt}
                 </p>
                 <p className={cn(
                   "font-mono text-xs leading-relaxed",
-                  active.example.response.startsWith("_") ? "text-[#AAAAAA]" : "text-[#E4FF97]"
+                  active.example.response.startsWith("_") ? "text-muted-foreground" : "text-[#E4FF97]"
                 )}>
                   {active.example.response}
                 </p>
@@ -352,7 +352,7 @@ export const DialogSection: React.FC = () => {
         <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">
           Microcopy-System
         </p>
-        <p className="text-sm text-[#4A4A4A] mb-4 max-w-xl">
+        <p className="text-sm text-muted-foreground mb-4 max-w-xl">
           Diese Labels sind die Signatur von Free-Agents.io. Sie erscheinen in Buttons,
           Badges, Karten und Dokumenten – immer in Monospace, immer mit Doppelpunkt.
         </p>
@@ -360,11 +360,11 @@ export const DialogSection: React.FC = () => {
           {MICROCOPY_LABELS.map((item, i) => (
             <div
               key={i}
-              className="rounded-xl border border-[#E8E8E8] bg-white p-4 hover:border-[#0A0A0A] transition-colors group"
+              className="rounded-xl border border-border bg-card p-4 hover:border-[#0A0A0A] transition-colors group"
             >
               <div className="flex items-start justify-between mb-2">
                 <span
-                  className="font-mono text-sm font-bold text-[#0A0A0A] px-2 py-0.5 rounded"
+                  className="font-mono text-sm font-bold text-foreground px-2 py-0.5 rounded"
                   style={{ background: item.color }}
                 >
                   {item.label}
@@ -425,10 +425,10 @@ export const DialogSection: React.FC = () => {
           {GUARDRAILS.map((g, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl border border-[#E8E8E8] bg-white hover:border-[#0A0A0A] transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors"
             >
               <span className="font-mono text-[9px] text-[#BEBEBE]">{String(i+1).padStart(2,"0")}</span>
-              <span className="text-xs font-semibold text-[#0A0A0A]">{g}</span>
+              <span className="text-xs font-semibold text-foreground">{g}</span>
             </div>
           ))}
         </div>
@@ -439,8 +439,8 @@ export const DialogSection: React.FC = () => {
         <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-4">
           Dialog-Template (copy/paste)
         </p>
-        <div className="rounded-2xl border border-[#E8E8E8] bg-white overflow-hidden">
-          <div className="flex items-center justify-between px-5 py-3 border-b border-[#E8E8E8] bg-[#F7F7F7]">
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-3 border-b border-border bg-[#F7F7F7]">
             <span className="font-mono text-xs text-[#6B7A9A]">dialog-template.md</span>
             <CopyButton text={`input:\n- Kontext:\n- Rohmaterial:\n- Constraints:\n- Format:\n\ntransform:\n- Schritte:\n- Guardrails:\n- Owner:\n\noutput:\n- Artefakt:\n- DoD:\n- Annahmen:\n- Offene Punkte:\n\nhand-off:\n- Wie weiter ohne mich?\n- Next Action:\n- Deadline:`} />
           </div>
@@ -453,12 +453,12 @@ export const DialogSection: React.FC = () => {
             ].map((block, i) => (
               <div key={i}>
                 <span
-                  className="font-bold text-[#0A0A0A] px-2 py-0.5 rounded text-[11px]"
+                  className="font-bold text-foreground px-2 py-0.5 rounded text-[11px]"
                   style={{ background: block.color }}
                 >
                   {block.label}
                 </span>
-                <div className="mt-2 space-y-1 pl-2 border-l-2 border-[#E8E8E8]">
+                <div className="mt-2 space-y-1 pl-2 border-l-2 border-border">
                   {block.fields.map((f, j) => (
                     <p key={j} className="text-[#6B7A9A]">- {f} <span className="text-[#BEBEBE]">___</span></p>
                   ))}

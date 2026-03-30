@@ -21,7 +21,7 @@ const CopyButton: React.FC<{ code: string }> = ({ code }) => {
   return (
     <button
       onClick={copy}
-      className="text-[10px] font-mono px-2.5 py-1 rounded border border-[#E8E8E8] text-[#6B6B6B] hover:border-[#0A0A0A] hover:text-[#0A0A0A] transition-all"
+      className="text-[10px] font-mono px-2.5 py-1 rounded border border-border text-muted-foreground hover:border-[#0A0A0A] hover:text-foreground transition-all"
     >
       {copied ? "✓ kopiert" : "kopieren"}
     </button>
@@ -30,14 +30,14 @@ const CopyButton: React.FC<{ code: string }> = ({ code }) => {
 
 /* ── Inline-Code-Block ── */
 const CodeBlock: React.FC<{ code: string; label?: string }> = ({ code, label }) => (
-  <div className="rounded-xl border border-[#E8E8E8] overflow-hidden">
+  <div className="rounded-xl border border-border overflow-hidden">
     {label && (
-      <div className="px-4 py-2 bg-[#F7F7F7] border-b border-[#E8E8E8] flex items-center justify-between">
-        <span className="text-[10px] font-mono text-[#6B6B6B] uppercase tracking-widest">{label}</span>
+      <div className="px-4 py-2 bg-[#F7F7F7] border-b border-border flex items-center justify-between">
+        <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{label}</span>
         <CopyButton code={code} />
       </div>
     )}
-    <pre className="px-4 py-3 text-[11px] font-mono text-[#0A0A0A] leading-relaxed overflow-x-auto bg-white">
+    <pre className="px-4 py-3 text-[11px] font-mono text-foreground leading-relaxed overflow-x-auto bg-card">
       {code}
     </pre>
   </div>
@@ -51,28 +51,28 @@ const RuleCard: React.FC<{
   good?: string;
   bad?: string;
 }> = ({ number, title, desc, good, bad }) => (
-  <div className="border border-[#E8E8E8] rounded-2xl overflow-hidden">
-    <div className="px-5 py-4 bg-white">
+  <div className="border border-border rounded-2xl overflow-hidden">
+    <div className="px-5 py-4 bg-card">
       <div className="flex items-start gap-3 mb-2">
         <span className="font-mono text-[10px] text-[#BEBEBE] mt-0.5 shrink-0">{number}</span>
         <div>
-          <p className="font-display font-bold text-sm text-[#0A0A0A] mb-1">{title}</p>
-          <p className="text-xs text-[#6B6B6B] leading-relaxed">{desc}</p>
+          <p className="font-display font-bold text-sm text-foreground mb-1">{title}</p>
+          <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
         </div>
       </div>
     </div>
     {(good || bad) && (
-      <div className="grid grid-cols-2 border-t border-[#E8E8E8]">
+      <div className="grid grid-cols-2 border-t border-border">
         {good && (
-          <div className="px-4 py-3 bg-[#F5FFF0] border-r border-[#E8E8E8]">
+          <div className="px-4 py-3 bg-[#F5FFF0] border-r border-border">
             <p className="text-[9px] font-mono text-[#1A9E5A] uppercase tracking-widest mb-1">✓ Richtig</p>
-            <p className="text-[11px] text-[#0A0A0A]">{good}</p>
+            <p className="text-[11px] text-foreground">{good}</p>
           </div>
         )}
         {bad && (
           <div className="px-4 py-3 bg-[#FFF5F5]">
             <p className="text-[9px] font-mono text-[#E8402A] uppercase tracking-widest mb-1">✗ Falsch</p>
-            <p className="text-[11px] text-[#0A0A0A]">{bad}</p>
+            <p className="text-[11px] text-foreground">{bad}</p>
           </div>
         )}
       </div>
@@ -127,7 +127,7 @@ export const SignetSection: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="text-center"
           >
-            <p className="font-mono text-[#0A0A0A]/50 text-sm tracking-widest uppercase">Flux UI · Signet · v1</p>
+            <p className="font-mono text-foreground/50 text-sm tracking-widest uppercase">Flux UI · Signet · v1</p>
           </motion.div>
         </div>
       </div>
@@ -441,13 +441,13 @@ export const SignetSection: React.FC = () => {
               <GrainCardTitle>Sidebar-Logo</GrainCardTitle>
             </GrainCardHeader>
             <GrainCardContent>
-              <div className="rounded-xl border border-border bg-white p-4 flex items-center gap-3">
+              <div className="rounded-xl border border-border bg-card p-4 flex items-center gap-3">
                 <GrainCursor size="md" color="black" animated />
                 <div>
-                  <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
+                  <p className="font-display font-bold text-sm text-foreground leading-tight tracking-tight">
                     flux<span className="opacity-30"> ui</span>
                   </p>
-                  <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Design Concept</p>
+                  <p className="text-[0.6rem] font-mono text-muted-foreground leading-tight tracking-widest uppercase">Design Concept</p>
                 </div>
               </div>
               <CodeBlock
@@ -495,7 +495,7 @@ export const SignetSection: React.FC = () => {
               <GrainCardTitle>Nur Pfeil (kein Balken)</GrainCardTitle>
             </GrainCardHeader>
             <GrainCardContent>
-              <div className="rounded-xl border border-border bg-white flex items-center justify-center py-8">
+              <div className="rounded-xl border border-border bg-card flex items-center justify-center py-8">
                 <GrainCursor size="xl" color="black" animated={false} showBar={false} />
               </div>
               <CodeBlock

@@ -130,8 +130,8 @@ const SignalCard: React.FC<{ item: typeof SEMANTIC_COLORS[0] }> = ({ item }) => 
             <Icon className="w-5 h-5" style={{ color: item.color }} />
           </div>
           <div>
-            <h3 className="font-ui font-semibold text-sm text-[#0A0A0A]">{item.label}</h3>
-            <p className="text-[11px] font-ui text-[#6B6B6B]">{item.sublabel}</p>
+            <h3 className="font-ui font-semibold text-sm text-foreground">{item.label}</h3>
+            <p className="text-[11px] font-ui text-muted-foreground">{item.sublabel}</p>
           </div>
         </div>
 
@@ -140,15 +140,15 @@ const SignalCard: React.FC<{ item: typeof SEMANTIC_COLORS[0] }> = ({ item }) => 
           {tokens.map(token => (
             <button key={token.var}
               onClick={() => copy(`var(${token.var})`, token.var)}
-              className="w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg bg-[#F7F7F7] hover:bg-[#F0F0F0] transition-colors group text-left">
+              className="w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg bg-[#F7F7F7] hover:bg-muted transition-colors group text-left">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="w-3 h-3 rounded-sm flex-shrink-0 border border-[#E8E8E8]"
+                <div className="w-3 h-3 rounded-sm flex-shrink-0 border border-border"
                   style={{ background: token.swatch }} />
-                <span className="text-[10px] font-mono text-[#6B6B6B] truncate">{token.var}</span>
+                <span className="text-[10px] font-mono text-muted-foreground truncate">{token.var}</span>
               </div>
               {copied === token.var
                 ? <CheckCheck className="w-3 h-3 text-[#1A9E5A] flex-shrink-0" />
-                : <Copy className="w-3 h-3 text-[#6B6B6B]/40 group-hover:text-[#6B6B6B] flex-shrink-0" />
+                : <Copy className="w-3 h-3 text-muted-foreground/40 group-hover:text-muted-foreground flex-shrink-0" />
               }
             </button>
           ))}
@@ -156,10 +156,10 @@ const SignalCard: React.FC<{ item: typeof SEMANTIC_COLORS[0] }> = ({ item }) => 
 
         {/* Verwendung */}
         <div>
-          <p className="text-[10px] font-semibold font-mono uppercase tracking-widest text-[#6B6B6B] mb-2">Verwendung</p>
+          <p className="text-[10px] font-semibold font-mono uppercase tracking-widest text-muted-foreground mb-2">Verwendung</p>
           <ul className="space-y-1">
             {item.usage.map(u => (
-              <li key={u} className="flex items-center gap-1.5 text-[11px] font-ui text-[#6B6B6B]">
+              <li key={u} className="flex items-center gap-1.5 text-[11px] font-ui text-muted-foreground">
                 <CheckCircle2 className="w-3 h-3 flex-shrink-0" style={{ color: item.color }} />
                 {u}
               </li>
@@ -168,9 +168,9 @@ const SignalCard: React.FC<{ item: typeof SEMANTIC_COLORS[0] }> = ({ item }) => 
         </div>
 
         {/* Nicht verwenden */}
-        <div className="flex items-start gap-1.5 p-2.5 rounded-lg bg-[#F7F7F7] border border-[#E8E8E8]">
-          <XCircle className="w-3 h-3 flex-shrink-0 mt-0.5 text-[#6B6B6B]/50" />
-          <p className="text-[10px] font-ui text-[#6B6B6B] leading-relaxed">{item.dontUse}</p>
+        <div className="flex items-start gap-1.5 p-2.5 rounded-lg bg-[#F7F7F7] border border-border">
+          <XCircle className="w-3 h-3 flex-shrink-0 mt-0.5 text-muted-foreground/50" />
+          <p className="text-[10px] font-ui text-muted-foreground leading-relaxed">{item.dontUse}</p>
         </div>
       </GrainCardContent>
     </GrainCard>
@@ -185,15 +185,15 @@ export const ColorSection: React.FC = () => {
       {/* ── Pastell-Palette Übersicht ── */}
       <div>
         <p className="section-label mb-3">FARBCODIERUNG IM UEBERBLICK</p>
-        <div className="rounded-2xl overflow-hidden border border-[#E8E8E8] flex">
+        <div className="rounded-2xl overflow-hidden border border-border flex">
           {PASTEL_PALETTE.map((c, i) => (
             <div key={c.name} className="flex-1 flex flex-col" style={{ minWidth: 0 }}>
               <div className="h-40" style={{ background: c.bg }} />
               <div
-                className="p-4 border-t border-[#E8E8E8]"
+                className="p-4 border-t border-border"
                 style={{ borderLeft: i > 0 ? "1px solid #E8E8E8" : "none" }}
               >
-                <p className="text-xs font-semibold font-ui text-[#0A0A0A] leading-tight">{c.project}</p>
+                <p className="text-xs font-semibold font-ui text-foreground leading-tight">{c.project}</p>
                 <p className="text-[10px] font-mono mt-0.5" style={{ color: "#6B6B6B" }}>{c.name}</p>
                 {c.open && (
                   <span className="inline-block mt-1.5 text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: "#F4F4F4", color: "#9B9B9B", letterSpacing: "0.05em" }}>— offen —</span>
@@ -207,12 +207,12 @@ export const ColorSection: React.FC = () => {
       {/* ── Header ── */}
       <div>
         <p className="section-label mb-2">02 — Farbsystem</p>
-        <h2 className="font-display text-3xl font-bold text-[#0A0A0A] tracking-tight mb-3">
+        <h2 className="font-display text-3xl font-bold text-foreground tracking-tight mb-3">
           Semantische Farbkodierung
         </h2>
-        <p className="text-[#6B6B6B] text-sm leading-relaxed max-w-2xl mb-4">
+        <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl mb-4">
           Farbe kommuniziert Bedeutung – nicht Dekoration.{" "}
-          <strong className="text-[#0A0A0A]">#E4FF97 Lime + #0A0A0A Schwarz</strong> als führende Systemfarben,
+          <strong className="text-foreground">#E4FF97 Lime + #0A0A0A Schwarz</strong> als führende Systemfarben,
           ergänzt durch drei eindeutige Signalfarben für die Datenbewertung.
         </p>
         <div className="flex flex-wrap gap-2">
@@ -228,7 +228,7 @@ export const ColorSection: React.FC = () => {
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>Primäre Systemfarben</GrainCardTitle>
-          <p className="text-xs text-[#6B6B6B] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Lime und Schwarz sind die führenden Farben – alles andere ist unterstützend
           </p>
         </GrainCardHeader>
@@ -240,9 +240,9 @@ export const ColorSection: React.FC = () => {
                   style={{ background: c.hex, border: c.border ? "1px solid #E8E8E8" : "none" }}>
                   <span className="font-mono text-xs font-bold" style={{ color: c.fg }}>{c.hex}</span>
                 </div>
-                <div className="p-3 border border-t-0 border-[#E8E8E8] rounded-b-2xl">
-                  <p className="text-xs font-semibold font-ui text-[#0A0A0A]">{c.name}</p>
-                  <p className="text-[10px] font-ui text-[#6B6B6B] mt-0.5 leading-snug">{c.desc}</p>
+                <div className="p-3 border border-t-0 border-border rounded-b-2xl">
+                  <p className="text-xs font-semibold font-ui text-foreground">{c.name}</p>
+                  <p className="text-[10px] font-ui text-muted-foreground mt-0.5 leading-snug">{c.desc}</p>
                 </div>
               </div>
             ))}
@@ -254,7 +254,7 @@ export const ColorSection: React.FC = () => {
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>Signalfarben: 3 semantische Zustände</GrainCardTitle>
-          <p className="text-xs text-[#6B6B6B] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Jeder Zustand hat 4 Farbebenen: Hauptfarbe · Hintergrund · Rahmen · Text
           </p>
         </GrainCardHeader>
@@ -286,7 +286,7 @@ export const ColorSection: React.FC = () => {
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>Delta-Anzeigen</GrainCardTitle>
-          <p className="text-xs text-[#6B6B6B] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Kompakte Veränderungsanzeigen für KPI-Karten, Tabellen und Dashboards
           </p>
         </GrainCardHeader>
@@ -305,7 +305,7 @@ export const ColorSection: React.FC = () => {
 
             {/* KPI-Demo */}
             <div>
-              <p className="text-[10px] font-semibold font-mono uppercase tracking-widest text-[#6B6B6B] mb-3">
+              <p className="text-[10px] font-semibold font-mono uppercase tracking-widest text-muted-foreground mb-3">
                 KPI-Karten mit Signalfarben
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -325,14 +325,14 @@ export const ColorSection: React.FC = () => {
                     <div key={kpi.label} className="p-4 rounded-2xl border"
                       style={{ borderColor: sig.border, background: sig.light }}>
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-[11px] font-semibold font-ui text-[#6B6B6B]">{kpi.label}</p>
+                        <p className="text-[11px] font-semibold font-ui text-muted-foreground">{kpi.label}</p>
                         <Icon className="w-4 h-4" style={{ color: sig.color }} />
                       </div>
-                      <p className="text-lg font-display font-bold text-[#0A0A0A] leading-tight">{kpi.value}</p>
+                      <p className="text-lg font-display font-bold text-foreground leading-tight">{kpi.value}</p>
                       <div className="flex items-center gap-1.5 mt-2">
                         <DeltaBadge value={kpi.delta} type={kpi.type} />
                       </div>
-                      <p className="text-[10px] font-ui text-[#6B6B6B] mt-1">{kpi.sub}</p>
+                      <p className="text-[10px] font-ui text-muted-foreground mt-1">{kpi.sub}</p>
                     </div>
                   );
                 })}
@@ -341,17 +341,17 @@ export const ColorSection: React.FC = () => {
 
             {/* Tabellen-Demo */}
             <div>
-              <p className="text-[10px] font-semibold font-mono uppercase tracking-widest text-[#6B6B6B] mb-3">
+              <p className="text-[10px] font-semibold font-mono uppercase tracking-widest text-muted-foreground mb-3">
                 Tabellen mit Status-Farbkodierung
               </p>
-              <div className="rounded-xl border border-[#E8E8E8] overflow-hidden">
+              <div className="rounded-xl border border-border overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-[#E8E8E8] bg-[#F7F7F7]">
-                      <th className="text-left px-4 py-2.5 text-[11px] font-semibold font-ui text-[#6B6B6B]">Produkt</th>
-                      <th className="text-right px-4 py-2.5 text-[11px] font-semibold font-ui text-[#6B6B6B]">Umsatz</th>
-                      <th className="text-right px-4 py-2.5 text-[11px] font-semibold font-ui text-[#6B6B6B]">Veränderung</th>
-                      <th className="text-center px-4 py-2.5 text-[11px] font-semibold font-ui text-[#6B6B6B]">Status</th>
+                    <tr className="border-b border-border bg-[#F7F7F7]">
+                      <th className="text-left px-4 py-2.5 text-[11px] font-semibold font-ui text-muted-foreground">Produkt</th>
+                      <th className="text-right px-4 py-2.5 text-[11px] font-semibold font-ui text-muted-foreground">Umsatz</th>
+                      <th className="text-right px-4 py-2.5 text-[11px] font-semibold font-ui text-muted-foreground">Veränderung</th>
+                      <th className="text-center px-4 py-2.5 text-[11px] font-semibold font-ui text-muted-foreground">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -368,9 +368,9 @@ export const ColorSection: React.FC = () => {
                         : row.type === "negative" ? SIGNAL.negative
                         : SIGNAL.neutral;
                       return (
-                        <tr key={row.name} className={`border-b border-[#E8E8E8]/50 ${i % 2 !== 0 ? "bg-[#FAFAFA]" : ""}`}>
-                          <td className="px-4 py-3 font-ui text-sm font-medium text-[#0A0A0A]">{row.name}</td>
-                          <td className="px-4 py-3 font-ui text-sm text-right text-[#0A0A0A] font-semibold">{row.revenue}</td>
+                        <tr key={row.name} className={`border-b border-border/50 ${i % 2 !== 0 ? "bg-[#FAFAFA]" : ""}`}>
+                          <td className="px-4 py-3 font-ui text-sm font-medium text-foreground">{row.name}</td>
+                          <td className="px-4 py-3 font-ui text-sm text-right text-foreground font-semibold">{row.revenue}</td>
                           <td className="px-4 py-3 text-right"><DeltaBadge value={row.delta} type={row.type} /></td>
                           <td className="px-4 py-3 text-center">
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold font-ui border"
@@ -391,7 +391,7 @@ export const ColorSection: React.FC = () => {
 
       {/* ── Signal-Token-Karten ── */}
       <div>
-        <p className="text-[10px] font-semibold font-mono uppercase tracking-widest text-[#6B6B6B] mb-4">
+        <p className="text-[10px] font-semibold font-mono uppercase tracking-widest text-muted-foreground mb-4">
           Signalfarben — Tokens & Verwendung
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -407,7 +407,7 @@ export const ColorSection: React.FC = () => {
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>CSS Custom Properties Referenz</GrainCardTitle>
-          <p className="text-xs text-[#6B6B6B] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Alle Tokens sind als CSS-Variablen verfügbar und können direkt in Tailwind verwendet werden
           </p>
         </GrainCardHeader>

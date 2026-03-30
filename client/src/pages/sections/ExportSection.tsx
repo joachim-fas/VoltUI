@@ -19,7 +19,7 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 bg-white/10 hover:bg-white/20 text-white/70 hover:text-white"
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 bg-card/10 hover:bg-card/20 text-white/70 hover:text-white"
     >
       {copied ? <Check className="w-3 h-3 text-[#E4FF97]" /> : <Copy className="w-3 h-3" />}
       {copied ? "Kopiert" : "Kopieren"}
@@ -31,12 +31,12 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
 const CodeBlock: React.FC<{ code: string; lang?: string; label?: string; dark?: boolean }> = ({
   code, lang = "html", label, dark = true,
 }) => (
-  <div className={cn("rounded-2xl overflow-hidden border", dark ? "border-white/10" : "border-[#E8E8E8]")}>
-    <div className={cn("flex items-center justify-between px-5 py-3 border-b", dark ? "bg-[#0A0A0A] border-white/10" : "bg-[#F5F5F5] border-[#E8E8E8]")}>
+  <div className={cn("rounded-2xl overflow-hidden border", dark ? "border-white/10" : "border-border")}>
+    <div className={cn("flex items-center justify-between px-5 py-3 border-b", dark ? "bg-[#0A0A0A] border-white/10" : "bg-secondary border-border")}>
       <div className="flex items-center gap-2">
-        <span className={cn("font-mono text-xs", dark ? "text-[#E4FF97]" : "text-[#6B6B6B]")}>&gt;_</span>
-        {label && <span className={cn("font-mono text-xs", dark ? "text-white/40" : "text-[#AAAAAA]")}>{label}</span>}
-        {lang && <span className={cn("text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded", dark ? "bg-white/10 text-white/30" : "bg-[#E8E8E8] text-[#6B6B6B]")}>{lang}</span>}
+        <span className={cn("font-mono text-xs", dark ? "text-[#E4FF97]" : "text-muted-foreground")}>&gt;_</span>
+        {label && <span className={cn("font-mono text-xs", dark ? "text-white/40" : "text-muted-foreground")}>{label}</span>}
+        {lang && <span className={cn("text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded", dark ? "bg-white/10 text-white/30" : "bg-[#E8E8E8] text-muted-foreground")}>{lang}</span>}
       </div>
       <CopyButton text={code} />
     </div>
@@ -189,7 +189,7 @@ Du arbeitest mit dem Flux UI Design System.
 
 ## Komponenten-Konventionen
 - Buttons: rounded-xl, font-display font-bold
-- Cards: border border-[#E8E8E8], rounded-2xl
+- Cards: border border-border, rounded-2xl
 - Labels: font-mono uppercase tracking-widest text-[10px]
 - Badges: rounded-full, font-mono text-xs`,
       },
@@ -204,10 +204,10 @@ Anforderungen:
 - Typografie: font-display (Bricolage Grotesque) für Headlines,
   font-ui (DM Sans) für Body, font-mono für Labels
 - Abstände: Tailwind spacing (p-4, p-6, p-8, gap-3, gap-4)
-- Rahmen: border border-[#E8E8E8], rounded-xl oder rounded-2xl
+- Rahmen: border border-border, rounded-xl oder rounded-2xl
 - Hover: hover:border-[#0A0A0A], hover:-translate-y-0.5
 - Kein Violett, kein Blau, keine Schatten-Überladung
-- Section-Labels: text-[10px] font-mono uppercase tracking-widest text-[#AAAAAA]`,
+- Section-Labels: text-[10px] font-mono uppercase tracking-widest text-muted-foreground`,
       },
       {
         title: "3. flux-ui.css einbinden",
@@ -408,10 +408,10 @@ export const ExportSection: React.FC = () => {
       {/* ── Header ── */}
       <div>
         <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B7A9A] mb-2">Export & Import</p>
-        <h2 className="font-display font-bold text-3xl text-[#0A0A0A] tracking-tight mb-4 leading-tight">
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-4 leading-tight">
           Flux UI in jedes Projekt importieren
         </h2>
-        <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed">
+        <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
           Das Design System ist portabel – eine CSS-Datei reicht für Plain HTML.
           Für React-Projekte stehen fertige Komponenten bereit.
           Für Claude Code gibt es einen fertigen System-Prompt.
@@ -448,7 +448,7 @@ export const ExportSection: React.FC = () => {
         </div>
         <button
           onClick={handleDownloadCSS}
-          className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#E4FF97] text-[#0A0A0A] font-display font-bold text-sm hover:bg-[#D8F080] transition-colors shrink-0"
+          className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#E4FF97] text-foreground font-display font-bold text-sm hover:bg-[#D8F080] transition-colors shrink-0"
         >
           {copiedDownload
             ? <><Check className="w-4 h-4" /> Heruntergeladen</>
@@ -468,7 +468,7 @@ export const ExportSection: React.FC = () => {
                 "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-mono font-medium border transition-all duration-200",
                 activePlatform === p.id
                   ? "bg-[#0A0A0A] text-[#E4FF97] border-[#0A0A0A]"
-                  : "bg-white text-[#4A4A4A] border-[#E8E8E8] hover:border-[#0A0A0A] hover:text-[#0A0A0A]"
+                  : "bg-white text-[#4A4A4A] border-border hover:border-[#0A0A0A] hover:text-[#0A0A0A]"
               )}
             >
               {p.icon}
@@ -483,11 +483,11 @@ export const ExportSection: React.FC = () => {
             <div key={i} className="space-y-3">
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-[#E4FF97] flex items-center justify-center shrink-0">
-                  <span className="font-mono font-bold text-[10px] text-[#0A0A0A]">{i + 1}</span>
+                  <span className="font-mono font-bold text-[10px] text-foreground">{i + 1}</span>
                 </div>
-                <h3 className="font-display font-bold text-base text-[#0A0A0A]">{step.title}</h3>
+                <h3 className="font-display font-bold text-base text-foreground">{step.title}</h3>
               </div>
-              <p className="text-sm text-[#4A4A4A] leading-relaxed pl-9">{step.desc}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed pl-9">{step.desc}</p>
               <div className="pl-0">
                 <CodeBlock code={step.code} lang={step.lang} />
               </div>
@@ -544,15 +544,15 @@ export const ExportSection: React.FC = () => {
               ],
             },
           ].map((group) => (
-            <div key={group.title} className="rounded-2xl border border-[#E8E8E8] overflow-hidden">
-              <div className="px-5 py-3 bg-[#F5F5F5] border-b border-[#E8E8E8]">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-[#6B6B6B]">{group.title}</p>
+            <div key={group.title} className="rounded-2xl border border-border overflow-hidden">
+              <div className="px-5 py-3 bg-secondary border-b border-border">
+                <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{group.title}</p>
               </div>
               <div className="divide-y divide-[#F0F0F0]">
                 {group.items.map((item) => (
                   <div key={item.cls} className="flex items-center justify-between px-5 py-2.5">
-                    <code className="font-mono text-xs text-[#0A0A0A]">{item.cls}</code>
-                    <span className="text-xs text-[#6B6B6B] font-ui">{item.val}</span>
+                    <code className="font-mono text-xs text-foreground">{item.cls}</code>
+                    <span className="text-xs text-muted-foreground font-ui">{item.val}</span>
                   </div>
                 ))}
               </div>
@@ -564,10 +564,10 @@ export const ExportSection: React.FC = () => {
       {/* ── CTA: Weiter zu Foundations ── */}
       <div className="rounded-2xl bg-[#E4FF97] p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <p className="font-display font-bold text-xl text-[#0A0A0A] leading-snug mb-2">
+          <p className="font-display font-bold text-xl text-foreground leading-snug mb-2">
             Bereit? Starte mit den Foundations.
           </p>
-          <p className="text-[#0A0A0A]/60 text-sm font-ui leading-relaxed">
+          <p className="text-foreground/60 text-sm font-ui leading-relaxed">
             Alle Design-Tokens, Farben und Typografie-Grundlagen im Überblick.
           </p>
         </div>

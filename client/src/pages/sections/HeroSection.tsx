@@ -1,6 +1,6 @@
 /**
  * HeroSection – Flux UI
- * Weiß + Schwarz + Lime (#E4FF97) – kein Violett, kein Blau
+ * Semantische Tokens für vollständigen Dark-Mode-Support
  */
 
 import React from "react";
@@ -12,17 +12,18 @@ import {
   ArrowRight, Code2, Palette, Zap, Layers, Package,
   BarChart2, Cpu, Workflow, Fingerprint,
 } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const features = [
-  { icon: <Palette className="w-4 h-4" />,    title: "Atmosphärische Textur", desc: "SVG-Rauschen als CSS-Overlay",    bg: "#E4FF97",  fg: "#0A0A0A" },
-  { icon: <Code2 className="w-4 h-4" />,      title: "Reiner Code",           desc: "Kein Bild-Asset, alles CSS",      bg: "#0A0A0A",  fg: "#FFFFFF" },
-  { icon: <Zap className="w-4 h-4" />,        title: "Framer Motion",         desc: "Flüssige Übergänge",              bg: "#1A9E5A",  fg: "#FFFFFF" },
-  { icon: <Layers className="w-4 h-4" />,     title: "Design Tokens",         desc: "CSS-Variablen, portabel",         bg: "#F4F4F4",  fg: "#0A0A0A" },
-  { icon: <BarChart2 className="w-4 h-4" />,  title: "12 Graphen-Typen",      desc: "Recharts mit Flux-Styling",       bg: "#E4FF97",  fg: "#0A0A0A" },
-  { icon: <Package className="w-4 h-4" />,    title: "18 Komponenten",        desc: "Vollständige Bibliothek",         bg: "#0A0A0A",  fg: "#FFFFFF" },
-  { icon: <Cpu className="w-4 h-4" />,        title: "React 19",              desc: "Modernste React-Version",         bg: "#6B7A9A",  fg: "#FFFFFF" },
-  { icon: <Workflow className="w-4 h-4" />,   title: "Operating Principle",   desc: "Eingabe → Workflow → Ausgabe",    bg: "#D4E8FF",  fg: "#0A0A0A" },
-  { icon: <Fingerprint className="w-4 h-4" />,title: "TypeScript",            desc: "Vollständig typisiert",           bg: "#F4F4F4",  fg: "#0A0A0A" },
+  { icon: <Palette className="w-4 h-4" />,    title: "Atmosphärische Textur", desc: "SVG-Rauschen als CSS-Overlay",    lightBg: "#E4FF97", darkBg: "#E4FF97", fg: "#0A0A0A" },
+  { icon: <Code2 className="w-4 h-4" />,      title: "Reiner Code",           desc: "Kein Bild-Asset, alles CSS",      lightBg: "#0A0A0A", darkBg: "#E4FF97", fg: "#FFFFFF", darkFg: "#0A0A0A" },
+  { icon: <Zap className="w-4 h-4" />,        title: "Framer Motion",         desc: "Flüssige Übergänge",              lightBg: "#1A9E5A", darkBg: "#1A9E5A", fg: "#FFFFFF" },
+  { icon: <Layers className="w-4 h-4" />,     title: "Design Tokens",         desc: "CSS-Variablen, portabel",         lightBg: "#F4F4F4", darkBg: "#2A2A2A", fg: "#0A0A0A", darkFg: "#E4FF97" },
+  { icon: <BarChart2 className="w-4 h-4" />,  title: "12 Graphen-Typen",      desc: "Recharts mit Flux-Styling",       lightBg: "#E4FF97", darkBg: "#E4FF97", fg: "#0A0A0A" },
+  { icon: <Package className="w-4 h-4" />,    title: "18 Komponenten",        desc: "Vollständige Bibliothek",         lightBg: "#0A0A0A", darkBg: "#E4FF97", fg: "#FFFFFF", darkFg: "#0A0A0A" },
+  { icon: <Cpu className="w-4 h-4" />,        title: "React 19",              desc: "Modernste React-Version",         lightBg: "#6B7A9A", darkBg: "#6B7A9A", fg: "#FFFFFF" },
+  { icon: <Workflow className="w-4 h-4" />,   title: "Operating Principle",   desc: "Eingabe → Workflow → Ausgabe",    lightBg: "#D4E8FF", darkBg: "#1A2A3A", fg: "#0A0A0A", darkFg: "#D4E8FF" },
+  { icon: <Fingerprint className="w-4 h-4" />,title: "TypeScript",            desc: "Vollständig typisiert",           lightBg: "#F4F4F4", darkBg: "#2A2A2A", fg: "#0A0A0A", darkFg: "#F5F5F5" },
 ];
 
 const stats = [
@@ -46,10 +47,13 @@ export function App() {
 }`;
 
 export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ onNavigate }) => {
+  const { darkMode } = useTheme();
+  const isDark = darkMode === "dark";
+
   return (
     <div className="space-y-16">
 
-      {/* ── Hero: Lime-Hintergrund ── */}
+      {/* ── Hero: Lime-Hintergrund (bleibt Lime in beiden Modi) ── */}
       <div className="relative min-h-[75vh] rounded-3xl overflow-hidden flex flex-col items-center justify-center text-center px-6 py-24"
         style={{ background: "#E4FF97" }}>
 
@@ -71,7 +75,6 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 max-w-4xl"
         >
-          {/* Cursor-Symbol als Brand-Anker */}
           <motion.div
             initial={{ opacity: 0, scale: 0.7, x: -20 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -141,52 +144,52 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.6 }}
-        className="rounded-2xl border border-[#E8E8E8] bg-white overflow-hidden"
+        className="rounded-2xl border border-border bg-card overflow-hidden"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#E8E8E8]">
+        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
           {/* Was ist Flux UI */}
           <div className="p-8">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 rounded-md bg-[#0A0A0A] flex items-center justify-center">
-                <span className="text-[#E4FF97] font-mono text-xs font-bold">&gt;_</span>
+              <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
+                <span className="text-primary font-mono text-xs font-bold">&gt;_</span>
               </div>
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#AAAAAA]">Was ist Flux UI?</p>
+              <p className="section-label">Was ist Flux UI?</p>
             </div>
-            <p className="font-display font-bold text-xl text-[#0A0A0A] leading-snug mb-3">
+            <p className="font-display font-bold text-xl text-card-foreground leading-snug mb-3">
               Ein portables Design-System – nicht an ein Framework gebunden.
             </p>
-            <p className="text-sm text-[#4A4A4A] leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Flux UI ist eine Sammlung aus Design-Tokens, Komponenten und Mustern, die sich in jedes Projekt importieren lässt – ob React, plain HTML, Claude Code oder Figma.
             </p>
           </div>
           {/* Wofür */}
           <div className="p-8">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 rounded-md bg-[#E4FF97] flex items-center justify-center">
-                <Workflow className="w-3 h-3 text-[#0A0A0A]" />
+              <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
+                <Workflow className="w-3 h-3 text-primary-foreground" />
               </div>
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#AAAAAA]">Wofür?</p>
+              <p className="section-label">Wofür?</p>
             </div>
-            <p className="font-display font-bold text-xl text-[#0A0A0A] leading-snug mb-3">
+            <p className="font-display font-bold text-xl text-card-foreground leading-snug mb-3">
               Konsistenz über alle Projekte hinweg.
             </p>
-            <p className="text-sm text-[#4A4A4A] leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Alle Projekte im Free-Agents-Ökosystem teilen dieselbe visuelle Sprache: Lime + Schwarz, Bricolage Grotesque, das &gt;_ Signet und die Flux-Textur.
             </p>
           </div>
           {/* Wie */}
           <div className="p-8">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 rounded-md bg-[#F4F4F4] flex items-center justify-center">
-                <Package className="w-3 h-3 text-[#0A0A0A]" />
+              <div className="w-6 h-6 rounded-md bg-secondary flex items-center justify-center">
+                <Package className="w-3 h-3 text-secondary-foreground" />
               </div>
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#AAAAAA]">Wie importieren?</p>
+              <p className="section-label">Wie importieren?</p>
             </div>
-            <p className="font-display font-bold text-xl text-[#0A0A0A] leading-snug mb-3">
+            <p className="font-display font-bold text-xl text-card-foreground leading-snug mb-3">
               Eine CSS-Datei. Fertig.
             </p>
-            <p className="text-sm text-[#4A4A4A] leading-relaxed">
-              <code className="font-mono text-xs bg-[#F4F4F4] px-1.5 py-0.5 rounded">flux-ui.css</code> einbinden, Klassen verwenden – keine Build-Tools, kein Framework nötig. Für React-Projekte stehen zusätzlich fertige Komponenten bereit.
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <code className="font-mono text-xs bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded">flux-ui.css</code> einbinden, Klassen verwenden – keine Build-Tools, kein Framework nötig.
             </p>
           </div>
         </div>
@@ -196,7 +199,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
       <div>
         <div className="flex items-center gap-3 mb-6">
           <p className="section-label">Was ist drin</p>
-          <div className="flex-1 h-px bg-[#E8E8E8]" />
+          <div className="flex-1 h-px bg-border" />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {features.map((f, i) => (
@@ -208,11 +211,14 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             >
               <GrainCard className="p-4 hover:-translate-y-0.5 transition-transform duration-200">
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-3"
-                  style={{ background: f.bg, color: f.fg }}>
+                  style={{
+                    background: isDark ? f.darkBg : f.lightBg,
+                    color: isDark ? (f.darkFg || f.fg) : f.fg,
+                  }}>
                   {f.icon}
                 </div>
-                <p className="font-display font-bold text-sm text-[#0A0A0A] mb-0.5">{f.title}</p>
-                <p className="text-[0.65rem] font-ui text-[#6B6B6B] leading-snug">{f.desc}</p>
+                <p className="font-display font-bold text-sm text-card-foreground mb-0.5">{f.title}</p>
+                <p className="text-[0.65rem] font-ui text-muted-foreground leading-snug">{f.desc}</p>
               </GrainCard>
             </motion.div>
           ))}
@@ -221,7 +227,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
 
       {/* ── Code-Snippet + CTA ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Code */}
+        {/* Code – bleibt immer dunkel */}
         <div className="rounded-2xl bg-[#0A0A0A] p-6 overflow-hidden">
           <div className="flex items-center gap-1.5 mb-4">
             {["#E8402A","#E4FF97","#1A9E5A"].map((c,i) => (
@@ -234,7 +240,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
           </pre>
         </div>
 
-        {/* CTA: Lime-Card */}
+        {/* CTA: Lime-Card (bleibt Lime in beiden Modi) */}
         <div className="rounded-2xl p-8 flex flex-col justify-between"
           style={{ background: "#E4FF97" }}>
           <div>

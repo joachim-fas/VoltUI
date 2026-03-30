@@ -265,7 +265,7 @@ export const DataSection: React.FC = () => {
             { icon: <ArrowRight className="w-3 h-3" />,   text: "Alle Charts sind interaktiv (Hover für Tooltip)" },
           ].map((h, i) => (
             <div key={i} className="flex items-center gap-1.5 text-[10px] font-semibold font-ui text-muted-foreground bg-muted px-2.5 py-1.5 rounded-lg border border-border">
-              <span className="text-[#0A0A0A]">{h.icon}</span>
+              <span className="text-foreground">{h.icon}</span>
               {h.text}
             </div>
           ))}
@@ -338,22 +338,22 @@ export const DataSection: React.FC = () => {
             <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
               <div className={`relative rounded-2xl p-5 grain overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${
                 (kpi as any).colorClass
-                  ? `${(kpi as any).colorClass} ${(kpi as any).lime ? 'text-[#0A0A0A]' : 'text-white'}`
+                  ? `${(kpi as any).colorClass} ${(kpi as any).lime ? 'text-foreground' : 'text-white'}`
                   : "bg-card border border-border"
               }`}>
                 <div className="absolute top-0 right-0 w-24 h-24 rounded-full pointer-events-none"
                   style={{ background: kpi.colorClass ? "radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%)" : "radial-gradient(circle, rgba(228,255,151,0.06) 0%, transparent 70%)" }} />
                 <div className="relative z-10">
                   <div className="flex items-start justify-between mb-3">
-                    <span className={`text-[0.6rem] font-mono font-semibold uppercase tracking-[0.14em] ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]/60' : 'text-white/60') : "text-muted-foreground"}`}>{kpi.label}</span>
+                    <span className={`text-[0.6rem] font-mono font-semibold uppercase tracking-[0.14em] ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-foreground/60' : 'text-white/60') : "text-muted-foreground"}`}>{kpi.label}</span>
                     <div className={`w-7 h-7 rounded-xl flex items-center justify-center ${(kpi as any).colorClass ? "bg-white/15" : "bg-foreground/10 text-foreground"}`}>{kpi.icon}</div>
                   </div>
-                  <p className={`font-display font-black text-3xl leading-none tracking-tight mb-1.5 ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]' : 'text-white') : "text-foreground"}`}>{kpi.value}</p>
-                  <div className={`flex items-center gap-1 mb-2 ${kpi.colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]/70' : 'text-white/80') : kpi.change > 0 ? "text-[#0F6038]" : kpi.change < 0 ? "text-[#A01A08]" : "text-muted-foreground"}`}>
+                  <p className={`font-display font-black text-3xl leading-none tracking-tight mb-1.5 ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-foreground' : 'text-white') : "text-foreground"}`}>{kpi.value}</p>
+                  <div className={`flex items-center gap-1 mb-2 ${kpi.colorClass ? ((kpi as any).lime ? 'text-foreground/70' : 'text-white/80') : kpi.change > 0 ? "text-[#0F6038]" : kpi.change < 0 ? "text-[#A01A08]" : "text-muted-foreground"}`}>
                     {kpi.change > 0 ? <TrendingUp className="w-3 h-3" /> : kpi.change < 0 ? <TrendingUp className="w-3 h-3 rotate-180" /> : null}
                     <span className="text-[10px] font-semibold font-ui">{kpi.change > 0 ? "+" : ""}{kpi.change}%</span>
                   </div>
-                  <p className={`text-[10px] font-body ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-[#0A0A0A]/50' : 'text-white/50') : "text-muted-foreground"}`}>{kpi.insight}</p>
+                  <p className={`text-[10px] font-body ${(kpi as any).colorClass ? ((kpi as any).lime ? 'text-foreground/50' : 'text-white/50') : "text-muted-foreground"}`}>{kpi.insight}</p>
                 </div>
               </div>
             </motion.div>

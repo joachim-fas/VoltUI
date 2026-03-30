@@ -27,7 +27,7 @@ const PATTERNS = [
           opacity: 0.12,
         }} />
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-mono text-xs text-[#6B6B6B]">grain · noise · texture</span>
+          <span className="font-mono text-xs text-muted-foreground">grain · noise · texture</span>
         </div>
       </div>
     ),
@@ -46,7 +46,7 @@ const PATTERNS = [
         backgroundColor: "#FFFFFF",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-[#6B6B6B] bg-white/80 px-2 py-1 rounded">dot · grid · 20px</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">dot · grid · 20px</span>
         </div>
       </div>
     ),
@@ -64,7 +64,7 @@ const PATTERNS = [
         backgroundColor: "#FFFFFF",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-[#6B6B6B] bg-white/80 px-2 py-1 rounded">lines · 24px · horizontal</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">lines · 24px · horizontal</span>
         </div>
       </div>
     ),
@@ -83,7 +83,7 @@ const PATTERNS = [
         backgroundColor: "#FFFFFF",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-[#6B6B6B] bg-white/80 px-2 py-1 rounded">grid · 32px · cross</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">grid · 32px · cross</span>
         </div>
       </div>
     ),
@@ -101,7 +101,7 @@ const PATTERNS = [
         backgroundColor: "#FFF5BA",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-[#6B6B6B] bg-white/80 px-2 py-1 rounded">diagonal · 45° · 16px</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">diagonal · 45° · 16px</span>
         </div>
       </div>
     ),
@@ -120,7 +120,7 @@ const PATTERNS = [
         backgroundSize: "20px 20px",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-[#0A0A0A] bg-[#E4FF97]/80 px-2 py-1 rounded">lime · dots · hero</span>
+          <span className="font-mono text-xs text-foreground bg-[#E4FF97]/80 px-2 py-1 rounded">lime · dots · hero</span>
         </div>
       </div>
     ),
@@ -251,7 +251,7 @@ function CopyButton({ code }: { code: string }) {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono border border-[#E8E8E8] bg-white hover:bg-[#F4F4F4] text-[#6B6B6B] hover:text-[#0A0A0A] transition-all"
+      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono border border-border bg-card hover:bg-secondary text-muted-foreground hover:text-foreground transition-all"
     >
       {copied ? <Check className="w-3 h-3 text-[#1A9E5A]" /> : <Copy className="w-3 h-3" />}
       {copied ? "Kopiert" : "CSS kopieren"}
@@ -279,7 +279,7 @@ export const BackgroundsSection: React.FC = () => {
       {/* ── Patterns ── */}
       <section>
         <h3 className="font-display font-bold text-xl text-foreground mb-1">Patterns</h3>
-        <p className="text-[#6B6B6B] text-sm mb-6">Wiederholbare Muster für strukturierte Oberflächen und Texturen.</p>
+        <p className="text-muted-foreground text-sm mb-6">Wiederholbare Muster für strukturierte Oberflächen und Texturen.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {PATTERNS.map((p, i) => (
             <motion.div
@@ -287,21 +287,21 @@ export const BackgroundsSection: React.FC = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="border border-[#E8E8E8] rounded-2xl overflow-hidden bg-white"
+              className="border border-border rounded-2xl overflow-hidden bg-card"
             >
               {/* Preview */}
               <div className="h-36 relative">
                 {p.preview}
               </div>
               {/* Info */}
-              <div className="p-4 border-t border-[#E8E8E8]">
+              <div className="p-4 border-t border-border">
                 <div className="flex items-start justify-between gap-2 mb-1">
                   <div>
-                    <p className="font-display font-bold text-sm text-[#0A0A0A]">{p.name}</p>
-                    <p className="text-xs text-[#6B6B6B]">{p.description}</p>
+                    <p className="font-display font-bold text-sm text-foreground">{p.name}</p>
+                    <p className="text-xs text-muted-foreground">{p.description}</p>
                   </div>
                 </div>
-                <div className="mt-3 bg-[#F8F8F8] rounded-lg p-2 font-mono text-[10px] text-[#6B6B6B] leading-relaxed overflow-x-auto">
+                <div className="mt-3 bg-[#F8F8F8] rounded-lg p-2 font-mono text-[10px] text-muted-foreground leading-relaxed overflow-x-auto">
                   <code className="whitespace-pre">{p.code.split('\n')[0]}</code>
                 </div>
                 <div className="mt-2">
@@ -316,7 +316,7 @@ export const BackgroundsSection: React.FC = () => {
       {/* ── Verläufe ── */}
       <section>
         <h3 className="font-display font-bold text-xl text-foreground mb-1">Farbverläufe</h3>
-        <p className="text-[#6B6B6B] text-sm mb-6">Lineare und radiale Verläufe aus der Flux UI Palette.</p>
+        <p className="text-muted-foreground text-sm mb-6">Lineare und radiale Verläufe aus der Flux UI Palette.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {GRADIENTS.map((g, i) => (
             <motion.div
@@ -324,14 +324,14 @@ export const BackgroundsSection: React.FC = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="border border-[#E8E8E8] rounded-2xl overflow-hidden bg-white"
+              className="border border-border rounded-2xl overflow-hidden bg-card"
             >
               {/* Gradient Preview */}
               <div className="h-24 w-full" style={g.style} />
               {/* Info */}
-              <div className="p-3 border-t border-[#E8E8E8]">
-                <p className="font-display font-bold text-sm text-[#0A0A0A] mb-0.5">{g.name}</p>
-                <p className="text-[10px] text-[#6B6B6B] mb-2">{g.description}</p>
+              <div className="p-3 border-t border-border">
+                <p className="font-display font-bold text-sm text-foreground mb-0.5">{g.name}</p>
+                <p className="text-[10px] text-muted-foreground mb-2">{g.description}</p>
                 <CopyButton code={g.code} />
               </div>
             </motion.div>
@@ -341,8 +341,8 @@ export const BackgroundsSection: React.FC = () => {
 
       {/* ── Atmosphärische Hintergründe ── */}
       <section>
-        <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-1">Atmosphärische Hintergründe</h2>
-        <p className="text-[#6B6B6B] text-sm mb-6">Kombinationen aus Farbe und Flux-Textur für Hero-Bereiche, Modals und Sektionen.</p>
+        <h2 className="font-display font-bold text-2xl text-foreground mb-1">Atmosphärische Hintergründe</h2>
+        <p className="text-muted-foreground text-sm mb-6">Kombinationen aus Farbe und Flux-Textur für Hero-Bereiche, Modals und Sektionen.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {ATMOSPHERIC.map((a, i) => (
             <motion.div
@@ -350,7 +350,7 @@ export const BackgroundsSection: React.FC = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="border border-[#E8E8E8] rounded-2xl overflow-hidden"
+              className="border border-border rounded-2xl overflow-hidden"
             >
               {/* Atmospheric Preview */}
               <div className="relative h-40" style={a.style}>
@@ -372,8 +372,8 @@ export const BackgroundsSection: React.FC = () => {
                 </div>
               </div>
               {/* Info */}
-              <div className="p-3 border-t border-[#E8E8E8] bg-white">
-                <div className="bg-[#F8F8F8] rounded-lg p-2 font-mono text-[10px] text-[#6B6B6B] leading-relaxed mb-2 overflow-x-auto">
+              <div className="p-3 border-t border-border bg-card">
+                <div className="bg-[#F8F8F8] rounded-lg p-2 font-mono text-[10px] text-muted-foreground leading-relaxed mb-2 overflow-x-auto">
                   <code className="whitespace-pre">{a.code}</code>
                 </div>
                 <CopyButton code={a.code} />
@@ -385,12 +385,12 @@ export const BackgroundsSection: React.FC = () => {
 
       {/* ── Kombinations-Showcase ── */}
       <section>
-        <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-1">Kombinations-Showcase</h2>
-        <p className="text-[#6B6B6B] text-sm mb-6">Pattern + Verlauf + Flux kombiniert – wie sie in echten Layouts eingesetzt werden.</p>
+        <h2 className="font-display font-bold text-2xl text-foreground mb-1">Kombinations-Showcase</h2>
+        <p className="text-muted-foreground text-sm mb-6">Pattern + Verlauf + Flux kombiniert – wie sie in echten Layouts eingesetzt werden.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           {/* Hero-Variante 1: Lime + Dots */}
-          <div className="relative rounded-2xl overflow-hidden h-48 border border-[#E8E8E8]" style={{
+          <div className="relative rounded-2xl overflow-hidden h-48 border border-border" style={{
             backgroundColor: "#E4FF97",
             backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)",
             backgroundSize: "20px 20px",
@@ -400,13 +400,13 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-[#0A0A0A]/60 uppercase tracking-widest mb-1">Lime + Dots + Flux</span>
-              <span className="font-display font-black text-2xl text-[#0A0A0A]">Hero Section</span>
+              <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-widest mb-1">Lime + Dots + Flux</span>
+              <span className="font-display font-black text-2xl text-foreground">Hero Section</span>
             </div>
           </div>
 
           {/* Hero-Variante 2: Dark + Grid */}
-          <div className="relative rounded-2xl overflow-hidden h-48 border border-[#E8E8E8]" style={{
+          <div className="relative rounded-2xl overflow-hidden h-48 border border-border" style={{
             backgroundColor: "#0A0A0A",
             backgroundImage: "linear-gradient(rgba(228,255,151,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(228,255,151,0.06) 1px, transparent 1px)",
             backgroundSize: "32px 32px",
@@ -422,7 +422,7 @@ export const BackgroundsSection: React.FC = () => {
           </div>
 
           {/* Pastell-Variante 1: Rose + Diagonal */}
-          <div className="relative rounded-2xl overflow-hidden h-48 border border-[#E8E8E8]" style={{
+          <div className="relative rounded-2xl overflow-hidden h-48 border border-border" style={{
             background: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)",
             backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(0,0,0,0.04) 12px, rgba(0,0,0,0.04) 24px), linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)",
           }}>
@@ -431,13 +431,13 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-[#0A0A0A]/50 uppercase tracking-widest mb-1">Rose + Diagonal + Flux</span>
-              <span className="font-display font-black text-2xl text-[#0A0A0A]">Pastell Section</span>
+              <span className="font-mono text-[10px] text-foreground/50 uppercase tracking-widest mb-1">Rose + Diagonal + Flux</span>
+              <span className="font-display font-black text-2xl text-foreground">Pastell Section</span>
             </div>
           </div>
 
           {/* Pastell-Variante 2: Mint + Dots */}
-          <div className="relative rounded-2xl overflow-hidden h-48 border border-[#E8E8E8]" style={{
+          <div className="relative rounded-2xl overflow-hidden h-48 border border-border" style={{
             background: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)",
           }}>
             <div className="absolute inset-0" style={{
@@ -449,8 +449,8 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-[#0A0A0A]/50 uppercase tracking-widest mb-1">Mint + Dots + Flux</span>
-              <span className="font-display font-black text-2xl text-[#0A0A0A]">Success Section</span>
+              <span className="font-mono text-[10px] text-foreground/50 uppercase tracking-widest mb-1">Mint + Dots + Flux</span>
+              <span className="font-display font-black text-2xl text-foreground">Success Section</span>
             </div>
           </div>
 

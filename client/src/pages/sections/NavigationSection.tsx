@@ -81,7 +81,7 @@ const Stepper: React.FC<{ current: number }> = ({ current }) => (
             <div className={cn(
               "w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold font-body transition-all duration-300",
               done   && "bg-[#0A0A0A] text-white",
-              active && "bg-[#E4FF97] text-[#0A0A0A] scale-110",
+              active && "bg-[#E4FF97] text-foreground scale-110",
               !done && !active && "bg-muted text-muted-foreground border border-border"
             )}>
               {done ? <Check className="w-4 h-4" /> : active ? <Circle className="w-2.5 h-2.5 fill-white" /> : i + 1}
@@ -141,7 +141,7 @@ export const NavigationSection: React.FC = () => {
               logo={
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-[#E4FF97] flex items-center justify-center">
-                    <span className="text-[#0A0A0A] font-display font-bold text-xs">G</span>
+                    <span className="text-foreground font-display font-bold text-xs">G</span>
                   </div>
                   <span className="font-display font-bold text-base text-foreground">Flux UI</span>
                 </div>

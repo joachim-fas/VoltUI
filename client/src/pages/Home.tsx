@@ -197,7 +197,7 @@ export default function Home() {
   );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white">
+    <div className="flex h-screen overflow-hidden bg-background text-foreground">
 
       {/* ── Desktop Sidebar (sticky) ── */}
       <div className="hidden lg:flex flex-col h-full">
@@ -225,21 +225,21 @@ export default function Home() {
       )}
 
       {/* ── Hauptinhalt: durchgehend scrollbar ── */}
-      <div className="flex-1 flex flex-col overflow-hidden min-w-0 bg-white">
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0 bg-background">
 
         {/* Mobile Header */}
-        <header className="lg:hidden flex items-center justify-between px-4 h-14 border-b border-[#E8E8E8] bg-white flex-shrink-0 sticky top-0 z-40">
+        <header className="lg:hidden flex items-center justify-between px-4 h-14 border-b border-border bg-background flex-shrink-0 sticky top-0 z-40">
           <button
             onClick={() => setMobileOpen(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-lg text-[#6B6B6B] hover:text-[#0A0A0A] hover:bg-[#F4F4F4]"
+            className="w-9 h-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary"
           >
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-md bg-[#0A0A0A] flex items-center justify-center">
-              <Terminal className="w-3 h-3 text-[#E4FF97]" />
+              <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
+              <Terminal className="w-3 h-3 text-primary" />
             </div>
-            <span className="font-display font-bold text-sm text-[#0A0A0A] tracking-tight">
+            <span className="font-display font-bold text-sm text-foreground tracking-tight">
               flux<span className="opacity-30"> ui</span>
             </span>
           </div>
@@ -247,13 +247,13 @@ export default function Home() {
         </header>
 
         {/* Scrollbarer Inhalt – alle Sections untereinander */}
-        <div ref={mainRef} className="flex-1 overflow-y-auto bg-white">
+        <div ref={mainRef} className="flex-1 overflow-y-auto bg-background">
           {ALL_SECTIONS.map(({ id, Component }) => (
             <section
               key={id}
               id={id}
               ref={(el) => { sectionRefs.current[id] = el; }}
-              className="border-b border-[#F0F0F0] last:border-b-0"
+              className="border-b border-border last:border-b-0"
             >
               <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 md:py-14">
                 {id === "home"
