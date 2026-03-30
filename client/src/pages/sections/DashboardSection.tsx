@@ -4,7 +4,7 @@
  * Kein Blau, kein Violett
  */
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
@@ -121,6 +121,23 @@ const goals = [
   { label: "Churn Rate",    current: 2.1,   target: 1.5,    color: C.negative, unit: "%", note: "Ziel: unter 1.5%" },
 ];
 
+/* ── Intersection Observer Hook ── */
+function useInView(threshold = 0.12) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); obs.disconnect(); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, inView };
+}
+
 /* ── Helpers ── */
 const TICK_STYLE = { fontSize: 10, fontFamily: "DM Sans", fill: "#6B6B6B" };
 
@@ -234,6 +251,11 @@ const KPICard: React.FC<KPICardProps> = ({
 export const DashboardSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"overview" | "analytics" | "orders">("overview");
   const [searchQuery, setSearchQuery] = useState("");
+  const { ref: revenueRef, inView: revenueInView } = useInView();
+  const { ref: visitorRef, inView: visitorInView } = useInView();
+  const { ref: perfRef,    inView: perfInView }    = useInView();
+  const { ref: funnelRef,  inView: funnelInView }  = useInView();
+  const { ref: channelRef, inView: channelInView } = useInView();
 
   const filteredOrders = orders.filter(o =>
     o.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -332,6 +354,7 @@ export const DashboardSection: React.FC = () => {
                 </div>
               </FluxCardHeader>
               <FluxCardContent>
+                <div ref={revenueRef}>
                 <ResponsiveContainer width="100%" height={220}>
                   <AreaChart data={revenueData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
                     <defs>
@@ -353,11 +376,12 @@ export const DashboardSection: React.FC = () => {
                     <YAxis tick={TICK_STYLE} axisLine={false} tickLine={false} tickFormatter={v => `${v/1000}k`} />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend iconType="circle" iconSize={6} wrapperStyle={{ fontSize: 10, fontFamily: "DM Sans" }} />
-                    <Area type="monotone" dataKey="revenue"  name="Umsatz"   stroke={C.black}    strokeWidth={2} fill="url(#gradRevenue)" />
-                    <Area type="monotone" dataKey="expenses" name="Ausgaben" stroke={C.negative} strokeWidth={2} fill="url(#gradExpenses)" />
-                    <Area type="monotone" dataKey="profit"   name="Gewinn"   stroke={C.positive} strokeWidth={2} fill="url(#gradProfit)" />
+                    <Area type="monotone" dataKey="revenue"  name="Umsatz"   stroke={C.black}    strokeWidth={2} fill="url(#gradRevenue)"  isAnimationActive={revenueInView} animationDuration={900} animationEasing="ease-out" animationBegin={0} />
+                    <Area type="monotone" dataKey="expenses" name="Ausgaben" stroke={C.negative} strokeWidth={2} fill="url(#gradExpenses)" isAnimationActive={revenueInView} animationDuration={900} animationEasing="ease-out" animationBegin={120} />
+                    <Area type="monotone" dataKey="profit"   name="Gewinn"   stroke={C.positive} strokeWidth={2} fill="url(#gradProfit)"   isAnimationActive={revenueInView} animationDuration={900} animationEasing="ease-out" animationBegin={240} />
                   </AreaChart>
                 </ResponsiveContainer>
+                </div>
               </FluxCardContent>
             </FluxCard>
 
@@ -369,9 +393,10 @@ export const DashboardSection: React.FC = () => {
                 <Insight text="Organisch dominiert mit 38%" type="positive" />
               </FluxCardHeader>
               <FluxCardContent>
+                <div ref={channelRef}>
                 <ResponsiveContainer width="100%" height={140}>
                   <PieChart>
-                    <Pie data={channelData} cx="50%" cy="50%" innerRadius={40} outerRadius={62} paddingAngle={3} dataKey="value">
+                    <Pie data={channelData} cx="50%" cy="50%" innerRadius={40} outerRadius={62} paddingAngle={3} dataKey="value" isAnimationActive={channelInView} animationBegin={0} animationDuration={800} animationEasing="ease-out">
                       {channelData.map((entry, i) => (
                         <Cell key={i} fill={entry.color} stroke="transparent" />
                       ))}
@@ -379,6 +404,7 @@ export const DashboardSection: React.FC = () => {
                     <Tooltip formatter={(v) => `${v}%`} contentStyle={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, fontSize: 11, color: "var(--card-foreground)" }} />
                   </PieChart>
                 </ResponsiveContainer>
+                </div>
                 <div className="space-y-2 mt-2">
                   {channelData.map((c) => (
                     <div key={c.name} className="flex items-center gap-2">
@@ -389,7 +415,11 @@ export const DashboardSection: React.FC = () => {
                           <span className="text-xs font-semibold font-ui text-foreground">{c.value}%</span>
                         </div>
                         <div className="h-1 bg-secondary rounded-full mt-0.5 overflow-hidden">
-                          <div className="h-full rounded-full" style={{ width: `${c.value}%`, background: c.color }} />
+                          <div className="h-full rounded-full" style={{
+                            width: channelInView ? `${c.value}%` : "0%",
+                            background: c.color,
+                            transition: `width 0.7s ease-out`,
+                          }} />
                         </div>
                       </div>
                     </div>
@@ -413,6 +443,7 @@ export const DashboardSection: React.FC = () => {
                 </div>
               </FluxCardHeader>
               <FluxCardContent>
+                <div ref={visitorRef}>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={visitorData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }} barSize={10} barGap={2}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" vertical={false} />
@@ -420,16 +451,17 @@ export const DashboardSection: React.FC = () => {
                     <YAxis tick={TICK_STYLE} axisLine={false} tickLine={false} />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend iconType="circle" iconSize={6} wrapperStyle={{ fontSize: 10, fontFamily: "DM Sans" }} />
-                    <Bar dataKey="organisch" name="Organisch" fill={C.black}     radius={[4,4,0,0]} />
-                    <Bar dataKey="paid"      name="Paid"      fill={C.rose}     radius={[4,4,0,0]} />
-                    <Bar dataKey="direkt"    name="Direkt"    fill={C.sky}      radius={[4,4,0,0]} />
-                    <Bar dataKey="social"    name="Social"    fill={C.mint}     radius={[4,4,0,0]} />
-                    <Bar dataKey="email"     name="E-Mail"    fill={C.butter}   radius={[4,4,0,0]} />
-                    <Bar dataKey="referral"  name="Referral"  fill={C.orchid}   radius={[4,4,0,0]} />
-                    <Bar dataKey="affiliate" name="Affiliate" fill={C.peach}    radius={[4,4,0,0]} />
-                    <Bar dataKey="sonstige"  name="Sonstige"  fill={C.aqua}     radius={[4,4,0,0]} />
+                    <Bar dataKey="organisch" name="Organisch" fill={C.black}   radius={[4,4,0,0]} isAnimationActive={visitorInView} animationDuration={600} animationEasing="ease-out" animationBegin={0} />
+                    <Bar dataKey="paid"      name="Paid"      fill={C.rose}    radius={[4,4,0,0]} isAnimationActive={visitorInView} animationDuration={600} animationEasing="ease-out" animationBegin={60} />
+                    <Bar dataKey="direkt"    name="Direkt"    fill={C.sky}     radius={[4,4,0,0]} isAnimationActive={visitorInView} animationDuration={600} animationEasing="ease-out" animationBegin={120} />
+                    <Bar dataKey="social"    name="Social"    fill={C.mint}    radius={[4,4,0,0]} isAnimationActive={visitorInView} animationDuration={600} animationEasing="ease-out" animationBegin={180} />
+                    <Bar dataKey="email"     name="E-Mail"    fill={C.butter}  radius={[4,4,0,0]} isAnimationActive={visitorInView} animationDuration={600} animationEasing="ease-out" animationBegin={240} />
+                    <Bar dataKey="referral"  name="Referral"  fill={C.orchid}  radius={[4,4,0,0]} isAnimationActive={visitorInView} animationDuration={600} animationEasing="ease-out" animationBegin={300} />
+                    <Bar dataKey="affiliate" name="Affiliate" fill={C.peach}   radius={[4,4,0,0]} isAnimationActive={visitorInView} animationDuration={600} animationEasing="ease-out" animationBegin={360} />
+                    <Bar dataKey="sonstige"  name="Sonstige"  fill={C.aqua}    radius={[4,4,0,0]} isAnimationActive={visitorInView} animationDuration={600} animationEasing="ease-out" animationBegin={420} />
                   </BarChart>
                 </ResponsiveContainer>
+                </div>
               </FluxCardContent>
             </FluxCard>
 
@@ -609,6 +641,7 @@ export const DashboardSection: React.FC = () => {
                 </div>
               </FluxCardHeader>
               <FluxCardContent>
+                <div ref={perfRef}>
                 <ResponsiveContainer width="100%" height={220}>
                   <LineChart data={performanceData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" />
@@ -617,10 +650,11 @@ export const DashboardSection: React.FC = () => {
                     <Tooltip content={<CustomTooltip />} />
                     <Legend iconType="circle" iconSize={6} wrapperStyle={{ fontSize: 10, fontFamily: "DM Sans" }} />
                     <ReferenceLine y={80} stroke={C.neutral} strokeDasharray="5 3" strokeWidth={1} label={{ value: "Ziel", position: "right", fontSize: 9, fill: C.neutral }} />
-                    <Line type="monotone" dataKey="target" name="Ziel"    stroke={C.neutral} strokeWidth={1.5} strokeDasharray="5 3" dot={false} />
-                    <Line type="monotone" dataKey="actual" name="Aktuell" stroke={C.black}   strokeWidth={2.5} dot={{ r: 4, fill: C.black, strokeWidth: 2, stroke: "white" }} activeDot={{ r: 6 }} />
+                    <Line type="monotone" dataKey="target" name="Ziel"    stroke={C.neutral} strokeWidth={1.5} strokeDasharray="5 3" dot={false} isAnimationActive={perfInView} animationDuration={900} animationEasing="ease-out" animationBegin={0} />
+                    <Line type="monotone" dataKey="actual" name="Aktuell" stroke={C.black}   strokeWidth={2.5} dot={{ r: 4, fill: C.black, strokeWidth: 2, stroke: "white" }} activeDot={{ r: 6 }} isAnimationActive={perfInView} animationDuration={1000} animationEasing="ease-out" animationBegin={150} />
                   </LineChart>
                 </ResponsiveContainer>
+                </div>
               </FluxCardContent>
             </FluxCard>
 
@@ -630,12 +664,14 @@ export const DashboardSection: React.FC = () => {
                 <p className="text-xs text-muted-foreground font-ui mt-0.5">Von Besucher zu Kunde: 21% Conversion</p>
               </FluxCardHeader>
               <FluxCardContent>
+                <div ref={funnelRef}>
                 <ResponsiveContainer width="100%" height={160}>
                   <RadialBarChart cx="50%" cy="50%" innerRadius={20} outerRadius={75} data={conversionData} startAngle={90} endAngle={-270}>
-                    <RadialBar dataKey="value" cornerRadius={4} background={{ fill: "#F4F4F4" }} />
+                    <RadialBar dataKey="value" cornerRadius={4} background={{ fill: "#F4F4F4" }} isAnimationActive={funnelInView} animationDuration={900} animationEasing="ease-out" />
                     <Tooltip formatter={(v) => `${v}%`} contentStyle={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, fontSize: 11, color: "var(--card-foreground)" }} />
                   </RadialBarChart>
                 </ResponsiveContainer>
+                </div>
                 <div className="space-y-2 mt-2">
                   {conversionData.map((c, i) => (
                     <div key={c.name} className="flex items-center gap-2">

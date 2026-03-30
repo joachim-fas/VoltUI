@@ -1,10 +1,11 @@
 /**
- * FluxChart – Atmospheric Grain Design System v3
+ * FluxChart – Atmospheric Grain Design System v4
  * Alle Graphen-Typen: Area, Bar, Line, Donut/Pie, Radar, Scatter, Composed, RadialBar, Funnel, Trend
- * Font: DM Sans überall – kein Serif, keine Monospace in Achsen/Labels
+ * Animationen: isAnimationActive + Intersection Observer Fade-in + staggered Entrance
+ * Font: DM Sans überall
  */
 
-import React from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import {
   AreaChart, Area,
@@ -22,97 +23,180 @@ import {
 
 /* ── Grain Farbpaletten für Recharts ── */
 
-/** Standard-Palette: Neon Yellow + Black + Signalfarben + Pastell
- * HINWEIS: GRAIN_HEX wird NUR noch für Signalfarben-Kontext exportiert.
- * Alle Charts verwenden standardmäßig GRAIN_PASTEL.
- */
 export const GRAIN_HEX = [
-  "#E4FF97", // Neon Yellow (Primär)
-  "#000000", // Black (Fundament)
-  "#1A9E5A", // Signal Positiv (Smaragd)
-  "#E8402A", // Signal Negativ (Koralle)
-  "#6B7A9A", // Signal Neutral (Slate)
-  "#C3F4D3", // Mint Green
-  "#D4E8FF", // Baby Blue
-  "#FFD6E0", // Rose Quartz
+  "#E4FF97", "#000000", "#1A9E5A", "#E8402A",
+  "#6B7A9A", "#C3F4D3", "#D4E8FF", "#FFD6E0",
 ];
 
-/** Neon-Palette: maximale Chroma, elektrische Leuchtkraft */
 export const GRAIN_NEON = [
-  "#00F5FF", // Neon Cyan
-  "#FF0090", // Hot Pink
-  "#AAFF00", // Acid Green
-  "#FF6600", // Laser Orange
-  "#7B00FF", // Electric Violet
-  "#00FF88", // Neon Mint
-  "#FFE600", // Electric Yellow
-  "#FF2D55", // Neon Red
+  "#00F5FF", "#FF0090", "#AAFF00", "#FF6600",
+  "#7B00FF", "#00FF88", "#FFE600", "#FF2D55",
 ];
 
-/** Pastell-Palette: exakt nach Vorgabe – 8 harmonische Töne */
 export const GRAIN_PASTEL = [
-  "#F4A0B5", // Rose Quartz – gesättigt
-  "#F5C87A", // Peach Cream – gesättigt
-  "#6DDBA0", // Mint Green – gesättigt
-  "#D98AE8", // Soft Orchid – gesättigt
-  "#7AB8F5", // Baby Blue – gesättigt
-  "#E8C840", // Butter Yellow – gesättigt
-  "#F0956A", // Powder Orange – gesättigt
-  "#5ECECE", // Aqua Mist – gesättigt
+  "#F4A0B5", "#F5C87A", "#6DDBA0", "#D98AE8",
+  "#7AB8F5", "#E8C840", "#F0956A", "#5ECECE",
 ];
 
-export const GRAIN_CHART_COLORS = GRAIN_PASTEL; // backwards compat – jetzt Pastell
+export const GRAIN_CHART_COLORS = GRAIN_PASTEL;
 
 export type FluxPalette = "standard" | "neon" | "pastel";
-/** Alle Charts nutzen standardmäßig GRAIN_PASTEL. "standard" = Pastell. */
 export const getPalette = (p?: FluxPalette) =>
-  p === "neon" ? GRAIN_NEON : GRAIN_PASTEL; // standard + pastel = immer Pastell
+  p === "neon" ? GRAIN_NEON : GRAIN_PASTEL;
 
-/** Interner Alias – Charts verwenden immer Pastell */
 const C = GRAIN_PASTEL;
+
+/* ══════════════════════════════════════════════════════════════════════
+   INTERSECTION OBSERVER HOOK – triggert Animation beim Einblenden
+══════════════════════════════════════════════════════════════════════ */
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); obs.disconnect(); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, inView };
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   COUNT-UP HOOK – animiert Zahlen von 0 auf Zielwert
+══════════════════════════════════════════════════════════════════════ */
+function useCountUp(target: number, duration = 1200, active = false) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let start: number | null = null;
+    const from = 0;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setValue(Math.round(from + (target - from) * eased));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [target, duration, active]);
+  return value;
+}
 
 /* ── Custom Tooltip ── */
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="glass-strong rounded-xl px-3.5 py-2.5 border border-border/60 font-ui text-xs" style={{ fontFamily: '"DM Sans", system-ui, sans-serif' }}>
+    <div className="glass-strong rounded-xl px-3.5 py-2.5 border border-border/60 font-ui text-xs"
+      style={{ fontFamily: '"DM Sans", system-ui, sans-serif' }}>
       {label && <p className="text-muted-foreground mb-1.5 font-medium tracking-wide">{label}</p>}
       {payload.map((entry: any, i: number) => (
         <div key={i} className="flex items-center gap-2 py-0.5">
           <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: entry.color }} />
           <span className="text-foreground/70">{entry.name}:</span>
-          <span className="font-semibold text-foreground ml-auto pl-2">{typeof entry.value === 'number' ? entry.value.toLocaleString() : entry.value}</span>
+          <span className="font-semibold text-foreground ml-auto pl-2">
+            {typeof entry.value === "number" ? entry.value.toLocaleString() : entry.value}
+          </span>
         </div>
       ))}
     </div>
   );
 };
 
-/* ── Chart Wrapper Card ── */
+/* ══════════════════════════════════════════════════════════════════════
+   CHART WRAPPER – Fade-in + Slide-up beim Einblenden
+══════════════════════════════════════════════════════════════════════ */
 interface ChartWrapperProps {
   title?: string;
   subtitle?: string;
   height?: number;
   className?: string;
   children: React.ReactNode;
+  delay?: number; // stagger delay in ms
+  badge?: React.ReactNode; // optionaler Live-Badge
 }
 export const ChartWrapper: React.FC<ChartWrapperProps> = ({
-  title, subtitle, height = 280, className, children
-}) => (
-  <div className={cn("bg-card border border-border rounded-xl overflow-hidden", className)}>
-    {(title || subtitle) && (
-      <div className="px-5 pt-5 pb-2">
-        {title && <h4 className="font-ui font-semibold text-sm text-foreground leading-tight">{title}</h4>}
-        {subtitle && <p className="text-xs text-muted-foreground mt-0.5 font-ui">{subtitle}</p>}
+  title, subtitle, height = 280, className, children, delay = 0, badge
+}) => {
+  const { ref, inView } = useInView(0.1);
+  return (
+    <div
+      ref={ref}
+      className={cn("bg-card border border-border rounded-xl overflow-hidden", className)}
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0)" : "translateY(18px)",
+        transition: `opacity 0.55s ease ${delay}ms, transform 0.55s ease ${delay}ms`,
+      }}
+    >
+      {(title || subtitle || badge) && (
+        <div className="px-5 pt-5 pb-2 flex items-start justify-between gap-3">
+          <div>
+            {title && <h4 className="font-ui font-semibold text-sm text-foreground leading-tight">{title}</h4>}
+            {subtitle && <p className="text-xs text-muted-foreground mt-0.5 font-ui">{subtitle}</p>}
+          </div>
+          {badge}
+        </div>
+      )}
+      <div style={{ height }} className="px-1 pb-3">
+        {children}
       </div>
-    )}
-    <div style={{ height }} className="px-1 pb-3">
-      {children}
     </div>
-  </div>
+  );
+};
+
+/* ── Live-Puls-Badge ── */
+export const LiveBadge: React.FC<{ color?: string }> = ({ color = "#1A9E5A" }) => (
+  <span style={{
+    display: "inline-flex", alignItems: "center", gap: 5,
+    fontSize: 10, fontFamily: '"DM Sans", sans-serif', fontWeight: 600,
+    color, padding: "2px 8px", borderRadius: 99,
+    background: `${color}18`, border: `1px solid ${color}40`,
+  }}>
+    <span style={{
+      width: 6, height: 6, borderRadius: "50%", background: color,
+      boxShadow: `0 0 0 0 ${color}`,
+      animation: "livePulse 1.4s ease-in-out infinite",
+      display: "inline-block",
+    }} />
+    LIVE
+  </span>
 );
 
-/* ── 1. Area Chart ── */
+/* ══════════════════════════════════════════════════════════════════════
+   CSS KEYFRAMES (einmalig injiziert)
+══════════════════════════════════════════════════════════════════════ */
+const CHART_STYLES = `
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+  70%  { box-shadow: 0 0 0 5px transparent; opacity: 0.6; }
+  100% { box-shadow: 0 0 0 0 transparent; opacity: 1; }
+}
+@keyframes dotPulse {
+  0%, 100% { r: 4; opacity: 1; }
+  50%       { r: 7; opacity: 0.5; }
+}
+@keyframes barRise {
+  from { transform: scaleY(0); transform-origin: bottom; }
+  to   { transform: scaleY(1); transform-origin: bottom; }
+}
+`;
+
+let stylesInjected = false;
+function injectChartStyles() {
+  if (stylesInjected || typeof document === "undefined") return;
+  const el = document.createElement("style");
+  el.textContent = CHART_STYLES;
+  document.head.appendChild(el);
+  stylesInjected = true;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   1. AREA CHART
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxAreaChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
@@ -123,41 +207,57 @@ export interface FluxAreaChartProps {
   stacked?: boolean;
   gradient?: boolean;
   className?: string;
+  delay?: number;
+  live?: boolean;
 }
 export const FluxAreaChart: React.FC<FluxAreaChartProps> = ({
-  data, dataKeys, xKey = "name", height = 280, title, subtitle, stacked, gradient = true, className
-}) => (
-  <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-    <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <defs>
-          {dataKeys.map((key, i) => (
-            <linearGradient key={key} id={`grad-area-${key}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={C[i % C.length]} stopOpacity={0.35} />
-              <stop offset="95%" stopColor={C[i % C.length]} stopOpacity={0.02} />
-            </linearGradient>
-          ))}
-        </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
-        {dataKeys.map((key, i) => (
-          <Area key={key} type="monotone" dataKey={key}
-            stackId={stacked ? "s" : undefined}
-            stroke={C[i % C.length]} strokeWidth={2}
-            fill={gradient ? `url(#grad-area-${key})` : C[i % C.length]}
-            fillOpacity={gradient ? 1 : 0.15}
-            dot={false} activeDot={{ r: 4, strokeWidth: 0 }}
-          />
-        ))}
-      </AreaChart>
-    </ResponsiveContainer>
-  </ChartWrapper>
-);
+  data, dataKeys, xKey = "name", height = 280, title, subtitle,
+  stacked, gradient = true, className, delay = 0, live,
+}) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
+  return (
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}
+      delay={delay} badge={live ? <LiveBadge /> : undefined}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+            <defs>
+              {dataKeys.map((key, i) => (
+                <linearGradient key={key} id={`grad-area-${key}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%"  stopColor={C[i % C.length]} stopOpacity={0.40} />
+                  <stop offset="95%" stopColor={C[i % C.length]} stopOpacity={0.02} />
+                </linearGradient>
+              ))}
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+            {dataKeys.map((key, i) => (
+              <Area key={key} type="monotone" dataKey={key}
+                stackId={stacked ? "s" : undefined}
+                stroke={C[i % C.length]} strokeWidth={2}
+                fill={gradient ? `url(#grad-area-${key})` : C[i % C.length]}
+                fillOpacity={gradient ? 1 : 0.15}
+                dot={false} activeDot={{ r: 5, strokeWidth: 0 }}
+                isAnimationActive={inView}
+                animationDuration={900}
+                animationEasing="ease-out"
+                animationBegin={i * 120}
+              />
+            ))}
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </ChartWrapper>
+  );
+};
 
-/* ── 2. Bar Chart ── */
+/* ══════════════════════════════════════════════════════════════════════
+   2. BAR CHART
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxBarChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
@@ -169,15 +269,17 @@ export interface FluxBarChartProps {
   horizontal?: boolean;
   palette?: FluxPalette;
   className?: string;
+  delay?: number;
 }
-/** Einfaches horizontales Bar Chart – eigene SVG-Implementierung für zuverlässiges Rendering */
+
 const HorizontalBarChart: React.FC<{
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey: string;
   height: number;
   colors: string[];
-}> = ({ data, dataKeys, xKey, height, colors }) => {
+  animate: boolean;
+}> = ({ data, dataKeys, xKey, height, colors, animate }) => {
   const labelW = Math.max(64, Math.max(...data.map(d => String(d[xKey] ?? "").length)) * 8 + 8);
   const padT = 12, padB = 24, padR = 16;
   const chartH = height - padT - padB;
@@ -188,7 +290,6 @@ const HorizontalBarChart: React.FC<{
   return (
     <div style={{ height, position: "relative", fontFamily: '"DM Sans", system-ui, sans-serif' }}>
       <svg width="100%" height={height} style={{ overflow: "visible" }}>
-        {/* Grid lines */}
         {xTicks.map(v => {
           const xPct = v / maxVal;
           return (
@@ -204,60 +305,40 @@ const HorizontalBarChart: React.FC<{
           const cy = padT + ri * rowH + rowH / 2;
           return (
             <g key={ri}>
-              {/* Label */}
               <text x={labelW - 8} y={cy + 4} textAnchor="end"
-                fontSize={12} fontWeight={500} fill="var(--foreground)">
-                {label}
-              </text>
-              {/* Bars */}
+                fontSize={12} fontWeight={500} fill="var(--foreground)">{label}</text>
               {dataKeys.map((key, ki) => {
                 const val = Number(row[key] ?? 0);
                 const barY = cy - (dataKeys.length * barH) / 2 + ki * barH;
+                const targetW = `calc(${(val / maxVal) * 100}% - ${(val / maxVal) * (labelW + padR)}px)`;
                 return (
                   <g key={key}>
-                    <rect
-                      x={labelW}
-                      y={barY}
-                      height={barH - 2}
-                      width={0}
-                      rx={3} ry={3}
-                      fill={colors[ki % colors.length]}
-                      opacity={0.88}
-                    >
-                      <animate attributeName="width"
-                        from="0"
-                        to={`calc(${(val / maxVal) * 100}% - ${(val / maxVal) * (labelW + padR)}px)`}
-                        dur="0.5s" fill="freeze" calcMode="spline"
-                        keySplines="0.4 0 0.2 1" keyTimes="0;1" />
+                    <rect x={labelW} y={barY} height={barH - 2} width={0} rx={3} ry={3}
+                      fill={colors[ki % colors.length]} opacity={0.88}>
+                      {animate && (
+                        <animate attributeName="width" from="0" to={targetW}
+                          dur={`${0.5 + ri * 0.06}s`} fill="freeze" calcMode="spline"
+                          keySplines="0.4 0 0.2 1" keyTimes="0;1"
+                          begin={`${ri * 0.08}s`} />
+                      )}
                     </rect>
-                    {/* Value label */}
-                    <text
-                      x={labelW + 4}
-                      y={barY + barH / 2 + 3}
-                      fontSize={10} fill="var(--foreground)" opacity={0.6}
-                    >
-                      {val}
-                    </text>
+                    <text x={labelW + 4} y={barY + barH / 2 + 3} fontSize={10}
+                      fill="var(--foreground)" opacity={0.6}>{val}</text>
                   </g>
                 );
               })}
             </g>
           );
         })}
-        {/* X-Axis labels */}
         {xTicks.map(v => {
           const xPct = v / maxVal;
           return (
             <text key={v}
               x={`calc(${labelW}px + ${xPct * 100}% - ${xPct * (labelW + padR)}px)`}
-              y={height - padB + 14}
-              textAnchor="middle" fontSize={10} fill="var(--muted-foreground)">
-              {v}
-            </text>
+              y={height - padB + 14} textAnchor="middle" fontSize={10} fill="var(--muted-foreground)">{v}</text>
           );
         })}
       </svg>
-      {/* Legend */}
       {dataKeys.length > 1 && (
         <div style={{ position: "absolute", bottom: 0, left: labelW, display: "flex", gap: 12, fontSize: 11 }}>
           {dataKeys.map((k, i) => (
@@ -273,38 +354,53 @@ const HorizontalBarChart: React.FC<{
 };
 
 export const FluxBarChart: React.FC<FluxBarChartProps> = ({
-  data, dataKeys, xKey = "name", height = 280, title, subtitle, stacked, horizontal, palette, className
+  data, dataKeys, xKey = "name", height = 280, title, subtitle,
+  stacked, horizontal, palette, className, delay = 0,
 }) => {
+  injectChartStyles();
   const colors = getPalette(palette);
+  const { ref, inView } = useInView(0.1);
   if (horizontal) {
     return (
-      <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-        <HorizontalBarChart data={data} dataKeys={dataKeys} xKey={xKey} height={height} colors={colors} />
+      <ChartWrapper title={title} subtitle={subtitle} height={height} className={className} delay={delay}>
+        <div ref={ref} style={{ width: "100%", height: "100%" }}>
+          <HorizontalBarChart data={data} dataKeys={dataKeys} xKey={xKey}
+            height={height} colors={colors} animate={inView} />
+        </div>
       </ChartWrapper>
     );
   }
   return (
-  <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data} layout="horizontal"
-        margin={{ top: 8, right: 8, left: -16, bottom: 0 }} barCategoryGap="28%">
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
-        {dataKeys.map((key, i) => (
-          <Bar key={key} dataKey={key} stackId={stacked ? "s" : undefined}
-            fill={colors[i % colors.length]}
-            radius={stacked ? [0,0,0,0] : [4,4,0,0]} maxBarSize={48} />
-        ))}
-      </BarChart>
-    </ResponsiveContainer>
-  </ChartWrapper>
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className} delay={delay}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} layout="horizontal"
+            margin={{ top: 8, right: 8, left: -16, bottom: 0 }} barCategoryGap="28%">
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+            {dataKeys.map((key, i) => (
+              <Bar key={key} dataKey={key} stackId={stacked ? "s" : undefined}
+                fill={colors[i % colors.length]}
+                radius={stacked ? [0,0,0,0] : [4,4,0,0]} maxBarSize={48}
+                isAnimationActive={inView}
+                animationDuration={700}
+                animationEasing="ease-out"
+                animationBegin={i * 80}
+              />
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </ChartWrapper>
   );
 };
 
-/* ── 3. Line Chart ── */
+/* ══════════════════════════════════════════════════════════════════════
+   3. LINE CHART – mit animiertem Pulse-Dot am letzten Datenpunkt
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxLineChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
@@ -314,31 +410,68 @@ export interface FluxLineChartProps {
   subtitle?: string;
   curved?: boolean;
   className?: string;
+  delay?: number;
+  live?: boolean;
 }
-export const FluxLineChart: React.FC<FluxLineChartProps> = ({
-  data, dataKeys, xKey = "name", height = 280, title, subtitle, curved = true, className
-}) => (
-  <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
-        {dataKeys.map((key, i) => (
-          <Line key={key} type={curved ? "monotone" : "linear"} dataKey={key}
-            stroke={C[i % C.length]} strokeWidth={2.5}
-            dot={{ r: 3, fill: C[i % C.length], strokeWidth: 0 }}
-            activeDot={{ r: 5, strokeWidth: 0 }}
-          />
-        ))}
-      </LineChart>
-    </ResponsiveContainer>
-  </ChartWrapper>
-);
 
-/* ── 4. Donut / Pie Chart ── */
+/** Animierter Puls-Dot für den letzten Datenpunkt */
+const PulseDot = (props: any) => {
+  const { cx, cy, fill } = props;
+  if (cx === undefined || cy === undefined) return null;
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r={4} fill={fill} />
+      <circle cx={cx} cy={cy} r={4} fill={fill} opacity={0.4}
+        style={{ animation: "dotPulse 1.6s ease-in-out infinite" }} />
+    </g>
+  );
+};
+
+export const FluxLineChart: React.FC<FluxLineChartProps> = ({
+  data, dataKeys, xKey = "name", height = 280, title, subtitle,
+  curved = true, className, delay = 0, live,
+}) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
+  const lastIdx = data.length - 1;
+  return (
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}
+      delay={delay} badge={live ? <LiveBadge /> : undefined}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+            {dataKeys.map((key, i) => (
+              <Line key={key} type={curved ? "monotone" : "linear"} dataKey={key}
+                stroke={C[i % C.length]} strokeWidth={2.5}
+                dot={(dotProps: any) => {
+                  if (live && dotProps.index === lastIdx) {
+                    return <PulseDot key={`dot-${i}`} {...dotProps} fill={C[i % C.length]} />;
+                  }
+                  return <circle key={`dot-${i}-${dotProps.index}`} cx={dotProps.cx} cy={dotProps.cy} r={3}
+                    fill={C[i % C.length]} />;
+                }}
+                activeDot={{ r: 5, strokeWidth: 0 }}
+                isAnimationActive={inView}
+                animationDuration={1000}
+                animationEasing="ease-out"
+                animationBegin={i * 150}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </ChartWrapper>
+  );
+};
+
+/* ══════════════════════════════════════════════════════════════════════
+   4. DONUT / PIE CHART – CountUp für innerValue
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxDonutChartProps {
   data: Array<{ name: string; value: number }>;
   height?: number;
@@ -348,34 +481,57 @@ export interface FluxDonutChartProps {
   innerValue?: string | number;
   donut?: boolean;
   className?: string;
+  delay?: number;
 }
 export const FluxDonutChart: React.FC<FluxDonutChartProps> = ({
-  data, height = 280, title, subtitle, innerLabel, innerValue, donut = true, className
-}) => (
-  <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart>
-        <Pie data={data} cx="50%" cy="50%"
-          innerRadius={donut ? "52%" : 0} outerRadius="72%"
-          paddingAngle={donut ? 3 : 1} dataKey="value" strokeWidth={0}>
-          {data.map((_, i) => <Cell key={i} fill={C[i % C.length]} />)}
-        </Pie>
-        <Tooltip content={<CustomTooltip />} />
-        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
-        {donut && innerLabel && (
-          <text x="50%" y="44%" textAnchor="middle" dominantBaseline="middle"
-            style={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}>{innerLabel}</text>
-        )}
-        {donut && innerValue !== undefined && (
-          <text x="50%" y="57%" textAnchor="middle" dominantBaseline="middle"
-            style={{ fontSize: 22, fontWeight: 700, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "currentColor" }}>{innerValue}</text>
-        )}
-      </PieChart>
-    </ResponsiveContainer>
-  </ChartWrapper>
-);
+  data, height = 280, title, subtitle, innerLabel, innerValue,
+  donut = true, className, delay = 0,
+}) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
+  const numericTarget = typeof innerValue === "number" ? innerValue : 0;
+  const animated = useCountUp(numericTarget, 1200, inView && typeof innerValue === "number");
+  const displayValue = typeof innerValue === "number" ? animated : innerValue;
+  return (
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className} delay={delay}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie data={data} cx="50%" cy="50%"
+              innerRadius={donut ? "52%" : 0} outerRadius="72%"
+              paddingAngle={donut ? 3 : 1} dataKey="value" strokeWidth={0}
+              isAnimationActive={inView}
+              animationBegin={delay}
+              animationDuration={900}
+              animationEasing="ease-out"
+            >
+              {data.map((_, i) => <Cell key={i} fill={C[i % C.length]} />)}
+            </Pie>
+            <Tooltip content={<CustomTooltip />} />
+            <Legend iconType="circle" iconSize={8}
+              wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+            {donut && innerLabel && (
+              <text x="50%" y="44%" textAnchor="middle" dominantBaseline="middle"
+                style={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}>
+                {innerLabel}
+              </text>
+            )}
+            {donut && innerValue !== undefined && (
+              <text x="50%" y="57%" textAnchor="middle" dominantBaseline="middle"
+                style={{ fontSize: 22, fontWeight: 700, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "currentColor" }}>
+                {displayValue}
+              </text>
+            )}
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </ChartWrapper>
+  );
+};
 
-/* ── 5. Radar Chart ── */
+/* ══════════════════════════════════════════════════════════════════════
+   5. RADAR CHART
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxRadarChartProps {
   data: Array<Record<string, any>>;
   dataKeys: string[];
@@ -384,29 +540,46 @@ export interface FluxRadarChartProps {
   title?: string;
   subtitle?: string;
   className?: string;
+  delay?: number;
 }
 export const FluxRadarChart: React.FC<FluxRadarChartProps> = ({
-  data, dataKeys, angleKey = "subject", height = 280, title, subtitle, className
-}) => (
-  <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-    <ResponsiveContainer width="100%" height="100%">
-      <RadarChart data={data} margin={{ top: 8, right: 24, left: 24, bottom: 8 }}>
-        <PolarGrid stroke="var(--border)" />
-        <PolarAngleAxis dataKey={angleKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} />
-        <PolarRadiusAxis tick={{ fontSize: 9, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
-        {dataKeys.map((key, i) => (
-          <Radar key={key} name={key} dataKey={key}
-            stroke={C[i % C.length]} fill={C[i % C.length]}
-            fillOpacity={0.25} strokeWidth={2} />
-        ))}
-      </RadarChart>
-    </ResponsiveContainer>
-  </ChartWrapper>
-);
+  data, dataKeys, angleKey = "subject", height = 280, title, subtitle, className, delay = 0,
+}) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
+  return (
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className} delay={delay}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart data={data} margin={{ top: 8, right: 24, left: 24, bottom: 8 }}>
+            <PolarGrid stroke="var(--border)" />
+            <PolarAngleAxis dataKey={angleKey}
+              tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} />
+            <PolarRadiusAxis
+              tick={{ fontSize: 9, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}
+              axisLine={false} />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+            {dataKeys.map((key, i) => (
+              <Radar key={key} name={key} dataKey={key}
+                stroke={C[i % C.length]} fill={C[i % C.length]}
+                fillOpacity={0.25} strokeWidth={2}
+                isAnimationActive={inView}
+                animationDuration={800}
+                animationEasing="ease-out"
+                animationBegin={i * 100}
+              />
+            ))}
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
+    </ChartWrapper>
+  );
+};
 
-/* ── 6. Scatter Chart ── */
+/* ══════════════════════════════════════════════════════════════════════
+   6. SCATTER CHART
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxScatterChartProps {
   data: Array<{ x: number; y: number; z?: number }>;
   height?: number;
@@ -415,25 +588,42 @@ export interface FluxScatterChartProps {
   xLabel?: string;
   yLabel?: string;
   className?: string;
+  delay?: number;
 }
 export const FluxScatterChart: React.FC<FluxScatterChartProps> = ({
-  data, height = 280, title, subtitle, xLabel = "X", yLabel = "Y", className
-}) => (
-  <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-    <ResponsiveContainer width="100%" height="100%">
-      <ScatterChart margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-        <XAxis dataKey="x" name={xLabel} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <YAxis dataKey="y" name={yLabel} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <ZAxis dataKey="z" range={[40, 400]} />
-        <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: "3 3" }} />
-        <Scatter data={data} fill={C[0]} fillOpacity={0.75} />
-      </ScatterChart>
-    </ResponsiveContainer>
-  </ChartWrapper>
-);
+  data, height = 280, title, subtitle, xLabel = "X", yLabel = "Y", className, delay = 0,
+}) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
+  return (
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className} delay={delay}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <ScatterChart margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <XAxis dataKey="x" name={xLabel}
+              tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}
+              axisLine={false} tickLine={false} />
+            <YAxis dataKey="y" name={yLabel}
+              tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}
+              axisLine={false} tickLine={false} />
+            <ZAxis dataKey="z" range={[40, 400]} />
+            <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: "3 3" }} />
+            <Scatter data={data} fill={C[0]} fillOpacity={0.75}
+              isAnimationActive={inView}
+              animationDuration={700}
+              animationEasing="ease-out"
+            />
+          </ScatterChart>
+        </ResponsiveContainer>
+      </div>
+    </ChartWrapper>
+  );
+};
 
-/* ── 7. Composed Chart (Bar + Line) ── */
+/* ══════════════════════════════════════════════════════════════════════
+   7. COMPOSED CHART (Bar + Line)
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxComposedChartProps {
   data: Record<string, unknown>[];
   barKeys: string[];
@@ -443,86 +633,133 @@ export interface FluxComposedChartProps {
   title?: string;
   subtitle?: string;
   className?: string;
+  delay?: number;
 }
 export const FluxComposedChart: React.FC<FluxComposedChartProps> = ({
-  data, barKeys, lineKeys, xKey = "name", height = 280, title, subtitle, className
-}) => (
-  <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-    <ResponsiveContainer width="100%" height="100%">
-      <ComposedChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
-        {barKeys.map((key, i) => (
-          <Bar key={key} dataKey={key} fill={C[i % C.length]} radius={[4,4,0,0]} maxBarSize={40} fillOpacity={0.9} />
-        ))}
-        {lineKeys.map((key, i) => (
-          <Line key={key} type="monotone" dataKey={key}
-            stroke={C[(barKeys.length + i) % C.length]} strokeWidth={2.5}
-            dot={{ r: 3, strokeWidth: 0 }} />
-        ))}
-      </ComposedChart>
-    </ResponsiveContainer>
-  </ChartWrapper>
-);
+  data, barKeys, lineKeys, xKey = "name", height = 280, title, subtitle, className, delay = 0,
+}) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
+  return (
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className} delay={delay}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis dataKey={xKey}
+              tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}
+              axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}
+              axisLine={false} tickLine={false} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "var(--muted/5)" }} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+            {barKeys.map((key, i) => (
+              <Bar key={key} dataKey={key} fill={C[i % C.length]} radius={[4,4,0,0]} maxBarSize={40}
+                fillOpacity={0.9}
+                isAnimationActive={inView}
+                animationDuration={700}
+                animationEasing="ease-out"
+                animationBegin={i * 80}
+              />
+            ))}
+            {lineKeys.map((key, i) => (
+              <Line key={key} type="monotone" dataKey={key}
+                stroke={C[(barKeys.length + i) % C.length]} strokeWidth={2.5}
+                dot={{ r: 3, strokeWidth: 0 }}
+                isAnimationActive={inView}
+                animationDuration={900}
+                animationEasing="ease-out"
+                animationBegin={300 + i * 100}
+              />
+            ))}
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
+    </ChartWrapper>
+  );
+};
 
-/* ── 8. Radial Bar Chart ── */
+/* ══════════════════════════════════════════════════════════════════════
+   8. RADIAL BAR CHART
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxRadialBarChartProps {
   data: Array<{ name: string; value: number; fill?: string }>;
   height?: number;
   title?: string;
   subtitle?: string;
   className?: string;
+  delay?: number;
 }
 export const FluxRadialBarChart: React.FC<FluxRadialBarChartProps> = ({
-  data, height = 280, title, subtitle, className
+  data, height = 280, title, subtitle, className, delay = 0,
 }) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
   const coloredData = data.map((d, i) => ({ ...d, fill: d.fill || C[i % C.length] }));
   return (
-    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-      <ResponsiveContainer width="100%" height="100%">
-        <RadialBarChart cx="50%" cy="50%" innerRadius="20%" outerRadius="85%"
-          data={coloredData} startAngle={180} endAngle={-180}>
-          <PolarGrid gridType="circle" stroke="var(--border)" />
-          <RadialBar dataKey="value" cornerRadius={4} background={{ fill: "var(--muted)" }} />
-          <Tooltip content={<CustomTooltip />} />
-          <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
-        </RadialBarChart>
-      </ResponsiveContainer>
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className} delay={delay}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <RadialBarChart cx="50%" cy="50%" innerRadius="20%" outerRadius="85%"
+            data={coloredData} startAngle={180} endAngle={-180}>
+            <PolarGrid gridType="circle" stroke="var(--border)" />
+            <RadialBar dataKey="value" cornerRadius={4}
+              background={{ fill: "var(--muted)" }}
+              isAnimationActive={inView}
+              animationDuration={900}
+              animationEasing="ease-out"
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend iconType="circle" iconSize={8}
+              wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+          </RadialBarChart>
+        </ResponsiveContainer>
+      </div>
     </ChartWrapper>
   );
 };
 
-/* ── 9. Funnel Chart ── */
+/* ══════════════════════════════════════════════════════════════════════
+   9. FUNNEL CHART
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxFunnelChartProps {
   data: Array<{ name: string; value: number }>;
   height?: number;
   title?: string;
   subtitle?: string;
   className?: string;
+  delay?: number;
 }
 export const FluxFunnelChart: React.FC<FluxFunnelChartProps> = ({
-  data, height = 280, title, subtitle, className
+  data, height = 280, title, subtitle, className, delay = 0,
 }) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
   const coloredData = data.map((d, i) => ({ ...d, fill: C[i % C.length] }));
   return (
-    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-      <ResponsiveContainer width="100%" height="100%">
-        <FunnelChart margin={{ top: 8, right: 8, left: 8, bottom: 8 }}>
-          <Tooltip content={<CustomTooltip />} />
-          <Funnel dataKey="value" data={coloredData} isAnimationActive>
-            <LabelList position="right" fill="var(--muted-foreground)" stroke="none" dataKey="name"
-              style={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
-          </Funnel>
-        </FunnelChart>
-      </ResponsiveContainer>
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className} delay={delay}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <FunnelChart margin={{ top: 8, right: 8, left: 8, bottom: 8 }}>
+            <Tooltip content={<CustomTooltip />} />
+            <Funnel dataKey="value" data={coloredData}
+              isAnimationActive={inView}
+              animationDuration={800}
+              animationEasing="ease-out"
+            >
+              <LabelList position="right" fill="var(--muted-foreground)" stroke="none" dataKey="name"
+                style={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+            </Funnel>
+          </FunnelChart>
+        </ResponsiveContainer>
+      </div>
     </ChartWrapper>
   );
 };
 
-/* ── 10. Trend / Multi-Line with Reference ── */
+/* ══════════════════════════════════════════════════════════════════════
+   10. TREND / MULTI-LINE WITH REFERENCE
+══════════════════════════════════════════════════════════════════════ */
 export interface FluxTrendChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
@@ -532,30 +769,48 @@ export interface FluxTrendChartProps {
   subtitle?: string;
   showReferenceLine?: number;
   className?: string;
+  delay?: number;
+  live?: boolean;
 }
 export const FluxTrendChart: React.FC<FluxTrendChartProps> = ({
-  data, dataKeys, xKey = "name", height = 280, title, subtitle, showReferenceLine, className
-}) => (
-  <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}>
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-        <XAxis dataKey={xKey} tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }} axisLine={false} tickLine={false} />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', color: "#1A1A1A" }} />
-        {showReferenceLine !== undefined && (
-          <ReferenceLine y={showReferenceLine} stroke="var(--border)" strokeDasharray="4 4" />
-        )}
-        {dataKeys.map((key, i) => (
-          <Line key={key} type="monotone" dataKey={key}
-            stroke={C[i % C.length]} strokeWidth={2}
-            dot={false} activeDot={{ r: 4, strokeWidth: 0 }} />
-        ))}
-      </LineChart>
-    </ResponsiveContainer>
-  </ChartWrapper>
-);
+  data, dataKeys, xKey = "name", height = 280, title, subtitle,
+  showReferenceLine, className, delay = 0, live,
+}) => {
+  injectChartStyles();
+  const { ref, inView } = useInView(0.1);
+  return (
+    <ChartWrapper title={title} subtitle={subtitle} height={height} className={className}
+      delay={delay} badge={live ? <LiveBadge /> : undefined}>
+      <div ref={ref} style={{ width: "100%", height: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis dataKey={xKey}
+              tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}
+              axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif', fill: "var(--muted-foreground)" }}
+              axisLine={false} tickLine={false} />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend wrapperStyle={{ fontSize: 11, fontFamily: '"DM Sans", system-ui, sans-serif' }} />
+            {showReferenceLine !== undefined && (
+              <ReferenceLine y={showReferenceLine} stroke="var(--border)" strokeDasharray="4 4" />
+            )}
+            {dataKeys.map((key, i) => (
+              <Line key={key} type="monotone" dataKey={key}
+                stroke={C[i % C.length]} strokeWidth={2}
+                dot={false} activeDot={{ r: 4, strokeWidth: 0 }}
+                isAnimationActive={inView}
+                animationDuration={1000}
+                animationEasing="ease-out"
+                animationBegin={i * 120}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </ChartWrapper>
+  );
+};
 
 /* ── 11. Stacked Area ── */
 export const FluxStackedAreaChart: React.FC<FluxAreaChartProps> = (props) => (
