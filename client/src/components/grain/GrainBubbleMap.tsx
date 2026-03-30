@@ -203,7 +203,6 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
   const { darkMode } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeFilter, setActiveFilter] = useState<string>("Alle");
-  const [selectedNode, setSelectedNode] = useState<BubbleNode | null>(null);
   const [containerWidth, setContainerWidth] = useState(800);
   const [bubbles, setBubbles] = useState<PlacedBubble[]>([]);
   const [tooltip, setTooltip] = useState<TooltipState>({
@@ -396,7 +395,6 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
 
           {/* Bubbles */}
           {bubbles.map(b => {
-            const isSelected = selectedNode?.id === b.id;
             const mainStrokeColor = b.isAccent ? LIME_DARK : (isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.12)");
             const mainStrokeWidth = b.isAccent ? 2 : 1;
             const mainStrokeOpacity = b.isAccent ? 0.8 : 0.35;
@@ -436,10 +434,7 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
                   });
                 }}
                 onMouseLeave={() => setTooltip(prev => ({ ...prev, visible: false }))}
-                onClick={() => {
-                  setSelectedNode(prev => (prev?.id === b.id ? null : b));
-                  onNodeClick?.(b);
-                }}
+                onClick={() => { onNodeClick?.(b); }}
               >
                 {/* Äußerer Glow-Ring für Accent-Nodes */}
                 {b.isAccent && (
@@ -450,17 +445,6 @@ export const GrainBubbleMap: React.FC<GrainBubbleMapProps> = ({
                     strokeWidth={1.5}
                     strokeOpacity={isDark ? 0.30 : 0.45}
                     strokeDasharray="4 3"
-                  />
-                )}
-
-                {/* Selektion-Ring */}
-                {isSelected && (
-                  <circle
-                    r={b.radius + 4}
-                    fill="none"
-                    stroke={b.categoryColor}
-                    strokeWidth={2}
-                    strokeOpacity={0.6}
                   />
                 )}
 
