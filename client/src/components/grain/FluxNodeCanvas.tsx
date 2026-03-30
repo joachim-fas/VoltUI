@@ -675,7 +675,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
 
   /* ── Farben ── */
   const bg       = isDark ? "#0E0E0E" : "#F8F8F8";
-  const dotColor = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)";
+  const dotColor = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
   const nodeMap  = new Map(nodes.map(n => [n.id, n]));
   const canvasW  = Math.max(...nodes.map(n => n.x + (n.width  ?? 300)), 800) + 200;
   const canvasH  = Math.max(...nodes.map(n => n.y + (n.height ?? 200)), 500) + 200;
@@ -733,7 +733,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
           <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
             <defs>
               <pattern id="ncGrid" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-                <circle cx="1" cy="1" r="1" fill={dotColor} />
+                <circle cx="1" cy="1" r="0.8" fill={dotColor} />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#ncGrid)" />
