@@ -136,6 +136,62 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
         </motion.div>
       </div>
 
+      {/* ── Intro-Panel: Was ist Flux UI? ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.6 }}
+        className="rounded-2xl border border-[#E8E8E8] bg-white overflow-hidden"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#E8E8E8]">
+          {/* Was ist Flux UI */}
+          <div className="p-8">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-6 h-6 rounded-md bg-[#0A0A0A] flex items-center justify-center">
+                <span className="text-[#E4FF97] font-mono text-xs font-bold">&gt;_</span>
+              </div>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-[#AAAAAA]">Was ist Flux UI?</p>
+            </div>
+            <p className="font-display font-bold text-xl text-[#0A0A0A] leading-snug mb-3">
+              Ein portables Design-System – nicht an ein Framework gebunden.
+            </p>
+            <p className="text-sm text-[#4A4A4A] leading-relaxed">
+              Flux UI ist eine Sammlung aus Design-Tokens, Komponenten und Mustern, die sich in jedes Projekt importieren lässt – ob React, plain HTML, Claude Code oder Figma.
+            </p>
+          </div>
+          {/* Wofür */}
+          <div className="p-8">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-6 h-6 rounded-md bg-[#E4FF97] flex items-center justify-center">
+                <Workflow className="w-3 h-3 text-[#0A0A0A]" />
+              </div>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-[#AAAAAA]">Wofür?</p>
+            </div>
+            <p className="font-display font-bold text-xl text-[#0A0A0A] leading-snug mb-3">
+              Konsistenz über alle Projekte hinweg.
+            </p>
+            <p className="text-sm text-[#4A4A4A] leading-relaxed">
+              Alle Projekte im Free-Agents-Ökosystem teilen dieselbe visuelle Sprache: Lime + Schwarz, Bricolage Grotesque, das &gt;_ Signet und die Flux-Textur.
+            </p>
+          </div>
+          {/* Wie */}
+          <div className="p-8">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-6 h-6 rounded-md bg-[#F4F4F4] flex items-center justify-center">
+                <Package className="w-3 h-3 text-[#0A0A0A]" />
+              </div>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-[#AAAAAA]">Wie importieren?</p>
+            </div>
+            <p className="font-display font-bold text-xl text-[#0A0A0A] leading-snug mb-3">
+              Eine CSS-Datei. Fertig.
+            </p>
+            <p className="text-sm text-[#4A4A4A] leading-relaxed">
+              <code className="font-mono text-xs bg-[#F4F4F4] px-1.5 py-0.5 rounded">flux-ui.css</code> einbinden, Klassen verwenden – keine Build-Tools, kein Framework nötig. Für React-Projekte stehen zusätzlich fertige Komponenten bereit.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+
       {/* ── Feature Grid ── */}
       <div>
         <div className="flex items-center gap-3 mb-6">

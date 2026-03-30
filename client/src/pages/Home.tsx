@@ -25,6 +25,7 @@ import DialogSection                 from "./sections/DialogSection";
 import BrandStorySection             from "./sections/BrandStorySection";
 import BubbleMapSection              from "./sections/BubbleMapSection";
 import NodeCanvasSection             from "./sections/NodeCanvasSection";
+import { ExportSection }              from "./sections/ExportSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
@@ -46,13 +47,14 @@ const ALL_SECTIONS = [
   { id: "feedback",    Component: FeedbackSection },
   { id: "data",        Component: DataSection },
   { id: "navigation",  Component: NavigationSection },
-  { id: "dashboard",   Component: DashboardSection },
   { id: "op",          Component: OperatingPrincipleSection },
   { id: "brand",       Component: BrandArchitectureSection },
   { id: "dialog",      Component: DialogSection },
   { id: "brandstory",  Component: BrandStorySection },
+  { id: "dashboard",   Component: DashboardSection },
   { id: "bubblemap",   Component: BubbleMapSection },
   { id: "nodecanvas",  Component: NodeCanvasSection },
+  { id: "export",      Component: ExportSection },
 ] as const;
 
 const sidebarSections = [
@@ -98,6 +100,12 @@ const sidebarSections = [
       { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" />, isNew: true },
       { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <Network className="w-4 h-4" />, isNew: true },
       { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <Workflow className="w-4 h-4" />, isNew: true },
+    ],
+  },
+  {
+    title: "Export",
+    items: [
+      { id: "export",      label: "Export & Import",      description: "CSS, Snippets, Anleitung",              icon: <Terminal className="w-4 h-4" />, isNew: true },
     ],
   },
 ];
