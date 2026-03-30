@@ -90,15 +90,15 @@ const PIPELINES: PipelineTemplate[] = [
     description: "Prompt → Generator → Ausgabe mit Qualitätsprüfung",
     badge: "AI",
     badgeColor: "#B5EAD7",
-    canvasHeight: 340,
+    canvasHeight: 460,
     nodes: [
-      { id: "t1",  type: "trigger",   x: 30,  y: 130, label: "Workflow Start",   placeholder: "on:submit" },
-      { id: "p1",  type: "text",      x: 220, y: 60,  label: "Stil-Prompt",      placeholder: "Cyberpunk, neon lights, rain…", status: "success" },
-      { id: "p2",  type: "text",      x: 220, y: 200, label: "Negativ-Prompt",   placeholder: "blurry, low quality…" },
-      { id: "g1",  type: "generator", x: 490, y: 80,  label: "Flux Image Gen",   model: "FLUX.1", imageColor: "#1A2030", status: "running" },
-      { id: "d1",  type: "decision",  x: 790, y: 110, label: "Qualitätsprüfung", placeholder: "score >= 0.85" },
-      { id: "o1",  type: "output",    x: 1040,y: 60,  label: "Veröffentlichen",  meta: { format: "PNG · WebP" } },
-      { id: "o2",  type: "output",    x: 1040,y: 200, label: "Verwerfen",        meta: { format: "Log · Retry" }, status: "disabled" },
+      { id: "t1",  type: "trigger",   x: 40,  y: 175, label: "Workflow Start",   placeholder: "on:submit" },
+      { id: "p1",  type: "text",      x: 290, y: 70,  label: "Stil-Prompt",      placeholder: "Cyberpunk, neon lights, rain…", status: "success" },
+      { id: "p2",  type: "text",      x: 290, y: 270, label: "Negativ-Prompt",   placeholder: "blurry, low quality…" },
+      { id: "g1",  type: "generator", x: 630, y: 90,  label: "Flux Image Gen",   model: "FLUX.1", imageColor: "#1A2030", status: "running" },
+      { id: "d1",  type: "decision",  x: 1010,y: 150, label: "Qualitätsprüfung", placeholder: "score >= 0.85" },
+      { id: "o1",  type: "output",    x: 1340,y: 80,  label: "Veröffentlichen",  meta: { format: "PNG · WebP" } },
+      { id: "o2",  type: "output",    x: 1340,y: 260, label: "Verwerfen",        meta: { format: "Log · Retry" }, status: "disabled" },
     ],
     edges: [
       { id: "e1", from: "t1", to: "p1", animated: true, color: "#E4FF97", pulseCount: 1 },
@@ -118,14 +118,14 @@ const PIPELINES: PipelineTemplate[] = [
     description: "Webhook → Fetch → Transform → Speichern",
     badge: "ETL",
     badgeColor: "#80DEEA",
-    canvasHeight: 300,
+    canvasHeight: 420,
     nodes: [
-      { id: "wh", type: "webhook",   x: 30,  y: 110, label: "Eingehender Hook", meta: { event: "POST /ingest", payload: '{ "source": "crm" }' } },
-      { id: "a1", type: "api",       x: 270, y: 110, label: "CRM API Fetch",    meta: { method: "GET", endpoint: "/contacts", body: '{ "limit": 100 }', status: "200 OK" }, status: "success" },
-      { id: "tr", type: "transform", x: 530, y: 110, label: "Normalize",        placeholder: "map(c => ({ id, email }))" },
-      { id: "dt", type: "data",      x: 780, y: 60,  label: "Staging DB" },
-      { id: "a2", type: "api",       x: 780, y: 200, label: "Notify Slack",     meta: { method: "POST", endpoint: "/slack/msg", body: '{ "text": "Done" }', status: "200 OK" } },
-      { id: "ou", type: "output",    x: 1020,y: 110, label: "Fertig",           meta: { format: "JSON · DB" } },
+      { id: "wh", type: "webhook",   x: 40,  y: 155, label: "Eingehender Hook", meta: { event: "POST /ingest", payload: '{ "source": "crm" }' } },
+      { id: "a1", type: "api",       x: 370, y: 155, label: "CRM API Fetch",    meta: { method: "GET", endpoint: "/contacts", body: '{ "limit": 100 }', status: "200 OK" }, status: "success" },
+      { id: "tr", type: "transform", x: 720, y: 155, label: "Normalize",        placeholder: "map(c => ({ id, email }))" },
+      { id: "dt", type: "data",      x: 1050,y: 80,  label: "Staging DB" },
+      { id: "a2", type: "api",       x: 1050,y: 265, label: "Notify Slack",     meta: { method: "POST", endpoint: "/slack/msg", body: '{ "text": "Done" }', status: "200 OK" } },
+      { id: "ou", type: "output",    x: 1400,y: 155, label: "Fertig",           meta: { format: "JSON · DB" } },
     ],
     edges: [
       { id: "e1", from: "wh", to: "a1", animated: true, color: "#FF9E80", pulseCount: 1 },
@@ -144,19 +144,19 @@ const PIPELINES: PipelineTemplate[] = [
     description: "Text → Analyse → Entscheidungsbaum → Routing",
     badge: "LOGIC",
     badgeColor: "#FFE08A",
-    canvasHeight: 380,
+    canvasHeight: 500,
     groups: [
-      { id: "g1", label: "ANALYSE", x: 200, y: 20, width: 380, height: 300, color: "#FFE08A" },
+      { id: "g1", label: "ANALYSE", x: 270, y: 20, width: 500, height: 400, color: "#FFE08A" },
     ],
     nodes: [
-      { id: "in", type: "text",     x: 30,  y: 160, label: "User Input",     placeholder: "Eingehender Kommentar…" },
-      { id: "a1", type: "api",      x: 230, y: 60,  label: "Toxizitäts-API", meta: { method: "POST", endpoint: "/moderate", body: '{ "text": "…" }', status: "200 OK" }, status: "running" },
-      { id: "a2", type: "api",      x: 230, y: 210, label: "Spam-Detektor",  meta: { method: "POST", endpoint: "/spam",     body: '{ "text": "…" }', status: "200 OK" } },
-      { id: "d1", type: "decision", x: 480, y: 130, label: "Toxic?",         placeholder: "score > 0.7" },
-      { id: "d2", type: "decision", x: 730, y: 60,  label: "Spam?",          placeholder: "spam_prob > 0.8" },
-      { id: "o1", type: "output",   x: 980, y: 30,  label: "Blockieren",     meta: { format: "Ban · Log" } },
-      { id: "o2", type: "output",   x: 980, y: 160, label: "Review-Queue",   meta: { format: "Ticket" } },
-      { id: "o3", type: "output",   x: 980, y: 290, label: "Freigeben",      meta: { format: "Publish" } },
+      { id: "in", type: "text",     x: 40,  y: 210, label: "User Input",     placeholder: "Eingehender Kommentar…" },
+      { id: "a1", type: "api",      x: 300, y: 70,  label: "Toxizitäts-API", meta: { method: "POST", endpoint: "/moderate", body: '{ "text": "…" }', status: "200 OK" }, status: "running" },
+      { id: "a2", type: "api",      x: 300, y: 280, label: "Spam-Detektor",  meta: { method: "POST", endpoint: "/spam",     body: '{ "text": "…" }', status: "200 OK" } },
+      { id: "d1", type: "decision", x: 660, y: 175, label: "Toxic?",         placeholder: "score > 0.7" },
+      { id: "d2", type: "decision", x: 990, y: 70,  label: "Spam?",          placeholder: "spam_prob > 0.8" },
+      { id: "o1", type: "output",   x: 1320,y: 30,  label: "Blockieren",     meta: { format: "Ban · Log" } },
+      { id: "o2", type: "output",   x: 1320,y: 200, label: "Review-Queue",   meta: { format: "Ticket" } },
+      { id: "o3", type: "output",   x: 1320,y: 370, label: "Freigeben",      meta: { format: "Publish" } },
     ],
     edges: [
       { id: "e1", from: "in", to: "a1", animated: true, color: "#A8D8FF", pulseCount: 1 },
@@ -177,17 +177,17 @@ const PIPELINES: PipelineTemplate[] = [
     description: "Bild + Text → KI-Analyse → Strukturierte Ausgabe",
     badge: "MM",
     badgeColor: "#C9B8FF",
-    canvasHeight: 360,
+    canvasHeight: 500,
     nodes: [
-      { id: "t1",  type: "trigger",   x: 30,  y: 150, label: "Start",         placeholder: "on:upload" },
-      { id: "im",  type: "image",     x: 220, y: 60,  label: "Eingabebild",   imageColor: "#1A1A2E" },
-      { id: "tx",  type: "text",      x: 220, y: 220, label: "Kontext-Text",  placeholder: "Beschreibe was analysiert werden soll…" },
-      { id: "g1",  type: "generator", x: 490, y: 60,  label: "Vision-LLM",    model: "GPT-4V", imageColor: "#1A2030", status: "running" },
-      { id: "tr",  type: "transform", x: 490, y: 230, label: "JSON-Parser",   placeholder: "JSON.parse(response)" },
-      { id: "li",  type: "list",      x: 760, y: 60,  label: "Erkannte Tags", items: ["Person", "Outdoor", "Sunny", "Portrait"] },
-      { id: "dt",  type: "data",      x: 760, y: 220, label: "Metadaten",     status: "success" },
-      { id: "ou",  type: "output",    x: 1010,y: 140, label: "Ergebnis",      meta: { format: "JSON · Webhook" } },
-      { id: "nt",  type: "note",      x: 30,  y: 290, label: "Hinweis",       placeholder: "Bilder max. 4MB · JPEG/PNG/WebP" },
+      { id: "t1",  type: "trigger",   x: 40,  y: 200, label: "Start",         placeholder: "on:upload" },
+      { id: "im",  type: "image",     x: 300, y: 70,  label: "Eingabebild",   imageColor: "#1A1A2E" },
+      { id: "tx",  type: "text",      x: 300, y: 310, label: "Kontext-Text",  placeholder: "Beschreibe was analysiert werden soll…" },
+      { id: "g1",  type: "generator", x: 640, y: 70,  label: "Vision-LLM",    model: "GPT-4V", imageColor: "#1A2030", status: "running" },
+      { id: "tr",  type: "transform", x: 640, y: 310, label: "JSON-Parser",   placeholder: "JSON.parse(response)" },
+      { id: "li",  type: "list",      x: 1020,y: 70,  label: "Erkannte Tags", items: ["Person", "Outdoor", "Sunny", "Portrait"] },
+      { id: "dt",  type: "data",      x: 1020,y: 295, label: "Metadaten",     status: "success" },
+      { id: "ou",  type: "output",    x: 1360,y: 185, label: "Ergebnis",      meta: { format: "JSON · Webhook" } },
+      { id: "nt",  type: "note",      x: 40,  y: 380, label: "Hinweis",       placeholder: "Bilder max. 4MB · JPEG/PNG/WebP" },
     ],
     edges: [
       { id: "e1", from: "t1",  to: "im",  animated: true, color: "#E4FF97", pulseCount: 1 },
@@ -208,15 +208,15 @@ const PIPELINES: PipelineTemplate[] = [
     description: "Cron → Daten abrufen → Aufbereiten → Versenden",
     badge: "CRON",
     badgeColor: "#FFD6A5",
-    canvasHeight: 300,
+    canvasHeight: 420,
     nodes: [
-      { id: "cr",  type: "trigger",   x: 30,  y: 110, label: "Cron: täglich 08:00", meta: { event: "0 8 * * *" } },
-      { id: "a1",  type: "api",       x: 230, y: 60,  label: "Analytics API",      meta: { method: "GET", endpoint: "/stats/daily", body: "", status: "200 OK" }, status: "success" },
-      { id: "a2",  type: "api",       x: 230, y: 190, label: "Revenue API",         meta: { method: "GET", endpoint: "/revenue",     body: "", status: "200 OK" }, status: "success" },
-      { id: "tr",  type: "transform", x: 490, y: 125, label: "Report Builder",     placeholder: "merge(analytics, revenue)" },
-      { id: "g1",  type: "generator", x: 730, y: 125, label: "PDF Generator",      model: "Puppeteer", imageColor: "#2A1A10" },
-      { id: "wh",  type: "webhook",   x: 980, y: 60,  label: "E-Mail Versand",     meta: { event: "POST /send-email", payload: '{ "to": "team@…" }' } },
-      { id: "dt",  type: "data",      x: 980, y: 190, label: "Report-Archiv",      status: "success" },
+      { id: "cr",  type: "trigger",   x: 40,  y: 155, label: "Cron: täglich 08:00", meta: { event: "0 8 * * *" } },
+      { id: "a1",  type: "api",       x: 310, y: 70,  label: "Analytics API",      meta: { method: "GET", endpoint: "/stats/daily", body: "", status: "200 OK" }, status: "success" },
+      { id: "a2",  type: "api",       x: 310, y: 265, label: "Revenue API",         meta: { method: "GET", endpoint: "/revenue",     body: "", status: "200 OK" }, status: "success" },
+      { id: "tr",  type: "transform", x: 670, y: 165, label: "Report Builder",     placeholder: "merge(analytics, revenue)" },
+      { id: "g1",  type: "generator", x: 1000,y: 165, label: "PDF Generator",      model: "Puppeteer", imageColor: "#2A1A10" },
+      { id: "wh",  type: "webhook",   x: 1380,y: 70,  label: "E-Mail Versand",     meta: { event: "POST /send-email", payload: '{ "to": "team@…" }' } },
+      { id: "dt",  type: "data",      x: 1380,y: 265, label: "Report-Archiv",      status: "success" },
     ],
     edges: [
       { id: "e1", from: "cr",  to: "a1",  animated: true, color: "#FFD6A5", pulseCount: 1 },
@@ -593,11 +593,11 @@ const NodeCanvasSection: React.FC = () => {
 
         {/* Galerie-Canvas */}
         <div style={{ overflowX: "auto", borderRadius: 12 }}>
-          <FluxNodeCanvas
-            nodes={galleryNodes}
-            height={260}
-            showGrid={false}
-            className="rounded-xl"
+        <FluxNodeCanvas
+          nodes={galleryNodes}
+          height={340}
+          showGrid={false}
+          className="rounded-xl"
             onNodeSelect={id => {
               if (id) {
                 const node = galleryNodes.find(n => n.id === id);
@@ -718,6 +718,7 @@ const NodeCanvasSection: React.FC = () => {
           groups={pipeline.groups}
           height={pipeline.canvasHeight}
           showGrid
+          className="rounded-xl"
         />
 
         {/* Node-Status-Legende */}
@@ -746,7 +747,7 @@ const NodeCanvasSection: React.FC = () => {
         <h3 className="font-display font-bold text-xl text-foreground mb-6">
           Edge-Stile
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 28 }}>
           {EDGE_STYLE_DEMOS.map(demo => (
             <div key={demo.style} style={{
               padding: "18px 18px 14px",
@@ -787,26 +788,26 @@ const NodeCanvasSection: React.FC = () => {
         <h3 className="font-display font-bold text-xl text-foreground mb-6">
           Node-Status
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
           {STATUS_LIST.map(s => (
             <div key={s.status} style={{
               padding: "16px",
               background: card, borderRadius: 12,
               border: `1px solid ${s.status !== "idle" ? `${s.color}33` : border}`,
             }}>
-              <FluxNodeCanvas
-                nodes={[{
-                  id: `status-${s.status}`,
-                  type: "api",
-                  x: 20, y: 20,
-                  width: 180, height: 90,
-                  label: `API-Call`,
-                  status: s.status,
-                  meta: { method: "GET", endpoint: "/status", body: "", status: s.label },
-                }]}
-                height={130}
-                showGrid={false}
-              />
+            <FluxNodeCanvas
+              nodes={[{
+                id: `status-${s.status}`,
+                type: "api",
+                x: 20, y: 20,
+                width: 220, height: 120,
+                label: `API-Call`,
+                status: s.status,
+                meta: { method: "GET", endpoint: "/status", body: "", status: s.label },
+              }]}
+              height={165}
+              showGrid={false}
+            />
               <div style={{ marginTop: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
                   <div style={{ width: 8, height: 8, borderRadius: "50%", background: s.color }} />
@@ -863,16 +864,16 @@ const NodeCanvasSection: React.FC = () => {
             </p>
             <FluxNodeCanvas
               nodes={[
-                { id: "wh",  type: "webhook",   x: 30,  y: 40,  label: "Eingehend",       meta: { event: "POST /trigger", payload: '{ "run": true }' } },
-                { id: "t1",  type: "trigger",   x: 30,  y: 200, label: "Manuell",         placeholder: "on:click" },
-                { id: "tx",  type: "text",      x: 280, y: 40,  label: "Prompt",          placeholder: "Erstelle eine Zusammenfassung von…" },
-                { id: "dt",  type: "data",      x: 280, y: 200, label: "Quelldaten",      status: "success" },
-                { id: "tr",  type: "transform", x: 560, y: 120, label: "Merge & Format",  placeholder: "{ ...a, ...b }" },
-                { id: "g1",  type: "generator", x: 820, y: 40,  label: "LLM Generator",   model: "GPT-4o", imageColor: isDark ? "#1A2030" : "#E8EAF6", status: "running" },
-                { id: "dc",  type: "decision",  x: 820, y: 230, label: "Länge OK?",       placeholder: "tokens < 4096" },
-                { id: "a1",  type: "api",       x: 1100,y: 40,  label: "Speichern",       meta: { method: "POST", endpoint: "/save", body: '{ "content": "…" }', status: "200 OK" } },
-                { id: "nt",  type: "note",      x: 1100,y: 200, label: "Hinweis",         placeholder: "Max. 4096 Tokens pro Request" },
-                { id: "ou",  type: "output",    x: 1100,y: 310, label: "Fertig",          meta: { format: "JSON · Webhook" }, status: "success" },
+                { id: "wh",  type: "webhook",   x: 40,  y: 50,  label: "Eingehend",       meta: { event: "POST /trigger", payload: '{ "run": true }' } },
+                { id: "t1",  type: "trigger",   x: 40,  y: 260, label: "Manuell",         placeholder: "on:click" },
+                { id: "tx",  type: "text",      x: 380, y: 50,  label: "Prompt",          placeholder: "Erstelle eine Zusammenfassung von…" },
+                { id: "dt",  type: "data",      x: 380, y: 260, label: "Quelldaten",      status: "success" },
+                { id: "tr",  type: "transform", x: 730, y: 155, label: "Merge & Format",  placeholder: "{ ...a, ...b }" },
+                { id: "g1",  type: "generator", x: 1060,y: 50,  label: "LLM Generator",   model: "GPT-4o", imageColor: isDark ? "#1A2030" : "#E8EAF6", status: "running" },
+                { id: "dc",  type: "decision",  x: 1060,y: 310, label: "Länge OK?",       placeholder: "tokens < 4096" },
+                { id: "a1",  type: "api",       x: 1440,y: 50,  label: "Speichern",       meta: { method: "POST", endpoint: "/save", body: '{ "content": "…" }', status: "200 OK" } },
+                { id: "nt",  type: "note",      x: 1440,y: 260, label: "Hinweis",         placeholder: "Max. 4096 Tokens pro Request" },
+                { id: "ou",  type: "output",    x: 1440,y: 400, label: "Fertig",          meta: { format: "JSON · Webhook" }, status: "success" },
               ]}
               edges={[
                 { id: "e1", from: "wh",  to: "tx",  animated: true, color: "#FF9E80", pulseCount: 1 },
@@ -887,10 +888,10 @@ const NodeCanvasSection: React.FC = () => {
                 { id: "e10",from: "a1",  to: "ou",  color: "#B5EAD7" },
               ]}
               groups={[
-                { id: "g1", label: "EINGABE",      x: 10,  y: 10, width: 520, height: 280, color: "#A8D8FF" },
-                { id: "g2", label: "VERARBEITUNG", x: 540, y: 10, width: 250, height: 280, color: "#F8BBD9" },
+                { id: "g1", label: "EINGABE",      x: 10,  y: 10, width: 680, height: 380, color: "#A8D8FF" },
+                { id: "g2", label: "VERARBEITUNG", x: 700, y: 10, width: 320, height: 380, color: "#F8BBD9" },
               ]}
-              height={430}
+              height={560}
               showGrid
             />
           </div>

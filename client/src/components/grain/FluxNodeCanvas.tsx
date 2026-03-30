@@ -103,9 +103,9 @@ export interface FluxNodeCanvasProps {
    KONSTANTEN
 ══════════════════════════════════════════════════════════════════════════════ */
 
-const HEADER_H = 34;
-const MIN_NODE_W = 140;
-const MIN_NODE_H = 70;
+const HEADER_H = 44;
+const MIN_NODE_W = 180;
+const MIN_NODE_H = 90;
 const MIN_ZOOM = 0.15;
 const MAX_ZOOM = 3.0;
 
@@ -140,18 +140,18 @@ export const NODE_ICONS: Record<NodeType, LucideIcon> = {
 };
 
 export const NODE_DEFAULTS: Record<NodeType, { width: number; height: number; label: string }> = {
-  trigger:   { width: 160, height: 88,  label: "Trigger"      },
-  text:      { width: 220, height: 130, label: "Text"          },
-  image:     { width: 210, height: 185, label: "Bild"          },
-  generator: { width: 250, height: 205, label: "Generator"     },
-  list:      { width: 220, height: 160, label: "Liste"         },
-  data:      { width: 220, height: 130, label: "Daten"         },
-  decision:  { width: 200, height: 120, label: "Entscheidung"  },
-  api:       { width: 230, height: 155, label: "API-Call"      },
-  transform: { width: 200, height: 120, label: "Transform"     },
-  output:    { width: 200, height: 120, label: "Output"        },
-  webhook:   { width: 210, height: 115, label: "Webhook"       },
-  note:      { width: 200, height: 100, label: "Notiz"         },
+  trigger:   { width: 200, height: 110, label: "Trigger"      },
+  text:      { width: 280, height: 160, label: "Text"          },
+  image:     { width: 270, height: 230, label: "Bild"          },
+  generator: { width: 310, height: 260, label: "Generator"     },
+  list:      { width: 270, height: 200, label: "Liste"         },
+  data:      { width: 270, height: 165, label: "Daten"         },
+  decision:  { width: 260, height: 155, label: "Entscheidung"  },
+  api:       { width: 290, height: 195, label: "API-Call"      },
+  transform: { width: 260, height: 155, label: "Transform"     },
+  output:    { width: 250, height: 150, label: "Output"        },
+  webhook:   { width: 270, height: 150, label: "Webhook"       },
+  note:      { width: 260, height: 130, label: "Notiz"         },
 };
 
 const STATUS_COLORS: Record<NodeStatus, string> = {
@@ -573,7 +573,7 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
       height: n.height ?? NODE_DEFAULTS[n.type].height,
     }))
   );
-  const [zoom, setZoom]     = useState(1);
+  const [zoom, setZoom]     = useState(0.85);
   const [pan, setPan]       = useState({ x: 0, y: 0 });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hoveredId,  setHoveredId]  = useState<string | null>(null);
@@ -889,64 +889,64 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
 
               {/* Header */}
               <div style={{
-                display: "flex", alignItems: "center", gap: 6,
-                padding: "0 10px", height: HEADER_H,
+                display: "flex", alignItems: "center", gap: 8,
+                padding: "0 14px", height: HEADER_H,
                 background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
                 borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`,
                 cursor: isDisabled ? "not-allowed" : "grab",
               }}
                 onMouseDown={isDisabled ? undefined : e => startNodeDrag(e, node.id)}
               >
-                <Icon size={13} style={{ color: typeColor, flexShrink: 0 }} strokeWidth={2} />
+                <Icon size={16} style={{ color: typeColor, flexShrink: 0 }} strokeWidth={2} />
                 <span style={{
-                  fontSize: 11, fontFamily: '"DM Mono", monospace',
-                  color: isDark ? "rgba(255,255,255,0.72)" : "rgba(0,0,0,0.68)",
-                  fontWeight: 500, flex: 1,
+                  fontSize: 13, fontFamily: '"DM Mono", monospace',
+                  color: isDark ? "rgba(255,255,255,0.82)" : "rgba(0,0,0,0.78)",
+                  fontWeight: 600, flex: 1,
                   overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                 }}>
                   {node.label ?? NODE_DEFAULTS[node.type].label}
                 </span>
                 <span style={{
-                  fontSize: 8, fontFamily: '"DM Mono", monospace',
+                  fontSize: 9, fontFamily: '"DM Mono", monospace',
                   color: typeColor, background: `${typeColor}1A`,
-                  padding: "1px 5px", borderRadius: 4, letterSpacing: "0.05em", flexShrink: 0,
+                  padding: "2px 7px", borderRadius: 5, letterSpacing: "0.05em", flexShrink: 0,
                 }}>
                   {node.type.toUpperCase()}
                 </span>
               </div>
 
               {/* Body */}
-              <div style={{ padding: "10px 10px 12px", overflow: "hidden" }}>
+              <div style={{ padding: "12px 14px 14px", overflow: "hidden" }}>
                 <NodeBody node={node} isDark={isDark} />
               </div>
 
               {/* Port links (Input) */}
               <div style={{
-                position: "absolute", left: -5, top: "50%", transform: "translateY(-50%)",
-                width: 10, height: 10, borderRadius: "50%",
+                position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)",
+                width: 14, height: 14, borderRadius: "50%",
                 background: isDark ? "#1A1A1A" : "#FFFFFF",
-                border: `1.5px solid ${isDark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.18)"}`,
+                border: `2px solid ${isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.22)"}`,
                 zIndex: 3,
               }} />
 
               {/* Port rechts (Output) */}
               <div style={{
-                position: "absolute", right: -5, top: "50%", transform: "translateY(-50%)",
-                width: 10, height: 10, borderRadius: "50%",
+                position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)",
+                width: 14, height: 14, borderRadius: "50%",
                 background: isDark ? "#1A1A1A" : "#FFFFFF",
-                border: `1.5px solid ${typeColor}`,
-                boxShadow: `0 0 5px ${typeColor}44`,
+                border: `2px solid ${typeColor}`,
+                boxShadow: `0 0 8px ${typeColor}55`,
                 zIndex: 3,
               }} />
 
               {/* Port unten (Decision: FALSE-Pfad) */}
               {node.type === "decision" && (
                 <div style={{
-                  position: "absolute", bottom: -5, left: "50%", transform: "translateX(-50%)",
-                  width: 10, height: 10, borderRadius: "50%",
+                  position: "absolute", bottom: -7, left: "50%", transform: "translateX(-50%)",
+                  width: 14, height: 14, borderRadius: "50%",
                   background: isDark ? "#1A1A1A" : "#FFFFFF",
-                  border: "1.5px solid #FF6B6B",
-                  boxShadow: "0 0 5px #FF6B6B44",
+                  border: "2px solid #FF6B6B",
+                  boxShadow: "0 0 8px #FF6B6B55",
                   zIndex: 3,
                 }} />
               )}
