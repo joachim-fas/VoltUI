@@ -1,5 +1,5 @@
 /**
- * DialogSection – Grain UI
+ * DialogSection – Flux UI
  * Das Dialog-Prinzip: Input mit Konsequenz
  * Kein Pingpong. Kein Nebel. Input → Output.
  * Design: Terminal-Ästhetik, Mono-Labels, 3 Kommunikationsrichtungen

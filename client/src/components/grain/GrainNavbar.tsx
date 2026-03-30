@@ -1,6 +1,6 @@
 /**
  * GrainNavbar – Atmospheric Grain Design System
- * Top-Navigation mit Glasmorphismus und Grain-Textur.
+ * Top-Navigation mit Glasmorphismus und Flux-Textur.
  */
 
 import React from "react";

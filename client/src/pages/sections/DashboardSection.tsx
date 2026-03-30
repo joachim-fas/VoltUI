@@ -1,5 +1,5 @@
 /**
- * DashboardSection – Grain UI
+ * DashboardSection – Flux UI
  * Farben: Lime (#E4FF97) + Schwarz (#0A0A0A) + Signalfarben
  * Kein Blau, kein Violett
  */

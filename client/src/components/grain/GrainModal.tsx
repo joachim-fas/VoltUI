@@ -1,6 +1,6 @@
 /**
  * GrainModal – Atmospheric Grain Design System
- * Modal/Dialog mit Glasmorphismus und Grain-Textur.
+ * Modal/Dialog mit Glasmorphismus und Flux-Textur.
  */
 
 import React from "react";

@@ -1,5 +1,5 @@
 /**
- * GrainToggle / GrainCheckbox / GrainRadio – Grain UI
+ * GrainToggle / GrainCheckbox / GrainRadio – Flux UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Komplett neu gebaut mit Inline-Styles für pixelgenaue Proportionen.
  * Kein Tailwind-Größen-Bug mehr.

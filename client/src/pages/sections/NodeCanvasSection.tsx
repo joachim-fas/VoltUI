@@ -1,6 +1,6 @@
 /**
  * NodeCanvasSection
- * Design: Grain OS · Node Canvas System Dokumentation
+ * Design: Flux OS · Node Canvas System Dokumentation
  */
 
 import React, { useState } from "react";

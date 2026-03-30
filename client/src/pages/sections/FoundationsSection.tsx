@@ -1,6 +1,6 @@
 /**
  * FoundationsSection – Design Tokens, Farben, Typografie, Grain-Effekte, Patterns
- * Grain UI v2 – Atmospheric Design System
+ * Flux UI – Atmospheric Design System
  */
 
 import React, { useState } from "react";
@@ -28,12 +28,12 @@ const semanticTokens = [
 ];
 
 const typeScale = [
-  { name: "Display XL",  size: "text-5xl",  weight: "font-black",  family: "font-display", sample: "Grain UI", font: "Bricolage Grotesque" },
+  { name: "Display XL",  size: "text-5xl",  weight: "font-black",  family: "font-display", sample: "Flux UI", font: "Bricolage Grotesque" },
   { name: "Display L",   size: "text-4xl",  weight: "font-bold",   family: "font-display", sample: "Atmospheric", font: "Bricolage Grotesque" },
   { name: "Display M",   size: "text-2xl",  weight: "font-bold",   family: "font-display", sample: "Design System", font: "Bricolage Grotesque" },
   { name: "UI Heading",  size: "text-xl",   weight: "font-semibold", family: "font-ui",    sample: "Component Library", font: "DM Sans" },
   { name: "UI Body",     size: "text-base", weight: "font-medium", family: "font-ui",      sample: "Inspired by grain textures and atmospheric gradients", font: "DM Sans" },
-  { name: "Body Serif",  size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Grain-Textur, Gradienten und Glasmorphismus.", font: "Lora" },
+  { name: "Body Serif",  size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Flux-Textur, Gradienten und Glasmorphismus.", font: "Lora" },
   { name: "Caption",     size: "text-xs",   weight: "font-medium", family: "font-ui",      sample: "Subtile Texturen als verbindendes Element", font: "DM Sans" },
   { name: "Mono",        size: "text-sm",   weight: "font-normal", family: "font-mono",    sample: "const grain = oklch(0.45 0.31 268);", font: "JetBrains Mono" },
 ];
@@ -48,21 +48,61 @@ const patterns = [
 ];
 
 const gradients = [
-  { label: "Theme Gradient",    cls: "bg-grain-gradient",      desc: "Primär → Sekundär (theme-aware)" },
-  { label: "Atmospheric",       cls: "bg-atmospheric",         desc: "Radiale Orbs (theme-aware)" },
-  { label: "Hero Background",   cls: "bg-grain-hero border border-border", desc: "Für Hero-Sektionen" },
-  { label: "Primary",           cls: "bg-grain-blue",          desc: "Primärfarbe (theme-aware)" },
-  { label: "Accent",            cls: "bg-grain-red",           desc: "Akzentfarbe (theme-aware)" },
-  { label: "Secondary",         cls: "bg-grain-violet",        desc: "Sekundärfarbe (theme-aware)" },
+  {
+    label: "Flux Gradient",
+    desc: "Lime → Schwarz (Brand-Verlauf)",
+    style: { background: "linear-gradient(135deg, #E4FF97 0%, #0A0A0A 100%)" },
+    textDark: false,
+  },
+  {
+    label: "Atmospheric",
+    desc: "Radiale Orbs · Lime-Akzent",
+    style: {
+      background:
+        "radial-gradient(ellipse at 25% 35%, rgba(228,255,151,0.55) 0%, transparent 55%), " +
+        "radial-gradient(ellipse at 75% 65%, rgba(228,255,151,0.25) 0%, transparent 50%), " +
+        "#0A0A0A",
+    },
+    textDark: false,
+  },
+  {
+    label: "Hero Background",
+    desc: "Lime-Basis · subtile Orbs",
+    style: {
+      background:
+        "radial-gradient(ellipse at 20% 50%, rgba(10,10,10,0.08) 0%, transparent 60%), " +
+        "radial-gradient(ellipse at 80% 20%, rgba(10,10,10,0.05) 0%, transparent 50%), " +
+        "#E4FF97",
+    },
+    textDark: true,
+  },
+  {
+    label: "Soft Lime",
+    desc: "Heller Verlauf · UI-Flächen",
+    style: { background: "linear-gradient(135deg, #E4FF97 0%, #C8F060 100%)" },
+    textDark: true,
+  },
+  {
+    label: "Pastel Blend",
+    desc: "Rose → Mint · Datenkodierung",
+    style: { background: "linear-gradient(135deg, #F9D0D0 0%, #C8F0E0 100%)" },
+    textDark: true,
+  },
+  {
+    label: "Deep Dark",
+    desc: "Schwarz → Dunkelgrau · Nacht",
+    style: { background: "linear-gradient(135deg, #0A0A0A 0%, #2A2A2A 100%)" },
+    textDark: false,
+  },
 ];
 
 const themes = [
-  { id: "grain",   label: "Grain Primary",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Die Primärpalette – klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
-  { id: "rose",    label: "Grain Rose",     desc: "Rose #F9D0D0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#F9D0D0", dark: "#0A0A0A" },
-  { id: "mint",    label: "Grain Mint",     desc: "Mint #C8F0E0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#C8F0E0", dark: "#0A0A0A" },
-  { id: "orchid",  label: "Grain Orchid",   desc: "Orchid #E8D0F0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#E8D0F0", dark: "#0A0A0A" },
-  { id: "butter",  label: "Grain Butter",   desc: "Butter #FFF0C0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#FFF0C0", dark: "#0A0A0A" },
-  { id: "sky",     label: "Grain Sky",      desc: "Sky #C8E8FF + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",           light: "#C8E8FF", dark: "#0A0A0A" },
+  { id: "grain",   label: "Flux Primary",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Die Primärpalette – klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
+  { id: "rose",    label: "Flux Rose",     desc: "Rose #F9D0D0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#F9D0D0", dark: "#0A0A0A" },
+  { id: "mint",    label: "Flux Mint",     desc: "Mint #C8F0E0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#C8F0E0", dark: "#0A0A0A" },
+  { id: "orchid",  label: "Flux Orchid",   desc: "Orchid #E8D0F0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#E8D0F0", dark: "#0A0A0A" },
+  { id: "butter",  label: "Flux Butter",   desc: "Butter #FFF0C0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#FFF0C0", dark: "#0A0A0A" },
+  { id: "sky",     label: "Flux Sky",      desc: "Sky #C8E8FF + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",           light: "#C8E8FF", dark: "#0A0A0A" },
 ];
 
 const glassVariants = [
@@ -133,10 +173,10 @@ export const FoundationsSection: React.FC = () => {
         </GrainCardContent>
       </GrainCard>
 
-      {/* Grain Textures */}
+      {/* Flux Textures */}
       <GrainCard>
         <GrainCardHeader>
-          <GrainCardTitle>Grain-Texturen</GrainCardTitle>
+          <GrainCardTitle>Flux-Texturen</GrainCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">SVG-basierte Rausch-Texturen – kein Bild-Asset, reiner CSS-Code</p>
         </GrainCardHeader>
         <GrainCardContent>
@@ -198,10 +238,14 @@ export const FoundationsSection: React.FC = () => {
         <GrainCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {gradients.map((g) => (
-              <div key={g.label} className={`h-28 rounded-xl grain ${g.cls} flex items-end p-3`}>
+              <div
+                key={g.label}
+                className="h-28 rounded-xl grain flex items-end p-3"
+                style={g.style}
+              >
                 <div>
-                  <p className="text-xs font-semibold font-ui text-foreground">{g.label}</p>
-                  <p className="text-[10px] font-mono text-muted-foreground">{g.desc}</p>
+                  <p className={`text-xs font-semibold font-ui ${g.textDark ? "text-[#0A0A0A]" : "text-white"}`}>{g.label}</p>
+                  <p className={`text-[10px] font-mono ${g.textDark ? "text-[#0A0A0A]/60" : "text-white/60"}`}>{g.desc}</p>
                 </div>
               </div>
             ))}

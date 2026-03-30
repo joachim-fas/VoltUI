@@ -1,5 +1,5 @@
 /**
- * HeroSection – Grain UI
+ * HeroSection – Flux UI
  * Weiß + Schwarz + Lime (#E4FF97) – kein Violett, kein Blau
  */
 
@@ -173,7 +173,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             {["#E8402A","#E4FF97","#1A9E5A"].map((c,i) => (
               <div key={i} className="w-2.5 h-2.5 rounded-full" style={{ background: c }} />
             ))}
-            <span className="ml-2 text-[0.6rem] font-mono text-white/30">grain-ui · example.tsx</span>
+            <span className="ml-2 text-[0.6rem] font-mono text-white/30">flux-ui · example.tsx</span>
           </div>
           <pre className="text-xs font-mono text-white/80 leading-relaxed overflow-x-auto whitespace-pre-wrap">
             <code>{codeSnippet}</code>

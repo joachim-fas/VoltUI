@@ -1,5 +1,5 @@
 /**
- * GrainBadge – Grain UI
+ * GrainBadge – Flux UI
  * Primär: Lime (#E4FF97) + Schwarz (#0A0A0A)
  * Signale: Smaragd (positiv) · Koralle (negativ) · Slate (neutral)
  */

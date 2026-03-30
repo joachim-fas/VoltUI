@@ -1,6 +1,6 @@
 /**
  * GrainAlert – Atmospheric Grain Design System
- * Benachrichtigungs-Komponente mit Grain-Textur.
+ * Benachrichtigungs-Komponente mit Flux-Textur.
  */
 
 import React from "react";

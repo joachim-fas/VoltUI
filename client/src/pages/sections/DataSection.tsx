@@ -1,5 +1,5 @@
 /**
- * DataSection – Grain UI v3
+ * DataSection – Flux UI
  * Fokus: Klare Informationsvermittlung
  * Jeder Chart-Typ erklärt: Was zeigt er? Wann nutze ich ihn? Was lese ich ab?
  */
@@ -122,10 +122,10 @@ type TableRow = { name: string; version: string; status: string; downloads: stri
 const tableData: TableRow[] = [
   { name: "GrainButton",   version: "2.0.0", status: "stable", downloads: "12.4k", updated: "heute" },
   { name: "GrainCard",     version: "2.0.0", status: "stable", downloads: "9.8k",  updated: "heute" },
-  { name: "GrainInput",    version: "2.0.0", status: "stable", downloads: "8.2k",  updated: "heute" },
-  { name: "GrainModal",    version: "2.0.0", status: "stable", downloads: "6.5k",  updated: "heute" },
+  { name: "FluxInput",    version: "2.0.0", status: "stable", downloads: "8.2k",  updated: "heute" },
+  { name: "FluxModal",    version: "2.0.0", status: "stable", downloads: "6.5k",  updated: "heute" },
   { name: "GrainChart",    version: "2.0.0", status: "beta",   downloads: "4.1k",  updated: "heute" },
-  { name: "GrainTable",    version: "2.0.0", status: "stable", downloads: "3.7k",  updated: "heute" },
+  { name: "FluxTable",    version: "2.0.0", status: "stable", downloads: "3.7k",  updated: "heute" },
 ];
 
 /* ── Chart-Typ Übersicht mit Erklärungen ── */
@@ -489,7 +489,7 @@ export const DataSection: React.FC = () => {
             { key: "updated",   header: "Aktualisiert",  align: "right", render: (v) => <span className="text-xs text-muted-foreground">{String(v)}</span> },
           ]}
           data={tableData} hoverable striped
-          caption="Grain UI Komponenten · Version 2.0.0 · Stand: August 2025"
+          caption="Flux UI Komponenten · Version 2.0.0 · Stand: August 2025"
         />
       </div>
 

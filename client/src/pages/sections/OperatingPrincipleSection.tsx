@@ -1,5 +1,5 @@
 /**
- * OperatingPrincipleSection - Grain UI
+ * OperatingPrincipleSection - Flux UI
  * Vollstaendige inhaltliche Ausarbeitung des Operating Principle
  * Quelle: Notion - "Idee -- Eingabe &rarr; Ausgabe (Operating Principle)"
  * Design: Weiss/Hell, Lime+Schwarz System, Pastell-Farbzuordnung

@@ -1,5 +1,5 @@
 /**
- * Grain UI – Hauptseite
+ * Flux UI – Hauptseite
  * Layout: Schwarze Sidebar (links) + weißer Hauptinhalt (rechts)
  */
 
@@ -125,7 +125,7 @@ export default function Home() {
         <GrainCursor size="md" color="black" animated />
         <div>
           <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
-            grain<span className="opacity-30">ui</span>
+            flux<span className="opacity-30"> ui</span>
           </p>
           <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Operating Principles</p>
         </div>
@@ -181,7 +181,7 @@ export default function Home() {
           <div className="flex items-center gap-2.5">
             <GrainCursor size="sm" color="black" animated />
             <span className="font-display font-bold text-sm text-[#0A0A0A] tracking-tight">
-              grain<span className="opacity-30">ui</span>
+              flux<span className="opacity-30"> ui</span>
             </span>
           </div>
           <div className="w-9" />

@@ -1,5 +1,5 @@
 /**
- * GrainCursor – Grain UI Brand Element
+ * GrainCursor – Flux UI Brand Element
  * Das ikonische Pfeil+Cursor-Symbol: Terminal-Prompt-Ästhetik
  * Pfeil (links) + blinkender Balken (rechts unten)
  *

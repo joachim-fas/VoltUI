@@ -1,6 +1,6 @@
 /**
- * BrandArchitectureSection – Grain UI
- * Grain UI als universelle Betriebssprache fuer Free Agents und alle Tochterprojekte
+ * BrandArchitectureSection – Flux UI
+ * Flux UI als universelle Betriebssprache fuer Free Agents und alle Tochterprojekte
  * Design: Weis/Hell, Lime+Schwarz System, Pastell-Farbzuordnung pro Projekt
  */
 
@@ -24,7 +24,7 @@ const BRAND_LAYERS = [
   },
   {
     layer: "Visuell",
-    desc: "Signet, Lime+Schwarz, Bricolage Grotesque, Grain-Textur, Pastell-Palette.",
+    desc: "Signet, Lime+Schwarz, Bricolage Grotesque, Flux-Textur, Pastell-Palette.",
     token: "Design Tokens",
     color: "#D4E8FF",
   },
@@ -61,7 +61,7 @@ const PROJECTS = [
     textColor: "#0A0A0A",
     status: "aktiv",
     tagline: "Weniger Abstimmung. Mehr Ergebnis.",
-    tokens: ["Lime + Schwarz", "Bricolage Grotesque", ">_ Signet", "Grain-Textur"],
+    tokens: ["Lime + Schwarz", "Bricolage Grotesque", ">_ Signet", "Flux-Textur"],
   },
   {
     id: "politik",
@@ -103,7 +103,7 @@ const PROJECTS = [
     textColor: "#0A0A0A",
     status: "recherche",
     tagline: "Gestalten als Prozess, nicht als Produkt.",
-    tokens: ["Rose-Pastell", "Experimentelle Typografie", "Prozess-Visualisierung", "Grain-Textur"],
+    tokens: ["Rose-Pastell", "Experimentelle Typografie", "Prozess-Visualisierung", "Flux-Textur"],
   },
   {
     id: "omnishopper",
@@ -144,11 +144,11 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
 const DESIGN_PRINCIPLES = [
   {
     title: "Eine Sprache, viele Ausdruecke",
-    desc: "Alle Projekte teilen dieselben Grundtokens: Typografie-System, Signet, Grain-Textur, OP-Schema. Die Farbcodierung differenziert.",
+    desc: "Alle Projekte teilen dieselben Grundtokens: Typografie-System, Signet, Flux-Textur, OP-Schema. Die Farbcodierung differenziert.",
   },
   {
     title: "Farbe als Kontext-Signal",
-    desc: "Jedes Projekt bekommt eine Pastell-Farbe aus dem Grain-System. Die Farbe signalisiert den Kontext, nicht die Marke.",
+    desc: "Jedes Projekt bekommt eine Pastell-Farbe aus dem Flux-System. Die Farbe signalisiert den Kontext, nicht die Marke.",
   },
   {
     title: "Signet als Konstante",
@@ -178,7 +178,7 @@ export const BrandArchitectureSection: React.FC = () => {
           Eine Sprache.<br />Viele Projekte.
         </h1>
         <p className="text-[#4A4A4A] text-lg max-w-2xl leading-relaxed">
-          Grain UI ist nicht nur ein Design System. Es ist die visuelle Betriebssprache von
+          Flux UI ist nicht nur ein Design System. Es ist die visuelle Betriebssprache von
           Free Agents und allen Projekten, die daraus entstehen. Das{" "}
           <span className="font-mono font-bold text-[#0A0A0A]">&gt;_</span> Signet ist der Anker.
           Das Operating Principle ist die Logik dahinter.

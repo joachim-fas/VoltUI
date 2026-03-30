@@ -1,5 +1,5 @@
 /**
- * SignetSection – Grain UI
+ * SignetSection – Flux UI
  * Vollständige Marken-Dokumentation des ">_" Signets
  * Design: Weiß + Schwarz + Lime – keine anderen Farben
  */
@@ -103,7 +103,7 @@ export const SignetSection: React.FC = () => {
           Das <span className="font-mono">&gt;_</span> Signet
         </h2>
         <p className="text-muted-foreground font-ui text-base max-w-2xl leading-relaxed">
-          Das Signet ist die visuelle Essenz von Grain UI. Es kombiniert den
+          Das Signet ist die visuelle Essenz von Flux UI. Es kombiniert den
           Terminal-Prompt-Pfeil <span className="font-mono text-foreground">&gt;</span> mit
           dem blinkenden Cursor-Balken <span className="font-mono text-foreground">_</span> –
           ein Symbol für präzise Eingabe, klaren Output und maschinelle Ästhetik.
@@ -127,7 +127,7 @@ export const SignetSection: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="text-center"
           >
-            <p className="font-mono text-[#0A0A0A]/50 text-sm tracking-widest uppercase">Grain UI · Signet · v1</p>
+            <p className="font-mono text-[#0A0A0A]/50 text-sm tracking-widest uppercase">Flux UI · Signet · v1</p>
           </motion.div>
         </div>
       </div>

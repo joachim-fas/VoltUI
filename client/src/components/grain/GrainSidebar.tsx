@@ -1,5 +1,5 @@
 /**
- * GrainSidebar – Grain UI
+ * GrainSidebar – Flux UI
  * Hell: Weißer Hintergrund + schwarzer Text + Lime (#E4FF97) für aktive Items
  * Dark Mode: Sidebar wird dunkel via CSS-Klasse
  */
@@ -194,7 +194,7 @@ export const GrainSidebar: React.FC<GrainSidebarProps> = ({
         <div className="pt-2" style={{ borderTop: `1px solid ${borderColor}50` }}>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-[#E4FF97] animate-pulse" />
-            <span className="text-[0.55rem] font-mono" style={{ color: dotText }}>Grain UI · React 19 · Tailwind 4</span>
+            <span className="text-[0.55rem] font-mono" style={{ color: dotText }}>Flux UI · React 19 · Tailwind 4</span>
           </div>
         </div>
       </div>

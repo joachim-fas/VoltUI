@@ -1,6 +1,6 @@
 /**
- * BackgroundsSection – Grain UI
- * Hintergründe & Patterns: Grain-Textur, Dot-Grid, Linien, Pastell-Verläufe, Atmosphärische Hintergründe
+ * BackgroundsSection – Flux UI
+ * Hintergründe & Patterns: Flux-Textur, Dot-Grid, Linien, Pastell-Verläufe, Atmosphärische Hintergründe
  * Farbsystem: #E4FF97 + #000000 + 8 Pastell-Töne
  */
 
@@ -8,15 +8,15 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Copy, Check } from "lucide-react";
 
-/* ── Grain SVG als Data-URI ── */
+/* ── Flux Grain SVG als Data-URI ── */
 const GRAIN_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`;
 
 /* ── Pattern-Definitionen ── */
 const PATTERNS = [
   {
     id: "grain",
-    name: "Grain Textur",
-    description: "Atmosphärisches Rauschen – das Markenzeichen von Grain UI",
+    name: "Flux Textur",
+    description: "Atmosphärisches Rauschen – das Markenzeichen von Flux UI",
     cssClass: "pattern-grain",
     bg: "#F8F8F8",
     code: `.pattern-grain::after {\n  content: "";\n  position: absolute;\n  inset: 0;\n  background-image: ${GRAIN_SVG};\n  opacity: 0.06;\n  pointer-events: none;\n}`,
@@ -192,20 +192,20 @@ const ATMOSPHERIC = [
   {
     id: "lime-grain",
     name: "Lime Grain",
-    description: "Hero-Hintergrund – Lime mit Grain-Textur",
+    description: "Hero-Hintergrund – Lime mit Flux-Textur",
     textColor: "#0A0A0A",
     style: { background: "#E4FF97" },
     grain: true,
-    code: `background: #E4FF97;\n/* + Grain-Overlay mit opacity: 0.06 */`,
+    code: `background: #E4FF97;\n/* + Flux-Overlay mit opacity: 0.06 */`,
   },
   {
     id: "dark-grain",
     name: "Dark Grain",
-    description: "Dunkler Hintergrund mit Grain-Textur",
+    description: "Dunkler Hintergrund mit Flux-Textur",
     textColor: "#FFFFFF",
     style: { background: "#0A0A0A" },
     grain: true,
-    code: `background: #0A0A0A;\n/* + Grain-Overlay mit opacity: 0.08 */`,
+    code: `background: #0A0A0A;\n/* + Flux-Overlay mit opacity: 0.08 */`,
   },
   {
     id: "rose-grain",
@@ -214,7 +214,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)" },
     grain: true,
-    code: `background: linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%);\n/* + Grain-Overlay */`,
+    code: `background: linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%);\n/* + Flux-Overlay */`,
   },
   {
     id: "mint-grain",
@@ -223,7 +223,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)" },
     grain: true,
-    code: `background: linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%);\n/* + Grain-Overlay */`,
+    code: `background: linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%);\n/* + Flux-Overlay */`,
   },
   {
     id: "orchid-grain",
@@ -232,7 +232,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FDE2FF 0%, #D4E8FF 100%)" },
     grain: true,
-    code: `background: linear-gradient(135deg, #FDE2FF 0%, #D4E8FF 100%);\n/* + Grain-Overlay */`,
+    code: `background: linear-gradient(135deg, #FDE2FF 0%, #D4E8FF 100%);\n/* + Flux-Overlay */`,
   },
   {
     id: "butter-grain",
@@ -241,7 +241,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%)" },
     grain: true,
-    code: `background: linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%);\n/* + Grain-Overlay */`,
+    code: `background: linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%);\n/* + Flux-Overlay */`,
   },
 ];
 
@@ -271,7 +271,7 @@ export const BackgroundsSection: React.FC = () => {
           Hintergründe & Patterns
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl">
-          Alle Muster, Verläufe und atmosphärischen Hintergründe aus dem Grain UI Farbsystem –
+          Alle Muster, Verläufe und atmosphärischen Hintergründe aus dem Flux UI Farbsystem –
           direkt als CSS-Klassen und Custom Properties einsetzbar.
         </p>
       </div>
@@ -316,7 +316,7 @@ export const BackgroundsSection: React.FC = () => {
       {/* ── Verläufe ── */}
       <section>
         <h3 className="font-display font-bold text-xl text-foreground mb-1">Farbverläufe</h3>
-        <p className="text-[#6B6B6B] text-sm mb-6">Lineare und radiale Verläufe aus der Grain UI Palette.</p>
+        <p className="text-[#6B6B6B] text-sm mb-6">Lineare und radiale Verläufe aus der Flux UI Palette.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {GRADIENTS.map((g, i) => (
             <motion.div
@@ -342,7 +342,7 @@ export const BackgroundsSection: React.FC = () => {
       {/* ── Atmosphärische Hintergründe ── */}
       <section>
         <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-1">Atmosphärische Hintergründe</h2>
-        <p className="text-[#6B6B6B] text-sm mb-6">Kombinationen aus Farbe und Grain-Textur für Hero-Bereiche, Modals und Sektionen.</p>
+        <p className="text-[#6B6B6B] text-sm mb-6">Kombinationen aus Farbe und Flux-Textur für Hero-Bereiche, Modals und Sektionen.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {ATMOSPHERIC.map((a, i) => (
             <motion.div
@@ -386,7 +386,7 @@ export const BackgroundsSection: React.FC = () => {
       {/* ── Kombinations-Showcase ── */}
       <section>
         <h2 className="font-display font-bold text-2xl text-[#0A0A0A] mb-1">Kombinations-Showcase</h2>
-        <p className="text-[#6B6B6B] text-sm mb-6">Pattern + Verlauf + Grain kombiniert – wie sie in echten Layouts eingesetzt werden.</p>
+        <p className="text-[#6B6B6B] text-sm mb-6">Pattern + Verlauf + Flux kombiniert – wie sie in echten Layouts eingesetzt werden.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           {/* Hero-Variante 1: Lime + Dots */}
@@ -400,7 +400,7 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-[#0A0A0A]/60 uppercase tracking-widest mb-1">Lime + Dots + Grain</span>
+              <span className="font-mono text-[10px] text-[#0A0A0A]/60 uppercase tracking-widest mb-1">Lime + Dots + Flux</span>
               <span className="font-display font-black text-2xl text-[#0A0A0A]">Hero Section</span>
             </div>
           </div>
@@ -416,7 +416,7 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.08,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-[#E4FF97]/60 uppercase tracking-widest mb-1">Dark + Lime Grid + Grain</span>
+              <span className="font-mono text-[10px] text-[#E4FF97]/60 uppercase tracking-widest mb-1">Dark + Lime Grid + Flux</span>
               <span className="font-display font-black text-2xl text-[#E4FF97]">Dark Mode Hero</span>
             </div>
           </div>
@@ -431,7 +431,7 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-[#0A0A0A]/50 uppercase tracking-widest mb-1">Rose + Diagonal + Grain</span>
+              <span className="font-mono text-[10px] text-[#0A0A0A]/50 uppercase tracking-widest mb-1">Rose + Diagonal + Flux</span>
               <span className="font-display font-black text-2xl text-[#0A0A0A]">Pastell Section</span>
             </div>
           </div>
@@ -449,7 +449,7 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-[#0A0A0A]/50 uppercase tracking-widest mb-1">Mint + Dots + Grain</span>
+              <span className="font-mono text-[10px] text-[#0A0A0A]/50 uppercase tracking-widest mb-1">Mint + Dots + Flux</span>
               <span className="font-display font-black text-2xl text-[#0A0A0A]">Success Section</span>
             </div>
           </div>

@@ -1,5 +1,5 @@
 /**
- * GrainInput / GrainTextarea / GrainSelect – Grain UI
+ * GrainInput / GrainTextarea / GrainSelect – Flux UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Design: Raffiniert, leicht, dünnere Linien, elegante Fokus-Übergänge
  */

@@ -1,5 +1,5 @@
 /**
- * GrainAvatar – Grain UI
+ * GrainAvatar – Flux UI
  * Fallback-Gradienten: Neon Yellow + Black + Pastell-Töne
  */
 

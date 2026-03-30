@@ -21,11 +21,11 @@ const tabContent = {
   design: (
     <div className="space-y-3">
       <p className="text-sm font-body text-muted-foreground leading-relaxed">
-        Das Grain UI Design System basiert auf dem Atmospheric Grain Konzept –
-        Tiefe durch Schichtung von Grain-Textur, Gradienten und Glasmorphismus.
+        Das Flux UI Design System basiert auf dem Atmospheric Flux-Konzept –
+        Tiefe durch Schichtung von Flux-Textur, Gradienten und Glasmorphismus.
       </p>
       <div className="grid grid-cols-3 gap-2">
-        {["Grain", "Gradient", "Glass"].map(t => (
+        {["Flux", "Gradient", "Glass"].map(t => (
           <div key={t} className="bg-muted rounded-lg p-3 text-center">
             <p className="text-xs font-semibold font-body text-foreground">{t}</p>
           </div>
@@ -35,7 +35,7 @@ const tabContent = {
   ),
   code: (
     <div className="code-block text-xs">
-      <span className="token-comment">{"// Grain-Textur als CSS"}</span>{"\n"}
+      <span className="token-comment">{"// Flux-Textur als CSS"}</span>{"\n"}
       <span className="token-blue">.grain</span>::after {"{"}{"\n"}
       {"  "}background-image: <span className="token-yellow">url("data:image/svg+xml,…")</span>;{"\n"}
       {"  "}opacity: <span className="token-red">0.06</span>;{"\n"}
@@ -54,7 +54,7 @@ const tabContent = {
   ),
   preview: (
     <div className="bg-grain-hero rounded-xl p-6 grain">
-      <p className="font-display font-bold text-2xl text-foreground">Atmospheric Grain</p>
+      <p className="font-display font-bold text-2xl text-foreground">Atmospheric Flux</p>
       <p className="text-sm text-muted-foreground font-body mt-1">Live-Vorschau des Gradient-Hintergrunds</p>
     </div>
   ),
@@ -132,7 +132,7 @@ export const FeedbackSection: React.FC = () => {
       <GrainCard>
         <GrainCardHeader>
           <GrainCardTitle>Modal-Dialoge</GrainCardTitle>
-          <GrainCardDescription>Glasmorphismus mit Grain-Textur, Escape-Taste und Backdrop-Klick zum Schließen</GrainCardDescription>
+          <GrainCardDescription>Glasmorphismus mit Flux-Textur, Escape-Taste und Backdrop-Klick zum Schließen</GrainCardDescription>
         </GrainCardHeader>
         <GrainCardContent>
           <div className="flex flex-wrap gap-3">
@@ -196,7 +196,7 @@ export const FeedbackSection: React.FC = () => {
             <GrainButton
               variant="primary"
               leftIcon={<Info className="w-4 h-4" />}
-              onClick={() => add({ variant: "info", title: "Information", description: "Grain UI wurde erfolgreich geladen." })}
+              onClick={() => add({ variant: "info", title: "Information", description: "Flux UI wurde erfolgreich geladen." })}
             >
               Info
             </GrainButton>

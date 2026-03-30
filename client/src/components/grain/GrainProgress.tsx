@@ -1,5 +1,5 @@
 /**
- * GrainProgress & GrainSlider – Grain UI
+ * GrainProgress & GrainSlider – Flux UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Design: Raffiniert, dünn, präzise
  *

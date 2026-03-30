@@ -1,6 +1,6 @@
 /**
  * BubbleMapSection – Dokumentation der GrainBubbleMap Komponente
- * Design: Grain OS · Dark Background · Pastell-Gradienten
+ * Design: Flux OS · Dark Background · Pastell-Gradienten
  * Zeigt: Skill-Map, Projekt-Prioritäten, Keyword-Analyse
  */
 
@@ -37,7 +37,7 @@ const PROJECT_DATA: BubbleNode[] = [
   { id: "gai", label: "Gestalten mit AI", value: 165, maxValue: 200, category: "Produkt", description: "AI-Bildung und Workshops" },
   { id: "os", label: "Omnishopper", value: 130, maxValue: 200, category: "Produkt", description: "Smart Shopping Aggregator" },
   { id: "ze", label: "Zeiterfassung", value: 118, maxValue: 200, category: "Tool", description: "Freelancer Zeiterfassung & Abrechnung" },
-  { id: "grainui", label: "Grain UI", value: 175, maxValue: 200, category: "Tool", description: "Operating Principles & Design System" },
+  { id: "grainui", label: "Flux UI", value: 175, maxValue: 200, category: "Tool", description: "Operating Principles & Design System" },
 ];
 
 const KEYWORD_DATA: BubbleNode[] = [
@@ -113,7 +113,7 @@ const BubbleMapSection: React.FC = () => {
           Die <strong>GrainBubbleMap</strong> visualisiert gewichtete Datenpunkte als Force-Layout.
           Jede Bubble repräsentiert einen Eintrag — ihre Größe entspricht dem Score-Wert.
           Radial-Gradienten aus der Pastell-Palette, Lime-Akzent für Top-Performer,
-          Grain-Textur als atmosphärischer Hintergrund.
+          Flux-Textur als atmosphärischer Hintergrund.
         </p>
         <p className="text-[#4A4A4A] text-base leading-relaxed">
           Einsatz: Skill-Maps, Projekt-Priorisierung, Keyword-Cluster, Kompetenz-Radar,

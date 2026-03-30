@@ -1,4 +1,4 @@
-// Grain UI – Component Library
+// Flux UI – Component Library
 // Atmospheric Design System
 
 export * from "./GrainButton";

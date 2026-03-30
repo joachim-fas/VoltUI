@@ -1,5 +1,5 @@
 /**
- * IconsSection – Grain UI v3
+ * IconsSection – Flux UI
  * 150+ Icons aus Lucide React, kategorisiert und durchsuchbar
  * Grain-Styling: Farbe, Größe, Kontext
  */

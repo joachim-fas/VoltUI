@@ -21,7 +21,7 @@ export const CardsSection: React.FC = () => {
         <p className="section-label mb-2">03 — Surfaces</p>
         <h2 className="font-display font-bold text-3xl text-foreground mb-3">Cards, Badges & Alerts</h2>
         <p className="text-muted-foreground font-body leading-relaxed max-w-2xl">
-          Oberflächen-Komponenten mit Glasmorphismus, Grain-Textur und atmosphärischen Schatten.
+          Oberflächen-Komponenten mit Glasmorphismus, Flux-Textur und atmosphärischen Schatten.
           Alle Varianten reagieren auf Hover und unterstützen Dark Mode.
         </p>
       </div>
@@ -39,7 +39,7 @@ export const CardsSection: React.FC = () => {
               </div>
               <GrainCardTitle>Standard Card</GrainCardTitle>
               <GrainCardDescription>
-                Mit subtiler Grain-Textur und weichem Schatten. Hover-Effekt inklusive.
+                Mit subtiler Flux-Textur und weichem Schatten. Hover-Effekt inklusive.
               </GrainCardDescription>
             </GrainCardHeader>
             <GrainCardFooter>
@@ -77,7 +77,7 @@ export const CardsSection: React.FC = () => {
               </div>
               <GrainCardTitle className="text-[#000000]">Lime Card</GrainCardTitle>
               <GrainCardDescription className="text-[#000000]/70">
-                Neon-Yellow mit Grain-Textur. Für hervorgehobene Inhalte.
+                Neon-Yellow mit Flux-Textur. Für hervorgehobene Inhalte.
               </GrainCardDescription>
             </GrainCardHeader>
             <GrainCardFooter>
@@ -199,7 +199,7 @@ export const CardsSection: React.FC = () => {
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, info: false }))}
             >
-              Das Grain UI Design System ist vollständig in CSS und React implementiert – keine externen Bild-Assets.
+              Das Flux UI Design System ist vollständig in CSS und React implementiert – keine externen Bild-Assets.
             </GrainAlert>
           )}
           {alerts.success && (

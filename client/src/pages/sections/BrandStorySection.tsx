@@ -1,5 +1,5 @@
 /**
- * BrandStorySection – Grain UI
+ * BrandStorySection – Flux UI
  * Free-Agents.io Brand Story: Core Story, Foundations, Narrative, Prinzipien, Voice
  * Design: Editorial, Warm Tech, Terminal-Signatur, Pastell-Akzente
  */

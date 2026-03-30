@@ -1,5 +1,5 @@
 /**
- * GrainButton – Grain UI
+ * GrainButton – Flux UI
  * Primär: Lime (#E4FF97) + Schwarz (#0A0A0A)
  * Kein box-shadow – Tiefe durch Farbe und Border
  */

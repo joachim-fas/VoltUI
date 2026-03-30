@@ -1,5 +1,5 @@
 /**
- * ColorSection – Grain UI
+ * ColorSection – Flux UI
  * Semantisches Farbsystem: Positiv (Smaragd) · Negativ (Koralle) · Neutral (Slate)
  * Primär: Lime #E4FF97 + Schwarz #0A0A0A
  */
@@ -64,12 +64,12 @@ const SEMANTIC_COLORS = Object.values(SIGNAL);
 
 /* ── Pastell-Palette ── */
 const PASTEL_PALETTE = [
-  { name: "Lime",           sub: "#E4FF97",  bg: "#E4FF97", fg: "#0A0A0A" },
-  { name: "Blau-Pastell",   sub: "#C8DCFF",  bg: "#C8DCFF", fg: "#1A2A4A" },
-  { name: "Orchid-Pastell", sub: "#E8D4FF",  bg: "#E8D4FF", fg: "#3A1A5A" },
-  { name: "Rose-Pastell",   sub: "#FFD4E4",  bg: "#FFD4E4", fg: "#5A1A2A" },
-  { name: "Mint-Pastell",   sub: "#C8F0DC",  bg: "#C8F0DC", fg: "#0A3A20" },
-  { name: "Butter-Pastell", sub: "#FFF4C0",  bg: "#FFF4C0", fg: "#4A3A00" },
+  { name: "Lime",           sub: "#E4FF97",  bg: "#E4FF97", fg: "#0A0A0A", project: "Free Agents",    open: false },
+  { name: "Blau-Pastell",   sub: "#C8DCFF",  bg: "#C8DCFF", fg: "#1A2A4A", project: "Projekt Blau",   open: true  },
+  { name: "Orchid-Pastell", sub: "#E8D4FF",  bg: "#E8D4FF", fg: "#3A1A5A", project: "Projekt Orchid", open: true  },
+  { name: "Rose-Pastell",   sub: "#FFD4E4",  bg: "#FFD4E4", fg: "#5A1A2A", project: "Projekt Rose",   open: true  },
+  { name: "Mint-Pastell",   sub: "#C8F0DC",  bg: "#C8F0DC", fg: "#0A3A20", project: "Projekt Mint",   open: true  },
+  { name: "Butter-Pastell", sub: "#FFF4C0",  bg: "#FFF4C0", fg: "#4A3A00", project: "Projekt Butter", open: true  },
 ];
 
 /* ── Primäre Systemfarben ── */
@@ -193,8 +193,11 @@ export const ColorSection: React.FC = () => {
                 className="p-4 border-t border-[#E8E8E8]"
                 style={{ borderLeft: i > 0 ? "1px solid #E8E8E8" : "none" }}
               >
-                <p className="text-xs font-semibold font-ui text-[#0A0A0A] leading-tight">{c.name}</p>
-                <p className="text-[10px] font-mono mt-0.5" style={{ color: "#6B6B6B" }}>{c.sub}</p>
+                <p className="text-xs font-semibold font-ui text-[#0A0A0A] leading-tight">{c.project}</p>
+                <p className="text-[10px] font-mono mt-0.5" style={{ color: "#6B6B6B" }}>{c.name}</p>
+                {c.open && (
+                  <span className="inline-block mt-1.5 text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: "#F4F4F4", color: "#9B9B9B", letterSpacing: "0.05em" }}>— offen —</span>
+                )}
               </div>
             </div>
           ))}
@@ -353,11 +356,11 @@ export const ColorSection: React.FC = () => {
                   </thead>
                   <tbody>
                     {[
-                      { name: "Grain Pro",        revenue: "€ 84.200",  delta: "+18.2%",       type: "positive" as const, status: "Aktiv" },
-                      { name: "Grain Basic",       revenue: "€ 42.100",  delta: "+4.1%",        type: "positive" as const, status: "Aktiv" },
-                      { name: "Grain Team",        revenue: "€ 31.800",  delta: "−6.4%",        type: "negative" as const, status: "Rückgang" },
-                      { name: "Grain Free",        revenue: "€ 0",       delta: "0.0%",          type: "neutral"  as const, status: "Stabil" },
-                      { name: "Grain Enterprise",  revenue: "€ 126.400", delta: "87% Ziel",      type: "warning"  as const, status: "Prüfen" },
+                      { name: "Flux Pro",        revenue: "€ 84.200",  delta: "+18.2%",       type: "positive" as const, status: "Aktiv" },
+                      { name: "Flux Basic",       revenue: "€ 42.100",  delta: "+4.1%",        type: "positive" as const, status: "Aktiv" },
+                      { name: "Flux Team",        revenue: "€ 31.800",  delta: "−6.4%",        type: "negative" as const, status: "Rückgang" },
+                      { name: "Flux Free",        revenue: "€ 0",       delta: "0.0%",          type: "neutral"  as const, status: "Stabil" },
+                      { name: "Flux Enterprise",  revenue: "€ 126.400", delta: "87% Ziel",      type: "warning"  as const, status: "Prüfen" },
                     ].map((row, i) => {
                       const sig = row.type === "warning"
                         ? { color: "#C87A00", light: "#FFF8E8", border: "#F0D080" }

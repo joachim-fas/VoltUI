@@ -1,5 +1,5 @@
 /**
- * GrainCard – Grain UI Design System v4
+ * GrainCard – Flux UI Design System v4
  * Kein box-shadow – Tiefe durch Farbe, Borders und Hintergrundtöne
  * Theme-aware: nutzt CSS-Variablen statt hardcodierte Farben
  */

@@ -143,7 +143,7 @@ export const NavigationSection: React.FC = () => {
                   <div className="w-7 h-7 rounded-lg bg-[#E4FF97] flex items-center justify-center">
                     <span className="text-[#0A0A0A] font-display font-bold text-xs">G</span>
                   </div>
-                  <span className="font-display font-bold text-base text-foreground">Grain UI</span>
+                  <span className="font-display font-bold text-base text-foreground">Flux UI</span>
                 </div>
               }
               items={navItems}
@@ -168,8 +168,8 @@ export const NavigationSection: React.FC = () => {
         </GrainCardHeader>
         <GrainCardContent>
           <div className="space-y-3">
-            <Breadcrumb items={["", "Grain UI", "Komponenten"]} />
-            <Breadcrumb items={["", "Grain UI", "Komponenten", "Buttons", "Primary"]} />
+            <Breadcrumb items={["", "Flux UI", "Komponenten"]} />
+            <Breadcrumb items={["", "Flux UI", "Komponenten", "Buttons", "Primary"]} />
           </div>
         </GrainCardContent>
       </GrainCard>
