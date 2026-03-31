@@ -212,7 +212,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4 }}
             >
-              <VoltCard className="p-4 hover:-translate-y-0.5 transition-transform duration-200">
+              <VoltCard className="p-4 ">
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-3"
                   style={{
                     background: isDark ? f.darkBg : f.lightBg,

@@ -2,6 +2,9 @@
  * VoltCard – Volt UI Design System v4
  * Kein box-shadow – Tiefe durch Farbe, Borders und Hintergrundtöne
  * Theme-aware: nutzt CSS-Variablen statt hardcodierte Farben
+ *
+ * HOVER-POLICY: Nur variant="interactive" hat Hover-Effekte.
+ * Alle anderen Varianten sind statische Dokumentations-Container.
  */
 
 import React from "react";
@@ -9,53 +12,45 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const cardVariants = cva(
-  [
-    "relative rounded-2xl overflow-hidden",
-    "transition-all duration-300 ease-out",
-  ],
+  ["relative rounded-2xl overflow-hidden"],
   {
     variants: {
       variant: {
+        // Statische Dokumentations-Container – kein Hover
         default: [
           "bg-card text-card-foreground",
           "border border-border",
-          "hover:-translate-y-0.5",
-          "hover:border-primary/30",
-          "hover:bg-accent/30",
         ],
         glass: [
           "glass text-card-foreground",
           "ring-1 ring-white/10",
-          "hover:bg-white/20",
-          "hover:-translate-y-0.5",
         ],
         gradient: [
           "text-white",
           "bg-[image:var(--theme-gradient)]",
           "ring-1 ring-white/15",
-          "hover:-translate-y-1",
-          "hover:brightness-[1.06]",
         ],
         elevated: [
           "bg-card text-card-foreground",
           "border border-border",
           "ring-1 ring-primary/8",
-          "hover:ring-primary/20",
-          "hover:-translate-y-1",
-          "hover:bg-accent/20",
         ],
         outlined: [
           "bg-transparent text-foreground",
           "border-2 border-primary/30",
-          "hover:border-primary/60",
-          "hover:bg-primary/4",
         ],
         subtle: [
           "bg-muted/50 text-card-foreground",
           "border border-border/60",
-          "hover:bg-muted/80",
+        ],
+        // Interaktive Karte – nur für klickbare Elemente verwenden
+        interactive: [
+          "bg-card text-card-foreground",
+          "border border-border",
+          "transition-all duration-200 ease-out",
           "hover:-translate-y-0.5",
-          "hover:border-primary/20",
+          "hover:border-foreground/20",
+          "cursor-pointer",
         ],
       },
     },

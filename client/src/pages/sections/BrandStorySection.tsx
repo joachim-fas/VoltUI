@@ -402,7 +402,7 @@ export const BrandStorySection: React.FC = () => {
                 <span className="text-[9px] font-mono font-bold text-muted-foreground uppercase">Warum</span>
               </div>
               {VOCAB.map((v, i) => (
-                <div key={i} className="grid grid-cols-3 px-3 py-2.5 border-b border-border last:border-0 hover:bg-[#FAFAFA]">
+                <div key={i} className="grid grid-cols-3 px-3 py-2.5 border-b border-border last:border-0">
                   <span className="text-xs font-ui font-semibold text-[#1A9E5A]">{v.use}</span>
                   <span className="text-xs text-red-500 line-through">{v.avoid}</span>
                   <span className="text-[10px] text-muted-foreground">{v.why}</span>

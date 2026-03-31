@@ -222,7 +222,7 @@ const KPICard: React.FC<KPICardProps> = ({
     : isPositive ? "text-[#1A9E5A]" : isNegative ? "text-[#E8402A]" : "text-muted-foreground";
 
   return (
-    <div className={`relative rounded-2xl p-5 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${bg}`}>
+    <div className={`relative rounded-2xl p-5 overflow-hidden transition-none ${bg}`}>
       <div className="relative z-10">
         <div className="flex items-start justify-between gap-2 mb-3">
           <span className={`text-[0.6rem] font-mono font-semibold uppercase tracking-[0.14em] ${textSub}`}>
@@ -532,7 +532,7 @@ export const DashboardSection: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   {topProducts.map((p, i) => (
-                    <div key={p.name} className="grid grid-cols-12 gap-2 items-center py-2 px-1 rounded-lg hover:bg-secondary transition-colors">
+                    <div key={p.name} className="grid grid-cols-12 gap-2 items-center py-2 px-1 rounded-lg transition-none">
                       <div className="col-span-1">
                         <div className="w-6 h-6 rounded-lg bg-secondary flex items-center justify-center">
                           <span className="text-[10px] font-bold font-display text-muted-foreground">{i + 1}</span>

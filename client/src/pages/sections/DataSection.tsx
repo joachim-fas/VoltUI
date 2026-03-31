@@ -336,7 +336,7 @@ export const DataSection: React.FC = () => {
             { label: "Performance", value: "98 pts", change: 3, icon: <Zap className="w-4 h-4" />, colorClass: "bg-[#1A9E5A]", insight: "Lighthouse Score" },
           ].map((kpi, i) => (
             <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-              <div className={`relative rounded-2xl p-5 volt-texture overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${
+              <div className={`relative rounded-2xl p-5 volt-texture overflow-hidden transition-none ${
                 (kpi as any).colorClass
                   ? `${(kpi as any).colorClass} ${(kpi as any).lime ? 'text-foreground' : 'text-white'}`
                   : "bg-card border border-border"

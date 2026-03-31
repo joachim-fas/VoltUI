@@ -292,7 +292,7 @@ const IconCard: React.FC<{ name: string; color: string; bg: string }> = ({ name,
   return (
     <button
       onClick={handleCopy}
-      className="group flex flex-col items-center gap-2 p-3 rounded-xl border border-border bg-card hover:border-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md relative"
+      className="group flex flex-col items-center gap-2 p-3 rounded-xl border border-border bg-card hover:border-transparent transition-all duration-200 relative"
       style={{ ["--hover-bg" as string]: bg }}
       title={`${name} — klicken zum Kopieren`}
     >
