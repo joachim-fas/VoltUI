@@ -75,7 +75,7 @@ const nodes = [
   height={520}
   accentThreshold={160}
   showStats
-  onNodeClick={(node) => console.log(node)}
+  onNodeClick={() => {}}
 />`;
 
 /* ── Props-Tabelle ── */
@@ -150,7 +150,7 @@ const BubbleMapSection: React.FC = () => {
           height={520}
           accentThreshold={current.threshold}
           showStats
-          onNodeClick={(node) => console.log("Bubble clicked:", node)}
+          onNodeClick={() => {}}
         />
       </div>
 
