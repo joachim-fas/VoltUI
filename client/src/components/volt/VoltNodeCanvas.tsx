@@ -996,40 +996,7 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
                     }}>{edge.label}</div>
                   </foreignObject>
                 )}
-                {/* Scheren-Icon beim Hover */}
-                {isEdgeHovered && (
-                  <foreignObject
-                    x={mx - 14} y={my - 14} width={28} height={28}
-                    style={{ cursor: "pointer", overflow: "visible" }}
-                    onMouseEnter={() => setHoveredEdgeId(edge.id)}
-                    onMouseLeave={() => setHoveredEdgeId(null)}
-                    onClick={e => {
-                      e.stopPropagation();
-                      setLocalEdges(prev => prev.filter(ed => ed.id !== edge.id));
-                      setHoveredEdgeId(null);
-                    }}
-                  >
-                    <div style={{
-                      width: 28, height: 28, borderRadius: "50%",
-                      background: isDark ? "#1A1A1A" : "#FFFFFF",
-                      border: `1.5px solid ${isDark ? "rgba(255,100,100,0.6)" : "rgba(200,40,40,0.5)"}`,
-                      boxShadow: isDark ? "0 2px 10px rgba(0,0,0,0.6)" : "0 2px 8px rgba(0,0,0,0.18)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      transition: "transform 0.12s",
-                    }}>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
-                        stroke={isDark ? "rgba(255,100,100,0.9)" : "rgba(200,40,40,0.85)"}
-                        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        {/* Scissors SVG path */}
-                        <circle cx="6" cy="6" r="3" />
-                        <circle cx="6" cy="18" r="3" />
-                        <line x1="20" y1="4" x2="8.12" y2="15.88" />
-                        <line x1="14.47" y1="14.48" x2="20" y2="20" />
-                        <line x1="8.12" y1="8.12" x2="12" y2="12" />
-                      </svg>
-                    </div>
-                  </foreignObject>
-                )}
+                {/* Scheren-Marker: Position wird im HTML-Overlay gerendert, nicht hier im SVG */}
               </g>
             );
           })}
@@ -1235,6 +1202,62 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
           );
         })}
       </div>
+
+      {/* Scheren-Icon HTML-Overlay – außerhalb SVG für zuverlässige Click-Events */}
+      {hoveredEdgeId && (() => {
+        const edge = localEdges.find(e => e.id === hoveredEdgeId);
+        if (!edge) return null;
+        const fromNode = nodeMap.get(edge.from);
+        const toNode   = nodeMap.get(edge.to);
+        if (!fromNode || !toNode) return null;
+        const fp = edge.fromPort ?? "right";
+        const tp = edge.toPort   ?? "left";
+        const from = portPos(fromNode, fp);
+        const to   = portPos(toNode,   tp);
+        const mx = (from.x + to.x) / 2;
+        const my = (from.y + to.y) / 2;
+        /* Canvas-Koordinaten → Bildschirm-Koordinaten */
+        const screenX = mx * zoom + pan.x;
+        const screenY = my * zoom + pan.y;
+        return (
+          <div
+            key={`scissors-${hoveredEdgeId}`}
+            style={{
+              position: "absolute",
+              left: screenX - 14,
+              top:  screenY - 14,
+              width: 28, height: 28,
+              zIndex: 20,
+              cursor: "pointer",
+            }}
+            onMouseEnter={() => setHoveredEdgeId(hoveredEdgeId)}
+            onMouseLeave={() => setHoveredEdgeId(null)}
+            onClick={e => {
+              e.stopPropagation();
+              setLocalEdges(prev => prev.filter(ed => ed.id !== hoveredEdgeId));
+              setHoveredEdgeId(null);
+            }}
+          >
+            <div style={{
+              width: 28, height: 28, borderRadius: "50%",
+              background: isDark ? "#1A1A1A" : "#FFFFFF",
+              border: `1.5px solid ${isDark ? "rgba(255,100,100,0.7)" : "rgba(200,40,40,0.6)"}`,
+              boxShadow: isDark ? "0 2px 12px rgba(0,0,0,0.7)" : "0 2px 8px rgba(0,0,0,0.20)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                stroke={isDark ? "rgba(255,100,100,0.95)" : "rgba(200,40,40,0.9)"}
+                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="6" cy="6" r="3" />
+                <circle cx="6" cy="18" r="3" />
+                <line x1="20" y1="4" x2="8.12" y2="15.88" />
+                <line x1="14.47" y1="14.48" x2="20" y2="20" />
+                <line x1="8.12" y1="8.12" x2="12" y2="12" />
+              </svg>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Toolbar */}
       <div style={{
