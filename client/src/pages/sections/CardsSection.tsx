@@ -29,6 +29,33 @@ export const CardsSection: React.FC = () => {
       {/* Card-Varianten */}
       <div>
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Card-Varianten</h3>
+
+        {/* Bild-Cards – Unsplash */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          {[
+            { url: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80&fit=crop", label: "Architektur", desc: "Raster-Fassade, monochrom" },
+            { url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80&fit=crop", label: "Natur", desc: "Wald, Licht & Tiefe" },
+            { url: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80&fit=crop", label: "Technik", desc: "Platine, Präzision" },
+          ].map((img, i) => (
+            <VoltCard key={i} className="overflow-hidden p-0">
+              <div className="relative h-40 overflow-hidden">
+                <img
+                  src={img.url}
+                  alt={img.label}
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-3 left-3">
+                  <VoltBadge variant="glass" size="sm">{img.label}</VoltBadge>
+                </div>
+              </div>
+              <VoltCardContent className="pt-3 pb-4">
+                <p className="text-sm font-body text-muted-foreground">{img.desc}</p>
+              </VoltCardContent>
+            </VoltCard>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Default */}
           <VoltCard variant="default">
@@ -252,7 +279,17 @@ export const CardsSection: React.FC = () => {
         <VoltCard>
           <VoltCardContent className="pt-6 space-y-6">
             <div>
-              <p className="section-label mb-3">Größen mit Gradient-Fallback</p>
+              <p className="section-label mb-3">Mit Foto (Unsplash)</p>
+              <div className="flex items-end gap-4">
+                <VoltAvatar name="Anna Müller" size="xs" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&fit=crop&crop=face" />
+                <VoltAvatar name="Max Schmidt" size="sm" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&fit=crop&crop=face" />
+                <VoltAvatar name="Lisa Koch" size="md" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80&fit=crop&crop=face" />
+                <VoltAvatar name="Tom Braun" size="lg" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80&fit=crop&crop=face" />
+                <VoltAvatar name="Sara Weber" size="xl" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=80&fit=crop&crop=face" />
+              </div>
+            </div>
+            <div>
+              <p className="section-label mb-3">Gradient-Fallback (kein Foto)</p>
               <div className="flex items-end gap-4">
                 <VoltAvatar name="Anna Müller" size="xs" />
                 <VoltAvatar name="Max Schmidt" size="sm" />
@@ -264,20 +301,20 @@ export const CardsSection: React.FC = () => {
             <div>
               <p className="section-label mb-3">Online-Status</p>
               <div className="flex items-center gap-4">
-                <VoltAvatar name="Anna M." size="md" online />
-                <VoltAvatar name="Max S." size="md" ring />
-                <VoltAvatar name="Lisa K." size="lg" online ring />
+                <VoltAvatar name="Anna M." size="md" online src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&fit=crop&crop=face" />
+                <VoltAvatar name="Max S." size="md" ring src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&fit=crop&crop=face" />
+                <VoltAvatar name="Lisa K." size="lg" online ring src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80&fit=crop&crop=face" />
               </div>
             </div>
             <div>
               <p className="section-label mb-3">Avatar-Gruppe</p>
               <VoltAvatarGroup
                 avatars={[
-                  { name: "Anna Müller" },
-                  { name: "Max Schmidt" },
-                  { name: "Lisa Koch" },
-                  { name: "Tom Braun" },
-                  { name: "Sara Weber" },
+                  { name: "Anna Müller", src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&fit=crop&crop=face" },
+                  { name: "Max Schmidt", src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&fit=crop&crop=face" },
+                  { name: "Lisa Koch",   src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80&fit=crop&crop=face" },
+                  { name: "Tom Braun",   src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80&fit=crop&crop=face" },
+                  { name: "Sara Weber",  src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=80&fit=crop&crop=face" },
                   { name: "Jan Fischer" },
                 ]}
                 max={5}

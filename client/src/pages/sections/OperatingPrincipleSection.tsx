@@ -322,7 +322,26 @@ export default function OperatingPrincipleSection() {
   const [expandedGlossary, setExpandedGlossary] = useState(false);
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-16">
+
+      {/* ── HERO-BILD ── */}
+      <div className="relative rounded-3xl overflow-hidden h-56 md:h-72">
+        <img
+          src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80&fit=crop"
+          alt="Operating Principle – Workflow"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+        <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-white/60 mb-2">Operating Principle</p>
+          <h1 className="font-display font-bold text-3xl md:text-4xl text-white leading-tight">
+            Eingang → Ablauf → Ergebnis
+          </h1>
+          <p className="text-white/70 text-sm mt-2 max-w-md font-body">
+            Das Fundament jedes Workflows bei Free-Agents.io.
+          </p>
+        </div>
+      </div>
 
       {/* ── HEADER ── */}
       <div className="flex items-start gap-6">

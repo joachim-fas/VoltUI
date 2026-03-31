@@ -156,16 +156,29 @@ export const BrandStorySection: React.FC = () => {
   return (
     <div className="space-y-20">
 
-      {/* ── HEADER ── */}
-      <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Brand Story</p>
-        <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
-          Free-Agents.io
-        </h1>
-        <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          Die vollstaendige Markengeschichte: Warum Free-Agents.io existiert, was es
-          unterscheidet und wie es klingt – als lebendiges Dokument im Design System.
-        </p>
+      {/* ── HEADER mit Bild ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Brand Story</p>
+          <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
+            Free-Agents.io
+          </h1>
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            Die vollständige Markengeschichte: Warum Free-Agents.io existiert, was es
+            unterscheidet und wie es klingt – als lebendiges Dokument im Design System.
+          </p>
+        </div>
+        <div className="relative rounded-2xl overflow-hidden h-64 md:h-80">
+          <img
+            src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=900&q=80&fit=crop"
+            alt="Team working on systems"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-transparent" />
+          <div className="absolute bottom-4 left-4">
+            <span className="font-mono text-[10px] text-white/70 uppercase tracking-widest">Free-Agents.io</span>
+          </div>
+        </div>
       </div>
 
       {/* ── CORE STORY ── */}

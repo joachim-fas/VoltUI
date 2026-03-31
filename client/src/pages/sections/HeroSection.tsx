@@ -53,9 +53,23 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
   return (
     <div className="space-y-16">
 
-      {/* ── Hero: Lime-Hintergrund (bleibt Lime in beiden Modi) ── */}
+      {/* ── Hero: Lime-Hintergrund mit Unsplash-Bild ── */}
       <div className="relative min-h-[75vh] rounded-3xl overflow-hidden flex flex-col items-center justify-center text-center px-6 py-24"
         style={{ background: "#E4FF97" }}>
+
+        {/* Unsplash-Hintergrundbild (dunkel, strukturiert) – nur im Dark-Mode sichtbar */}
+        {isDark && (
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80&fit=crop')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              opacity: 0.18,
+              mixBlendMode: "multiply",
+            }}
+          />
+        )}
 
         {/* Subtile Muster-Überlagerung */}
         <div className="absolute inset-0 pattern-dots opacity-20 pointer-events-none" />
