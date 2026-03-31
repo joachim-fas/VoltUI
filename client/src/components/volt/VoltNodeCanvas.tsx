@@ -952,6 +952,16 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
             const mx = (from.x + to.x) / 2;
             const my = (from.y + to.y) / 2;
 
+            /* Im Light-Mode: helle Farben (z.B. #E4FF97) brauchen eine Outline */
+            const isLightEdge = !isDark && edgeColor.startsWith("#") && (() => {
+              const hex = edgeColor.replace("#", "");
+              const r = parseInt(hex.slice(0,2), 16);
+              const g = parseInt(hex.slice(2,4), 16);
+              const b = parseInt(hex.slice(4,6), 16);
+              const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+              return luminance > 0.65;
+            })();
+
             return (
               <g key={edge.id}>
                 {/* Unsichtbare breite Hitbox für einfaches Hovern */}
@@ -961,13 +971,27 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
                   onMouseEnter={() => setHoveredEdgeId(edge.id)}
                   onMouseLeave={() => setHoveredEdgeId(null)}
                 />
+                {/* Schwarze Outline für helle Linien im Light-Mode */}
+                {isLightEdge && (
+                  <path
+                    d={d} fill="none"
+                    stroke="rgba(0,0,0,0.80)"
+                    strokeWidth={6}
+                    strokeLinecap="round"
+                    strokeDasharray={edge.animated ? "6 4" : undefined}
+                    style={{
+                      ...(edge.animated ? { animation: "ncEdgeDash 0.7s linear infinite" } : {}),
+                      pointerEvents: "none",
+                    }}
+                  />
+                )}
                 {/* Sichtbare Edge-Linie */}
                 <path
                   d={d} fill="none"
                   stroke={isEdgeHovered
                     ? (isDark ? "rgba(255,100,100,0.75)" : "rgba(200,40,40,0.65)")
                     : edgeColor}
-                  strokeWidth={isEdgeHovered ? 2.5 : 2}
+                  strokeWidth={isEdgeHovered ? 2.5 : 2.5}
                   strokeLinecap="round"
                   markerEnd={`url(#arr-${edge.id})`}
                   strokeDasharray={edge.animated ? "6 4" : undefined}

@@ -77,19 +77,16 @@
   --popover:               #FFFFFF;
   --popover-foreground:    #000000;
 
-  /* Primary = Neon Yellow */
-  --primary:               #E4FF97;
-  --primary-foreground:    #000000;
-
+  /* Primary = Schwarz im Light-Mode (Neon Yellow nur als Hintergrund) */
+  --primary:               #0A0A0A;
+  --primary-foreground:    #FFFFFF;
   /* Secondary = sehr helles Grau */
   --secondary:             #F4F4F4;
   --secondary-foreground:  #000000;
-
   /* Muted = helles Grau */
   --muted:                 #F7F7F7;
   --muted-foreground:      #6B6B6B;
-
-  /* Accent = Neon Yellow */
+  /* Accent = Neon Yellow – NUR als Hintergrundfarbe, nicht als Textfarbe */
   --accent:                #E4FF97;
   --accent-foreground:     #000000;
 
@@ -113,12 +110,12 @@
   /* ── Sidebar (Light Mode: hell) ── */
   --sidebar:                    #FFFFFF;
   --sidebar-foreground:         #000000;
-  --sidebar-primary:            #E4FF97;
-  --sidebar-primary-foreground: #000000;
+  --sidebar-primary:            #0A0A0A;
+  --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent:             #F5F5F5;
   --sidebar-accent-foreground:  #000000;
   --sidebar-border:             #E8E8E8;
-  --sidebar-ring:               #E4FF97;
+  --sidebar-ring:               #0A0A0A;
 
   /* ── Volt-Gradient (für VoltCard variant="gradient") ── */
   --theme-gradient: linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%);
