@@ -639,6 +639,7 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
     nodeId: string;
     port: "right" | "bottom" | "left" | "top";
   } | null>(null);
+  const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
 
   /* Sync localEdges wenn prop sich ändert – JSON-Vergleich verhindert Infinite-Loop */
   const edgesJsonRef = useRef("");
@@ -947,38 +948,88 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
               }
             }
 
+            const isEdgeHovered = hoveredEdgeId === edge.id;
+            const mx = (from.x + to.x) / 2;
+            const my = (from.y + to.y) / 2;
+
             return (
               <g key={edge.id}>
+                {/* Unsichtbare breite Hitbox für einfaches Hovern */}
+                <path
+                  d={d} fill="none" stroke="transparent" strokeWidth={18}
+                  style={{ cursor: "pointer", pointerEvents: "stroke" }}
+                  onMouseEnter={() => setHoveredEdgeId(edge.id)}
+                  onMouseLeave={() => setHoveredEdgeId(null)}
+                />
+                {/* Sichtbare Edge-Linie */}
                 <path
                   d={d} fill="none"
-                  stroke={edgeColor} strokeWidth={2} strokeLinecap="round"
+                  stroke={isEdgeHovered
+                    ? (isDark ? "rgba(255,100,100,0.75)" : "rgba(200,40,40,0.65)")
+                    : edgeColor}
+                  strokeWidth={isEdgeHovered ? 2.5 : 2}
+                  strokeLinecap="round"
                   markerEnd={`url(#arr-${edge.id})`}
                   strokeDasharray={edge.animated ? "6 4" : undefined}
-                  style={edge.animated ? { animation: "ncEdgeDash 0.7s linear infinite" } : undefined}
+                  style={{
+                    ...(edge.animated ? { animation: "ncEdgeDash 0.7s linear infinite" } : {}),
+                    transition: "stroke 0.15s, stroke-width 0.15s",
+                    pointerEvents: "none",
+                  }}
                 />
                 {particlePositions.map((pos, i) => {
                   const typeColor = isDark ? NODE_COLORS[fromNode.type] : NODE_COLORS_LIGHT[fromNode.type];
                   return (
                     <circle key={i} cx={pos.x} cy={pos.y} r={3.5}
                       fill={typeColor}
-                      style={{ filter: `drop-shadow(0 0 4px ${typeColor})` }}
+                      style={{ filter: `drop-shadow(0 0 4px ${typeColor})`, pointerEvents: "none" }}
                     />
                   );
                 })}
-                {edge.label && (() => {
-                  const mx = (from.x + to.x) / 2;
-                  const my = (from.y + to.y) / 2;
-                  return (
-                    <foreignObject x={mx - 28} y={my - 10} width={56} height={20}>
-                      <div style={{
-                        fontSize: 9, fontFamily: '"DM Mono", monospace',
-                        color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
-                        background: bg, padding: "1px 5px", borderRadius: 4,
-                        textAlign: "center", whiteSpace: "nowrap",
-                      }}>{edge.label}</div>
-                    </foreignObject>
-                  );
-                })()}
+                {edge.label && (
+                  <foreignObject x={mx - 28} y={my - 10} width={56} height={20} style={{ pointerEvents: "none" }}>
+                    <div style={{
+                      fontSize: 9, fontFamily: '"DM Mono", monospace',
+                      color: isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)",
+                      background: bg, padding: "1px 5px", borderRadius: 4,
+                      textAlign: "center", whiteSpace: "nowrap",
+                    }}>{edge.label}</div>
+                  </foreignObject>
+                )}
+                {/* Scheren-Icon beim Hover */}
+                {isEdgeHovered && (
+                  <foreignObject
+                    x={mx - 14} y={my - 14} width={28} height={28}
+                    style={{ cursor: "pointer", overflow: "visible" }}
+                    onMouseEnter={() => setHoveredEdgeId(edge.id)}
+                    onMouseLeave={() => setHoveredEdgeId(null)}
+                    onClick={e => {
+                      e.stopPropagation();
+                      setLocalEdges(prev => prev.filter(ed => ed.id !== edge.id));
+                      setHoveredEdgeId(null);
+                    }}
+                  >
+                    <div style={{
+                      width: 28, height: 28, borderRadius: "50%",
+                      background: isDark ? "#1A1A1A" : "#FFFFFF",
+                      border: `1.5px solid ${isDark ? "rgba(255,100,100,0.6)" : "rgba(200,40,40,0.5)"}`,
+                      boxShadow: isDark ? "0 2px 10px rgba(0,0,0,0.6)" : "0 2px 8px rgba(0,0,0,0.18)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      transition: "transform 0.12s",
+                    }}>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                        stroke={isDark ? "rgba(255,100,100,0.9)" : "rgba(200,40,40,0.85)"}
+                        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        {/* Scissors SVG path */}
+                        <circle cx="6" cy="6" r="3" />
+                        <circle cx="6" cy="18" r="3" />
+                        <line x1="20" y1="4" x2="8.12" y2="15.88" />
+                        <line x1="14.47" y1="14.48" x2="20" y2="20" />
+                        <line x1="8.12" y1="8.12" x2="12" y2="12" />
+                      </svg>
+                    </div>
+                  </foreignObject>
+                )}
               </g>
             );
           })}
