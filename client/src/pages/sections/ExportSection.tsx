@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from "react";
-import { Check, Copy, Download, Terminal, Code2, FileCode, Globe, Cpu, ArrowRight } from "lucide-react";
+import { Check, Copy, Download, Terminal, Code2, FileCode, Globe, Cpu, ArrowRight, ShoppingBag, Braces, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /* ── Copy-Button ── */
@@ -52,7 +52,10 @@ const PLATFORMS = [
   { id: "react",   label: "React / Vite",   icon: <Cpu className="w-4 h-4" /> },
   { id: "claude",  label: "Claude Code",    icon: <Terminal className="w-4 h-4" /> },
   { id: "next",    label: "Next.js",        icon: <Code2 className="w-4 h-4" /> },
-  { id: "figma",   label: "Figma / Tokens", icon: <FileCode className="w-4 h-4" /> },
+  { id: "figma",    label: "Figma / Tokens",  icon: <FileCode className="w-4 h-4" /> },
+  { id: "shopify",  label: "Shopify / Liquid", icon: <ShoppingBag className="w-4 h-4" /> },
+  { id: "css",      label: "CSS Export",       icon: <Palette className="w-4 h-4" /> },
+  { id: "cssjs",    label: "CSS-in-JS",         icon: <Braces className="w-4 h-4" /> },
 ];
 
 const SNIPPETS: Record<string, { steps: { title: string; code: string; lang: string; desc: string }[] }> = {
@@ -289,6 +292,513 @@ export default function Page() {
     </main>
   );
 }`,
+      },
+    ],
+  },
+  shopify: {
+    steps: [
+      {
+        title: "1. settings_schema.json – Design Tokens",
+        lang: "json",
+        desc: "Füge diese Einträge in deine settings_schema.json ein. Shopify-Händler können die Volt-Farben und Schriften dann direkt im Theme-Editor anpassen.",
+        code: `{
+  "name": "Volt UI – Design Tokens",
+  "settings": [
+    { "type": "header", "content": "Farben" },
+    {
+      "type": "color",
+      "id": "volt_lime",
+      "label": "Volt Lime",
+      "default": "#E4FF97"
+    },
+    {
+      "type": "color",
+      "id": "volt_black",
+      "label": "Volt Schwarz",
+      "default": "#0A0A0A"
+    },
+    {
+      "type": "color",
+      "id": "volt_positive",
+      "label": "Signal Positiv",
+      "default": "#1A9E5A"
+    },
+    {
+      "type": "color",
+      "id": "volt_negative",
+      "label": "Signal Negativ",
+      "default": "#E8402A"
+    },
+    { "type": "header", "content": "Typografie" },
+    {
+      "type": "font_picker",
+      "id": "volt_font_display",
+      "label": "Display-Schrift",
+      "default": "bricolage_grotesque_n7"
+    },
+    {
+      "type": "font_picker",
+      "id": "volt_font_body",
+      "label": "Fließtext-Schrift",
+      "default": "lora_n4"
+    },
+    { "type": "header", "content": "Abstände & Radien" },
+    {
+      "type": "range",
+      "id": "volt_radius",
+      "label": "Eckenradius (px)",
+      "min": 0, "max": 24, "step": 2,
+      "default": 12
+    }
+  ]
+}`,
+      },
+      {
+        title: "2. Liquid-Snippet: volt-tokens.liquid",
+        lang: "liquid",
+        desc: "Erstelle snippets/volt-tokens.liquid und binde es im theme.liquid <head> ein. Es schreibt alle Tokens als CSS-Variablen ins Dokument.",
+        code: `{%- comment -%}
+  Volt UI – Design Tokens als CSS-Variablen
+  Einbinden: {% render 'volt-tokens' %}
+{%- endcomment -%}
+<style>
+  :root {
+    --volt-lime:    {{ settings.volt_lime }};
+    --volt-black:   {{ settings.volt_black }};
+    --volt-positive: {{ settings.volt_positive }};
+    --volt-negative: {{ settings.volt_negative }};
+
+    --font-display: {{ settings.volt_font_display.family }},
+                    {{ settings.volt_font_display.fallback_families }};
+    --font-body:    {{ settings.volt_font_body.family }},
+                    {{ settings.volt_font_body.fallback_families }};
+    --font-mono:    'JetBrains Mono', monospace;
+
+    --radius-md: {{ settings.volt_radius }}px;
+    --radius-lg: {{ settings.volt_radius | times: 1.5 | round }}px;
+    --radius-xl: {{ settings.volt_radius | times: 2 }}px;
+  }
+</style>
+{{ settings.volt_font_display | font_face }}
+{{ settings.volt_font_body | font_face }}`,
+      },
+      {
+        title: "3. Liquid-Snippet: volt-button.liquid",
+        lang: "liquid",
+        desc: "Wiederverwendbarer Button. Einbinden mit {% render 'volt-button', label: 'Jetzt kaufen', variant: 'lime' %}.",
+        code: `{%- comment -%}
+  Volt UI Button
+  label   – Beschriftung (required)
+  variant – 'lime' | 'outline' | 'ghost'
+  url     – Link-URL (optional)
+  size    – 'sm' | 'md' | 'lg'
+{%- endcomment -%}
+{%- assign variant = variant | default: 'lime' -%}
+{%- assign size    = size    | default: 'md'   -%}
+{%- if url -%}
+  <a href="{{ url }}"
+     class="volt-btn volt-btn-{{ variant }} volt-btn-{{ size }}">
+    {{ label }}
+  </a>
+{%- else -%}
+  <button type="button"
+     class="volt-btn volt-btn-{{ variant }} volt-btn-{{ size }}">
+    {{ label }}
+  </button>
+{%- endif -%}`,
+      },
+      {
+        title: "4. Liquid-Snippet: volt-product-card.liquid",
+        lang: "liquid",
+        desc: "Produkt-Karte im Volt-Stil. Einbinden mit {% render 'volt-product-card', product: product %}.",
+        code: `{%- comment -%}
+  Volt UI Produkt-Karte
+  product – Shopify-Produkt-Objekt (required)
+  badge   – Badge-Text (optional)
+{%- endcomment -%}
+<div class="volt-card">
+  {%- if product.featured_image -%}
+    <div class="volt-card__image">
+      {{ product.featured_image
+         | image_url: width: 600
+         | image_tag: loading: 'lazy',
+                      alt: product.featured_image.alt }}
+      {%- if badge -%}
+        <span class="volt-badge volt-badge-lime">
+          {{ badge }}
+        </span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+  <div class="volt-card__body">
+    <p class="volt-label">{{ product.type }}</p>
+    <h3 class="volt-heading">{{ product.title }}</h3>
+    <p class="volt-price">{{ product.price | money }}</p>
+    {%- render 'volt-button',
+      label: 'In den Warenkorb',
+      variant: 'lime',
+      url: product.url
+    -%}
+  </div>
+</div>`,
+      },
+    ],
+  },
+  css: {
+    steps: [
+      {
+        title: "1. Vollständige CSS Custom Properties",
+        lang: "css",
+        desc: "Alle Volt-Design-Tokens als native CSS Custom Properties – framework-unabhängig, funktioniert in jedem Browser ab 2017. Direkt in deine bestehende CSS-Datei kopieren.",
+        code: `/* ═══════════════════════════════════════
+   VOLT UI – CSS Custom Properties v1.0
+   volt-ui.design
+═══════════════════════════════════════ */
+
+:root {
+  /* ── Primärfarben ── */
+  --volt-lime:    #E4FF97;
+  --volt-black:   #0A0A0A;
+  --volt-white:   #FFFFFF;
+
+  /* ── Signal-Farben ── */
+  --volt-positive: #1A9E5A;
+  --volt-negative: #E8402A;
+  --volt-neutral:  #6B7A9A;
+
+  /* ── Pastell-Palette ── */
+  --volt-rose:    #FFD6E0;
+  --volt-peach:   #FFECD2;
+  --volt-mint:    #C3F4D3;
+  --volt-orchid:  #FDE2FF;
+  --volt-sky:     #D4E8FF;
+  --volt-butter:  #FFF5BA;
+
+  /* ── Typografie ── */
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-ui:      'DM Sans', sans-serif;
+  --font-body:    'Lora', serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  /* ── Schriftgrößen ── */
+  --text-xs:   0.75rem;   --text-sm:   0.875rem;
+  --text-base: 1rem;      --text-lg:   1.125rem;
+  --text-xl:   1.25rem;   --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+
+  /* ── Abstände ── */
+  --space-1:  0.25rem;  --space-2:  0.5rem;
+  --space-3:  0.75rem;  --space-4:  1rem;
+  --space-6:  1.5rem;   --space-8:  2rem;
+  --space-12: 3rem;     --space-16: 4rem;
+
+  /* ── Eckenradien ── */
+  --radius-sm:  0.375rem;  --radius-md:  0.5rem;
+  --radius-lg:  0.75rem;   --radius-xl:  1rem;
+  --radius-2xl: 1.25rem;   --radius-full: 9999px;
+
+  /* ── Schatten ── */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.10);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,.12);
+
+  /* ── Übergänge ── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast:   150ms;
+  --duration-normal: 250ms;
+  --duration-slow:   400ms;
+
+  /* ── Z-Index ── */
+  --z-overlay: 100;
+  --z-modal:   200;
+  --z-toast:   300;
+}`,
+      },
+      {
+        title: "2. Basis-Komponenten in reinem CSS",
+        lang: "css",
+        desc: "Fertige Komponenten-Styles ohne JavaScript-Abhängigkeiten. Direkt in deine stylesheet.css kopieren.",
+        code: `/* ── Volt Button ── */
+.volt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-xl);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all var(--duration-normal) var(--ease-out);
+  text-decoration: none;
+}
+.volt-btn-lime {
+  background: var(--volt-lime);
+  color: var(--volt-black);
+  border-color: var(--volt-lime);
+}
+.volt-btn-lime:hover {
+  background: #d4f070;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.volt-btn-outline {
+  background: transparent;
+  color: var(--volt-black);
+  border-color: var(--volt-black);
+}
+.volt-btn-outline:hover {
+  background: var(--volt-black);
+  color: var(--volt-white);
+}
+
+/* ── Volt Card ── */
+.volt-card {
+  background: var(--volt-white);
+  border: 1px solid rgba(0,0,0,.10);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--duration-normal) var(--ease-out);
+}
+.volt-card:hover { box-shadow: var(--shadow-md); }
+
+/* ── Volt Badge ── */
+.volt-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.volt-badge-lime   { background: var(--volt-lime);  color: var(--volt-black); }
+.volt-badge-muted  { background: rgba(0,0,0,.06);   color: rgba(0,0,0,.50); }
+
+/* ── Volt Input ── */
+.volt-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid rgba(0,0,0,.15);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.volt-input:focus {
+  border-color: var(--volt-black);
+  box-shadow: 0 0 0 3px rgba(228,255,151,.4);
+}`,
+      },
+      {
+        title: "3. Dark Mode via CSS Custom Properties",
+        lang: "css",
+        desc: "Automatischer Dark Mode über @media prefers-color-scheme oder manuell via .dark-Klasse am <html>-Element.",
+        code: `/* ── Dark Mode (System) ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --volt-bg:      #0A0A0A;
+    --volt-surface: #141414;
+    --volt-border:  rgba(255,255,255,.10);
+    --volt-text:    #F5F5F5;
+    --volt-muted:   rgba(255,255,255,.45);
+  }
+}
+
+/* ── Dark Mode (manuell via .dark) ── */
+.dark {
+  --volt-bg:      #0A0A0A;
+  --volt-surface: #141414;
+  --volt-border:  rgba(255,255,255,.10);
+  --volt-text:    #F5F5F5;
+  --volt-muted:   rgba(255,255,255,.45);
+}
+
+/* ── Anwendung ── */
+body {
+  background: var(--volt-bg, var(--volt-white));
+  color: var(--volt-text, var(--volt-black));
+  font-family: var(--font-ui);
+}
+.volt-card {
+  background: var(--volt-surface, var(--volt-white));
+  border-color: var(--volt-border, rgba(0,0,0,.10));
+}
+
+/* ── Toggle (JS: document.documentElement.classList.toggle('dark')) ── */
+.volt-theme-toggle {
+  background: none;
+  border: 1.5px solid var(--volt-border, rgba(0,0,0,.15));
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+.volt-theme-toggle:hover {
+  background: var(--volt-lime);
+  color: var(--volt-black);
+  border-color: var(--volt-lime);
+}`,
+      },
+    ],
+  },
+  cssjs: {
+    steps: [
+      {
+        title: "1. Tokens als TypeScript-Objekt",
+        lang: "ts",
+        desc: "Alle Volt-Tokens als typisiertes TypeScript-Objekt – ideal für Styled Components, Emotion, Stitches oder jede andere CSS-in-JS-Lösung.",
+        code: `// volt-tokens.ts
+export const voltTokens = {
+  colors: {
+    lime:     '#E4FF97',
+    black:    '#0A0A0A',
+    white:    '#FFFFFF',
+    positive: '#1A9E5A',
+    negative: '#E8402A',
+    neutral:  '#6B7A9A',
+    pastel: {
+      rose:   '#FFD6E0', peach:  '#FFECD2',
+      mint:   '#C3F4D3', orchid: '#FDE2FF',
+      sky:    '#D4E8FF', butter: '#FFF5BA',
+    },
+  },
+  fonts: {
+    display: "'Bricolage Grotesque', sans-serif",
+    ui:      "'DM Sans', sans-serif",
+    body:    "'Lora', serif",
+    mono:    "'JetBrains Mono', monospace",
+  },
+  fontSizes: {
+    xs: '0.75rem',  sm: '0.875rem', base: '1rem',
+    lg: '1.125rem', xl: '1.25rem',  '2xl': '1.5rem',
+    '3xl': '1.875rem', '4xl': '2.25rem', '5xl': '3rem',
+  },
+  spacing: {
+    1: '0.25rem', 2: '0.5rem',  3: '0.75rem',
+    4: '1rem',    6: '1.5rem',  8: '2rem',
+    12: '3rem',  16: '4rem',   24: '6rem',
+  },
+  radii: {
+    sm: '0.375rem', md: '0.5rem',  lg: '0.75rem',
+    xl: '1rem',    '2xl': '1.25rem', full: '9999px',
+  },
+  shadows: {
+    sm: '0 1px 3px rgba(0,0,0,.08)',
+    md: '0 4px 12px rgba(0,0,0,.10)',
+    lg: '0 10px 30px rgba(0,0,0,.12)',
+  },
+  transitions: {
+    fast:   '150ms cubic-bezier(0.16, 1, 0.3, 1)',
+    normal: '250ms cubic-bezier(0.16, 1, 0.3, 1)',
+    slow:   '400ms cubic-bezier(0.16, 1, 0.3, 1)',
+  },
+} as const;
+
+export type VoltColors  = typeof voltTokens.colors;
+export type VoltSpacing = typeof voltTokens.spacing;`,
+      },
+      {
+        title: "2. Styled Components Integration",
+        lang: "tsx",
+        desc: "Direkte Verwendung der Tokens in Styled Components. Der ThemeProvider macht alle Tokens per props.theme zugänglich.",
+        code: [
+          "// theme.ts",
+          "import { voltTokens } from './volt-tokens';",
+          "export const voltTheme = voltTokens;",
+          "export type VoltTheme = typeof voltTheme;",
+          "",
+          "// App.tsx",
+          "import { ThemeProvider } from 'styled-components';",
+          "import { voltTheme } from './theme';",
+          "",
+          "export function App() {",
+          "  return (",
+          "    <ThemeProvider theme={voltTheme}>",
+          "      <YourApp />",
+          "    </ThemeProvider>",
+          "  );",
+          "}",
+          "",
+          "// VoltButton.styled.ts",
+          "import styled from 'styled-components';",
+          "",
+          "export const VoltButton = styled.button<{",
+          "  variant?: 'lime' | 'outline'",
+          "}>`",
+          "  display: inline-flex;",
+          "  align-items: center;",
+          "  padding: ${p => p.theme.spacing[3]} ${p => p.theme.spacing[6]};",
+          "  border-radius: ${p => p.theme.radii.xl};",
+          "  font-family: ${p => p.theme.fonts.display};",
+          "  font-weight: 700;",
+          "  cursor: pointer;",
+          "  border: 2px solid transparent;",
+          "  transition: all ${p => p.theme.transitions.normal};",
+          "  background: ${p =>",
+          "    p.variant === 'outline' ? 'transparent' : p.theme.colors.lime};",
+          "  color: ${p => p.theme.colors.black};",
+          "  border-color: ${p =>",
+          "    p.variant === 'outline' ? p.theme.colors.black : p.theme.colors.lime};",
+          "  &:hover { transform: translateY(-1px); }",
+          "`;",
+        ].join("\n"),
+      },
+      {
+        title: "3. Emotion & Vanilla Extract",
+        lang: "ts",
+        desc: "Tokens für Emotion (CSS-in-JS) oder Vanilla Extract (zero-runtime CSS-in-TS). Beide Ansätze nutzen dasselbe voltTokens-Objekt.",
+        code: [
+          "// ── Emotion ──",
+          "import { css } from '@emotion/react';",
+          "import { voltTokens as t } from './volt-tokens';",
+          "",
+          "export const voltCardStyle = css`",
+          "  background: ${t.colors.white};",
+          "  border: 1px solid rgba(0,0,0,.10);",
+          "  border-radius: ${t.radii['2xl']};",
+          "  padding: ${t.spacing[6]};",
+          "  box-shadow: ${t.shadows.sm};",
+          "  transition: box-shadow ${t.transitions.normal};",
+          "  &:hover { box-shadow: ${t.shadows.md}; }",
+          "`;",
+          "",
+          "// ── Vanilla Extract ──",
+          "import { style } from '@vanilla-extract/css';",
+          "import { voltTokens as t } from './volt-tokens';",
+          "",
+          "export const voltCard = style({",
+          "  background: t.colors.white,",
+          "  border: '1px solid rgba(0,0,0,.10)',",
+          "  borderRadius: t.radii['2xl'],",
+          "  padding: t.spacing[6],",
+          "  boxShadow: t.shadows.sm,",
+          "  transition: `box-shadow ${t.transitions.normal}`,",
+          "  ':hover': { boxShadow: t.shadows.md },",
+          "});",
+          "",
+          "// ── Stitches ──",
+          "import { createStitches } from '@stitches/react';",
+          "import { voltTokens as t } from './volt-tokens';",
+          "",
+          "export const { styled } = createStitches({",
+          "  theme: {",
+          "    colors:    t.colors,",
+          "    fonts:     t.fonts,",
+          "    fontSizes: t.fontSizes,",
+          "    space:     t.spacing,",
+          "    radii:     t.radii,",
+          "  },",
+          "});",
+        ].join("\n"),
       },
     ],
   },
