@@ -159,28 +159,7 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
                           <span className="text-sm font-semibold leading-tight truncate">
                             {item.label}
                           </span>
-                          {item.isNew && (
-                            <span
-                              className="flex-shrink-0 px-1.5 py-0.5 rounded-full text-[0.5rem] font-bold uppercase tracking-wide"
-                              style={isActive
-                                ? { background: "rgba(10,10,10,0.12)", color: "#0A0A0A" }
-                                : { background: "#E4FF97", color: "#0A0A0A" }
-                              }
-                            >
-                              NEU
-                            </span>
-                          )}
-                          {item.count !== undefined && (
-                            <span
-                              className="flex-shrink-0 px-1.5 py-0.5 rounded-full text-[0.55rem] font-bold"
-                              style={isActive
-                                ? { background: "rgba(10,10,10,0.12)", color: "#0A0A0A" }
-                                : { background: countBg, color: countText }
-                              }
-                            >
-                              {item.count}
-                            </span>
-                          )}
+
                         </div>
                         {item.description && (
                           <p className="text-[0.65rem] leading-tight mt-0.5 truncate"
