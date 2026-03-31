@@ -172,16 +172,31 @@ export const BrandArchitectureSection: React.FC = () => {
     <div className="space-y-20">
 
       {/* ── HEADER ── */}
-      <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Brand Architecture</p>
-        <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
-          Eine Sprache.<br />Viele Projekte.
-        </h1>
-        <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          Volt UI ist das portable Design System von Free Agents und allen Projekten, die daraus entstehen.
-          Das{" "}<span className="font-mono font-bold text-foreground">&gt;_</span> Signet ist der visuelle Anker.
-          Das Operating Principle beschreibt die Arbeitslogik dahinter.
-        </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Brand Architecture</p>
+          <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
+            Eine Sprache.<br />Viele Projekte.
+          </h1>
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            Volt UI ist das portable Design System von Free Agents und allen Projekten, die daraus entstehen.
+            Das{" "}<span className="font-mono font-bold text-foreground">&gt;_</span> Signet ist der visuelle Anker.
+            Das Operating Principle beschreibt die Arbeitslogik dahinter.
+          </p>
+        </div>
+        {/* Bild: Architektur & Struktur */}
+        <div className="relative rounded-2xl overflow-hidden h-64 md:h-72">
+          <img
+            src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80&fit=crop"
+            alt="Architektur – Struktur und System"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+            <p className="font-mono text-[10px] text-white/80 uppercase tracking-widest">Brand Architecture</p>
+            <span className="font-mono text-[9px] text-white/50">Photo: Unsplash</span>
+          </div>
+        </div>
       </div>
 
       {/* ── BRAND-SCHICHTEN ── */}

@@ -23,6 +23,7 @@ import SignetSection                 from "./sections/SignetSection";
 import BrandArchitectureSection      from "./sections/BrandArchitectureSection";
 import DialogSection                 from "./sections/DialogSection";
 import BrandStorySection             from "./sections/BrandStorySection";
+import ImageLanguageSection          from "./sections/ImageLanguageSection";
 import BubbleMapSection              from "./sections/BubbleMapSection";
 import NodeCanvasSection             from "./sections/NodeCanvasSection";
 import { ExportSection }              from "./sections/ExportSection";
@@ -51,6 +52,7 @@ const ALL_SECTIONS = [
   { id: "brand",       Component: BrandArchitectureSection },
   { id: "dialog",      Component: DialogSection },
   { id: "brandstory",  Component: BrandStorySection },
+  { id: "imagelang",   Component: ImageLanguageSection },
   { id: "dashboard",   Component: DashboardSection },
   { id: "bubblemap",   Component: BubbleMapSection },
   { id: "nodecanvas",  Component: NodeCanvasSection },
@@ -92,6 +94,7 @@ const sidebarSections = [
       { id: "brand",       label: "Brand Architecture",   description: "Volt UI & Tochterprojekte",             icon: <Fingerprint className="w-4 h-4" /> },
       { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" /> },
       { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" /> },
+      { id: "imagelang",   label: "Bildsprache",           description: "Visuelle Prinzipien & Moodboard",        icon: <Brush className="w-4 h-4" /> },
     ],
   },
   {

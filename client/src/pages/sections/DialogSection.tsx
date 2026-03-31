@@ -219,21 +219,40 @@ export const DialogSection: React.FC = () => {
     <div className="space-y-20">
 
       {/* ── HEADER ── */}
-      <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Dialog-Prinzip</p>
-        <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
-          Kein Pingpong.<br />Kein Nebel.
-        </h1>
-        <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed mb-6">
-          Dialog ist kein Selbstzweck. Jede Interaktion folgt dem Prinzip:{" "}
-          <span className="font-mono font-bold text-foreground">Input mit Konsequenz.</span>{" "}
-          Was reingeht, muss etwas Verwendbares produzieren.
-        </p>
-        <div className="flex items-center gap-3">
-          <VoltCursor size="sm" color="black" animated />
-          <p className="font-mono text-sm text-foreground font-bold">
-            Input mit Konsequenz.
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Dialog-Prinzip</p>
+          <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
+            Kein Pingpong.<br />Kein Nebel.
+          </h1>
+          <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+            Dialog ist kein Selbstzweck. Jede Interaktion folgt dem Prinzip:{" "}
+            <span className="font-mono font-bold text-foreground">Input mit Konsequenz.</span>{" "}
+            Was reingeht, muss etwas Verwendbares produzieren.
           </p>
+          <div className="flex items-center gap-3">
+            <VoltCursor size="sm" color="black" animated />
+            <p className="font-mono text-sm text-foreground font-bold">
+              Input mit Konsequenz.
+            </p>
+          </div>
+        </div>
+        {/* Bild: Terminal / Code-Ästhetik */}
+        <div className="relative rounded-2xl overflow-hidden h-64 md:h-72">
+          <img
+            src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=900&q=80&fit=crop"
+            alt="Code auf dunklem Monitor – Terminal-Ästhetik"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+            <p className="font-mono text-[10px] text-[#E4FF97]/90 uppercase tracking-widest">Dialog & I/O</p>
+            <span className="font-mono text-[9px] text-white/50">Photo: Unsplash</span>
+          </div>
+          {/* Terminal-Overlay */}
+          <div className="absolute top-4 left-4">
+            <span className="font-mono text-[11px] text-[#E4FF97] bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded">&gt;_ input mit konsequenz</span>
+          </div>
         </div>
       </div>
 
