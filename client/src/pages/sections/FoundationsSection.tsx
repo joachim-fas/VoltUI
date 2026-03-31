@@ -1,12 +1,12 @@
 /**
  * FoundationsSection – Design Tokens, Farben, Typografie, Grain-Effekte, Patterns
- * Flux UI – Atmospheric Design System
+ * Volt UI – Atmospheric Design System
  */
 
 import React, { useState } from "react";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
-import { FluxBadge } from "@/components/grain/FluxBadge";
-import { GRAIN_NEON, GRAIN_PASTEL } from "@/components/grain/FluxChart";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
+import { VoltBadge } from "@/components/volt/VoltBadge";
+import { GRAIN_NEON, GRAIN_PASTEL } from "@/components/volt/VoltChart";
 
 const colorTokens = [
   { name: "--neon-yellow",     hex: "#E4FF97", role: "Neon Yellow (Leading)", bg: "bg-[#E4FF97]" },
@@ -28,12 +28,12 @@ const semanticTokens = [
 ];
 
 const typeScale = [
-  { name: "Display XL",  size: "text-5xl",  weight: "font-black",  family: "font-display", sample: "Flux UI", font: "Bricolage Grotesque" },
+  { name: "Display XL",  size: "text-5xl",  weight: "font-black",  family: "font-display", sample: "Volt UI", font: "Bricolage Grotesque" },
   { name: "Display L",   size: "text-4xl",  weight: "font-bold",   family: "font-display", sample: "Atmospheric", font: "Bricolage Grotesque" },
   { name: "Display M",   size: "text-2xl",  weight: "font-bold",   family: "font-display", sample: "Design System", font: "Bricolage Grotesque" },
   { name: "UI Heading",  size: "text-xl",   weight: "font-semibold", family: "font-ui",    sample: "Component Library", font: "DM Sans" },
   { name: "UI Body",     size: "text-base", weight: "font-medium", family: "font-ui",      sample: "Portables Design System für jedes Projekt und jede Plattform", font: "DM Sans" },
-  { name: "Body Serif",  size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Flux-Textur, Gradienten und Glasmorphismus.", font: "Lora" },
+  { name: "Body Serif",  size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Volt-Textur, Gradienten und Glasmorphismus.", font: "Lora" },
   { name: "Caption",     size: "text-xs",   weight: "font-medium", family: "font-ui",      sample: "Subtile Texturen als verbindendes Element", font: "DM Sans" },
   { name: "Mono",        size: "text-sm",   weight: "font-normal", family: "font-mono",    sample: "const flux = oklch(0.95 0.18 120); // Lime", font: "JetBrains Mono" },
 ];
@@ -49,7 +49,7 @@ const patterns = [
 
 const gradients = [
   {
-    label: "Flux Gradient",
+    label: "Volt Gradient",
     desc: "Lime → Schwarz (Brand-Verlauf)",
     style: { background: "linear-gradient(135deg, #E4FF97 0%, #0A0A0A 100%)" },
     textDark: false,
@@ -97,12 +97,12 @@ const gradients = [
 ];
 
 const themes = [
-  { id: "flux",    label: "Flux Primary",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Die Primärpalette – klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
-  { id: "rose",    label: "Flux Rose",     desc: "Rose #F9D0D0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#F9D0D0", dark: "#0A0A0A" },
-  { id: "mint",    label: "Flux Mint",     desc: "Mint #C8F0E0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#C8F0E0", dark: "#0A0A0A" },
-  { id: "orchid",  label: "Flux Orchid",   desc: "Orchid #E8D0F0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#E8D0F0", dark: "#0A0A0A" },
-  { id: "butter",  label: "Flux Butter",   desc: "Butter #FFF0C0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#FFF0C0", dark: "#0A0A0A" },
-  { id: "sky",     label: "Flux Sky",      desc: "Sky #C8E8FF + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",           light: "#C8E8FF", dark: "#0A0A0A" },
+  { id: "flux",    label: "Volt Primary",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Die Primärpalette – klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
+  { id: "rose",    label: "Volt Rose",     desc: "Rose #F9D0D0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#F9D0D0", dark: "#0A0A0A" },
+  { id: "mint",    label: "Volt Mint",     desc: "Mint #C8F0E0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#C8F0E0", dark: "#0A0A0A" },
+  { id: "orchid",  label: "Volt Orchid",   desc: "Orchid #E8D0F0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#E8D0F0", dark: "#0A0A0A" },
+  { id: "butter",  label: "Volt Butter",   desc: "Butter #FFF0C0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#FFF0C0", dark: "#0A0A0A" },
+  { id: "sky",     label: "Volt Sky",      desc: "Sky #C8E8FF + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",           light: "#C8E8FF", dark: "#0A0A0A" },
 ];
 
 const glassVariants = [
@@ -127,12 +127,12 @@ export const FoundationsSection: React.FC = () => {
       </div>
 
       {/* Brand Colors */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Markenfarben</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Markenfarben</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Hauptfarben: Neon Yellow #E4FF97 + Black #000000 · Signalfarben: Smaragd · Koralle · Slate</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {colorTokens.map((token) => (
               <div key={token.name} className="flex flex-col gap-2">
@@ -140,7 +140,7 @@ export const FoundationsSection: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                     <span className="text-xs font-semibold font-ui text-foreground">{token.role}</span>
-                    <FluxBadge variant="muted" size="sm">{token.hex}</FluxBadge>
+                    <VoltBadge variant="muted" size="sm">{token.hex}</VoltBadge>
                   </div>
                   <p className="text-[0.65rem] font-mono text-muted-foreground leading-relaxed break-all">
                     {token.name}
@@ -149,16 +149,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Semantic Tokens */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Semantische Tokens</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Semantische Tokens</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Kontextbezogene CSS-Variablen für Light- und Dark-Mode</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {semanticTokens.map((token) => (
               <div key={token.name} className="flex flex-col gap-2">
@@ -170,16 +170,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
-      {/* Flux Textures */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Flux-Texturen</FluxCardTitle>
+      {/* Volt Textures */}
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Volt-Texturen</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">SVG-basierte Rausch-Texturen – kein Bild-Asset, reiner CSS-Code</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             {[
               { label: "Lime Grain",     cls: "",    text: "text-foreground", bg: "#E4FF97" },
@@ -206,16 +206,16 @@ export const FoundationsSection: React.FC = () => {
               {"}"}
             </p>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Geometric Patterns */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Geometrische Patterns</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Geometrische Patterns</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">CSS-basierte Hintergrundmuster – kein Bild, reines CSS</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {patterns.map((p) => (
               <div key={p.label} className={`h-28 rounded-xl ${p.cls} border border-border flex items-end p-3`}>
@@ -226,16 +226,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Gradient Backgrounds */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Gradient-Hintergründe</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Gradient-Hintergründe</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Atmosphärische Gradienten für verschiedene Einsatzbereiche</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {gradients.map((g) => (
               <div
@@ -250,16 +250,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Glassmorphism */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Glassmorphismus</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Glassmorphismus</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Backdrop-Filter-Effekte für überlagerte Elemente</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="relative rounded-xl overflow-hidden p-6 grain" style={{ background: 'linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%)' }}>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {glassVariants.map((g) => (
@@ -270,18 +270,18 @@ export const FoundationsSection: React.FC = () => {
               ))}
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Typography */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Typografie-System</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Typografie-System</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">
             Bricolage Grotesque (Display) · DM Sans (UI) · Lora (Body Serif) · JetBrains Mono (Code)
           </p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           {/* Font Specimens */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[
@@ -312,16 +312,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Theme Overview */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Farbpaletten-System</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Farbpaletten-System</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">1 Primärpalette + 5 Pastell-Erweiterungen · alle auf Schwarz #0A0A0A als Basis</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {themes.map((t) => (
               <div key={t.id} className="p-4 rounded-xl border border-border bg-muted/20">
@@ -343,16 +343,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Spacing */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Abstands-System</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Abstands-System</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">8pt-Raster – alle Abstände sind Vielfache von 4px</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="flex flex-wrap items-end gap-3">
             {[1, 2, 3, 4, 6, 8, 10, 12, 16, 20].map((n) => (
               <div key={n} className="flex flex-col items-center gap-1.5">
@@ -361,16 +361,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Border Radius */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Border-Radius-System</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Border-Radius-System</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">Konsistente Abrundungen für alle Komponenten</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="flex flex-wrap items-end gap-4">
             {[
               { label: "sm",  r: "rounded-sm",   px: "4px" },
@@ -387,16 +387,16 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Tiefe-System (ohne Schatten) */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Tiefe & Glow-Effekte</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Tiefe & Glow-Effekte</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-ui mt-0.5">Tiefe durch Farbe und Glow – kein klassischer Schlagschatten</p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="flex flex-wrap gap-6 items-end">
             {[
               { label: "border only",   cls: "border border-border" },
@@ -411,8 +411,8 @@ export const FoundationsSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Chart-Farbpaletten */}
       <ChartPalettesSection />
@@ -453,14 +453,14 @@ const ChartPalettesSection: React.FC = () => {
   const palette = PALETTES.find(p => p.id === active) || PALETTES[0];
 
   return (
-    <FluxCard>
-      <FluxCardHeader>
-        <FluxCardTitle>Chart-Farbpaletten</FluxCardTitle>
+    <VoltCard>
+      <VoltCardHeader>
+        <VoltCardTitle>Chart-Farbpaletten</VoltCardTitle>
         <p className="text-xs text-muted-foreground font-ui mt-0.5">
           3 Paletten · Konsistent über alle Visualisierungen · Neon Yellow + 8 Pastell-Töne + Signalfarben
         </p>
-      </FluxCardHeader>
-      <FluxCardContent>
+      </VoltCardHeader>
+      <VoltCardContent>
         {/* Palette-Switcher */}
         <div className="flex gap-2 mb-6">
           {PALETTES.map(p => (
@@ -507,7 +507,7 @@ const ChartPalettesSection: React.FC = () => {
             </p>
           </div>
         )}
-      </FluxCardContent>
-    </FluxCard>
+      </VoltCardContent>
+    </VoltCard>
   );
 };

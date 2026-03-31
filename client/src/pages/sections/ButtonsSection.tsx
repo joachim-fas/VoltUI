@@ -1,10 +1,10 @@
 /**
- * ButtonsSection – Alle Button-Varianten der Flux UI
+ * ButtonsSection – Alle Button-Varianten der Volt UI
  */
 
 import React, { useState } from "react";
-import { FluxButton } from "@/components/grain/FluxButton";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription } from "@/components/grain/FluxCard";
+import { VoltButton } from "@/components/volt/VoltButton";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle, VoltCardDescription } from "@/components/volt/VoltCard";
 import { ArrowRight, Download, Plus, Trash2, Send, Star, Heart, Zap } from "lucide-react";
 
 const CodeSnippet: React.FC<{ code: string }> = ({ code }) => (
@@ -25,18 +25,18 @@ export const ButtonsSection: React.FC = () => {
         <p className="section-label mb-2">02 — Buttons</p>
         <h2 className="font-display font-bold text-3xl text-foreground mb-3">Button-Komponente</h2>
         <p className="text-muted-foreground font-body text-sm leading-relaxed max-w-xl">
-          Sieben Varianten mit Flux-Textur-Overlay, atmosphärischen Glow-Effekten und vollständiger Tastatur-Zugänglichkeit.
+          Sieben Varianten mit Volt-Textur-Overlay, atmosphärischen Glow-Effekten und vollständiger Tastatur-Zugänglichkeit.
           Alle Effekte sind reiner CSS-Code.
         </p>
       </div>
 
       {/* Varianten */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Varianten</FluxCardTitle>
-          <FluxCardDescription>primary · solid · outline · ghost · glass · secondary · destructive</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Varianten</VoltCardTitle>
+          <VoltCardDescription>primary · solid · outline · ghost · glass · secondary · destructive</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="rounded-xl border border-border overflow-hidden">
             <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border">
               <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
@@ -45,31 +45,31 @@ export const ButtonsSection: React.FC = () => {
               <span className="text-xs font-mono text-muted-foreground ml-2">Vorschau</span>
             </div>
             <div className="flex flex-wrap items-center gap-3 p-6 bg-atmospheric grain">
-              <FluxButton variant="primary">Primary</FluxButton>
-              <FluxButton variant="solid">Solid</FluxButton>
-              <FluxButton variant="outline">Outline</FluxButton>
-              <FluxButton variant="ghost">Ghost</FluxButton>
-              <FluxButton variant="glass">Glass</FluxButton>
-              <FluxButton variant="secondary">Secondary</FluxButton>
-              <FluxButton variant="destructive">Destructive</FluxButton>
+              <VoltButton variant="primary">Primary</VoltButton>
+              <VoltButton variant="solid">Solid</VoltButton>
+              <VoltButton variant="outline">Outline</VoltButton>
+              <VoltButton variant="ghost">Ghost</VoltButton>
+              <VoltButton variant="glass">Glass</VoltButton>
+              <VoltButton variant="secondary">Secondary</VoltButton>
+              <VoltButton variant="destructive">Destructive</VoltButton>
             </div>
           </div>
-          <CodeSnippet code={`<FluxButton variant="primary">Primary</FluxButton>
-<FluxButton variant="solid">Solid</FluxButton>
-<FluxButton variant="outline">Outline</FluxButton>
-<FluxButton variant="ghost">Ghost</FluxButton>
-<FluxButton variant="glass">Glass</FluxButton>
-<FluxButton variant="destructive">Destructive</FluxButton>`} />
-        </FluxCardContent>
-      </FluxCard>
+          <CodeSnippet code={`<VoltButton variant="primary">Primary</VoltButton>
+<VoltButton variant="solid">Solid</VoltButton>
+<VoltButton variant="outline">Outline</VoltButton>
+<VoltButton variant="ghost">Ghost</VoltButton>
+<VoltButton variant="glass">Glass</VoltButton>
+<VoltButton variant="destructive">Destructive</VoltButton>`} />
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Größen */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Größen</FluxCardTitle>
-          <FluxCardDescription>sm · md · lg · xl · icon</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Größen</VoltCardTitle>
+          <VoltCardDescription>sm · md · lg · xl · icon</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="rounded-xl border border-border overflow-hidden">
             <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border">
               <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
@@ -77,23 +77,23 @@ export const ButtonsSection: React.FC = () => {
               <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
             </div>
             <div className="flex flex-wrap items-center gap-3 p-6">
-              <FluxButton size="sm">Small</FluxButton>
-              <FluxButton size="md">Medium</FluxButton>
-              <FluxButton size="lg">Large</FluxButton>
-              <FluxButton size="xl">Extra Large</FluxButton>
-              <FluxButton size="icon"><Plus className="w-4 h-4" /></FluxButton>
+              <VoltButton size="sm">Small</VoltButton>
+              <VoltButton size="md">Medium</VoltButton>
+              <VoltButton size="lg">Large</VoltButton>
+              <VoltButton size="xl">Extra Large</VoltButton>
+              <VoltButton size="icon"><Plus className="w-4 h-4" /></VoltButton>
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Mit Icons */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Mit Icons</FluxCardTitle>
-          <FluxCardDescription>leftIcon · rightIcon · icon-only</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Mit Icons</VoltCardTitle>
+          <VoltCardDescription>leftIcon · rightIcon · icon-only</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="rounded-xl border border-border overflow-hidden">
             <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border">
               <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
@@ -101,26 +101,26 @@ export const ButtonsSection: React.FC = () => {
               <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
             </div>
             <div className="flex flex-wrap items-center gap-3 p-6">
-              <FluxButton variant="primary" leftIcon={<Plus className="w-4 h-4" />}>Hinzufügen</FluxButton>
-              <FluxButton variant="solid" rightIcon={<ArrowRight className="w-4 h-4" />}>Weiter</FluxButton>
-              <FluxButton variant="outline" leftIcon={<Download className="w-4 h-4" />}>Download</FluxButton>
-              <FluxButton variant="destructive" leftIcon={<Trash2 className="w-4 h-4" />}>Löschen</FluxButton>
-              <FluxButton variant="secondary" leftIcon={<Send className="w-4 h-4" />}>Senden</FluxButton>
-              <FluxButton variant="ghost" size="icon"><Star className="w-4 h-4" /></FluxButton>
-              <FluxButton variant="outline" size="icon"><Heart className="w-4 h-4" /></FluxButton>
-              <FluxButton variant="primary" size="icon"><Zap className="w-4 h-4" /></FluxButton>
+              <VoltButton variant="primary" leftIcon={<Plus className="w-4 h-4" />}>Hinzufügen</VoltButton>
+              <VoltButton variant="solid" rightIcon={<ArrowRight className="w-4 h-4" />}>Weiter</VoltButton>
+              <VoltButton variant="outline" leftIcon={<Download className="w-4 h-4" />}>Download</VoltButton>
+              <VoltButton variant="destructive" leftIcon={<Trash2 className="w-4 h-4" />}>Löschen</VoltButton>
+              <VoltButton variant="secondary" leftIcon={<Send className="w-4 h-4" />}>Senden</VoltButton>
+              <VoltButton variant="ghost" size="icon"><Star className="w-4 h-4" /></VoltButton>
+              <VoltButton variant="outline" size="icon"><Heart className="w-4 h-4" /></VoltButton>
+              <VoltButton variant="primary" size="icon"><Zap className="w-4 h-4" /></VoltButton>
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Loading-Zustände */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Zustände</FluxCardTitle>
-          <FluxCardDescription>loading · disabled – klicke einen Button um den Loading-Zustand zu sehen</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Zustände</VoltCardTitle>
+          <VoltCardDescription>loading · disabled – klicke einen Button um den Loading-Zustand zu sehen</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="rounded-xl border border-border overflow-hidden">
             <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border">
               <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
@@ -128,27 +128,27 @@ export const ButtonsSection: React.FC = () => {
               <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
             </div>
             <div className="flex flex-wrap items-center gap-3 p-6">
-              <FluxButton
+              <VoltButton
                 variant="primary"
                 loading={loading === "a"}
                 onClick={() => simulateLoad("a")}
               >
                 Speichern
-              </FluxButton>
-              <FluxButton
+              </VoltButton>
+              <VoltButton
                 variant="solid"
                 loading={loading === "b"}
                 onClick={() => simulateLoad("b")}
                 rightIcon={<ArrowRight className="w-4 h-4" />}
               >
                 Absenden
-              </FluxButton>
-              <FluxButton variant="primary" disabled>Deaktiviert</FluxButton>
-              <FluxButton variant="outline" disabled>Deaktiviert</FluxButton>
+              </VoltButton>
+              <VoltButton variant="primary" disabled>Deaktiviert</VoltButton>
+              <VoltButton variant="outline" disabled>Deaktiviert</VoltButton>
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
     </div>
   );
 };

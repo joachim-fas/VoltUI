@@ -3,10 +3,10 @@
  */
 
 import React, { useState } from "react";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription } from "@/components/grain/FluxCard";
-import { FluxNavbar } from "@/components/grain/FluxNavbar";
-import { FluxButton } from "@/components/grain/FluxButton";
-import { FluxBadge } from "@/components/grain/FluxBadge";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle, VoltCardDescription } from "@/components/volt/VoltCard";
+import { VoltNavbar } from "@/components/volt/VoltNavbar";
+import { VoltButton } from "@/components/volt/VoltButton";
+import { VoltBadge } from "@/components/volt/VoltBadge";
 import { ChevronRight, Home, ChevronLeft, Check, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -128,14 +128,14 @@ export const NavigationSection: React.FC = () => {
       </div>
 
       {/* Navbar */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Navbar</FluxCardTitle>
-          <FluxCardDescription>glass · solid · transparent – mit mobilem Hamburger-Menü</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent className="p-0 overflow-hidden rounded-b-2xl">
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Navbar</VoltCardTitle>
+          <VoltCardDescription>glass · solid · transparent – mit mobilem Hamburger-Menü</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent className="p-0 overflow-hidden rounded-b-2xl">
           <div className="border border-border rounded-xl overflow-hidden">
-            <FluxNavbar
+            <VoltNavbar
               sticky={false}
               variant="glass"
               logo={
@@ -143,14 +143,14 @@ export const NavigationSection: React.FC = () => {
                   <div className="w-7 h-7 rounded-lg bg-[#E4FF97] flex items-center justify-center">
                     <span className="text-foreground font-display font-bold text-xs">G</span>
                   </div>
-                  <span className="font-display font-bold text-base text-foreground">Flux UI</span>
+                  <span className="font-display font-bold text-base text-foreground">Volt UI</span>
                 </div>
               }
               items={navItems}
               rightSlot={
                 <div className="flex items-center gap-2">
-                  <FluxBadge variant="default" size="sm">v1.0</FluxBadge>
-                  <FluxButton variant="primary" size="sm">Starten</FluxButton>
+                  <VoltBadge variant="default" size="sm">v1.0</VoltBadge>
+                  <VoltButton variant="primary" size="sm">Starten</VoltButton>
                 </div>
               }
             />
@@ -158,44 +158,44 @@ export const NavigationSection: React.FC = () => {
               <p className="text-sm font-body text-muted-foreground">Seiteninhalt</p>
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Breadcrumb */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Breadcrumb</FluxCardTitle>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Breadcrumb</VoltCardTitle>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="space-y-3">
-            <Breadcrumb items={["", "Flux UI", "Komponenten"]} />
-            <Breadcrumb items={["", "Flux UI", "Komponenten", "Buttons", "Primary"]} />
+            <Breadcrumb items={["", "Volt UI", "Komponenten"]} />
+            <Breadcrumb items={["", "Volt UI", "Komponenten", "Buttons", "Primary"]} />
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Pagination */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Pagination</FluxCardTitle>
-          <FluxCardDescription>Aktuelle Seite: {page} von 7</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Pagination</VoltCardTitle>
+          <VoltCardDescription>Aktuelle Seite: {page} von 7</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <Pagination total={7} current={page} onChange={setPage} />
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Stepper */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Stepper</FluxCardTitle>
-          <FluxCardDescription>Schritt {step + 1} von {steps.length}</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Stepper</VoltCardTitle>
+          <VoltCardDescription>Schritt {step + 1} von {steps.length}</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="space-y-6">
             <Stepper current={step} />
             <div className="flex justify-between">
-              <FluxButton
+              <VoltButton
                 variant="outline"
                 size="sm"
                 disabled={step === 0}
@@ -203,19 +203,19 @@ export const NavigationSection: React.FC = () => {
                 leftIcon={<ChevronLeft className="w-4 h-4" />}
               >
                 Zurück
-              </FluxButton>
-              <FluxButton
+              </VoltButton>
+              <VoltButton
                 variant="primary"
                 size="sm"
                 onClick={() => setStep(s => Math.min(steps.length - 1, s + 1))}
                 rightIcon={step < steps.length - 1 ? <ChevronRight className="w-4 h-4" /> : <Check className="w-4 h-4" />}
               >
                 {step === steps.length - 1 ? "Abschließen" : "Weiter"}
-              </FluxButton>
+              </VoltButton>
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
     </div>
   );
 };

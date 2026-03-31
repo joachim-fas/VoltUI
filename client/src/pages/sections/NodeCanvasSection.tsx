@@ -1,7 +1,7 @@
 /**
  * NodeCanvasSection v2
  * ─────────────────────────────────────────────────────────────────────────────
- * Design: Flux UI · Node Canvas Dokumentation
+ * Design: Volt UI · Node Canvas Dokumentation
  *
  * Inhalte:
  *   1. Node-Typen-Galerie (12 Typen in einer Reihe)
@@ -13,10 +13,10 @@
  */
 import React, { useState, useMemo } from "react";
 import {
-  FluxNodeCanvas,
+  VoltNodeCanvas,
   NODE_COLORS, NODE_COLORS_LIGHT, NODE_ICONS, NODE_DEFAULTS,
   type CanvasNode, type CanvasEdge, type CanvasGroup, type NodeType, type NodeStatus, type EdgeStyle,
-} from "@/components/grain/FluxNodeCanvas";
+} from "@/components/volt/VoltNodeCanvas";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
   Play, AlignLeft, Image, Sparkles, List, Table2,
@@ -95,7 +95,7 @@ const PIPELINES: PipelineTemplate[] = [
       { id: "t1",  type: "trigger",   x: 40,  y: 175, label: "Workflow Start",   placeholder: "on:submit" },
       { id: "p1",  type: "text",      x: 290, y: 70,  label: "Stil-Prompt",      placeholder: "Cyberpunk, neon lights, rain…", status: "success" },
       { id: "p2",  type: "text",      x: 290, y: 270, label: "Negativ-Prompt",   placeholder: "blurry, low quality…" },
-      { id: "g1",  type: "generator", x: 630, y: 90,  label: "Flux Image Gen",   model: "FLUX.1", imageColor: "#1A2030", status: "running" },
+      { id: "g1",  type: "generator", x: 630, y: 90,  label: "Volt Image Gen",   model: "VOLT.1", imageColor: "#1A2030", status: "running" },
       { id: "d1",  type: "decision",  x: 1010,y: 150, label: "Qualitätsprüfung", placeholder: "score >= 0.85" },
       { id: "o1",  type: "output",    x: 1340,y: 80,  label: "Veröffentlichen",  meta: { format: "PNG · WebP" } },
       { id: "o2",  type: "output",    x: 1340,y: 260, label: "Verwerfen",        meta: { format: "Log · Retry" }, status: "disabled" },
@@ -255,7 +255,7 @@ function EdgeStyleDemo({ style, isDark }: { style: EdgeStyle; isDark: boolean })
     { id: "e", from: "a", to: "b", style, color: "#E4FF97", animated: true },
   ];
   return (
-    <FluxNodeCanvas
+    <VoltNodeCanvas
       nodes={nodes} edges={edges}
       height={170} showGrid={false}
       className="rounded-lg"
@@ -320,7 +320,7 @@ function ConfigPanel({ nodeType, isDark, onClose }: ConfigPanelProps) {
       case "trigger":   return [{ key: "event",    label: "Event",       type: "text"   }, { key: "schedule", label: "Schedule", type: "text" }];
       case "text":      return [{ key: "content",  label: "Inhalt",      type: "text"   }, { key: "maxLen",   label: "Max. Länge", type: "number" }];
       case "image":     return [{ key: "url",      label: "Bild-URL",    type: "text"   }, { key: "bgColor",  label: "Hintergrund", type: "text" }];
-      case "generator": return [{ key: "content",  label: "Prompt",      type: "text"   }, { key: "model",    label: "Modell", type: "select", options: ["Auto", "FLUX.1", "GPT-4V", "DALL-E 3", "Stable Diffusion"] }];
+      case "generator": return [{ key: "content",  label: "Prompt",      type: "text"   }, { key: "model",    label: "Modell", type: "select", options: ["Auto", "VOLT.1", "GPT-4V", "DALL-E 3", "Stable Diffusion"] }];
       case "list":      return [{ key: "items",    label: "Einträge",    type: "text"   }];
       case "data":      return [{ key: "source",   label: "Datenquelle", type: "text"   }, { key: "limit",    label: "Limit", type: "number" }];
       case "decision":  return [{ key: "content",  label: "Bedingung",   type: "text"   }, { key: "operator", label: "Operator", type: "select", options: ["==", "!=", ">", "<", ">=", "<=", "includes"] }];
@@ -593,7 +593,7 @@ const NodeCanvasSection: React.FC = () => {
 
         {/* Galerie-Canvas */}
         <div style={{ overflowX: "auto", borderRadius: 12 }}>
-        <FluxNodeCanvas
+        <VoltNodeCanvas
           nodes={galleryNodes}
           height={340}
           showGrid={false}
@@ -711,7 +711,7 @@ const NodeCanvasSection: React.FC = () => {
         </div>
 
         {/* Canvas */}
-        <FluxNodeCanvas
+        <VoltNodeCanvas
           key={pipeline.id}
           nodes={pipeline.nodes}
           edges={pipeline.edges}
@@ -795,7 +795,7 @@ const NodeCanvasSection: React.FC = () => {
               background: card, borderRadius: 12,
               border: `1px solid ${s.status !== "idle" ? `${s.color}33` : border}`,
             }}>
-            <FluxNodeCanvas
+            <VoltNodeCanvas
               nodes={[{
                 id: `status-${s.status}`,
                 type: "api",
@@ -862,7 +862,7 @@ const NodeCanvasSection: React.FC = () => {
               Vollständig interaktiver Canvas mit allen 12 Node-Typen, Gruppen und animierten Edges.
               Mittlere Maustaste zum Panning, Scroll zum Zoomen.
             </p>
-            <FluxNodeCanvas
+            <VoltNodeCanvas
               nodes={[
                 { id: "wh",  type: "webhook",   x: 40,  y: 50,  label: "Eingehend",       meta: { event: "POST /trigger", payload: '{ "run": true }' } },
                 { id: "t1",  type: "trigger",   x: 40,  y: 260, label: "Manuell",         placeholder: "on:click" },
@@ -899,7 +899,7 @@ const NodeCanvasSection: React.FC = () => {
 
         {activeTab === "props" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            <PropsTable rows={CANVAS_PROPS} title="FluxNodeCanvas Props" />
+            <PropsTable rows={CANVAS_PROPS} title="VoltNodeCanvas Props" />
             <PropsTable rows={NODE_PROPS}   title="CanvasNode Props" />
             <PropsTable rows={EDGE_PROPS}   title="CanvasEdge Props" />
           </div>
@@ -907,7 +907,7 @@ const NodeCanvasSection: React.FC = () => {
 
         {activeTab === "code" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            <CodeBlock label="Minimales Beispiel" code={`import { FluxNodeCanvas } from "@/components/grain/FluxNodeCanvas";
+            <CodeBlock label="Minimales Beispiel" code={`import { VoltNodeCanvas } from "@/components/volt/VoltNodeCanvas";
 
 const nodes = [
   { id: "start", type: "trigger",   x: 30,  y: 80, label: "Start" },
@@ -922,7 +922,7 @@ const edges = [
   { id: "e2", from: "gen",   to: "out",  animated: true, pulseCount: 2, color: "#B5EAD7" },
 ];
 
-<FluxNodeCanvas nodes={nodes} edges={edges} height={300} showGrid />`} />
+<VoltNodeCanvas nodes={nodes} edges={edges} height={300} showGrid />`} />
 
             <CodeBlock label="Decision-Pipeline mit Gruppen" code={`const nodes = [
   { id: "in",  type: "text",     x: 30,  y: 100, label: "Eingabe" },
@@ -948,7 +948,7 @@ const groups = [
   { id: "g1", label: "PIPELINE", x: 10, y: 20, width: 900, height: 260, color: "#FFE08A" },
 ];
 
-<FluxNodeCanvas nodes={nodes} edges={edges} groups={groups} height={320} />`} />
+<VoltNodeCanvas nodes={nodes} edges={edges} groups={groups} height={320} />`} />
 
             <CodeBlock label="Alle Node-Typen" code={`// Alle 12 Node-Typen:
 type NodeType =

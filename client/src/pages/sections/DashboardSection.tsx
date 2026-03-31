@@ -1,5 +1,5 @@
 /**
- * DashboardSection – Flux UI
+ * DashboardSection – Volt UI
  * Farben: Lime (#E4FF97) + Schwarz (#0A0A0A) + Signalfarben
  * Kein Blau, kein Violett
  */
@@ -19,9 +19,9 @@ import {
   Download, RefreshCw, Eye, Edit2, Trash2, Plus, Info,
   Target, Zap, AlertTriangle,
 } from "lucide-react";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
-import { FluxBadge } from "@/components/grain/FluxBadge";
-import { FluxButton } from "@/components/grain/FluxButton";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
+import { VoltBadge } from "@/components/volt/VoltBadge";
+import { VoltButton } from "@/components/volt/VoltButton";
 
 /* ── Farbpalette: Lime + Schwarz + Signale ── */
 const C = {
@@ -278,12 +278,12 @@ export const DashboardSection: React.FC = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <FluxButton variant="outline" size="sm" leftIcon={<RefreshCw className="w-3.5 h-3.5" />}>
+          <VoltButton variant="outline" size="sm" leftIcon={<RefreshCw className="w-3.5 h-3.5" />}>
             Aktualisieren
-          </FluxButton>
-          <FluxButton variant="solid" size="sm" leftIcon={<Download className="w-3.5 h-3.5" />}>
+          </VoltButton>
+          <VoltButton variant="solid" size="sm" leftIcon={<Download className="w-3.5 h-3.5" />}>
             Export
-          </FluxButton>
+          </VoltButton>
         </div>
       </div>
 
@@ -337,11 +337,11 @@ export const DashboardSection: React.FC = () => {
 
           {/* Revenue Chart + Channel Pie */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <FluxCard className="lg:col-span-2">
-              <FluxCardHeader>
+            <VoltCard className="lg:col-span-2">
+              <VoltCardHeader>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <FluxCardTitle>Umsatz & Ausgaben</FluxCardTitle>
+                    <VoltCardTitle>Umsatz & Ausgaben</VoltCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">Jan – Aug 2025 · Monatliche Entwicklung</p>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       <Insight text="Umsatz wächst schneller als Ausgaben" type="positive" />
@@ -352,8 +352,8 @@ export const DashboardSection: React.FC = () => {
                     <MoreHorizontal className="w-4 h-4" />
                   </button>
                 </div>
-              </FluxCardHeader>
-              <FluxCardContent>
+              </VoltCardHeader>
+              <VoltCardContent>
                 <div ref={revenueRef}>
                 <ResponsiveContainer width="100%" height={220}>
                   <AreaChart data={revenueData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
@@ -382,17 +382,17 @@ export const DashboardSection: React.FC = () => {
                   </AreaChart>
                 </ResponsiveContainer>
                 </div>
-              </FluxCardContent>
-            </FluxCard>
+              </VoltCardContent>
+            </VoltCard>
 
             {/* Pie Chart */}
-            <FluxCard>
-              <FluxCardHeader>
-                <FluxCardTitle>Traffic-Kanäle</FluxCardTitle>
+            <VoltCard>
+              <VoltCardHeader>
+                <VoltCardTitle>Traffic-Kanäle</VoltCardTitle>
                 <p className="text-xs text-muted-foreground font-ui mt-0.5">Woher kommen die Besucher?</p>
                 <Insight text="Organisch dominiert mit 38%" type="positive" />
-              </FluxCardHeader>
-              <FluxCardContent>
+              </VoltCardHeader>
+              <VoltCardContent>
                 <div ref={channelRef}>
                 <ResponsiveContainer width="100%" height={140}>
                   <PieChart>
@@ -425,24 +425,24 @@ export const DashboardSection: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </FluxCardContent>
-            </FluxCard>
+              </VoltCardContent>
+            </VoltCard>
           </div>
 
           {/* Besucher + Ziele */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <FluxCard className="lg:col-span-2">
-              <FluxCardHeader>
+            <VoltCard className="lg:col-span-2">
+              <VoltCardHeader>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <FluxCardTitle>Besucher nach Kanal</FluxCardTitle>
+                    <VoltCardTitle>Besucher nach Kanal</VoltCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">Diese Woche · täglich aufgeschlüsselt</p>
                     <Insight text="Freitag ist stärkster Tag (+34% vs. Montag)" type="positive" />
                   </div>
-                  <FluxBadge variant="muted" size="sm">7 Tage</FluxBadge>
+                  <VoltBadge variant="muted" size="sm">7 Tage</VoltBadge>
                 </div>
-              </FluxCardHeader>
-              <FluxCardContent>
+              </VoltCardHeader>
+              <VoltCardContent>
                 <div ref={visitorRef}>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={visitorData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }} barSize={10} barGap={2}>
@@ -462,21 +462,21 @@ export const DashboardSection: React.FC = () => {
                   </BarChart>
                 </ResponsiveContainer>
                 </div>
-              </FluxCardContent>
-            </FluxCard>
+              </VoltCardContent>
+            </VoltCard>
 
             {/* Ziele */}
-            <FluxCard>
-              <FluxCardHeader>
+            <VoltCard>
+              <VoltCardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <FluxCardTitle>Monatsziele</FluxCardTitle>
+                    <VoltCardTitle>Monatsziele</VoltCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">August 2025 · 4 Tage verbleibend</p>
                   </div>
                   <Target className="w-4 h-4 text-muted-foreground" />
                 </div>
-              </FluxCardHeader>
-              <FluxCardContent>
+              </VoltCardHeader>
+              <VoltCardContent>
                 <div className="space-y-4">
                   {goals.map((g) => {
                     const pct = Math.min(100, Math.round((g.current / g.target) * 100));
@@ -508,23 +508,23 @@ export const DashboardSection: React.FC = () => {
                     );
                   })}
                 </div>
-              </FluxCardContent>
-            </FluxCard>
+              </VoltCardContent>
+            </VoltCard>
           </div>
 
           {/* Top Produkte + Activity */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <FluxCard className="lg:col-span-2">
-              <FluxCardHeader>
+            <VoltCard className="lg:col-span-2">
+              <VoltCardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <FluxCardTitle>Top Produkte</FluxCardTitle>
+                    <VoltCardTitle>Top Produkte</VoltCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">Nach Umsatz sortiert · August 2025</p>
                   </div>
-                  <FluxButton variant="ghost" size="sm" rightIcon={<ChevronRight className="w-3.5 h-3.5" />}>Alle anzeigen</FluxButton>
+                  <VoltButton variant="ghost" size="sm" rightIcon={<ChevronRight className="w-3.5 h-3.5" />}>Alle anzeigen</VoltButton>
                 </div>
-              </FluxCardHeader>
-              <FluxCardContent>
+              </VoltCardHeader>
+              <VoltCardContent>
                 <div className="grid grid-cols-12 gap-2 px-1 mb-2">
                   {["#","Produkt","Umsatz","Trend","Einheiten"].map((h,i) => (
                     <span key={i} className={`text-[9px] font-mono text-muted-foreground uppercase ${i===0?"col-span-1":i===1?"col-span-4":i===2?"col-span-3 text-right":i===3?"col-span-2 text-right":"col-span-2 text-right"}`}>{h}</span>
@@ -560,15 +560,15 @@ export const DashboardSection: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </FluxCardContent>
-            </FluxCard>
+              </VoltCardContent>
+            </VoltCard>
 
             {/* Activity Feed */}
-            <FluxCard>
-              <FluxCardHeader>
+            <VoltCard>
+              <VoltCardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <FluxCardTitle>Aktivitäten</FluxCardTitle>
+                    <VoltCardTitle>Aktivitäten</VoltCardTitle>
                     <p className="text-xs text-muted-foreground font-ui mt-0.5">Letzte 3 Stunden</p>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -576,8 +576,8 @@ export const DashboardSection: React.FC = () => {
                     <span className="text-[10px] font-mono text-[#1A9E5A] font-semibold">Live</span>
                   </div>
                 </div>
-              </FluxCardHeader>
-              <FluxCardContent>
+              </VoltCardHeader>
+              <VoltCardContent>
                 <div className="space-y-0">
                   {activities.map((a, i) => (
                     <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
@@ -593,8 +593,8 @@ export const DashboardSection: React.FC = () => {
                     </motion.div>
                   ))}
                 </div>
-              </FluxCardContent>
-            </FluxCard>
+              </VoltCardContent>
+            </VoltCard>
           </div>
         </div>
       )}
@@ -631,16 +631,16 @@ export const DashboardSection: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <FluxCard className="lg:col-span-2">
-              <FluxCardHeader>
-                <FluxCardTitle>Performance vs. Ziel</FluxCardTitle>
+            <VoltCard className="lg:col-span-2">
+              <VoltCardHeader>
+                <VoltCardTitle>Performance vs. Ziel</VoltCardTitle>
                 <p className="text-xs text-muted-foreground font-ui mt-0.5">Wöchentlicher Vergleich · Ist vs. Soll (Ziel: 80%)</p>
                 <div className="flex gap-1.5 mt-2">
                   <Insight text="4 von 6 Wochen über Ziel" type="positive" />
                   <Insight text="Trend: steigend" type="positive" />
                 </div>
-              </FluxCardHeader>
-              <FluxCardContent>
+              </VoltCardHeader>
+              <VoltCardContent>
                 <div ref={perfRef}>
                 <ResponsiveContainer width="100%" height={220}>
                   <LineChart data={performanceData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
@@ -655,15 +655,15 @@ export const DashboardSection: React.FC = () => {
                   </LineChart>
                 </ResponsiveContainer>
                 </div>
-              </FluxCardContent>
-            </FluxCard>
+              </VoltCardContent>
+            </VoltCard>
 
-            <FluxCard>
-              <FluxCardHeader>
-                <FluxCardTitle>Conversion Funnel</FluxCardTitle>
+            <VoltCard>
+              <VoltCardHeader>
+                <VoltCardTitle>Conversion Funnel</VoltCardTitle>
                 <p className="text-xs text-muted-foreground font-ui mt-0.5">Von Besucher zu Kunde: 21% Conversion</p>
-              </FluxCardHeader>
-              <FluxCardContent>
+              </VoltCardHeader>
+              <VoltCardContent>
                 <div ref={funnelRef}>
                 <ResponsiveContainer width="100%" height={160}>
                   <RadialBarChart cx="50%" cy="50%" innerRadius={20} outerRadius={75} data={conversionData} startAngle={90} endAngle={-270}>
@@ -686,8 +686,8 @@ export const DashboardSection: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </FluxCardContent>
-            </FluxCard>
+              </VoltCardContent>
+            </VoltCard>
           </div>
 
           {/* Lime Hero Stats */}
@@ -728,13 +728,13 @@ export const DashboardSection: React.FC = () => {
                   onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
-              <FluxButton variant="outline" size="sm" leftIcon={<Filter className="w-3.5 h-3.5" />}>Filter</FluxButton>
+              <VoltButton variant="outline" size="sm" leftIcon={<Filter className="w-3.5 h-3.5" />}>Filter</VoltButton>
             </div>
-            <FluxButton variant="solid" size="sm" leftIcon={<Plus className="w-3.5 h-3.5" />}>Neue Bestellung</FluxButton>
+            <VoltButton variant="solid" size="sm" leftIcon={<Plus className="w-3.5 h-3.5" />}>Neue Bestellung</VoltButton>
           </div>
 
-          <FluxCard>
-            <FluxCardContent className="p-0">
+          <VoltCard>
+            <VoltCardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -800,8 +800,8 @@ export const DashboardSection: React.FC = () => {
                   ))}
                 </div>
               </div>
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
 
           <div className="grid grid-cols-3 gap-4">
             {[

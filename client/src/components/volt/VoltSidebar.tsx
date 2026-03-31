@@ -1,5 +1,5 @@
 /**
- * FluxSidebar – Flux UI
+ * VoltSidebar – Volt UI
  * Hell: Weißer Hintergrund + schwarzer Text + Lime (#E4FF97) für aktive Items
  * Dark Mode: Sidebar wird dunkel via CSS-Klasse
  * Auto-Scroll: aktives Item scrollt immer in den sichtbaren Bereich
@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
-export interface FluxSidebarSection {
+export interface VoltSidebarSection {
   title: string;
   items: Array<{
     id: string;
@@ -23,14 +23,14 @@ export interface FluxSidebarSection {
   }>;
 }
 
-export interface FluxSidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, "onSelect"> {
-  sections: FluxSidebarSection[];
+export interface VoltSidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, "onSelect"> {
+  sections: VoltSidebarSection[];
   activeId?: string;
   onSelect?: (id: string) => void;
   logo?: React.ReactNode;
 }
 
-export const FluxSidebar: React.FC<FluxSidebarProps> = ({
+export const VoltSidebar: React.FC<VoltSidebarProps> = ({
   sections, activeId, onSelect, logo, className, ...props
 }) => {
   const { darkMode, toggleDarkMode } = useTheme();
@@ -220,7 +220,7 @@ export const FluxSidebar: React.FC<FluxSidebarProps> = ({
         <div className="pt-2" style={{ borderTop: `1px solid ${borderColor}50` }}>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-[#E4FF97] animate-pulse" />
-            <span className="text-[0.55rem] font-mono" style={{ color: dotText }}>Flux UI · React 19 · Tailwind 4</span>
+            <span className="text-[0.55rem] font-mono" style={{ color: dotText }}>Volt UI · React 19 · Tailwind 4</span>
           </div>
         </div>
       </div>

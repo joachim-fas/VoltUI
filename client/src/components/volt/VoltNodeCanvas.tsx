@@ -1,7 +1,7 @@
 /**
- * FluxNodeCanvas v2
+ * VoltNodeCanvas v2
  * ─────────────────────────────────────────────────────────────────────────────
- * Design: Flux UI · Interaktives Node-Canvas-System
+ * Design: Volt UI · Interaktives Node-Canvas-System
  *
  * Node-Typen (12):
  *   trigger, text, image, generator, list, data,
@@ -88,7 +88,7 @@ export interface CanvasGroup {
   color?: string;
 }
 
-export interface FluxNodeCanvasProps {
+export interface VoltNodeCanvasProps {
   nodes: CanvasNode[];
   edges?: CanvasEdge[];
   groups?: CanvasGroup[];
@@ -591,7 +591,7 @@ function StatusBadge({ status, isDark }: { status: NodeStatus; isDark: boolean }
    HAUPT-KOMPONENTE
 ══════════════════════════════════════════════════════════════════════════════ */
 
-const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
+const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
   nodes: initialNodes,
   edges = [],
   groups = [],
@@ -1053,5 +1053,5 @@ const FluxNodeCanvas: React.FC<FluxNodeCanvasProps> = ({
   );
 };
 
-export default FluxNodeCanvas;
-export { FluxNodeCanvas };
+export default VoltNodeCanvas;
+export { VoltNodeCanvas };

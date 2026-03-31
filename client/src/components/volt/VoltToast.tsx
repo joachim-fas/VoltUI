@@ -1,5 +1,5 @@
 /**
- * FluxToast / FluxTooltip – Atmospheric Grain Design System
+ * VoltToast / FluxTooltip – Atmospheric Volt UI Design System
  * Benachrichtigungs- und Tooltip-Komponenten.
  */
 
@@ -8,10 +8,10 @@ import { cn } from "@/lib/utils";
 import { CheckCircle2, AlertCircle, Info, AlertTriangle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-/* ── FluxToast ── */
+/* ── VoltToast ── */
 export type ToastVariant = "success" | "error" | "info" | "warning";
 
-export interface FluxToastItem {
+export interface VoltToastItem {
   id: string;
   variant?: ToastVariant;
   title: string;
@@ -46,12 +46,12 @@ const toastConfig: Record<ToastVariant, {
   },
 };
 
-interface FluxToastItemProps {
-  toast: FluxToastItem;
+interface VoltToastItemProps {
+  toast: VoltToastItem;
   onDismiss: (id: string) => void;
 }
 
-const FluxToastItem: React.FC<FluxToastItemProps> = ({ toast, onDismiss }) => {
+const VoltToastItem: React.FC<VoltToastItemProps> = ({ toast, onDismiss }) => {
   const config = toastConfig[toast.variant ?? "info"];
   const Icon = config.icon;
 
@@ -96,8 +96,8 @@ const FluxToastItem: React.FC<FluxToastItemProps> = ({ toast, onDismiss }) => {
 };
 
 /* ── Toast Container ── */
-export interface FluxToastContainerProps {
-  toasts: FluxToastItem[];
+export interface VoltToastContainerProps {
+  toasts: VoltToastItem[];
   onDismiss: (id: string) => void;
   position?: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
 }
@@ -111,7 +111,7 @@ const positionClasses: Record<string, string> = {
   "bottom-center":"bottom-4 left-1/2 -translate-x-1/2 items-center",
 };
 
-export const FluxToastContainer: React.FC<FluxToastContainerProps> = ({
+export const VoltToastContainer: React.FC<VoltToastContainerProps> = ({
   toasts,
   onDismiss,
   position = "bottom-right",
@@ -126,7 +126,7 @@ export const FluxToastContainer: React.FC<FluxToastContainerProps> = ({
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => (
           <div key={toast.id} className="pointer-events-auto">
-            <FluxToastItem toast={toast} onDismiss={onDismiss} />
+            <VoltToastItem toast={toast} onDismiss={onDismiss} />
           </div>
         ))}
       </AnimatePresence>
@@ -134,11 +134,11 @@ export const FluxToastContainer: React.FC<FluxToastContainerProps> = ({
   );
 };
 
-/* ── useFluxToast Hook ── */
-export function useFluxToast() {
-  const [toasts, setToasts] = React.useState<FluxToastItem[]>([]);
+/* ── useVoltToast Hook ── */
+export function useVoltToast() {
+  const [toasts, setToasts] = React.useState<VoltToastItem[]>([]);
 
-  const add = React.useCallback((toast: Omit<FluxToastItem, "id">) => {
+  const add = React.useCallback((toast: Omit<VoltToastItem, "id">) => {
     const id = Math.random().toString(36).slice(2);
     setToasts(prev => [...prev, { ...toast, id }]);
   }, []);

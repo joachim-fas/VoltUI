@@ -1,5 +1,5 @@
 /**
- * FluxCard – Flux UI Design System v4
+ * VoltCard – Volt UI Design System v4
  * Kein box-shadow – Tiefe durch Farbe, Borders und Hintergrundtöne
  * Theme-aware: nutzt CSS-Variablen statt hardcodierte Farben
  */
@@ -65,13 +65,13 @@ const cardVariants = cva(
   }
 );
 
-export interface FluxCardProps
+export interface VoltCardProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {
   withTexture?: boolean;
 }
 
-export const FluxCard = React.forwardRef<HTMLDivElement, FluxCardProps>(
+export const VoltCard = React.forwardRef<HTMLDivElement, VoltCardProps>(
   ({ className, variant, withTexture = true, children, ...props }, ref) => {
     return (
       <div
@@ -84,17 +84,17 @@ export const FluxCard = React.forwardRef<HTMLDivElement, FluxCardProps>(
     );
   }
 );
-FluxCard.displayName = "FluxCard";
+VoltCard.displayName = "VoltCard";
 
-export const FluxCardHeader = React.forwardRef<
+export const VoltCardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("flex flex-col gap-1.5 p-6", className)} {...props} />
 ));
-FluxCardHeader.displayName = "FluxCardHeader";
+VoltCardHeader.displayName = "VoltCardHeader";
 
-export const FluxCardTitle = React.forwardRef<
+export const VoltCardTitle = React.forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
@@ -104,9 +104,9 @@ export const FluxCardTitle = React.forwardRef<
     {...props}
   />
 ));
-FluxCardTitle.displayName = "FluxCardTitle";
+VoltCardTitle.displayName = "VoltCardTitle";
 
-export const FluxCardDescription = React.forwardRef<
+export const VoltCardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
@@ -116,17 +116,17 @@ export const FluxCardDescription = React.forwardRef<
     {...props}
   />
 ));
-FluxCardDescription.displayName = "FluxCardDescription";
+VoltCardDescription.displayName = "VoltCardDescription";
 
-export const FluxCardContent = React.forwardRef<
+export const VoltCardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
 ));
-FluxCardContent.displayName = "FluxCardContent";
+VoltCardContent.displayName = "VoltCardContent";
 
-export const FluxCardFooter = React.forwardRef<
+export const VoltCardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -136,4 +136,4 @@ export const FluxCardFooter = React.forwardRef<
     {...props}
   />
 ));
-FluxCardFooter.displayName = "FluxCardFooter";
+VoltCardFooter.displayName = "VoltCardFooter";

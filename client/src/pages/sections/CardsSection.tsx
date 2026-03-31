@@ -3,11 +3,11 @@
  */
 
 import React, { useState } from "react";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription, FluxCardFooter } from "@/components/grain/FluxCard";
-import { FluxBadge } from "@/components/grain/FluxBadge";
-import { FluxAlert } from "@/components/grain/FluxAlert";
-import { FluxAvatar, FluxAvatarGroup } from "@/components/grain/FluxAvatar";
-import { FluxButton } from "@/components/grain/FluxButton";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle, VoltCardDescription, VoltCardFooter } from "@/components/volt/VoltCard";
+import { VoltBadge } from "@/components/volt/VoltBadge";
+import { VoltAlert } from "@/components/volt/VoltAlert";
+import { VoltAvatar, VoltAvatarGroup } from "@/components/volt/VoltAvatar";
+import { VoltButton } from "@/components/volt/VoltButton";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 
 export const CardsSection: React.FC = () => {
@@ -21,7 +21,7 @@ export const CardsSection: React.FC = () => {
         <p className="section-label mb-2">03 — Surfaces</p>
         <h2 className="font-display font-bold text-3xl text-foreground mb-3">Cards, Badges & Alerts</h2>
         <p className="text-muted-foreground font-body leading-relaxed max-w-2xl">
-          Oberflächen-Komponenten mit Glasmorphismus, Flux-Textur und atmosphärischen Schatten.
+          Oberflächen-Komponenten mit Glasmorphismus, Volt-Textur und atmosphärischen Schatten.
           Alle Varianten reagieren auf Hover und unterstützen Dark Mode.
         </p>
       </div>
@@ -31,107 +31,107 @@ export const CardsSection: React.FC = () => {
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Card-Varianten</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Default */}
-          <FluxCard variant="default">
-            <FluxCardHeader>
+          <VoltCard variant="default">
+            <VoltCardHeader>
               <div className="flex items-center justify-between">
-                <FluxBadge variant="muted" size="sm">Default</FluxBadge>
-                <FluxBadge variant="default" size="sm" dot>Aktiv</FluxBadge>
+                <VoltBadge variant="muted" size="sm">Default</VoltBadge>
+                <VoltBadge variant="default" size="sm" dot>Aktiv</VoltBadge>
               </div>
-              <FluxCardTitle>Standard Card</FluxCardTitle>
-              <FluxCardDescription>
-                Mit subtiler Flux-Textur und weichem Schatten. Hover-Effekt inklusive.
-              </FluxCardDescription>
-            </FluxCardHeader>
-            <FluxCardFooter>
-              <FluxButton variant="outline" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
+              <VoltCardTitle>Standard Card</VoltCardTitle>
+              <VoltCardDescription>
+                Mit subtiler Volt-Textur und weichem Schatten. Hover-Effekt inklusive.
+              </VoltCardDescription>
+            </VoltCardHeader>
+            <VoltCardFooter>
+              <VoltButton variant="outline" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
                 Mehr erfahren
-              </FluxButton>
-            </FluxCardFooter>
-          </FluxCard>
+              </VoltButton>
+            </VoltCardFooter>
+          </VoltCard>
 
           {/* Glass */}
           <div className="bg-grain-hero rounded-2xl p-0.5">
-            <FluxCard variant="glass" className="h-full">
-              <FluxCardHeader>
+            <VoltCard variant="glass" className="h-full">
+              <VoltCardHeader>
                 <div className="flex items-center justify-between">
-                  <FluxBadge variant="glass" size="sm">Glass</FluxBadge>
+                  <VoltBadge variant="glass" size="sm">Glass</VoltBadge>
                   <Sparkles className="w-4 h-4 text-foreground" />
                 </div>
-                <FluxCardTitle>Glass Card</FluxCardTitle>
-                <FluxCardDescription>
+                <VoltCardTitle>Glass Card</VoltCardTitle>
+                <VoltCardDescription>
                   Backdrop-Blur mit Glasmorphismus-Effekt. Ideal für Hero-Bereiche.
-                </FluxCardDescription>
-              </FluxCardHeader>
-              <FluxCardFooter>
-                <FluxButton variant="glass" size="sm">Entdecken</FluxButton>
-              </FluxCardFooter>
-            </FluxCard>
+                </VoltCardDescription>
+              </VoltCardHeader>
+              <VoltCardFooter>
+                <VoltButton variant="glass" size="sm">Entdecken</VoltButton>
+              </VoltCardFooter>
+            </VoltCard>
           </div>
 
           {/* Gradient */}
-          <FluxCard variant="gradient">
-            <FluxCardHeader>
+          <VoltCard variant="gradient">
+            <VoltCardHeader>
               <div className="flex items-center justify-between">
-                <FluxBadge variant="glass" size="sm">Gradient</FluxBadge>
+                <VoltBadge variant="glass" size="sm">Gradient</VoltBadge>
                 <TrendingUp className="w-4 h-4 text-foreground" />
               </div>
-              <FluxCardTitle className="text-foreground">Lime Card</FluxCardTitle>
-              <FluxCardDescription className="text-[#000000]/70">
-                Neon-Yellow mit Flux-Textur. Für hervorgehobene Inhalte.
-              </FluxCardDescription>
-            </FluxCardHeader>
-            <FluxCardFooter>
-              <FluxButton variant="solid" size="sm">
+              <VoltCardTitle className="text-foreground">Lime Card</VoltCardTitle>
+              <VoltCardDescription className="text-[#000000]/70">
+                Neon-Yellow mit Volt-Textur. Für hervorgehobene Inhalte.
+              </VoltCardDescription>
+            </VoltCardHeader>
+            <VoltCardFooter>
+              <VoltButton variant="solid" size="sm">
                 Jetzt starten
-              </FluxButton>
-            </FluxCardFooter>
-          </FluxCard>
+              </VoltButton>
+            </VoltCardFooter>
+          </VoltCard>
 
           {/* Elevated */}
-          <FluxCard variant="elevated">
-            <FluxCardHeader>
-              <FluxBadge variant="muted" size="sm">Elevated</FluxBadge>
-              <FluxCardTitle>Elevated Card</FluxCardTitle>
-              <FluxCardDescription>
+          <VoltCard variant="elevated">
+            <VoltCardHeader>
+              <VoltBadge variant="muted" size="sm">Elevated</VoltBadge>
+              <VoltCardTitle>Elevated Card</VoltCardTitle>
+              <VoltCardDescription>
                 Stärkerer Schatten für visuelle Hierarchie und Tiefe.
-              </FluxCardDescription>
-            </FluxCardHeader>
-            <FluxCardContent>
+              </VoltCardDescription>
+            </VoltCardHeader>
+            <VoltCardContent>
               <div className="flex items-center gap-3">
-                <FluxAvatar name="Anna Müller" size="md" online />
+                <VoltAvatar name="Anna Müller" size="md" online />
                 <div>
                   <p className="text-sm font-semibold font-body">Anna Müller</p>
                   <p className="text-xs text-muted-foreground font-body">Design Lead</p>
                 </div>
               </div>
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
 
           {/* Outlined */}
-          <FluxCard variant="outlined">
-            <FluxCardHeader>
-              <FluxBadge variant="outline" size="sm">Outlined</FluxBadge>
-              <FluxCardTitle>Outlined Card</FluxCardTitle>
-              <FluxCardDescription>
+          <VoltCard variant="outlined">
+            <VoltCardHeader>
+              <VoltBadge variant="outline" size="sm">Outlined</VoltBadge>
+              <VoltCardTitle>Outlined Card</VoltCardTitle>
+              <VoltCardDescription>
                 Transparenter Hintergrund mit farbigem Rahmen. Für sekundäre Inhalte.
-              </FluxCardDescription>
-            </FluxCardHeader>
-            <FluxCardFooter>
-              <FluxButton variant="primary" size="sm">Auswählen</FluxButton>
-            </FluxCardFooter>
-          </FluxCard>
+              </VoltCardDescription>
+            </VoltCardHeader>
+            <VoltCardFooter>
+              <VoltButton variant="primary" size="sm">Auswählen</VoltButton>
+            </VoltCardFooter>
+          </VoltCard>
 
           {/* Subtle */}
-          <FluxCard variant="subtle">
-            <FluxCardHeader>
-              <FluxBadge variant="muted" size="sm">Subtle</FluxBadge>
-              <FluxCardTitle>Subtle Card</FluxCardTitle>
-              <FluxCardDescription>
+          <VoltCard variant="subtle">
+            <VoltCardHeader>
+              <VoltBadge variant="muted" size="sm">Subtle</VoltBadge>
+              <VoltCardTitle>Subtle Card</VoltCardTitle>
+              <VoltCardDescription>
                 Sehr zurückhaltend mit atmosphärischem Gradient-Hintergrund.
-              </FluxCardDescription>
-            </FluxCardHeader>
-            <FluxCardContent>
-              <FluxAvatarGroup
+              </VoltCardDescription>
+            </VoltCardHeader>
+            <VoltCardContent>
+              <VoltAvatarGroup
                 avatars={[
                   { name: "Max S." },
                   { name: "Lisa K." },
@@ -142,50 +142,50 @@ export const CardsSection: React.FC = () => {
                 max={4}
                 size="sm"
               />
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
         </div>
       </div>
 
       {/* Badges */}
       <div>
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Badge-Varianten</h3>
-        <FluxCard>
-          <FluxCardContent className="pt-6">
+        <VoltCard>
+          <VoltCardContent className="pt-6">
             <div className="space-y-4">
               <div>
                 <p className="section-label mb-3">Farb-Varianten</p>
                 <div className="flex flex-wrap gap-2">
-                  <FluxBadge variant="default">Lime</FluxBadge>
-                  <FluxBadge variant="solid">Solid</FluxBadge>
-                  <FluxBadge variant="outline">Outline</FluxBadge>
-                  <FluxBadge variant="muted">Muted</FluxBadge>
-                  <FluxBadge variant="glass">Glass</FluxBadge>
-                  <FluxBadge variant="positive">Positiv</FluxBadge>
-                  <FluxBadge variant="negative">Negativ</FluxBadge>
-                  <FluxBadge variant="neutral">Neutral</FluxBadge>
+                  <VoltBadge variant="default">Lime</VoltBadge>
+                  <VoltBadge variant="solid">Solid</VoltBadge>
+                  <VoltBadge variant="outline">Outline</VoltBadge>
+                  <VoltBadge variant="muted">Muted</VoltBadge>
+                  <VoltBadge variant="glass">Glass</VoltBadge>
+                  <VoltBadge variant="positive">Positiv</VoltBadge>
+                  <VoltBadge variant="negative">Negativ</VoltBadge>
+                  <VoltBadge variant="neutral">Neutral</VoltBadge>
                 </div>
               </div>
               <div>
                 <p className="section-label mb-3">Größen</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <FluxBadge variant="default" size="sm">Small</FluxBadge>
-                  <FluxBadge variant="default" size="md">Medium</FluxBadge>
-                  <FluxBadge variant="default" size="lg">Large</FluxBadge>
+                  <VoltBadge variant="default" size="sm">Small</VoltBadge>
+                  <VoltBadge variant="default" size="md">Medium</VoltBadge>
+                  <VoltBadge variant="default" size="lg">Large</VoltBadge>
                 </div>
               </div>
               <div>
                 <p className="section-label mb-3">Mit Status-Punkt</p>
                 <div className="flex flex-wrap gap-2">
-                  <FluxBadge variant="positive" dot dotColor="#1A9E5A">Online</FluxBadge>
-                  <FluxBadge variant="neutral" dot dotColor="#E8B800">Beschäftigt</FluxBadge>
-                  <FluxBadge variant="muted" dot dotColor="#6B6B6B">Abwesend</FluxBadge>
-                  <FluxBadge variant="default" dot>Neu</FluxBadge>
+                  <VoltBadge variant="positive" dot dotColor="#1A9E5A">Online</VoltBadge>
+                  <VoltBadge variant="neutral" dot dotColor="#E8B800">Beschäftigt</VoltBadge>
+                  <VoltBadge variant="muted" dot dotColor="#6B6B6B">Abwesend</VoltBadge>
+                  <VoltBadge variant="default" dot>Neu</VoltBadge>
                 </div>
               </div>
             </div>
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
       </div>
 
       {/* Alerts */}
@@ -193,44 +193,44 @@ export const CardsSection: React.FC = () => {
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Alert-Varianten</h3>
         <div className="space-y-3">
           {alerts.info && (
-            <FluxAlert
+            <VoltAlert
               variant="info"
               title="Information"
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, info: false }))}
             >
-              Das Flux UI Design System ist vollständig in CSS und React implementiert – keine externen Bild-Assets.
-            </FluxAlert>
+              Das Volt UI Design System ist vollständig in CSS und React implementiert – keine externen Bild-Assets.
+            </VoltAlert>
           )}
           {alerts.success && (
-            <FluxAlert
+            <VoltAlert
               variant="success"
               title="Erfolgreich gespeichert"
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, success: false }))}
             >
               Alle Änderungen wurden erfolgreich gespeichert und sind sofort aktiv.
-            </FluxAlert>
+            </VoltAlert>
           )}
           {alerts.warning && (
-            <FluxAlert
+            <VoltAlert
               variant="warning"
               title="Achtung"
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, warning: false }))}
             >
               Diese Aktion kann nicht rückgängig gemacht werden. Bitte überprüfe deine Eingaben.
-            </FluxAlert>
+            </VoltAlert>
           )}
           {alerts.error && (
-            <FluxAlert
+            <VoltAlert
               variant="error"
               title="Fehler aufgetreten"
               dismissible
               onDismiss={() => setAlerts(a => ({ ...a, error: false }))}
             >
               Die Verbindung zum Server konnte nicht hergestellt werden. Bitte versuche es erneut.
-            </FluxAlert>
+            </VoltAlert>
           )}
           {!Object.values(alerts).some(Boolean) && (
             <div className="text-center py-8 text-muted-foreground font-body text-sm">
@@ -249,29 +249,29 @@ export const CardsSection: React.FC = () => {
       {/* Avatare */}
       <div>
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Avatar-Komponente</h3>
-        <FluxCard>
-          <FluxCardContent className="pt-6 space-y-6">
+        <VoltCard>
+          <VoltCardContent className="pt-6 space-y-6">
             <div>
               <p className="section-label mb-3">Größen mit Gradient-Fallback</p>
               <div className="flex items-end gap-4">
-                <FluxAvatar name="Anna Müller" size="xs" />
-                <FluxAvatar name="Max Schmidt" size="sm" />
-                <FluxAvatar name="Lisa Koch" size="md" />
-                <FluxAvatar name="Tom Braun" size="lg" />
-                <FluxAvatar name="Sara Weber" size="xl" />
+                <VoltAvatar name="Anna Müller" size="xs" />
+                <VoltAvatar name="Max Schmidt" size="sm" />
+                <VoltAvatar name="Lisa Koch" size="md" />
+                <VoltAvatar name="Tom Braun" size="lg" />
+                <VoltAvatar name="Sara Weber" size="xl" />
               </div>
             </div>
             <div>
               <p className="section-label mb-3">Online-Status</p>
               <div className="flex items-center gap-4">
-                <FluxAvatar name="Anna M." size="md" online />
-                <FluxAvatar name="Max S." size="md" ring />
-                <FluxAvatar name="Lisa K." size="lg" online ring />
+                <VoltAvatar name="Anna M." size="md" online />
+                <VoltAvatar name="Max S." size="md" ring />
+                <VoltAvatar name="Lisa K." size="lg" online ring />
               </div>
             </div>
             <div>
               <p className="section-label mb-3">Avatar-Gruppe</p>
-              <FluxAvatarGroup
+              <VoltAvatarGroup
                 avatars={[
                   { name: "Anna Müller" },
                   { name: "Max Schmidt" },
@@ -284,8 +284,8 @@ export const CardsSection: React.FC = () => {
                 size="md"
               />
             </div>
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
       </div>
     </div>
   );

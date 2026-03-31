@@ -1,5 +1,5 @@
 /**
- * DataSection – Flux UI
+ * DataSection – Volt UI
  * Fokus: Klare Informationsvermittlung
  * Jeder Chart-Typ erklärt: Was zeigt er? Wann nutze ich ihn? Was lese ich ab?
  */
@@ -11,10 +11,10 @@ import {
   FluxRadialBarChart, FluxFunnelChart, FluxTrendChart,
   FluxStackedAreaChart, FluxStackedBarChart,
   GRAIN_PASTEL,
-} from "@/components/grain/FluxChart";
-import { FluxTable } from "@/components/grain/FluxTable";
-import { FluxBadge } from "@/components/grain/FluxBadge";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
+} from "@/components/volt/VoltChart";
+import { VoltTable } from "@/components/volt/VoltTable";
+import { VoltBadge } from "@/components/volt/VoltBadge";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
 import { motion } from "framer-motion";
 import {
   TrendingUp, Users, Zap, BarChart2, Activity,
@@ -120,12 +120,12 @@ const frameworkData = [
 
 type TableRow = { name: string; version: string; status: string; downloads: string; updated: string; };
 const tableData: TableRow[] = [
-  { name: "FluxButton",   version: "2.0.0", status: "stable", downloads: "12.4k", updated: "heute" },
-  { name: "FluxCard",     version: "2.0.0", status: "stable", downloads: "9.8k",  updated: "heute" },
-  { name: "FluxInput",    version: "2.0.0", status: "stable", downloads: "8.2k",  updated: "heute" },
-  { name: "FluxModal",    version: "2.0.0", status: "stable", downloads: "6.5k",  updated: "heute" },
-  { name: "FluxChart",    version: "2.0.0", status: "beta",   downloads: "4.1k",  updated: "heute" },
-  { name: "FluxTable",    version: "2.0.0", status: "stable", downloads: "3.7k",  updated: "heute" },
+  { name: "VoltButton",   version: "2.0.0", status: "stable", downloads: "12.4k", updated: "heute" },
+  { name: "VoltCard",     version: "2.0.0", status: "stable", downloads: "9.8k",  updated: "heute" },
+  { name: "VoltInput",    version: "2.0.0", status: "stable", downloads: "8.2k",  updated: "heute" },
+  { name: "VoltModal",    version: "2.0.0", status: "stable", downloads: "6.5k",  updated: "heute" },
+  { name: "VoltChart",    version: "2.0.0", status: "beta",   downloads: "4.1k",  updated: "heute" },
+  { name: "VoltTable",    version: "2.0.0", status: "stable", downloads: "3.7k",  updated: "heute" },
 ];
 
 /* ── Chart-Typ Übersicht mit Erklärungen ── */
@@ -236,7 +236,7 @@ const SectionHeader: React.FC<{
         </div>
       )}
     </div>
-    {badge && <FluxBadge variant="muted" size="sm">{badge}</FluxBadge>}
+    {badge && <VoltBadge variant="muted" size="sm">{badge}</VoltBadge>}
   </div>
 );
 
@@ -480,28 +480,28 @@ export const DataSection: React.FC = () => {
           badge={`${tableData.length} Einträge`}
           insight="Faustregel: Chart für Trends, Tabelle für exakte Werte"
         />
-        <FluxTable<TableRow>
+        <VoltTable<TableRow>
           columns={[
             { key: "name",      header: "Komponente",    render: (v) => <span className="font-mono text-xs font-semibold text-foreground">{String(v)}</span> },
             { key: "version",   header: "Version",       render: (v) => <span className="font-mono text-xs text-muted-foreground">{String(v)}</span> },
-            { key: "status",    header: "Status",        render: (v) => <FluxBadge variant={String(v) === "stable" ? "blue" : "coral"} size="sm" dot>{String(v)}</FluxBadge> },
+            { key: "status",    header: "Status",        render: (v) => <VoltBadge variant={String(v) === "stable" ? "blue" : "coral"} size="sm" dot>{String(v)}</VoltBadge> },
             { key: "downloads", header: "Downloads",     align: "right", render: (v) => <span className="font-mono text-xs font-semibold">{String(v)}</span> },
             { key: "updated",   header: "Aktualisiert",  align: "right", render: (v) => <span className="text-xs text-muted-foreground">{String(v)}</span> },
           ]}
           data={tableData} hoverable striped
-          caption="Flux UI Komponenten · Version 2.0.0 · Stand: August 2025"
+          caption="Volt UI Komponenten · Version 2.0.0 · Stand: August 2025"
         />
       </div>
 
       {/* ── Farbpalette ── */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Chart-Farbpalette</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Chart-Farbpalette</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">
             Neon Yellow + Black + Signalfarben + Pastell · Konsistent über alle Visualisierungen
           </p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             {[
               { hex: GRAIN_PASTEL[0], name: "Butter",      role: "Warm" },
@@ -529,8 +529,8 @@ export const DataSection: React.FC = () => {
               Neon Yellow #E4FF97 und Black #000000 als führende Systemfarben. Signalfarben (Smaragd, Koralle, Slate) für eindeutige Datenbewertung. 8 Pastell-Töne für Kategorien und Reporting.
             </p>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
     </section>
   );

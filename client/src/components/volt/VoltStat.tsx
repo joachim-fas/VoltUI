@@ -1,5 +1,5 @@
 /**
- * FluxStat / GrainKPI – Atmospheric Grain Design System
+ * VoltStat / GrainKPI – Atmospheric Volt UI Design System
  * Kennzahlen-Karten für Dashboards.
  * Farbsystem: Lime+Schwarz primär, Pastell sekundär, Signale für Trends
  */
@@ -8,7 +8,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 
-export interface FluxStatProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface VoltStatProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;
   value: string | number;
   unit?: string;
@@ -19,7 +19,7 @@ export interface FluxStatProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg";
 }
 
-export const FluxStat: React.FC<FluxStatProps> = ({
+export const VoltStat: React.FC<VoltStatProps> = ({
   label,
   value,
   unit,

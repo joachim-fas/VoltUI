@@ -1,5 +1,5 @@
 /**
- * FluxTabs – Atmospheric Grain Design System
+ * VoltTabs – Atmospheric Volt UI Design System
  * Tab-Navigation mit atmosphärischen Übergängen.
  */
 
@@ -15,7 +15,7 @@ export interface FluxTabItem {
   content?: React.ReactNode;
 }
 
-export interface FluxTabsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface VoltTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   tabs: FluxTabItem[];
   defaultTab?: string;
   activeTab?: string;
@@ -23,7 +23,7 @@ export interface FluxTabsProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "underline" | "pills" | "glass" | "boxed";
 }
 
-export const FluxTabs: React.FC<FluxTabsProps> = ({
+export const VoltTabs: React.FC<VoltTabsProps> = ({
   tabs,
   defaultTab,
   activeTab,

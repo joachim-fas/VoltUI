@@ -1,5 +1,5 @@
 /**
- * ExportSection – Flux UI
+ * ExportSection – Volt UI
  * Import-Anleitung, CSS-Download, Code-Snippets für alle Zielplattformen
  * Design: Weiß + Schwarz + Lime – terminal-inspiriert
  */
@@ -61,12 +61,12 @@ const SNIPPETS: Record<string, { steps: { title: string; code: string; lang: str
       {
         title: "1. CSS-Datei einbinden",
         lang: "html",
-        desc: "Lade die flux-ui.css herunter und verlinke sie im <head> deiner HTML-Datei. Alle Tokens und Utility-Klassen sind sofort verfügbar.",
+        desc: "Lade die volt-ui.css herunter und verlinke sie im <head> deiner HTML-Datei. Alle Tokens und Utility-Klassen sind sofort verfügbar.",
         code: `<!-- Im <head> deiner HTML-Datei -->
-<link rel="stylesheet" href="flux-ui.css">
+<link rel="stylesheet" href="volt-ui.css">
 
 <!-- Oder via CDN (nach Veröffentlichung) -->
-<link rel="stylesheet" href="https://cdn.flux-ui.design/flux-ui.css">`,
+<link rel="stylesheet" href="https://cdn.volt-ui.design/volt-ui.css">`,
       },
       {
         title: "2. Erste Komponente",
@@ -106,33 +106,33 @@ const SNIPPETS: Record<string, { steps: { title: string; code: string; lang: str
       {
         title: "1. CSS importieren",
         lang: "tsx",
-        desc: "Importiere flux-ui.css in deiner main.tsx oder App.tsx. Alle Tokens sind dann global verfügbar.",
+        desc: "Importiere volt-ui.css in deiner main.tsx oder App.tsx. Alle Tokens sind dann global verfügbar.",
         code: `// main.tsx oder App.tsx
-import "./flux-ui.css";
+import "./volt-ui.css";
 
 // Oder als npm-Paket (nach Veröffentlichung)
-import "flux-ui/styles";`,
+import "volt-ui/styles";`,
       },
       {
         title: "2. Komponenten kopieren",
         lang: "tsx",
-        desc: "Kopiere die gewünschten Komponenten aus dem /components/grain/ Verzeichnis in dein Projekt. Jede Komponente ist eigenständig und hat keine externen Abhängigkeiten außer React.",
-        code: `// Komponenten direkt aus dem Flux UI Repo kopieren:
-// src/components/grain/FluxButton.tsx
-// src/components/grain/FluxCard.tsx
-// src/components/grain/FluxBadge.tsx
+        desc: "Kopiere die gewünschten Komponenten aus dem /components/volt/ Verzeichnis in dein Projekt. Jede Komponente ist eigenständig und hat keine externen Abhängigkeiten außer React.",
+        code: `// Komponenten direkt aus dem Volt UI Repo kopieren:
+// src/components/volt/VoltButton.tsx
+// src/components/volt/VoltCard.tsx
+// src/components/volt/VoltBadge.tsx
 // ... etc.
 
-import { FluxButton } from "@/components/grain/FluxButton";
-import { FluxCard }   from "@/components/grain/FluxCard";
+import { VoltButton } from "@/components/volt/VoltButton";
+import { VoltCard }   from "@/components/volt/VoltCard";
 
 export function App() {
   return (
-    <FluxCard>
-      <FluxButton variant="lime">
-        Flux UI · Design Concept
-      </FluxButton>
-    </FluxCard>
+    <VoltCard>
+      <VoltButton variant="lime">
+        Volt UI · Design Concept
+      </VoltButton>
+    </VoltCard>
   );
 }`,
       },
@@ -140,7 +140,7 @@ export function App() {
         title: "3. Tailwind-Konfiguration",
         lang: "css",
         desc: "Falls du Tailwind CSS verwendest, füge die Flux-Tokens in deine index.css ein. Die @theme-Direktive registriert alle Tokens als Tailwind-Utilities.",
-        code: `/* index.css – Flux UI Tokens für Tailwind 4 */
+        code: `/* index.css – Volt UI Tokens für Tailwind 4 */
 @import "tailwindcss";
 
 @theme inline {
@@ -161,12 +161,12 @@ export function App() {
   claude: {
     steps: [
       {
-        title: "1. System-Prompt mit Flux UI Kontext",
+        title: "1. System-Prompt mit Volt UI Kontext",
         lang: "text",
         desc: "Füge diesen Kontext am Anfang deines Claude-Code-Projekts ein. Claude wird dann automatisch Flux-UI-konforme Komponenten generieren.",
-        code: `# Flux UI Design System
+        code: `# Volt UI Design System
 
-Du arbeitest mit dem Flux UI Design System.
+Du arbeitest mit dem Volt UI Design System.
 
 ## Kern-Tokens
 - Primärfarbe: #E4FF97 (Lime)
@@ -197,7 +197,7 @@ Du arbeitest mit dem Flux UI Design System.
         title: "2. Komponenten-Prompt",
         lang: "text",
         desc: "Verwende diesen Prompt um neue Komponenten im Flux-UI-Stil zu generieren.",
-        code: `Erstelle eine React-Komponente im Flux UI Stil:
+        code: `Erstelle eine React-Komponente im Volt UI Stil:
 
 Anforderungen:
 - Farben: Lime #E4FF97, Schwarz #0A0A0A, Weiß #FFFFFF
@@ -210,17 +210,17 @@ Anforderungen:
 - Section-Labels: text-[10px] font-mono uppercase tracking-widest text-muted-foreground`,
       },
       {
-        title: "3. flux-ui.css einbinden",
+        title: "3. volt-ui.css einbinden",
         lang: "bash",
-        desc: "Lade die flux-ui.css herunter und platziere sie im public/-Verzeichnis deines Projekts.",
-        code: `# flux-ui.css in dein Projekt kopieren
-cp flux-ui.css ./public/flux-ui.css
+        desc: "Lade die volt-ui.css herunter und platziere sie im public/-Verzeichnis deines Projekts.",
+        code: `# volt-ui.css in dein Projekt kopieren
+cp volt-ui.css ./public/volt-ui.css
 
 # In index.html einbinden
-# <link rel="stylesheet" href="/flux-ui.css">
+# <link rel="stylesheet" href="/volt-ui.css">
 
 # Oder in main.tsx importieren
-# import "/flux-ui.css";`,
+# import "/volt-ui.css";`,
       },
     ],
   },
@@ -232,7 +232,7 @@ cp flux-ui.css ./public/flux-ui.css
         desc: "Füge die Flux-UI-Schriften in dein Next.js-Layout ein. Alle vier Schriftschnitte werden via Google Fonts geladen.",
         code: `// app/layout.tsx
 import { Bricolage_Grotesque, DM_Sans, Lora, JetBrains_Mono } from "next/font/google";
-import "./flux-ui.css";
+import "./volt-ui.css";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display" });
 const ui      = DM_Sans({ subsets: ["latin"], variable: "--font-ui" });
@@ -270,22 +270,22 @@ export default function RootLayout({ children }) {
       {
         title: "3. Komponenten importieren",
         lang: "tsx",
-        desc: "Kopiere das /components/grain/ Verzeichnis in dein Next.js-Projekt und passe den Import-Pfad an.",
+        desc: "Kopiere das /components/volt/ Verzeichnis in dein Next.js-Projekt und passe den Import-Pfad an.",
         code: `// Komponenten kopieren nach: components/flux/
 // Dann importieren:
-import { FluxButton } from "@/components/flux/FluxButton";
-import { FluxCard }   from "@/components/flux/FluxCard";
-import { FluxBadge }  from "@/components/flux/FluxBadge";
+import { VoltButton } from "@/components/flux/VoltButton";
+import { VoltCard }   from "@/components/flux/VoltCard";
+import { VoltBadge }  from "@/components/flux/VoltBadge";
 
 export default function Page() {
   return (
     <main className="p-8">
-      <FluxCard>
+      <VoltCard>
         <h1 className="font-display font-bold text-3xl">
-          Flux UI in Next.js
+          Volt UI in Next.js
         </h1>
-        <FluxButton variant="lime">Los geht's →</FluxButton>
-      </FluxCard>
+        <VoltButton variant="lime">Los geht's →</VoltButton>
+      </VoltCard>
     </main>
   );
 }`,
@@ -395,8 +395,8 @@ export const ExportSection: React.FC = () => {
 
   const handleDownloadCSS = () => {
     const link = document.createElement("a");
-    link.href = "/flux-ui.css";
-    link.download = "flux-ui.css";
+    link.href = "/volt-ui.css";
+    link.download = "volt-ui.css";
     link.click();
     setCopiedDownload(true);
     setTimeout(() => setCopiedDownload(false), 2000);
@@ -409,7 +409,7 @@ export const ExportSection: React.FC = () => {
       <div>
         <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Export & Import</p>
         <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-4 leading-tight">
-          Flux UI in jedes Projekt importieren
+          Volt UI in jedes Projekt importieren
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
           Das Design System ist portabel – eine CSS-Datei reicht für Plain HTML.
@@ -423,10 +423,10 @@ export const ExportSection: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-[#E4FF97] font-mono text-sm font-bold">&gt;_</span>
-            <span className="text-white/40 font-mono text-xs">flux-ui.css · v1.0</span>
+            <span className="text-white/40 font-mono text-xs">volt-ui.css · v1.0</span>
           </div>
           <p className="font-display font-bold text-xl text-white leading-snug mb-1">
-            flux-ui.css herunterladen
+            volt-ui.css herunterladen
           </p>
           <p className="text-white/50 text-sm font-ui">
             Alle Tokens, Utility-Klassen und Komponenten-Styles in einer Datei.
@@ -452,7 +452,7 @@ export const ExportSection: React.FC = () => {
         >
           {copiedDownload
             ? <><Check className="w-4 h-4" /> Heruntergeladen</>
-            : <><Download className="w-4 h-4" /> flux-ui.css herunterladen</>
+            : <><Download className="w-4 h-4" /> volt-ui.css herunterladen</>
           }
         </button>
       </div>

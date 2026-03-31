@@ -1,6 +1,6 @@
 /**
- * FluxNavbar – Atmospheric Grain Design System
- * Top-Navigation mit Glasmorphismus und Flux-Textur.
+ * VoltNavbar – Atmospheric Volt UI Design System
+ * Top-Navigation mit Glasmorphismus und Volt-Textur.
  */
 
 import React from "react";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export interface FluxNavItem {
+export interface VoltNavItem {
   label: string;
   href?: string;
   active?: boolean;
@@ -16,15 +16,15 @@ export interface FluxNavItem {
   onClick?: () => void;
 }
 
-export interface FluxNavbarProps extends React.HTMLAttributes<HTMLElement> {
+export interface VoltNavbarProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
-  items?: FluxNavItem[];
+  items?: VoltNavItem[];
   rightSlot?: React.ReactNode;
   variant?: "glass" | "solid" | "transparent";
   sticky?: boolean;
 }
 
-export const FluxNavbar: React.FC<FluxNavbarProps> = ({
+export const VoltNavbar: React.FC<VoltNavbarProps> = ({
   logo,
   items = [],
   rightSlot,
@@ -79,12 +79,12 @@ export const FluxNavbar: React.FC<FluxNavbarProps> = ({
                 "transition-all duration-150",
                 item.active
                   ? "text-foreground font-bold"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  : "text-muted-foreground hover:text-foreground hover:bg-[#E4FF97]/50 dark:hover:bg-[#E4FF97]/15"
               )}
             >
               {item.label}
               {item.active && (
-                <span className="absolute bottom-0 inset-x-3 h-[2px] rounded-full bg-black/60" />
+                <span className="absolute bottom-0 inset-x-3 h-[2px] rounded-full bg-foreground/70" />
               )}
               {item.badge !== undefined && (
                 <span className="inline-flex items-center justify-center min-w-[1.1rem] h-[1.1rem] px-1 rounded-full text-[0.6rem] font-bold bg-[#000000] text-white">
@@ -134,7 +134,7 @@ export const FluxNavbar: React.FC<FluxNavbarProps> = ({
                     "transition-colors duration-150",
                     item.active
                       ? "text-foreground font-bold"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      : "text-muted-foreground hover:text-foreground hover:bg-[#E4FF97]/50 dark:hover:bg-[#E4FF97]/15"
                   )}
                 >
                   {item.label}

@@ -1,5 +1,5 @@
 /**
- * FluxChart – Atmospheric Grain Design System v4
+ * VoltChart – Atmospheric Volt UI Design System v4
  * Alle Graphen-Typen: Area, Bar, Line, Donut/Pie, Radar, Scatter, Composed, RadialBar, Funnel, Trend
  * Animationen: isAnimationActive + Intersection Observer Fade-in + staggered Entrance
  * Font: DM Sans überall

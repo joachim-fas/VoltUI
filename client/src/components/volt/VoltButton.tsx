@@ -1,5 +1,5 @@
 /**
- * FluxButton – Flux UI
+ * VoltButton – Volt UI
  * Interaktionssystem:
  *  1. Ripple-Effekt: Klick erzeugt einen radialen Wellen-Ring am Klickpunkt
  *  2. Shimmer-Sweep: Auf Hover fährt ein Lichtstrahl über den Button (primary/solid/destructive)
@@ -87,7 +87,7 @@ const rippleColor: Record<string, string> = {
 
 interface Ripple { id: number; x: number; y: number; size: number; }
 
-export interface FluxButtonProps
+export interface VoltButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   loading?: boolean;
@@ -95,7 +95,7 @@ export interface FluxButtonProps
   rightIcon?: React.ReactNode;
 }
 
-export const FluxButton = React.forwardRef<HTMLButtonElement, FluxButtonProps>(
+export const VoltButton = React.forwardRef<HTMLButtonElement, VoltButtonProps>(
   ({ className, variant = "primary", size, loading, leftIcon, rightIcon, children, disabled, onMouseDown, style, ...props }, ref) => {
     const [isHovered, setIsHovered]   = useState(false);
     const [isPressed, setIsPressed]   = useState(false);
@@ -204,5 +204,5 @@ export const FluxButton = React.forwardRef<HTMLButtonElement, FluxButtonProps>(
     );
   }
 );
-FluxButton.displayName = "FluxButton";
+VoltButton.displayName = "VoltButton";
 export { buttonVariants };

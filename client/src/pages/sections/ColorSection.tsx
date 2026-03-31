@@ -1,5 +1,5 @@
 /**
- * ColorSection – Flux UI
+ * ColorSection – Volt UI
  * Semantisches Farbsystem: Positiv (Smaragd) · Negativ (Koralle) · Neutral (Slate)
  * Primär: Lime #E4FF97 + Schwarz #0A0A0A
  */
@@ -11,8 +11,8 @@ import {
   CheckCircle2, XCircle, ArrowUpRight, ArrowDownRight, ArrowRight,
   Copy, CheckCheck,
 } from "lucide-react";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
-import { FluxBadge } from "@/components/grain/FluxBadge";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
+import { VoltBadge } from "@/components/volt/VoltBadge";
 
 /* ── Signalfarben – direkte Hex-Werte (kein oklch) ── */
 const SIGNAL = {
@@ -119,10 +119,10 @@ const SignalCard: React.FC<{ item: typeof SEMANTIC_COLORS[0] }> = ({ item }) => 
   ];
 
   return (
-    <FluxCard className="overflow-hidden">
+    <VoltCard className="overflow-hidden">
       {/* Farbstreifen */}
       <div className="h-2 w-full" style={{ background: item.color }} />
-      <FluxCardContent className="pt-5 space-y-4">
+      <VoltCardContent className="pt-5 space-y-4">
         {/* Header */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -172,8 +172,8 @@ const SignalCard: React.FC<{ item: typeof SEMANTIC_COLORS[0] }> = ({ item }) => 
           <XCircle className="w-3 h-3 flex-shrink-0 mt-0.5 text-muted-foreground/50" />
           <p className="text-[10px] font-ui text-muted-foreground leading-relaxed">{item.dontUse}</p>
         </div>
-      </FluxCardContent>
-    </FluxCard>
+      </VoltCardContent>
+    </VoltCard>
   );
 };
 
@@ -216,23 +216,23 @@ export const ColorSection: React.FC = () => {
           ergänzt durch drei eindeutige Signalfarben für die Datenbewertung.
         </p>
         <div className="flex flex-wrap gap-2">
-          <FluxBadge variant="default" size="sm">Lime + Schwarz</FluxBadge>
-          <FluxBadge variant="positive" size="sm">Positiv</FluxBadge>
-          <FluxBadge variant="negative" size="sm">Negativ</FluxBadge>
-          <FluxBadge variant="neutral" size="sm">Neutral</FluxBadge>
-          <FluxBadge variant="muted" size="sm">CSS Custom Properties</FluxBadge>
+          <VoltBadge variant="default" size="sm">Lime + Schwarz</VoltBadge>
+          <VoltBadge variant="positive" size="sm">Positiv</VoltBadge>
+          <VoltBadge variant="negative" size="sm">Negativ</VoltBadge>
+          <VoltBadge variant="neutral" size="sm">Neutral</VoltBadge>
+          <VoltBadge variant="muted" size="sm">CSS Custom Properties</VoltBadge>
         </div>
       </div>
 
       {/* ── Primäre Systemfarben ── */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Primäre Systemfarben</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Primäre Systemfarben</VoltCardTitle>
           <p className="text-xs text-muted-foreground mt-0.5">
             Lime und Schwarz sind die führenden Farben – alles andere ist unterstützend
           </p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {PRIMARY_COLORS.map(c => (
               <div key={c.name} className="rounded-2xl overflow-hidden">
@@ -247,18 +247,18 @@ export const ColorSection: React.FC = () => {
               </div>
             ))}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* ── Signalfarben Übersicht ── */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Signalfarben: 3 semantische Zustände</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Signalfarben: 3 semantische Zustände</VoltCardTitle>
           <p className="text-xs text-muted-foreground mt-0.5">
             Jeder Zustand hat 4 Farbebenen: Hauptfarbe · Hintergrund · Rahmen · Text
           </p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-3 gap-3">
             {SEMANTIC_COLORS.map(item => {
               const Icon = item.icon;
@@ -279,18 +279,18 @@ export const ColorSection: React.FC = () => {
               );
             })}
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* ── Delta-Anzeigen ── */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Delta-Anzeigen</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Delta-Anzeigen</VoltCardTitle>
           <p className="text-xs text-muted-foreground mt-0.5">
             Kompakte Veränderungsanzeigen für KPI-Karten, Tabellen und Dashboards
           </p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="space-y-6">
             {/* Beispiele */}
             <div className="flex flex-wrap gap-3 items-center">
@@ -356,11 +356,11 @@ export const ColorSection: React.FC = () => {
                   </thead>
                   <tbody>
                     {[
-                      { name: "Flux Pro",        revenue: "€ 84.200",  delta: "+18.2%",       type: "positive" as const, status: "Aktiv" },
-                      { name: "Flux Basic",       revenue: "€ 42.100",  delta: "+4.1%",        type: "positive" as const, status: "Aktiv" },
-                      { name: "Flux Team",        revenue: "€ 31.800",  delta: "−6.4%",        type: "negative" as const, status: "Rückgang" },
-                      { name: "Flux Free",        revenue: "€ 0",       delta: "0.0%",          type: "neutral"  as const, status: "Stabil" },
-                      { name: "Flux Enterprise",  revenue: "€ 126.400", delta: "87% Ziel",      type: "warning"  as const, status: "Prüfen" },
+                      { name: "Volt Pro",        revenue: "€ 84.200",  delta: "+18.2%",       type: "positive" as const, status: "Aktiv" },
+                      { name: "Volt Basic",       revenue: "€ 42.100",  delta: "+4.1%",        type: "positive" as const, status: "Aktiv" },
+                      { name: "Volt Team",        revenue: "€ 31.800",  delta: "−6.4%",        type: "negative" as const, status: "Rückgang" },
+                      { name: "Volt Free",        revenue: "€ 0",       delta: "0.0%",          type: "neutral"  as const, status: "Stabil" },
+                      { name: "Volt Enterprise",  revenue: "€ 126.400", delta: "87% Ziel",      type: "warning"  as const, status: "Prüfen" },
                     ].map((row, i) => {
                       const sig = row.type === "warning"
                         ? { color: "#C87A00", light: "#FFF8E8", border: "#F0D080" }
@@ -386,8 +386,8 @@ export const ColorSection: React.FC = () => {
               </div>
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* ── Signal-Token-Karten ── */}
       <div>
@@ -404,14 +404,14 @@ export const ColorSection: React.FC = () => {
       </div>
 
       {/* ── CSS-Variablen Referenz ── */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>CSS Custom Properties Referenz</FluxCardTitle>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>CSS Custom Properties Referenz</VoltCardTitle>
           <p className="text-xs text-muted-foreground mt-0.5">
             Alle Tokens sind als CSS-Variablen verfügbar und können direkt in Tailwind verwendet werden
           </p>
-        </FluxCardHeader>
-        <FluxCardContent>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="rounded-xl bg-[#0A0A0A] p-5 font-mono text-[11px] leading-relaxed overflow-x-auto">
             <div className="text-white/30">{"/* Semantisches Datenfarbsystem */"}</div>
             <div className="mt-3 space-y-3">
@@ -436,8 +436,8 @@ export const ColorSection: React.FC = () => {
               ))}
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
     </section>
   );

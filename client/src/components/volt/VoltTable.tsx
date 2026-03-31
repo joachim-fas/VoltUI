@@ -1,12 +1,12 @@
 /**
- * FluxTable – Atmospheric Grain Design System
+ * VoltTable – Atmospheric Volt UI Design System
  * Tabellen-Komponente mit atmosphärischen Hover-Effekten.
  */
 
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface FluxTableColumn<T> {
+export interface VoltTableColumn<T> {
   key: keyof T | string;
   header: string;
   width?: string;
@@ -14,8 +14,8 @@ export interface FluxTableColumn<T> {
   render?: (value: unknown, row: T, index: number) => React.ReactNode;
 }
 
-export interface FluxTableProps<T> extends React.HTMLAttributes<HTMLDivElement> {
-  columns: FluxTableColumn<T>[];
+export interface VoltTableProps<T> extends React.HTMLAttributes<HTMLDivElement> {
+  columns: VoltTableColumn<T>[];
   data: T[];
   striped?: boolean;
   hoverable?: boolean;
@@ -24,7 +24,7 @@ export interface FluxTableProps<T> extends React.HTMLAttributes<HTMLDivElement> 
   emptyMessage?: string;
 }
 
-export function FluxTable<T extends Record<string, unknown>>({
+export function VoltTable<T extends Record<string, unknown>>({
   columns,
   data,
   striped = false,
@@ -34,7 +34,7 @@ export function FluxTable<T extends Record<string, unknown>>({
   emptyMessage = "Keine Daten vorhanden",
   className,
   ...props
-}: FluxTableProps<T>) {
+}: VoltTableProps<T>) {
   const cellPad = compact ? "px-4 py-2" : "px-5 py-3.5";
 
   return (

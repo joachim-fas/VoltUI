@@ -1,11 +1,11 @@
 /**
- * BubbleMapSection – Dokumentation der FluxBubbleMap Komponente
- * Design: Flux OS · Dark Background · Pastell-Gradienten
+ * BubbleMapSection – Dokumentation der VoltBubbleMap Komponente
+ * Design: Volt OS · Dark Background · Pastell-Gradienten
  * Zeigt: Skill-Map, Projekt-Prioritäten, Keyword-Analyse
  */
 
 import React, { useState } from "react";
-import { FluxBubbleMap, BubbleNode } from "@/components/grain/FluxBubbleMap";
+import { VoltBubbleMap, BubbleNode } from "@/components/volt/VoltBubbleMap";
 
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-widest text-muted-foreground mb-3">
@@ -37,7 +37,7 @@ const PROJECT_DATA: BubbleNode[] = [
   { id: "gai", label: "Gestalten mit AI", value: 165, maxValue: 200, category: "Produkt", description: "AI-Bildung und Workshops" },
   { id: "os", label: "Omnishopper", value: 130, maxValue: 200, category: "Produkt", description: "Smart Shopping Aggregator" },
   { id: "ze", label: "Zeiterfassung", value: 118, maxValue: 200, category: "Tool", description: "Freelancer Zeiterfassung & Abrechnung" },
-  { id: "fluxui", label: "Flux UI", value: 175, maxValue: 200, category: "Tool", description: "Portables Design System & Komponenten-Bibliothek" },
+  { id: "fluxui", label: "Volt UI", value: 175, maxValue: 200, category: "Tool", description: "Portables Design System & Komponenten-Bibliothek" },
 ];
 
 const KEYWORD_DATA: BubbleNode[] = [
@@ -58,7 +58,7 @@ const KEYWORD_DATA: BubbleNode[] = [
 ];
 
 /* ── Code-Snippet ── */
-const CODE_SNIPPET = `import { FluxBubbleMap } from "@/components/grain/FluxBubbleMap";
+const CODE_SNIPPET = `import { VoltBubbleMap } from "@/components/volt/VoltBubbleMap";
 
 const nodes = [
   { id: "design", label: "Design", value: 172, maxValue: 200,
@@ -68,7 +68,7 @@ const nodes = [
   // ...
 ];
 
-<FluxBubbleMap
+<VoltBubbleMap
   nodes={nodes}
   title="Skill-Map"
   subtitle="Kompetenz-Radar als Force-Layout"
@@ -96,7 +96,7 @@ const BubbleMapSection: React.FC = () => {
   const demos = {
     skills: { data: SKILL_DATA, title: "Skill-Map", subtitle: "Kompetenz-Profil · Score 0–200 · Größe = Stärke", threshold: 155 },
     projects: { data: PROJECT_DATA, title: "Projekt-Portfolio", subtitle: "Free Agents Ökosystem · Priorität nach Score", threshold: 160 },
-    keywords: { data: KEYWORD_DATA, title: "Keyword-Cluster", subtitle: "Flux UI Konzept · Werte & Prozesse", threshold: 160 },
+    keywords: { data: KEYWORD_DATA, title: "Keyword-Cluster", subtitle: "Volt UI Konzept · Werte & Prozesse", threshold: 160 },
   };
 
   const current = demos[activeDemo];
@@ -110,10 +110,10 @@ const BubbleMapSection: React.FC = () => {
           Bubble Map
         </h2>
         <p className="text-muted-foreground text-lg leading-relaxed mb-3">
-          Die <strong>FluxBubbleMap</strong> visualisiert gewichtete Datenpunkte als Force-Layout.
+          Die <strong>VoltBubbleMap</strong> visualisiert gewichtete Datenpunkte als Force-Layout.
           Jede Bubble repräsentiert einen Eintrag — ihre Größe entspricht dem Score-Wert.
           Radial-Gradienten aus der Pastell-Palette, Lime-Akzent für Top-Performer,
-          Flux-Textur als atmosphärischer Hintergrund.
+          Volt-Textur als atmosphärischer Hintergrund.
         </p>
         <p className="text-muted-foreground text-base leading-relaxed">
           Einsatz: Skill-Maps, Projekt-Priorisierung, Keyword-Cluster, Kompetenz-Radar,
@@ -143,7 +143,7 @@ const BubbleMapSection: React.FC = () => {
           </div>
         </div>
 
-        <FluxBubbleMap
+        <VoltBubbleMap
           nodes={current.data}
           title={current.title}
           subtitle={current.subtitle}
@@ -213,7 +213,7 @@ const BubbleMapSection: React.FC = () => {
         <div className="rounded-2xl overflow-hidden border border-border">
           <div className="flex items-center gap-2 px-5 py-3 bg-[#0A0A0A] border-b border-white/10">
             <span className="text-[#E4FF97] font-mono text-xs">&gt;_</span>
-            <span className="text-white/50 font-mono text-xs">FluxBubbleMap · Beispiel</span>
+            <span className="text-white/50 font-mono text-xs">VoltBubbleMap · Beispiel</span>
           </div>
           <pre className="bg-[#111111] text-[#E4FF97] font-mono text-sm p-6 overflow-x-auto leading-relaxed">
             <code>{CODE_SNIPPET}</code>
@@ -268,7 +268,7 @@ const BubbleMapSection: React.FC = () => {
             {
               rule: "03",
               title: "Dunkler Hintergrund",
-              desc: "FluxBubbleMap reagiert automatisch auf den globalen App-Theme (useTheme). Dark/Light-Wechsel über den Theme-Toggle oben rechts.",
+              desc: "VoltBubbleMap reagiert automatisch auf den globalen App-Theme (useTheme). Dark/Light-Wechsel über den Theme-Toggle oben rechts.",
               ok: true,
             },
             {
@@ -280,7 +280,7 @@ const BubbleMapSection: React.FC = () => {
             {
               rule: "05",
               title: "Keine Verbindungslinien",
-              desc: "FluxBubbleMap zeigt keine Edges/Links. Für Netzwerk-Graphen eine separate Komponente verwenden.",
+              desc: "VoltBubbleMap zeigt keine Edges/Links. Für Netzwerk-Graphen eine separate Komponente verwenden.",
               ok: false,
             },
             {

@@ -1,6 +1,6 @@
 /**
- * FluxModal – Atmospheric Grain Design System
- * Modal/Dialog mit Glasmorphismus und Flux-Textur.
+ * VoltModal – Atmospheric Volt UI Design System
+ * Modal/Dialog mit Glasmorphismus und Volt-Textur.
  */
 
 import React from "react";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export interface FluxModalProps {
+export interface VoltModalProps {
   open: boolean;
   onClose: () => void;
   title?: string;
@@ -27,7 +27,7 @@ const sizeClasses = {
   full: "max-w-[95vw] max-h-[95vh]",
 };
 
-export const FluxModal: React.FC<FluxModalProps> = ({
+export const VoltModal: React.FC<VoltModalProps> = ({
   open,
   onClose,
   title,

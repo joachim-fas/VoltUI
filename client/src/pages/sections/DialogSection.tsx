@@ -1,12 +1,12 @@
 /**
- * DialogSection – Flux UI
+ * DialogSection – Volt UI
  * Das Dialog-Prinzip: Input mit Konsequenz
  * Kein Pingpong. Kein Nebel. Input → Output.
  * Design: Terminal-Ästhetik, Mono-Labels, 3 Kommunikationsrichtungen
  */
 
 import React, { useState, useEffect } from "react";
-import { FluxCursor } from "@/components/grain/FluxCursor";
+import { VoltCursor } from "@/components/volt/VoltCursor";
 import { cn } from "@/lib/utils";
 import { ArrowRight, ArrowLeftRight, User, Cpu, ChevronRight, Copy, Check } from "lucide-react";
 
@@ -158,7 +158,7 @@ const TerminalDemo: React.FC = () => {
         <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
         <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
         <div className="w-3 h-3 rounded-full bg-[#28C840]" />
-        <span className="ml-2 text-[10px] text-muted-foreground tracking-widest uppercase">flux-ui — terminal</span>
+        <span className="ml-2 text-[10px] text-muted-foreground tracking-widest uppercase">volt-ui — terminal</span>
       </div>
       <div className="space-y-1.5 min-h-[160px]">
         {lines.map((line, i) => (
@@ -230,7 +230,7 @@ export const DialogSection: React.FC = () => {
           Was reingeht, muss etwas Verwendbares produzieren.
         </p>
         <div className="flex items-center gap-3">
-          <FluxCursor size="sm" color="black" animated />
+          <VoltCursor size="sm" color="black" animated />
           <p className="font-mono text-sm text-foreground font-bold">
             Input mit Konsequenz.
           </p>

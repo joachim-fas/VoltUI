@@ -1,5 +1,5 @@
 /**
- * FluxBadge – Flux UI
+ * VoltBadge – Volt UI
  * KONTRAST-GARANTIE: Alle Varianten über CSS-Variablen oder explizite Kontrastpaare.
  * Light: solid = #000000 auf #FFFFFF → 21:1 | muted = #3A3A3A auf #F4F4F4 → 8.5:1
  * Dark:  solid = #F5F5F5 auf #111111 → 16:1 | muted = #CCCCCC auf #1A1A1A → 8:1
@@ -75,14 +75,14 @@ const badgeVariants = cva(
   }
 );
 
-export interface FluxBadgeProps
+export interface VoltBadgeProps
   extends React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof badgeVariants> {
   dot?: boolean;
   dotColor?: string;
 }
 
-export const FluxBadge = React.forwardRef<HTMLSpanElement, FluxBadgeProps>(
+export const VoltBadge = React.forwardRef<HTMLSpanElement, VoltBadgeProps>(
   ({ className, variant, size, dot, dotColor, children, ...props }, ref) => {
     return (
       <span
@@ -101,5 +101,5 @@ export const FluxBadge = React.forwardRef<HTMLSpanElement, FluxBadgeProps>(
     );
   }
 );
-FluxBadge.displayName = "FluxBadge";
+VoltBadge.displayName = "VoltBadge";
 export { badgeVariants };

@@ -1,5 +1,5 @@
 /**
- * FluxProgress & FluxSlider – Flux UI
+ * VoltProgress & FluxSlider – Volt UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Design: Raffiniert, dünn, präzise
  *
@@ -35,8 +35,8 @@ const SIZE_H: Record<string, string> = {
   xl: "h-3",
 };
 
-/* ── FluxProgress ── */
-export interface FluxProgressProps extends React.HTMLAttributes<HTMLDivElement> {
+/* ── VoltProgress ── */
+export interface VoltProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: number;
   max?: number;
   variant?: keyof typeof FILL_COLORS;
@@ -46,7 +46,7 @@ export interface FluxProgressProps extends React.HTMLAttributes<HTMLDivElement> 
   animated?: boolean;
 }
 
-export const FluxProgress = React.forwardRef<HTMLDivElement, FluxProgressProps>(
+export const VoltProgress = React.forwardRef<HTMLDivElement, VoltProgressProps>(
   ({ value = 0, max = 100, variant = "default", size = "md", label, showValue, animated, className, ...props }, ref) => {
     const pct = Math.min(100, Math.max(0, (value / max) * 100));
     const fillColor = FILL_COLORS[variant] ?? "#0A0A0A";
@@ -76,7 +76,7 @@ export const FluxProgress = React.forwardRef<HTMLDivElement, FluxProgressProps>(
     );
   }
 );
-FluxProgress.displayName = "FluxProgress";
+VoltProgress.displayName = "VoltProgress";
 
 /* ── FluxSlider ── */
 export interface FluxSliderProps {

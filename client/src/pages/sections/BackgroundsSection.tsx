@@ -1,6 +1,6 @@
 /**
- * BackgroundsSection – Flux UI
- * Hintergründe & Patterns: Flux-Textur, Dot-Grid, Linien, Pastell-Verläufe, Atmosphärische Hintergründe
+ * BackgroundsSection – Volt UI
+ * Hintergründe & Patterns: Volt-Textur, Dot-Grid, Linien, Pastell-Verläufe, Atmosphärische Hintergründe
  * Farbsystem: #E4FF97 + #000000 + 8 Pastell-Töne
  */
 
@@ -15,8 +15,8 @@ const GRAIN_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='h
 const PATTERNS = [
   {
     id: "grain",
-    name: "Flux Textur",
-    description: "Atmosphärisches Rauschen – das Markenzeichen von Flux UI",
+    name: "Volt Textur",
+    description: "Atmosphärisches Rauschen – das Markenzeichen von Volt UI",
     cssClass: "pattern-grain",
     bg: "#F8F8F8",
     code: `.pattern-grain::after {\n  content: "";\n  position: absolute;\n  inset: 0;\n  background-image: ${GRAIN_SVG};\n  opacity: 0.06;\n  pointer-events: none;\n}`,
@@ -192,7 +192,7 @@ const ATMOSPHERIC = [
   {
     id: "lime-grain",
     name: "Lime Grain",
-    description: "Hero-Hintergrund – Lime mit Flux-Textur",
+    description: "Hero-Hintergrund – Lime mit Volt-Textur",
     textColor: "#0A0A0A",
     style: { background: "#E4FF97" },
     grain: true,
@@ -201,7 +201,7 @@ const ATMOSPHERIC = [
   {
     id: "dark-grain",
     name: "Dark Grain",
-    description: "Dunkler Hintergrund mit Flux-Textur",
+    description: "Dunkler Hintergrund mit Volt-Textur",
     textColor: "#FFFFFF",
     style: { background: "#0A0A0A" },
     grain: true,
@@ -271,7 +271,7 @@ export const BackgroundsSection: React.FC = () => {
           Hintergründe & Patterns
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl">
-          Alle Muster, Verläufe und atmosphärischen Hintergründe aus dem Flux UI Farbsystem –
+          Alle Muster, Verläufe und atmosphärischen Hintergründe aus dem Volt UI Farbsystem –
           direkt als CSS-Klassen und Custom Properties einsetzbar.
         </p>
       </div>
@@ -316,7 +316,7 @@ export const BackgroundsSection: React.FC = () => {
       {/* ── Verläufe ── */}
       <section>
         <h3 className="font-display font-bold text-xl text-foreground mb-1">Farbverläufe</h3>
-        <p className="text-muted-foreground text-sm mb-6">Lineare und radiale Verläufe aus der Flux UI Palette.</p>
+        <p className="text-muted-foreground text-sm mb-6">Lineare und radiale Verläufe aus der Volt UI Palette.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {GRADIENTS.map((g, i) => (
             <motion.div
@@ -342,7 +342,7 @@ export const BackgroundsSection: React.FC = () => {
       {/* ── Atmosphärische Hintergründe ── */}
       <section>
         <h2 className="font-display font-bold text-2xl text-foreground mb-1">Atmosphärische Hintergründe</h2>
-        <p className="text-muted-foreground text-sm mb-6">Kombinationen aus Farbe und Flux-Textur für Hero-Bereiche, Modals und Sektionen.</p>
+        <p className="text-muted-foreground text-sm mb-6">Kombinationen aus Farbe und Volt-Textur für Hero-Bereiche, Modals und Sektionen.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {ATMOSPHERIC.map((a, i) => (
             <motion.div
@@ -386,7 +386,7 @@ export const BackgroundsSection: React.FC = () => {
       {/* ── Kombinations-Showcase ── */}
       <section>
         <h2 className="font-display font-bold text-2xl text-foreground mb-1">Kombinations-Showcase</h2>
-        <p className="text-muted-foreground text-sm mb-6">Pattern + Verlauf + Flux kombiniert – wie sie in echten Layouts eingesetzt werden.</p>
+        <p className="text-muted-foreground text-sm mb-6">Pattern + Verlauf + Volt kombiniert – wie sie in echten Layouts eingesetzt werden.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           {/* Hero-Variante 1: Lime + Dots */}
@@ -400,7 +400,7 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-widest mb-1">Lime + Dots + Flux</span>
+              <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-widest mb-1">Lime + Dots + Volt</span>
               <span className="font-display font-black text-2xl text-foreground">Hero Section</span>
             </div>
           </div>
@@ -416,7 +416,7 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.08,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-[#E4FF97]/60 uppercase tracking-widest mb-1">Dark + Lime Grid + Flux</span>
+              <span className="font-mono text-[10px] text-[#E4FF97]/60 uppercase tracking-widest mb-1">Dark + Lime Grid + Volt</span>
               <span className="font-display font-black text-2xl text-[#E4FF97]">Dark Mode Hero</span>
             </div>
           </div>
@@ -431,7 +431,7 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-foreground/50 uppercase tracking-widest mb-1">Rose + Diagonal + Flux</span>
+              <span className="font-mono text-[10px] text-foreground/50 uppercase tracking-widest mb-1">Rose + Diagonal + Volt</span>
               <span className="font-display font-black text-2xl text-foreground">Pastell Section</span>
             </div>
           </div>
@@ -449,7 +449,7 @@ export const BackgroundsSection: React.FC = () => {
               opacity: 0.06,
             }} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-              <span className="font-mono text-[10px] text-foreground/50 uppercase tracking-widest mb-1">Mint + Dots + Flux</span>
+              <span className="font-mono text-[10px] text-foreground/50 uppercase tracking-widest mb-1">Mint + Dots + Volt</span>
               <span className="font-display font-black text-2xl text-foreground">Success Section</span>
             </div>
           </div>

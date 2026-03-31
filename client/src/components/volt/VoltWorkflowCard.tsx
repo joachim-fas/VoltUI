@@ -1,4 +1,4 @@
-// FluxWorkflowCard – Operating Principle Component
+// VoltWorkflowCard – Operating Principle Component
 // Design: Semantische Tokens für vollständigen Dark-Mode-Support
 // Eingabe → Baby Blue | Ablauf → Butter Yellow | Ergebnis → Mint Green | Wirkung → Neon Yellow
 
@@ -18,7 +18,7 @@ export interface WorkflowStep {
   status?: WorkflowStatus;
 }
 
-interface FluxWorkflowCardProps {
+interface VoltWorkflowCardProps {
   title: string;
   description?: string;
   steps: WorkflowStep[];
@@ -132,13 +132,13 @@ function WorkflowStepCard({ step, isLast }: { step: WorkflowStep; isLast: boolea
   );
 }
 
-export function FluxWorkflowCard({
+export function VoltWorkflowCard({
   title,
   description,
   steps,
   compact = false,
   className,
-}: FluxWorkflowCardProps) {
+}: VoltWorkflowCardProps) {
   return (
     <div className={cn("bg-card border border-border rounded-2xl p-6", className)}>
       <div className="mb-5">

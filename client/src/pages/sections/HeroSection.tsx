@@ -1,12 +1,12 @@
 /**
- * HeroSection – Flux UI
+ * HeroSection – Volt UI
  * Semantische Tokens für vollständigen Dark-Mode-Support
  */
 
 import React from "react";
-import { FluxButton } from "@/components/grain/FluxButton";
-import { FluxCard } from "@/components/grain/FluxCard";
-import { FluxCursor } from "@/components/grain/FluxCursor";
+import { VoltButton } from "@/components/volt/VoltButton";
+import { VoltCard } from "@/components/volt/VoltCard";
+import { VoltCursor } from "@/components/volt/VoltCursor";
 import { motion } from "framer-motion";
 import {
   ArrowRight, Code2, Palette, Zap, Layers, Package,
@@ -33,16 +33,16 @@ const stats = [
   { value: "4",   label: "Schriftschnitte", suffix: "" },
 ];
 
-const codeSnippet = `import { FluxButton } from "flux-ui";
+const codeSnippet = `import { VoltButton } from "volt-ui";
 
 export function App() {
   return (
-    <FluxButton
+    <VoltButton
       variant="lime"
       rightIcon={<ArrowRight />}
     >
-      Flux UI · Design Concept
-    </FluxButton>
+      Volt UI · Design Concept
+    </VoltButton>
   );
 }`;
 
@@ -81,7 +81,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.2, duration: 0.7 }}
             className="text-display-xl text-[#0A0A0A] mb-6"
           >
-            <span className="font-mono font-black opacity-100 mr-3">&gt;_</span>Flux UI
+            <span className="font-mono font-black opacity-100 mr-3">&gt;_</span>Volt UI
           </motion.h1>
 
           <motion.p
@@ -100,13 +100,13 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             transition={{ delay: 0.5, duration: 0.5 }}
             className="flex flex-wrap items-center justify-center gap-3"
           >
-            <FluxButton variant="solid" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />} onClick={() => onNavigate("foundations")}>
+            <VoltButton variant="solid" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />} onClick={() => onNavigate("foundations")}>
               Foundations erkunden
-            </FluxButton>
-            <FluxButton variant="outline" size="lg" onClick={() => onNavigate("dashboard")}
+            </VoltButton>
+            <VoltButton variant="outline" size="lg" onClick={() => onNavigate("dashboard")}
               className="border-[#0A0A0A]/30 text-[#0A0A0A] hover:bg-[#0A0A0A]/8">
               Dashboard ansehen
-            </FluxButton>
+            </VoltButton>
           </motion.div>
         </motion.div>
 
@@ -128,7 +128,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
         </motion.div>
       </div>
 
-      {/* ── Intro-Panel: Was ist Flux UI? ── */}
+      {/* ── Intro-Panel: Was ist Volt UI? ── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -136,19 +136,19 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
         className="rounded-2xl border border-border bg-card overflow-hidden"
       >
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
-          {/* Was ist Flux UI */}
+          {/* Was ist Volt UI */}
           <div className="p-8">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
                 <span className="text-primary font-mono text-xs font-bold">&gt;_</span>
               </div>
-              <p className="section-label">Was ist Flux UI?</p>
+              <p className="section-label">Was ist Volt UI?</p>
             </div>
             <p className="font-display font-bold text-xl text-card-foreground leading-snug mb-3">
               Ein portables Design-System – nicht an ein Framework gebunden.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Flux UI ist eine Sammlung aus Design-Tokens, Komponenten und Mustern, die sich in jedes Projekt importieren lässt – ob React, plain HTML, Claude Code oder Figma.
+              Volt UI ist eine Sammlung aus Design-Tokens, Komponenten und Mustern, die sich in jedes Projekt importieren lässt – ob React, plain HTML, Claude Code oder Figma.
             </p>
           </div>
           {/* Wofür */}
@@ -163,7 +163,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               Konsistenz über alle Projekte hinweg.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Alle Projekte im Free-Agents-Ökosystem teilen dieselbe visuelle Sprache: Lime + Schwarz, Bricolage Grotesque, das &gt;_ Signet und die Flux-Textur.
+              Alle Projekte im Free-Agents-Ökosystem teilen dieselbe visuelle Sprache: Lime + Schwarz, Bricolage Grotesque, das &gt;_ Signet und die Volt-Textur.
             </p>
           </div>
           {/* Wie */}
@@ -178,7 +178,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               Eine CSS-Datei. Fertig.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              <code className="font-mono text-xs bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded">flux-ui.css</code> einbinden, Klassen verwenden – keine Build-Tools, kein Framework nötig.
+              <code className="font-mono text-xs bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded">volt-ui.css</code> einbinden, Klassen verwenden – keine Build-Tools, kein Framework nötig.
             </p>
           </div>
         </div>
@@ -198,7 +198,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4 }}
             >
-              <FluxCard className="p-4 hover:-translate-y-0.5 transition-transform duration-200">
+              <VoltCard className="p-4 hover:-translate-y-0.5 transition-transform duration-200">
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-3"
                   style={{
                     background: isDark ? f.darkBg : f.lightBg,
@@ -208,7 +208,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
                 </div>
                 <p className="font-display font-bold text-sm text-card-foreground mb-0.5">{f.title}</p>
                 <p className="text-[0.65rem] font-ui text-muted-foreground leading-snug">{f.desc}</p>
-              </FluxCard>
+              </VoltCard>
             </motion.div>
           ))}
         </div>
@@ -222,7 +222,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             {["#E8402A","#E4FF97","#1A9E5A"].map((c,i) => (
               <div key={i} className="w-2.5 h-2.5 rounded-full" style={{ background: c }} />
             ))}
-            <span className="ml-2 text-[0.6rem] font-mono text-white/30">flux-ui · example.tsx</span>
+            <span className="ml-2 text-[0.6rem] font-mono text-white/30">volt-ui · example.tsx</span>
           </div>
           <pre className="text-xs font-mono text-white/80 leading-relaxed overflow-x-auto whitespace-pre-wrap">
             <code>{codeSnippet}</code>
@@ -242,9 +242,9 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               importierbar in jedes Projekt.
             </p>
           </div>
-          <FluxButton variant="solid" size="lg" className="mt-6 w-fit" onClick={() => onNavigate("foundations")}>
+          <VoltButton variant="solid" size="lg" className="mt-6 w-fit" onClick={() => onNavigate("foundations")}>
             Jetzt starten
-          </FluxButton>
+          </VoltButton>
         </div>
       </div>
 

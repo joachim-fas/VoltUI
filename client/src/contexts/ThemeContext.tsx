@@ -29,7 +29,7 @@ export function ThemeProvider({
   switchable = true,
 }: ThemeProviderProps) {
   const [darkMode, setDarkMode] = useState<DarkMode>(() => {
-    const stored = localStorage.getItem("flux-ui-dark");
+    const stored = localStorage.getItem("volt-ui-dark");
     return (stored as DarkMode) || defaultTheme;
   });
 
@@ -43,7 +43,7 @@ export function ThemeProvider({
     }
     // Entferne alte theme-Attribute
     root.removeAttribute("data-theme");
-    localStorage.setItem("flux-ui-dark", darkMode);
+    localStorage.setItem("volt-ui-dark", darkMode);
   }, [darkMode]);
 
   const toggleDarkMode = () => {

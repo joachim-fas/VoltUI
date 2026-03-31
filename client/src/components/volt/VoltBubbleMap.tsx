@@ -1,5 +1,5 @@
 /**
- * FluxBubbleMap – Force-Layout Bubble Visualisierung
+ * VoltBubbleMap – Force-Layout Bubble Visualisierung
  * ─────────────────────────────────────────────────────────────────────────────
  * Design: Grain OS · Pastell-Radial-Gradienten
  *
@@ -46,7 +46,7 @@ export interface BubbleNode {
   description?: string;
 }
 
-export interface FluxBubbleMapProps {
+export interface VoltBubbleMapProps {
   nodes: BubbleNode[];
   categories?: string[];
   height?: number;
@@ -189,7 +189,7 @@ function computePositions(
 }
 
 /* ── Haupt-Komponente ── */
-export const FluxBubbleMap: React.FC<FluxBubbleMapProps> = ({
+export const VoltBubbleMap: React.FC<VoltBubbleMapProps> = ({
   nodes,
   categories = [],
   height = 480,
@@ -657,4 +657,4 @@ export const FluxBubbleMap: React.FC<FluxBubbleMapProps> = ({
   );
 };
 
-export default FluxBubbleMap;
+export default VoltBubbleMap;

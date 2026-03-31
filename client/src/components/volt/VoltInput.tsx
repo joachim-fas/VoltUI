@@ -1,5 +1,5 @@
 /**
- * FluxInput / FluxTextarea / FluxSelect – Flux UI
+ * VoltInput / FluxTextarea / FluxSelect – Volt UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Design: Raffiniert, leicht, dünnere Linien, elegante Fokus-Übergänge
  */
@@ -18,7 +18,7 @@ const baseInput = [
   "outline-none",
 ].join(" ");
 
-export interface FluxInputProps
+export interface VoltInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   hint?: string;
@@ -30,7 +30,7 @@ export interface FluxInputProps
   rightElement?: React.ReactNode;
 }
 
-export const FluxInput = React.forwardRef<HTMLInputElement, FluxInputProps>(
+export const VoltInput = React.forwardRef<HTMLInputElement, VoltInputProps>(
   ({ className, variant = "default", inputSize = "md", state, label, hint, error, leftElement, rightElement, id, ...props }, ref) => {
     const inputId = id || React.useId();
     const hasError = !!error;
@@ -110,7 +110,7 @@ export const FluxInput = React.forwardRef<HTMLInputElement, FluxInputProps>(
     );
   }
 );
-FluxInput.displayName = "FluxInput";
+VoltInput.displayName = "VoltInput";
 
 /* ── FluxTextarea ── */
 export interface FluxTextareaProps

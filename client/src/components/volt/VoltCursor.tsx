@@ -1,5 +1,5 @@
 /**
- * FluxCursor – Flux UI Brand Element
+ * VoltCursor – Volt UI Brand Element
  * Das ikonische Pfeil+Cursor-Symbol: Terminal-Prompt-Ästhetik
  * Pfeil (links) + blinkender Balken (rechts unten)
  *
@@ -13,7 +13,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface FluxCursorProps {
+export interface VoltCursorProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
   color?: "black" | "lime" | "white" | "current";
   animated?: boolean;
@@ -38,7 +38,7 @@ const COLOR_MAP = {
   current: "currentColor",
 };
 
-export const FluxCursor: React.FC<FluxCursorProps> = ({
+export const VoltCursor: React.FC<VoltCursorProps> = ({
   size = "md",
   color = "black",
   animated = true,
@@ -87,20 +87,20 @@ export const FluxCursor: React.FC<FluxCursorProps> = ({
   );
 };
 
-FluxCursor.displayName = "FluxCursor";
+VoltCursor.displayName = "VoltCursor";
 
 /**
- * FluxCursorLogo – Logo-Kombination: Icon + Wortmarke
+ * VoltCursorLogo – Logo-Kombination: Icon + Wortmarke
  * Für Sidebar-Header und Splash-Screens
  */
-export interface FluxCursorLogoProps {
+export interface VoltCursorLogoProps {
   size?: "sm" | "md" | "lg";
   inverted?: boolean;  // Weißes Logo auf dunklem Hintergrund
   showTagline?: boolean;
   className?: string;
 }
 
-export const FluxCursorLogo: React.FC<FluxCursorLogoProps> = ({
+export const VoltCursorLogo: React.FC<VoltCursorLogoProps> = ({
   size = "md",
   inverted = false,
   showTagline = false,
@@ -119,7 +119,7 @@ export const FluxCursorLogo: React.FC<FluxCursorLogoProps> = ({
 
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <FluxCursor size={iconSize} color={iconColor} animated />
+      <VoltCursor size={iconSize} color={iconColor} animated />
       <div className="flex flex-col leading-none">
         <span className={cn("font-display tracking-tight", titleSize, textColor)}>
           grain
@@ -135,4 +135,4 @@ export const FluxCursorLogo: React.FC<FluxCursorLogoProps> = ({
   );
 };
 
-FluxCursorLogo.displayName = "FluxCursorLogo";
+VoltCursorLogo.displayName = "VoltCursorLogo";

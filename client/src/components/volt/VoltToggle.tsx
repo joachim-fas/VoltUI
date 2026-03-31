@@ -1,5 +1,5 @@
 /**
- * FluxToggle / FluxCheckbox / GrainRadio – Flux UI
+ * VoltToggle / FluxCheckbox / GrainRadio – Volt UI
  * KONTRAST-GARANTIE: Alle Farben über CSS-Variablen.
  * Light: text-foreground = #000000 auf #FFFFFF → 21:1
  * Dark:  text-foreground = #F5F5F5 auf #000000 → 19:1
@@ -54,16 +54,16 @@ const TOGGLE_SIZES = {
 };
 
 /* ════════════════════════════════════════════════
-   FluxToggle
+   VoltToggle
 ════════════════════════════════════════════════ */
-export interface FluxToggleProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface VoltToggleProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   description?: string;
   variant?: keyof typeof TRACK_ON_COLOR;
   toggleSize?: "sm" | "md" | "lg";
 }
 
-export const FluxToggle: React.FC<FluxToggleProps> = ({
+export const VoltToggle: React.FC<VoltToggleProps> = ({
   label,
   description,
   variant = "default",

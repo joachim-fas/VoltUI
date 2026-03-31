@@ -3,14 +3,14 @@
  */
 
 import React, { useState } from "react";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription } from "@/components/grain/FluxCard";
-import { FluxTabs } from "@/components/grain/FluxTabs";
-import { FluxModal } from "@/components/grain/FluxModal";
-import { FluxToastContainer, useFluxToast } from "@/components/grain/FluxToast";
-import { FluxTooltip } from "@/components/grain/FluxToast";
-import { FluxButton } from "@/components/grain/FluxButton";
-import { FluxBadge } from "@/components/grain/FluxBadge";
-import { FluxInput } from "@/components/grain/FluxInput";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle, VoltCardDescription } from "@/components/volt/VoltCard";
+import { VoltTabs } from "@/components/volt/VoltTabs";
+import { VoltModal } from "@/components/volt/VoltModal";
+import { VoltToastContainer, useVoltToast } from "@/components/volt/VoltToast";
+import { FluxTooltip } from "@/components/volt/VoltToast";
+import { VoltButton } from "@/components/volt/VoltButton";
+import { VoltBadge } from "@/components/volt/VoltBadge";
+import { VoltInput } from "@/components/volt/VoltInput";
 import {
   Code2, Layers, Palette, Zap,
   Info, CheckCircle2, AlertCircle, AlertTriangle,
@@ -21,11 +21,11 @@ const tabContent = {
   design: (
     <div className="space-y-3">
       <p className="text-sm font-body text-muted-foreground leading-relaxed">
-        Das Flux UI Design System basiert auf dem Atmospheric Flux-Konzept –
-        Tiefe durch Schichtung von Flux-Textur, Gradienten und Glasmorphismus.
+        Das Volt UI Design System basiert auf dem Volt UI-Konzept –
+        Tiefe durch Schichtung von Volt-Textur, Gradienten und Glasmorphismus.
       </p>
       <div className="grid grid-cols-3 gap-2">
-        {["Flux", "Gradient", "Glass"].map(t => (
+        {["Volt", "Gradient", "Glass"].map(t => (
           <div key={t} className="bg-muted rounded-lg p-3 text-center">
             <p className="text-xs font-semibold font-body text-foreground">{t}</p>
           </div>
@@ -35,7 +35,7 @@ const tabContent = {
   ),
   code: (
     <div className="code-block text-xs">
-      <span className="token-comment">{"// Flux-Textur als CSS"}</span>{"\n"}
+      <span className="token-comment">{"// Volt-Textur als CSS"}</span>{"\n"}
       <span className="token-blue">.grain</span>::after {"{"}{"\n"}
       {"  "}background-image: <span className="token-yellow">url("data:image/svg+xml,…")</span>;{"\n"}
       {"  "}opacity: <span className="token-red">0.06</span>;{"\n"}
@@ -47,14 +47,14 @@ const tabContent = {
       {["--neon-yellow", "--black", "--signal-positive", "--signal-negative", "--signal-neutral"].map(t => (
         <div key={t} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
           <span className="text-xs font-mono text-foreground">{t}</span>
-          <FluxBadge variant="muted" size="sm">CSS Token</FluxBadge>
+          <VoltBadge variant="muted" size="sm">CSS Token</VoltBadge>
         </div>
       ))}
     </div>
   ),
   preview: (
     <div className="bg-grain-hero rounded-xl p-6 grain">
-      <p className="font-display font-bold text-2xl text-foreground">Atmospheric Flux</p>
+      <p className="font-display font-bold text-2xl text-foreground">Volt UI</p>
       <p className="text-sm text-muted-foreground font-body mt-1">Live-Vorschau des Gradient-Hintergrunds</p>
     </div>
   ),
@@ -63,11 +63,11 @@ const tabContent = {
 export const FeedbackSection: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const { toasts, add, dismiss } = useFluxToast();
+  const { toasts, add, dismiss } = useVoltToast();
 
   return (
     <div className="space-y-10">
-      <FluxToastContainer toasts={toasts} onDismiss={dismiss} position="bottom-right" />
+      <VoltToastContainer toasts={toasts} onDismiss={dismiss} position="bottom-right" />
 
       <div>
         <p className="section-label mb-2">05 — Feedback</p>
@@ -79,16 +79,16 @@ export const FeedbackSection: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Tab-Varianten</FluxCardTitle>
-          <FluxCardDescription>pills · underline · boxed · glass</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Tab-Varianten</VoltCardTitle>
+          <VoltCardDescription>pills · underline · boxed · glass</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="space-y-8">
             <div>
               <p className="section-label mb-3">Pills (Standard)</p>
-              <FluxTabs
+              <VoltTabs
                 variant="pills"
                 tabs={[
                   { id: "design", label: "Design",  icon: <Palette className="w-4 h-4" />, content: tabContent.design },
@@ -101,7 +101,7 @@ export const FeedbackSection: React.FC = () => {
             </div>
             <div>
               <p className="section-label mb-3">Underline</p>
-              <FluxTabs
+              <VoltTabs
                 variant="underline"
                 tabs={[
                   { id: "a", label: "Übersicht" },
@@ -114,7 +114,7 @@ export const FeedbackSection: React.FC = () => {
             </div>
             <div>
               <p className="section-label mb-3">Boxed</p>
-              <FluxTabs
+              <VoltTabs
                 variant="boxed"
                 tabs={[
                   { id: "x", label: "Monatlich" },
@@ -125,27 +125,27 @@ export const FeedbackSection: React.FC = () => {
               />
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Modal */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Modal-Dialoge</FluxCardTitle>
-          <FluxCardDescription>Glasmorphismus mit Flux-Textur, Escape-Taste und Backdrop-Klick zum Schließen</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Modal-Dialoge</VoltCardTitle>
+          <VoltCardDescription>Glasmorphismus mit Volt-Textur, Escape-Taste und Backdrop-Klick zum Schließen</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="flex flex-wrap gap-3">
-            <FluxButton variant="primary" onClick={() => setModalOpen(true)}>
+            <VoltButton variant="primary" onClick={() => setModalOpen(true)}>
               Modal öffnen
-            </FluxButton>
-            <FluxButton variant="destructive" onClick={() => setConfirmOpen(true)}>
+            </VoltButton>
+            <VoltButton variant="destructive" onClick={() => setConfirmOpen(true)}>
               Bestätigungs-Dialog
-            </FluxButton>
+            </VoltButton>
           </div>
 
           {/* Standard Modal */}
-          <FluxModal
+          <VoltModal
             open={modalOpen}
             onClose={() => setModalOpen(false)}
             title="Neues Projekt erstellen"
@@ -153,21 +153,21 @@ export const FeedbackSection: React.FC = () => {
             size="md"
             footer={
               <>
-                <FluxButton variant="ghost" onClick={() => setModalOpen(false)}>Abbrechen</FluxButton>
-                <FluxButton variant="gradient" onClick={() => setModalOpen(false)} rightIcon={<ArrowRight className="w-4 h-4" />}>
+                <VoltButton variant="ghost" onClick={() => setModalOpen(false)}>Abbrechen</VoltButton>
+                <VoltButton variant="gradient" onClick={() => setModalOpen(false)} rightIcon={<ArrowRight className="w-4 h-4" />}>
                   Erstellen
-                </FluxButton>
+                </VoltButton>
               </>
             }
           >
             <div className="space-y-4">
-              <FluxInput label="Projektname" placeholder="Mein neues Projekt" />
-              <FluxInput label="Beschreibung" placeholder="Kurze Beschreibung…" />
+              <VoltInput label="Projektname" placeholder="Mein neues Projekt" />
+              <VoltInput label="Beschreibung" placeholder="Kurze Beschreibung…" />
             </div>
-          </FluxModal>
+          </VoltModal>
 
           {/* Confirm Modal */}
-          <FluxModal
+          <VoltModal
             open={confirmOpen}
             onClose={() => setConfirmOpen(false)}
             title="Projekt löschen?"
@@ -175,82 +175,82 @@ export const FeedbackSection: React.FC = () => {
             size="sm"
             footer={
               <>
-                <FluxButton variant="ghost" onClick={() => setConfirmOpen(false)}>Abbrechen</FluxButton>
-                <FluxButton variant="destructive" onClick={() => setConfirmOpen(false)} leftIcon={<Trash2 className="w-4 h-4" />}>
+                <VoltButton variant="ghost" onClick={() => setConfirmOpen(false)}>Abbrechen</VoltButton>
+                <VoltButton variant="destructive" onClick={() => setConfirmOpen(false)} leftIcon={<Trash2 className="w-4 h-4" />}>
                   Endgültig löschen
-                </FluxButton>
+                </VoltButton>
               </>
             }
           />
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Toast */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Toast-Benachrichtigungen</FluxCardTitle>
-          <FluxCardDescription>Klicke einen Button um eine Toast-Benachrichtigung auszulösen</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Toast-Benachrichtigungen</VoltCardTitle>
+          <VoltCardDescription>Klicke einen Button um eine Toast-Benachrichtigung auszulösen</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="flex flex-wrap gap-3">
-            <FluxButton
+            <VoltButton
               variant="primary"
               leftIcon={<Info className="w-4 h-4" />}
-              onClick={() => add({ variant: "info", title: "Information", description: "Flux UI wurde erfolgreich geladen." })}
+              onClick={() => add({ variant: "info", title: "Information", description: "Volt UI wurde erfolgreich geladen." })}
             >
               Info
-            </FluxButton>
-            <FluxButton
+            </VoltButton>
+            <VoltButton
               variant="secondary"
               leftIcon={<CheckCircle2 className="w-4 h-4" />}
               onClick={() => add({ variant: "success", title: "Gespeichert!", description: "Alle Änderungen wurden erfolgreich gespeichert." })}
             >
               Erfolg
-            </FluxButton>
-            <FluxButton
+            </VoltButton>
+            <VoltButton
               variant="outline"
               leftIcon={<AlertTriangle className="w-4 h-4" />}
               onClick={() => add({ variant: "warning", title: "Achtung", description: "Bitte überprüfe deine Eingaben vor dem Absenden." })}
             >
               Warnung
-            </FluxButton>
-            <FluxButton
+            </VoltButton>
+            <VoltButton
               variant="destructive"
               leftIcon={<AlertCircle className="w-4 h-4" />}
               onClick={() => add({ variant: "error", title: "Fehler", description: "Verbindung zum Server unterbrochen." })}
             >
               Fehler
-            </FluxButton>
+            </VoltButton>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Tooltip */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Tooltips</FluxCardTitle>
-          <FluxCardDescription>Hover über die Buttons für Tooltips in alle Richtungen</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Tooltips</VoltCardTitle>
+          <VoltCardDescription>Hover über die Buttons für Tooltips in alle Richtungen</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="flex flex-wrap gap-4 py-4 justify-center">
             <FluxTooltip content="Oben angezeigt" side="top">
-              <FluxButton variant="outline" size="sm">Oben</FluxButton>
+              <VoltButton variant="outline" size="sm">Oben</VoltButton>
             </FluxTooltip>
             <FluxTooltip content="Unten angezeigt" side="bottom">
-              <FluxButton variant="outline" size="sm">Unten</FluxButton>
+              <VoltButton variant="outline" size="sm">Unten</VoltButton>
             </FluxTooltip>
             <FluxTooltip content="Links angezeigt" side="left">
-              <FluxButton variant="outline" size="sm">Links</FluxButton>
+              <VoltButton variant="outline" size="sm">Links</VoltButton>
             </FluxTooltip>
             <FluxTooltip content="Rechts angezeigt" side="right">
-              <FluxButton variant="outline" size="sm">Rechts</FluxButton>
+              <VoltButton variant="outline" size="sm">Rechts</VoltButton>
             </FluxTooltip>
             <FluxTooltip content={<span>Mit <strong>HTML</strong> Inhalt</span>} side="top">
-              <FluxButton variant="gradient" size="sm">Rich Tooltip</FluxButton>
+              <VoltButton variant="gradient" size="sm">Rich Tooltip</VoltButton>
             </FluxTooltip>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
     </div>
   );
 };

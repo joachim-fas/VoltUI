@@ -1,6 +1,6 @@
 /**
- * FluxAlert – Atmospheric Grain Design System
- * Benachrichtigungs-Komponente mit Flux-Textur.
+ * VoltAlert – Atmospheric Volt UI Design System
+ * Benachrichtigungs-Komponente mit Volt-Textur.
  */
 
 import React from "react";
@@ -46,14 +46,14 @@ const alertConfig: Record<AlertVariant, {
   },
 };
 
-export interface FluxAlertProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface VoltAlertProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: AlertVariant;
   title?: string;
   dismissible?: boolean;
   onDismiss?: () => void;
 }
 
-export const FluxAlert = React.forwardRef<HTMLDivElement, FluxAlertProps>(
+export const VoltAlert = React.forwardRef<HTMLDivElement, VoltAlertProps>(
   ({ className, variant = "info", title, dismissible, onDismiss, children, ...props }, ref) => {
     const config = alertConfig[variant];
     const Icon = config.icon;
@@ -97,4 +97,4 @@ export const FluxAlert = React.forwardRef<HTMLDivElement, FluxAlertProps>(
     );
   }
 );
-FluxAlert.displayName = "FluxAlert";
+VoltAlert.displayName = "VoltAlert";

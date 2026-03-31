@@ -1,11 +1,11 @@
 /**
- * Flux UI – Hauptseite
+ * Volt UI – Hauptseite
  * Layout: Schwarze Sidebar (links, sticky) + weißer Hauptinhalt (rechts, durchgehend scrollbar)
  * Scroll-Spy: IntersectionObserver hebt aktiven Abschnitt in der Sidebar hervor
  */
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { FluxSidebar } from "@/components/grain/FluxSidebar";
+import { VoltSidebar } from "@/components/volt/VoltSidebar";
 import { HeroSection }               from "./sections/HeroSection";
 import { FoundationsSection }        from "./sections/FoundationsSection";
 import { ButtonsSection }            from "./sections/ButtonsSection";
@@ -89,7 +89,7 @@ const sidebarSections = [
     title: "Konzept & Marke",
     items: [
       { id: "op",          label: "Operating Principle",  description: "Eingabe → Workflow → Ausgabe",          icon: <Workflow className="w-4 h-4" />, isNew: true },
-      { id: "brand",       label: "Brand Architecture",   description: "Flux UI & Tochterprojekte",             icon: <Fingerprint className="w-4 h-4" />, isNew: true },
+      { id: "brand",       label: "Brand Architecture",   description: "Volt UI & Tochterprojekte",             icon: <Fingerprint className="w-4 h-4" />, isNew: true },
       { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" />, isNew: true },
       { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" />, isNew: true },
     ],
@@ -201,7 +201,7 @@ export default function Home() {
 
       {/* ── Desktop Sidebar (sticky) ── */}
       <div className="hidden lg:flex flex-col h-full">
-        <FluxSidebar
+        <VoltSidebar
           sections={sidebarSections}
           activeId={activeId}
           onSelect={scrollToSection}
@@ -214,7 +214,7 @@ export default function Home() {
         <div className="lg:hidden fixed inset-0 z-50 flex">
           <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
           <div className="relative z-10 flex flex-col">
-            <FluxSidebar
+            <VoltSidebar
               sections={sidebarSections}
               activeId={activeId}
               onSelect={scrollToSection}

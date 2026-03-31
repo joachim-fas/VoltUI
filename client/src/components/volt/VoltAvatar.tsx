@@ -1,5 +1,5 @@
 /**
- * FluxAvatar – Flux UI
+ * VoltAvatar – Volt UI
  * Fallback-Gradienten: Neon Yellow + Black + Pastell-Töne
  */
 
@@ -30,7 +30,7 @@ function getGradientIndex(seed: string): number {
   return Math.abs(hash) % gradients.length;
 }
 
-export interface FluxAvatarProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface VoltAvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   src?: string;
   alt?: string;
   name?: string;
@@ -55,7 +55,7 @@ const onlineSizes = {
   xl: "w-3.5 h-3.5 bottom-0.5 right-0.5",
 };
 
-export const FluxAvatar = React.forwardRef<HTMLDivElement, FluxAvatarProps>(
+export const VoltAvatar = React.forwardRef<HTMLDivElement, VoltAvatarProps>(
   ({ className, src, alt, name, size = "md", ring, online, ...props }, ref) => {
     const initials = name
       ? name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase()
@@ -98,16 +98,16 @@ export const FluxAvatar = React.forwardRef<HTMLDivElement, FluxAvatarProps>(
     );
   }
 );
-FluxAvatar.displayName = "FluxAvatar";
+VoltAvatar.displayName = "VoltAvatar";
 
 /* ── Avatar Group ── */
-export interface FluxAvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface VoltAvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   avatars: Array<{ src?: string; name?: string; alt?: string }>;
   max?: number;
-  size?: FluxAvatarProps["size"];
+  size?: VoltAvatarProps["size"];
 }
 
-export const FluxAvatarGroup: React.FC<FluxAvatarGroupProps> = ({
+export const VoltAvatarGroup: React.FC<VoltAvatarGroupProps> = ({
   avatars,
   max = 4,
   size = "md",
@@ -120,7 +120,7 @@ export const FluxAvatarGroup: React.FC<FluxAvatarGroupProps> = ({
   return (
     <div className={cn("flex items-center", className)} {...props}>
       {visible.map((avatar, i) => (
-        <FluxAvatar
+        <VoltAvatar
           key={i}
           {...avatar}
           size={size}

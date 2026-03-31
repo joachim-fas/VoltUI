@@ -1,14 +1,14 @@
 /**
- * OperatingPrincipleSection - Flux UI
+ * OperatingPrincipleSection - Volt UI
  * Vollstaendige inhaltliche Ausarbeitung des Operating Principle
  * Quelle: Notion - "Idee -- Eingabe &rarr; Ausgabe (Operating Principle)"
  * Design: Weiss/Hell, Lime+Schwarz System, Pastell-Farbzuordnung
  */
 
 import { useState } from "react";
-import { FluxCursor } from "@/components/grain/FluxCursor";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
-import { FluxBadge } from "@/components/grain/FluxBadge";
+import { VoltCursor } from "@/components/volt/VoltCursor";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
+import { VoltBadge } from "@/components/volt/VoltBadge";
 import { cn } from "@/lib/utils";
 import {
   ArrowRight, Layers, Cpu, FileText, BarChart2,
@@ -327,7 +327,7 @@ export default function OperatingPrincipleSection() {
       {/* ── HEADER ── */}
       <div className="flex items-start gap-6">
         <div className="flex-shrink-0 mt-1">
-          <FluxCursor size="xl" color="black" animated />
+          <VoltCursor size="xl" color="black" animated />
         </div>
         <div>
           <SectionLabel>Operating Principle</SectionLabel>
@@ -514,11 +514,11 @@ export default function OperatingPrincipleSection() {
               <p className="text-xs text-muted-foreground italic">{item.rule}</p>
               <div className="space-y-2">
                 <div className="flex gap-2 items-start">
-                  <FluxBadge variant="muted" size="sm">IN</FluxBadge>
+                  <VoltBadge variant="muted" size="sm">IN</VoltBadge>
                   <span className="text-xs text-muted-foreground">{item.input}</span>
                 </div>
                 <div className="flex gap-2 items-start">
-                  <FluxBadge variant="default" size="sm">OUT</FluxBadge>
+                  <VoltBadge variant="default" size="sm">OUT</VoltBadge>
                   <span className="text-xs text-muted-foreground">{item.output}</span>
                 </div>
               </div>
@@ -591,15 +591,15 @@ export default function OperatingPrincipleSection() {
             </button>
           ))}
         </div>
-        <FluxCard>
-          <FluxCardHeader>
+        <VoltCard>
+          <VoltCardHeader>
             <div className="flex items-center gap-2">
               <span className="text-foreground">{ALL_WORKFLOWS[activeWorkflow].icon}</span>
-              <FluxCardTitle>{ALL_WORKFLOWS[activeWorkflow].title}</FluxCardTitle>
+              <VoltCardTitle>{ALL_WORKFLOWS[activeWorkflow].title}</VoltCardTitle>
             </div>
             <p className="text-xs text-muted-foreground mt-1">{ALL_WORKFLOWS[activeWorkflow].description}</p>
-          </FluxCardHeader>
-          <FluxCardContent>
+          </VoltCardHeader>
+          <VoltCardContent>
             <div className="space-y-0">
               {ALL_WORKFLOWS[activeWorkflow].steps.map((step, i, arr) => (
                 <WorkflowStep
@@ -615,8 +615,8 @@ export default function OperatingPrincipleSection() {
                 />
               ))}
             </div>
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
       </div>
 
       {/* ── GUARDRAILS ── */}
@@ -663,22 +663,22 @@ export default function OperatingPrincipleSection() {
       {/* ── TEMPLATE ── */}
       <div>
         <SectionLabel><Copy size={12} /> Template (copy/paste)</SectionLabel>
-        <FluxCard>
-          <FluxCardHeader>
+        <VoltCard>
+          <VoltCardHeader>
             <div className="flex items-center justify-between">
-              <FluxCardTitle>Standard-Template</FluxCardTitle>
+              <VoltCardTitle>Standard-Template</VoltCardTitle>
               <CopyButton text={TEMPLATE_TEXT} />
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Fuer jeden Workflow, jedes Projekt, jede Uebergabe - einmal ausfuellen, immer verwenden.
             </p>
-          </FluxCardHeader>
-          <FluxCardContent>
+          </VoltCardHeader>
+          <VoltCardContent>
             <pre className="text-[11px] font-mono text-foreground leading-relaxed whitespace-pre-wrap bg-muted rounded-xl p-4 border border-border">
               {TEMPLATE_TEXT}
             </pre>
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
       </div>
 
     </div>

@@ -1,13 +1,13 @@
 /**
- * BrandArchitectureSection – Flux UI
- * Flux UI als universelle Betriebssprache fuer Free Agents und alle Tochterprojekte
+ * BrandArchitectureSection – Volt UI
+ * Volt UI als universelle Betriebssprache fuer Free Agents und alle Tochterprojekte
  * Design: Weis/Hell, Lime+Schwarz System, Pastell-Farbzuordnung pro Projekt
  */
 
 import React, { useState } from "react";
-import { FluxCursor } from "@/components/grain/FluxCursor";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
-import { FluxBadge } from "@/components/grain/FluxBadge";
+import { VoltCursor } from "@/components/volt/VoltCursor";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
+import { VoltBadge } from "@/components/volt/VoltBadge";
 import { ArrowRight, Layers, Cpu, Globe, BarChart2, ShoppingCart, Clock, Lightbulb, Megaphone, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,7 @@ const BRAND_LAYERS = [
   },
   {
     layer: "Visuell",
-    desc: "Signet, Lime+Schwarz, Bricolage Grotesque, Flux-Textur, Pastell-Palette.",
+    desc: "Signet, Lime+Schwarz, Bricolage Grotesque, Volt-Textur, Pastell-Palette.",
     token: "Design Tokens",
     color: "#D4E8FF",
   },
@@ -53,7 +53,7 @@ const PROJECTS = [
     id: "free-agents",
     name: "Free Agents",
     domain: "free-agents.io",
-    icon: <FluxCursor size="sm" color="black" animated />,
+    icon: <VoltCursor size="sm" color="black" animated />,
     role: "Muttermarke",
     desc: "Die Firma. Das Operating Principle in Reinform. Jedes Projekt ist ein Ausdruck dieser Betriebsart.",
     color: "#E4FF97",
@@ -61,7 +61,7 @@ const PROJECTS = [
     textColor: "#0A0A0A",
     status: "aktiv",
     tagline: "Weniger Abstimmung. Mehr Ergebnis.",
-    tokens: ["Lime + Schwarz", "Bricolage Grotesque", ">_ Signet", "Flux-Textur"],
+    tokens: ["Lime + Schwarz", "Bricolage Grotesque", ">_ Signet", "Volt-Textur"],
   },
   {
     id: "politik",
@@ -103,7 +103,7 @@ const PROJECTS = [
     textColor: "#0A0A0A",
     status: "recherche",
     tagline: "Gestalten als Prozess, nicht als Produkt.",
-    tokens: ["Rose-Pastell", "Experimentelle Typografie", "Prozess-Visualisierung", "Flux-Textur"],
+    tokens: ["Rose-Pastell", "Experimentelle Typografie", "Prozess-Visualisierung", "Volt-Textur"],
   },
   {
     id: "omnishopper",
@@ -144,7 +144,7 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
 const DESIGN_PRINCIPLES = [
   {
     title: "Eine Sprache, viele Ausdruecke",
-    desc: "Alle Projekte teilen dieselben Grundtokens: Typografie-System, Signet, Flux-Textur, OP-Schema. Die Farbcodierung differenziert.",
+    desc: "Alle Projekte teilen dieselben Grundtokens: Typografie-System, Signet, Volt-Textur, OP-Schema. Die Farbcodierung differenziert.",
   },
   {
     title: "Farbe als Kontext-Signal",
@@ -178,7 +178,7 @@ export const BrandArchitectureSection: React.FC = () => {
           Eine Sprache.<br />Viele Projekte.
         </h1>
         <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          Flux UI ist das portable Design System von Free Agents und allen Projekten, die daraus entstehen.
+          Volt UI ist das portable Design System von Free Agents und allen Projekten, die daraus entstehen.
           Das{" "}<span className="font-mono font-bold text-foreground">&gt;_</span> Signet ist der visuelle Anker.
           Das Operating Principle beschreibt die Arbeitslogik dahinter.
         </p>
@@ -278,7 +278,7 @@ export const BrandArchitectureSection: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <FluxBadge variant="muted" size="sm">{active.role}</FluxBadge>
+                    <VoltBadge variant="muted" size="sm">{active.role}</VoltBadge>
                     <span
                       className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold"
                       style={{ background: "rgba(255,255,255,0.6)", color: STATUS_LABELS[active.status].color }}
@@ -400,7 +400,7 @@ export const BrandArchitectureSection: React.FC = () => {
               className="rounded-2xl flex flex-col items-center justify-center gap-3 py-6 border"
               style={{ background: project.color, borderColor: project.border }}
             >
-              <FluxCursor
+              <VoltCursor
                 size="md"
                 color={project.id === "free-agents" ? "black" : "black"}
                 animated

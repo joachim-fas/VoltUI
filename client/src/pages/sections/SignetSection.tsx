@@ -1,14 +1,14 @@
 /**
- * SignetSection – Flux UI
+ * SignetSection – Volt UI
  * Vollständige Marken-Dokumentation des ">_" Signets
  * Design: Weiß + Schwarz + Lime – keine anderen Farben
  */
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FluxCursor } from "@/components/grain/FluxCursor";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle } from "@/components/grain/FluxCard";
-import { FluxBadge } from "@/components/grain/FluxBadge";
+import { VoltCursor } from "@/components/volt/VoltCursor";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
+import { VoltBadge } from "@/components/volt/VoltBadge";
 
 /* ── Hilfsfunktion: Code-Kopieren ── */
 const CopyButton: React.FC<{ code: string }> = ({ code }) => {
@@ -103,7 +103,7 @@ export const SignetSection: React.FC = () => {
           Das <span className="font-mono">&gt;_</span> Signet
         </h2>
         <p className="text-muted-foreground font-ui text-base max-w-2xl leading-relaxed">
-          Das Signet ist die visuelle Essenz von Flux UI. Es kombiniert den
+          Das Signet ist die visuelle Essenz von Volt UI. Es kombiniert den
           Terminal-Prompt-Pfeil <span className="font-mono text-foreground">&gt;</span> mit
           dem blinkenden Cursor-Balken <span className="font-mono text-foreground">_</span> –
           ein Symbol für präzise Eingabe, klaren Output und maschinelle Ästhetik.
@@ -119,7 +119,7 @@ export const SignetSection: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <FluxCursor size="2xl" color="black" animated />
+            <VoltCursor size="2xl" color="black" animated />
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -127,7 +127,7 @@ export const SignetSection: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="text-center"
           >
-            <p className="font-mono text-foreground/50 text-sm tracking-widest uppercase">Flux UI · Signet · v1</p>
+            <p className="font-mono text-foreground/50 text-sm tracking-widest uppercase">Volt UI · Signet · v1</p>
           </motion.div>
         </div>
       </div>
@@ -138,8 +138,8 @@ export const SignetSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* Pfeil-Teil */}
-          <FluxCard>
-            <FluxCardContent className="p-6">
+          <VoltCard>
+            <VoltCardContent className="p-6">
               <div className="flex items-start gap-5">
                 <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[#E4FF97] flex items-center justify-center">
                   <svg viewBox="0 0 207 214" width="36" height="36" aria-hidden="true">
@@ -149,7 +149,7 @@ export const SignetSection: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <p className="font-display font-bold text-sm text-foreground">Prompt-Pfeil</p>
-                    <FluxBadge variant="muted" size="sm">statisch</FluxBadge>
+                    <VoltBadge variant="muted" size="sm">statisch</VoltBadge>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Der nach rechts weisende Pfeil ist dem Terminal-Prompt nachempfunden.
@@ -161,12 +161,12 @@ export const SignetSection: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
 
           {/* Balken-Teil */}
-          <FluxCard>
-            <FluxCardContent className="p-6">
+          <VoltCard>
+            <VoltCardContent className="p-6">
               <div className="flex items-start gap-5">
                 <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[#0A0A0A] flex items-center justify-center">
                   <svg viewBox="0 0 207 56" width="36" height="14" aria-hidden="true">
@@ -177,7 +177,7 @@ export const SignetSection: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <p className="font-display font-bold text-sm text-foreground">Cursor-Balken</p>
-                    <FluxBadge variant="default" size="sm">animiert</FluxBadge>
+                    <VoltBadge variant="default" size="sm">animiert</VoltBadge>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     Der blinkende Balken ist der klassische Text-Cursor aus Terminals und Code-Editoren.
@@ -189,22 +189,22 @@ export const SignetSection: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
         </div>
       </div>
 
       {/* ── Interaktiver Konfigurator ── */}
       <div>
         <p className="section-label mb-6">Konfigurator</p>
-        <FluxCard>
-          <FluxCardHeader>
-            <FluxCardTitle>Live-Vorschau</FluxCardTitle>
+        <VoltCard>
+          <VoltCardHeader>
+            <VoltCardTitle>Live-Vorschau</VoltCardTitle>
             <p className="text-xs text-muted-foreground font-ui mt-0.5">
               Variante, Größe und Eigenschaften einstellen
             </p>
-          </FluxCardHeader>
-          <FluxCardContent>
+          </VoltCardHeader>
+          <VoltCardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
               {/* Vorschau-Fläche */}
@@ -212,7 +212,7 @@ export const SignetSection: React.FC = () => {
                 className="rounded-2xl flex items-center justify-center transition-colors duration-300"
                 style={{ background: bgForVariant[activeVariant], minHeight: "220px" }}
               >
-                <FluxCursor
+                <VoltCursor
                   size={activeSize}
                   color={activeVariant}
                   animated={animated}
@@ -292,20 +292,20 @@ export const SignetSection: React.FC = () => {
                 <div>
                   <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Code</p>
                   <CodeBlock
-                    code={`<FluxCursor\n  size="${activeSize}"\n  color="${activeVariant}"\n  animated={${animated}}\n  showBar={${showBar}}\n/>`}
+                    code={`<VoltCursor\n  size="${activeSize}"\n  color="${activeVariant}"\n  animated={${animated}}\n  showBar={${showBar}}\n/>`}
                   />
                 </div>
               </div>
             </div>
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
       </div>
 
       {/* ── Größen-Übersicht ── */}
       <div>
         <p className="section-label mb-6">Größen</p>
-        <FluxCard>
-          <FluxCardContent className="p-6">
+        <VoltCard>
+          <VoltCardContent className="p-6">
             <div className="flex items-end gap-8 flex-wrap">
               {([
                 { size: "xs",  w: 20,  label: "20 px" },
@@ -316,7 +316,7 @@ export const SignetSection: React.FC = () => {
                 { size: "2xl", w: 144, label: "144 px" },
               ] as const).map(({ size, label }) => (
                 <div key={size} className="flex flex-col items-center gap-3">
-                  <FluxCursor size={size} color="black" animated />
+                  <VoltCursor size={size} color="black" animated />
                   <div className="text-center">
                     <p className="text-[11px] font-semibold font-ui text-foreground">{size}</p>
                     <p className="text-[9px] font-mono text-muted-foreground">{label}</p>
@@ -324,8 +324,8 @@ export const SignetSection: React.FC = () => {
                 </div>
               ))}
             </div>
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
       </div>
 
       {/* ── Farbvarianten ── */}
@@ -367,7 +367,7 @@ export const SignetSection: React.FC = () => {
                 className="flex items-center justify-center py-10"
                 style={{ background: bg }}
               >
-                <FluxCursor size="xl" color={color} animated />
+                <VoltCursor size="xl" color={color} animated />
               </div>
               <div className="px-5 py-4 bg-card border-t" style={{ borderColor: border }}>
                 <p className="font-display font-bold text-sm text-foreground mb-1">{label}</p>
@@ -423,7 +423,7 @@ export const SignetSection: React.FC = () => {
           <RuleCard
             number="06"
             title="Kein Text im Signet"
-            desc="Das Signet steht für sich. Kein Schriftzug innerhalb der Schutzzone. Wortmarke 'flux ui' wird separat gesetzt."
+            desc="Das Signet steht für sich. Kein Schriftzug innerhalb der Schutzzone. Wortmarke 'volt ui' wird separat gesetzt."
             good="Signet + Wortmarke nebeneinander"
             bad="Text über oder im Signet"
           />
@@ -436,13 +436,13 @@ export const SignetSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           {/* Sidebar-Logo */}
-          <FluxCard>
-            <FluxCardHeader>
-              <FluxCardTitle>Sidebar-Logo</FluxCardTitle>
-            </FluxCardHeader>
-            <FluxCardContent>
+          <VoltCard>
+            <VoltCardHeader>
+              <VoltCardTitle>Sidebar-Logo</VoltCardTitle>
+            </VoltCardHeader>
+            <VoltCardContent>
               <div className="rounded-xl border border-border bg-card p-4 flex items-center gap-3">
-                <FluxCursor size="md" color="black" animated />
+                <VoltCursor size="md" color="black" animated />
                 <div>
                   <p className="font-display font-bold text-sm text-foreground leading-tight tracking-tight">
                     flux<span className="opacity-30"> ui</span>
@@ -452,72 +452,72 @@ export const SignetSection: React.FC = () => {
               </div>
               <CodeBlock
                 label="JSX"
-                code={`<FluxCursor size="md" color="black" animated />`}
+                code={`<VoltCursor size="md" color="black" animated />`}
               />
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
 
           {/* Hero-Einsatz */}
-          <FluxCard>
-            <FluxCardHeader>
-              <FluxCardTitle>Hero-Einsatz</FluxCardTitle>
-            </FluxCardHeader>
-            <FluxCardContent>
+          <VoltCard>
+            <VoltCardHeader>
+              <VoltCardTitle>Hero-Einsatz</VoltCardTitle>
+            </VoltCardHeader>
+            <VoltCardContent>
               <div className="rounded-xl bg-[#E4FF97] flex items-center justify-center py-8">
-                <FluxCursor size="2xl" color="black" animated />
+                <VoltCursor size="2xl" color="black" animated />
               </div>
               <CodeBlock
                 label="JSX"
-                code={`<FluxCursor size="2xl" color="black" animated />`}
+                code={`<VoltCursor size="2xl" color="black" animated />`}
               />
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
 
           {/* Dark Mode */}
-          <FluxCard>
-            <FluxCardHeader>
-              <FluxCardTitle>Dark Mode</FluxCardTitle>
-            </FluxCardHeader>
-            <FluxCardContent>
+          <VoltCard>
+            <VoltCardHeader>
+              <VoltCardTitle>Dark Mode</VoltCardTitle>
+            </VoltCardHeader>
+            <VoltCardContent>
               <div className="rounded-xl bg-[#0A0A0A] flex items-center justify-center py-8">
-                <FluxCursor size="xl" color="lime" animated />
+                <VoltCursor size="xl" color="lime" animated />
               </div>
               <CodeBlock
                 label="JSX"
-                code={`<FluxCursor size="xl" color="lime" animated />`}
+                code={`<VoltCursor size="xl" color="lime" animated />`}
               />
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
 
           {/* Nur Pfeil */}
-          <FluxCard>
-            <FluxCardHeader>
-              <FluxCardTitle>Nur Pfeil (kein Balken)</FluxCardTitle>
-            </FluxCardHeader>
-            <FluxCardContent>
+          <VoltCard>
+            <VoltCardHeader>
+              <VoltCardTitle>Nur Pfeil (kein Balken)</VoltCardTitle>
+            </VoltCardHeader>
+            <VoltCardContent>
               <div className="rounded-xl border border-border bg-card flex items-center justify-center py-8">
-                <FluxCursor size="xl" color="black" animated={false} showBar={false} />
+                <VoltCursor size="xl" color="black" animated={false} showBar={false} />
               </div>
               <CodeBlock
                 label="JSX"
-                code={`<FluxCursor size="xl" color="black"\n  animated={false} showBar={false} />`}
+                code={`<VoltCursor size="xl" color="black"\n  animated={false} showBar={false} />`}
               />
-            </FluxCardContent>
-          </FluxCard>
+            </VoltCardContent>
+          </VoltCard>
         </div>
       </div>
 
       {/* ── SVG-Quellcode ── */}
       <div>
         <p className="section-label mb-6">SVG-Quellcode</p>
-        <FluxCard>
-          <FluxCardHeader>
-            <FluxCardTitle>Rohes SVG</FluxCardTitle>
+        <VoltCard>
+          <VoltCardHeader>
+            <VoltCardTitle>Rohes SVG</VoltCardTitle>
             <p className="text-xs text-muted-foreground font-ui mt-0.5">
               Für den Einsatz außerhalb von React – z. B. in Figma, Illustrator oder als Favicon
             </p>
-          </FluxCardHeader>
-          <FluxCardContent>
+          </VoltCardHeader>
+          <VoltCardContent>
             <CodeBlock
               label="SVG · vollständig mit Animation"
               code={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 414.24 269.82">
@@ -536,8 +536,8 @@ export const SignetSection: React.FC = () => {
                     v55.74h-207.12Z" fill="#0A0A0A"/>
 </svg>`}
             />
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
       </div>
 
     </div>

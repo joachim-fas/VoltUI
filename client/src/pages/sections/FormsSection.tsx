@@ -3,11 +3,11 @@
  */
 
 import React, { useState } from "react";
-import { FluxCard, FluxCardContent, FluxCardHeader, FluxCardTitle, FluxCardDescription } from "@/components/grain/FluxCard";
-import { FluxInput, FluxTextarea, FluxSelect } from "@/components/grain/FluxInput";
-import { FluxToggle, FluxCheckbox, FluxRadioGroup } from "@/components/grain/FluxToggle";
-import { FluxProgress, FluxSlider } from "@/components/grain/FluxProgress";
-import { FluxButton } from "@/components/grain/FluxButton";
+import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle, VoltCardDescription } from "@/components/volt/VoltCard";
+import { VoltInput, FluxTextarea, FluxSelect } from "@/components/volt/VoltInput";
+import { VoltToggle, FluxCheckbox, FluxRadioGroup } from "@/components/volt/VoltToggle";
+import { VoltProgress, FluxSlider } from "@/components/volt/VoltProgress";
+import { VoltButton } from "@/components/volt/VoltButton";
 import { Mail, Lock, Search, User, Eye, EyeOff } from "lucide-react";
 
 export const FormsSection: React.FC = () => {
@@ -28,21 +28,21 @@ export const FormsSection: React.FC = () => {
       </div>
 
       {/* Inputs */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Text-Eingaben</FluxCardTitle>
-          <FluxCardDescription>default · filled · glass · error · success</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Text-Eingaben</VoltCardTitle>
+          <VoltCardDescription>default · filled · glass · error · success</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <FluxInput
+            <VoltInput
               label="E-Mail-Adresse"
               placeholder="name@beispiel.de"
               type="email"
               leftElement={<Mail className="w-4 h-4" />}
               hint="Wir teilen deine E-Mail niemals."
             />
-            <FluxInput
+            <VoltInput
               label="Passwort"
               placeholder="Mindestens 8 Zeichen"
               type={showPw ? "text" : "password"}
@@ -53,42 +53,42 @@ export const FormsSection: React.FC = () => {
                 </button>
               }
             />
-            <FluxInput
+            <VoltInput
               label="Suche"
               placeholder="Komponenten durchsuchen…"
               leftElement={<Search className="w-4 h-4" />}
               variant="filled"
             />
-            <FluxInput
+            <VoltInput
               label="Benutzername"
               placeholder="@username"
               leftElement={<User className="w-4 h-4" />}
               error="Dieser Benutzername ist bereits vergeben."
               defaultValue="john_doe"
             />
-            <FluxInput
+            <VoltInput
               label="Verifizierter Name"
               placeholder="Vollständiger Name"
               state="success"
               defaultValue="Anna Müller"
               hint="Name erfolgreich verifiziert."
             />
-            <FluxInput
+            <VoltInput
               label="Deaktiviert"
               placeholder="Nicht bearbeitbar"
               disabled
               defaultValue="Gesperrter Wert"
             />
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Textarea & Select */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Textarea & Select</FluxCardTitle>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Textarea & Select</VoltCardTitle>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <FluxTextarea
               label="Nachricht"
@@ -112,48 +112,48 @@ export const FormsSection: React.FC = () => {
               </FluxSelect>
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Toggles & Checkboxen */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <FluxCard>
-          <FluxCardHeader>
-            <FluxCardTitle>Toggle-Schalter</FluxCardTitle>
-            <FluxCardDescription>default · primary · positive · negative · neutral · sm · md · lg</FluxCardDescription>
-          </FluxCardHeader>
-          <FluxCardContent>
+        <VoltCard>
+          <VoltCardHeader>
+            <VoltCardTitle>Toggle-Schalter</VoltCardTitle>
+            <VoltCardDescription>default · primary · positive · negative · neutral · sm · md · lg</VoltCardDescription>
+          </VoltCardHeader>
+          <VoltCardContent>
             <div className="space-y-4">
-              <FluxToggle
+              <VoltToggle
                 label="Benachrichtigungen"
                 description="E-Mail-Benachrichtigungen aktivieren"
                 variant="default"
                 defaultChecked
               />
-              <FluxToggle
+              <VoltToggle
                 label="Lime / Primary"
                 description="Hauptfarbe als aktiver Zustand"
                 variant="primary"
                 defaultChecked
               />
-              <FluxToggle
+              <VoltToggle
                 label="Positiv"
                 description="Bestätigt, aktiv, erfolgreich"
                 variant="positive"
                 defaultChecked
               />
-              <FluxToggle
+              <VoltToggle
                 label="Negativ"
                 description="Gesperrt, Fehler, Warnung"
                 variant="negative"
               />
-              <FluxToggle
+              <VoltToggle
                 label="Neutral"
                 description="Inaktiv, sekundär"
                 variant="neutral"
                 defaultChecked
               />
-              <FluxToggle
+              <VoltToggle
                 label="Deaktiviert"
                 description="Diese Option ist nicht verfügbar"
                 disabled
@@ -163,40 +163,40 @@ export const FormsSection: React.FC = () => {
                 <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">Größen: sm · md · lg</p>
                 <div className="flex items-center gap-5">
                   <div className="flex flex-col items-center gap-1.5">
-                    <FluxToggle variant="default" toggleSize="sm" defaultChecked />
+                    <VoltToggle variant="default" toggleSize="sm" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">sm</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <FluxToggle variant="default" toggleSize="md" defaultChecked />
+                    <VoltToggle variant="default" toggleSize="md" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">md</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <FluxToggle variant="default" toggleSize="lg" defaultChecked />
+                    <VoltToggle variant="default" toggleSize="lg" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">lg</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <FluxToggle variant="primary" toggleSize="md" defaultChecked />
+                    <VoltToggle variant="primary" toggleSize="md" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">lime</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <FluxToggle variant="positive" toggleSize="md" defaultChecked />
+                    <VoltToggle variant="positive" toggleSize="md" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">pos</span>
                   </div>
                   <div className="flex flex-col items-center gap-1.5">
-                    <FluxToggle variant="negative" toggleSize="md" defaultChecked />
+                    <VoltToggle variant="negative" toggleSize="md" defaultChecked />
                     <span className="text-[10px] font-mono text-muted-foreground">neg</span>
                   </div>
                 </div>
               </div>
             </div>
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
 
-        <FluxCard>
-          <FluxCardHeader>
-            <FluxCardTitle>Checkboxen & Radio</FluxCardTitle>
-          </FluxCardHeader>
-          <FluxCardContent>
+        <VoltCard>
+          <VoltCardHeader>
+            <VoltCardTitle>Checkboxen & Radio</VoltCardTitle>
+          </VoltCardHeader>
+          <VoltCardContent>
             <div className="space-y-5">
               <div className="space-y-3">
                 <p className="section-label">Checkboxen</p>
@@ -224,24 +224,24 @@ export const FormsSection: React.FC = () => {
                 />
               </div>
             </div>
-          </FluxCardContent>
-        </FluxCard>
+          </VoltCardContent>
+        </VoltCard>
       </div>
 
       {/* Progress & Slider */}
-      <FluxCard>
-        <FluxCardHeader>
-          <FluxCardTitle>Progress & Slider</FluxCardTitle>
-          <FluxCardDescription>Fortschrittsbalken und interaktive Schieberegler</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard>
+        <VoltCardHeader>
+          <VoltCardTitle>Progress & Slider</VoltCardTitle>
+          <VoltCardDescription>Fortschrittsbalken und interaktive Schieberegler</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <div className="space-y-6">
             <div className="space-y-4">
               <p className="section-label">Fortschrittsbalken</p>
-              <FluxProgress value={25}  variant="default"   size="sm" label="Upload"   showValue />
-              <FluxProgress value={60}  variant="lime"      size="md" label="Speicher"  showValue />
-              <FluxProgress value={85}  variant="negative"  size="md" label="CPU-Last"  showValue />
-              <FluxProgress value={100} variant="positive" size="lg" label="Abgeschlossen" showValue />
+              <VoltProgress value={25}  variant="default"   size="sm" label="Upload"   showValue />
+              <VoltProgress value={60}  variant="lime"      size="md" label="Speicher"  showValue />
+              <VoltProgress value={85}  variant="negative"  size="md" label="CPU-Last"  showValue />
+              <VoltProgress value={100} variant="positive" size="lg" label="Abgeschlossen" showValue />
             </div>
             <div className="space-y-4 pt-2">
               <p className="section-label">Schieberegler</p>
@@ -262,28 +262,28 @@ export const FormsSection: React.FC = () => {
               />
             </div>
           </div>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
 
       {/* Vollständiges Formular-Beispiel */}
-      <FluxCard variant="elevated">
-        <FluxCardHeader>
-          <FluxCardTitle>Vollständiges Formular-Beispiel</FluxCardTitle>
-          <FluxCardDescription>Registrierungsformular mit allen Elementen</FluxCardDescription>
-        </FluxCardHeader>
-        <FluxCardContent>
+      <VoltCard variant="elevated">
+        <VoltCardHeader>
+          <VoltCardTitle>Vollständiges Formular-Beispiel</VoltCardTitle>
+          <VoltCardDescription>Registrierungsformular mit allen Elementen</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardContent>
           <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FluxInput label="Vorname" placeholder="Max" leftElement={<User className="w-4 h-4" />} />
-              <FluxInput label="Nachname" placeholder="Mustermann" />
+              <VoltInput label="Vorname" placeholder="Max" leftElement={<User className="w-4 h-4" />} />
+              <VoltInput label="Nachname" placeholder="Mustermann" />
             </div>
-            <FluxInput
+            <VoltInput
               label="E-Mail"
               type="email"
               placeholder="max@beispiel.de"
               leftElement={<Mail className="w-4 h-4" />}
             />
-            <FluxInput
+            <VoltInput
               label="Passwort"
               type="password"
               placeholder="Sicheres Passwort wählen"
@@ -295,7 +295,7 @@ export const FormsSection: React.FC = () => {
               <option value="manager">Manager</option>
             </FluxSelect>
             <FluxTextarea label="Über mich" placeholder="Kurze Beschreibung…" rows={3} />
-            <FluxToggle
+            <VoltToggle
               label="Newsletter abonnieren"
               description="Erhalte Updates zu neuen Komponenten."
               variant="default"
@@ -306,16 +306,16 @@ export const FormsSection: React.FC = () => {
               variant="default"
             />
             <div className="flex gap-3 pt-2">
-              <FluxButton variant="primary" type="submit" className="flex-1">
+              <VoltButton variant="primary" type="submit" className="flex-1">
                 Registrieren
-              </FluxButton>
-              <FluxButton variant="outline" type="reset">
+              </VoltButton>
+              <VoltButton variant="outline" type="reset">
                 Zurücksetzen
-              </FluxButton>
+              </VoltButton>
             </div>
           </form>
-        </FluxCardContent>
-      </FluxCard>
+        </VoltCardContent>
+      </VoltCard>
     </div>
   );
 };
