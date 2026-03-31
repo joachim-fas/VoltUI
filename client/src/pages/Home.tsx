@@ -103,6 +103,11 @@ const sidebarSections = [
       { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" /> },
       { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <Network className="w-4 h-4" /> },
       { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <GitMerge className="w-4 h-4" /> },
+    ],
+  },
+  {
+    title: "Export",
+    items: [
       { id: "export",      label: "Export & Import",      description: "CSS, Snippets, Anleitung",              icon: <Download className="w-4 h-4" /> },
     ],
   },

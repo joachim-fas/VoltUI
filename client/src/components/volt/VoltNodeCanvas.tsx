@@ -626,6 +626,29 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hoveredId,  setHoveredId]  = useState<string | null>(null);
   const [animTick,   setAnimTick]   = useState(0);
+  const [localEdges, setLocalEdges] = useState<CanvasEdge[]>(edges);
+
+  /* Drag-to-Connect State */
+  const [connecting, setConnecting] = useState<{
+    fromNodeId: string;
+    fromPort: "right" | "bottom" | "left" | "top";
+    cursorX: number;
+    cursorY: number;
+  } | null>(null);
+  const [hoveredPort, setHoveredPort] = useState<{
+    nodeId: string;
+    port: "right" | "bottom" | "left" | "top";
+  } | null>(null);
+
+  /* Sync localEdges wenn prop sich ändert – JSON-Vergleich verhindert Infinite-Loop */
+  const edgesJsonRef = useRef("");
+  useEffect(() => {
+    const json = JSON.stringify(edges);
+    if (json !== edgesJsonRef.current) {
+      edgesJsonRef.current = json;
+      setLocalEdges(edges);
+    }
+  });
 
   /* Animations-Tick für Datenfluss-Partikel */
   useEffect(() => {
@@ -664,6 +687,66 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
       dragRef.current = { type: "pan", startX: e.clientX, startY: e.clientY, panX: pan.x, panY: pan.y };
     }
   }, [pan]);
+
+  /* Drag-to-Connect: Port-Drag starten */
+  const startConnect = useCallback((
+    e: ReactMouseEvent,
+    nodeId: string,
+    port: "right" | "bottom" | "left" | "top"
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setConnecting({
+      fromNodeId: nodeId,
+      fromPort: port,
+      cursorX: (e.clientX - rect.left - pan.x) / zoom,
+      cursorY: (e.clientY - rect.top  - pan.y) / zoom,
+    });
+  }, [pan, zoom]);
+
+  /* Drag-to-Connect: Cursor-Position aktualisieren */
+  useEffect(() => {
+    if (!connecting) return;
+    const onMove = (e: MouseEvent) => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      setConnecting(prev => prev ? {
+        ...prev,
+        cursorX: (e.clientX - rect.left - pan.x) / zoom,
+        cursorY: (e.clientY - rect.top  - pan.y) / zoom,
+      } : null);
+    };
+    const onUp = () => {
+      if (connecting && hoveredPort && hoveredPort.nodeId !== connecting.fromNodeId) {
+        /* Validierung: kein Duplikat */
+        const isDuplicate = localEdges.some(
+          e => e.from === connecting.fromNodeId && e.to === hoveredPort.nodeId &&
+               e.fromPort === connecting.fromPort && e.toPort === hoveredPort.port
+        );
+        if (!isDuplicate) {
+          const newEdge: CanvasEdge = {
+            id: `e-${Date.now()}`,
+            from: connecting.fromNodeId,
+            to:   hoveredPort.nodeId,
+            fromPort: connecting.fromPort,
+            toPort:   hoveredPort.port,
+            style: "bezier",
+          };
+          setLocalEdges(prev => [...prev, newEdge]);
+        }
+      }
+      setConnecting(null);
+      setHoveredPort(null);
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup",  onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup",  onUp);
+    };
+  }, [connecting, hoveredPort, localEdges, pan, zoom]);
 
   const startNodeDrag = useCallback((e: ReactMouseEvent, nodeId: string) => {
     e.stopPropagation();
@@ -727,6 +810,14 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
   const nodeMap  = new Map(nodes.map(n => [n.id, n]));
   const canvasW  = Math.max(...nodes.map(n => n.x + (n.width  ?? 300)), 800) + 200;
   const canvasH  = Math.max(...nodes.map(n => n.y + (n.height ?? 200)), 500) + 200;
+
+  /* Preview-Linie: Startpunkt der aktuellen Verbindung */
+  const connectPreview = connecting ? (() => {
+    const fromNode = nodeMap.get(connecting.fromNodeId);
+    if (!fromNode) return null;
+    const from = portPos(fromNode, connecting.fromPort);
+    return { from, to: { x: connecting.cursorX, y: connecting.cursorY } };
+  })() : null;
 
   return (
     <div
@@ -821,11 +912,21 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
             })}
           </defs>
 
-          {edges.map(edge => {
+          {/* Preview-Linie beim Verbinden */}
+          {connectPreview && (
+            <path
+              d={buildPath(connectPreview.from, connectPreview.to, connecting!.fromPort, "left", "bezier")}
+              stroke={isDark ? "rgba(228,255,151,0.7)" : "rgba(0,0,0,0.5)"}
+              strokeWidth={1.5}
+              strokeDasharray="6 4"
+              fill="none"
+              style={{ animation: "ncEdgeDash 0.4s linear infinite" }}
+            />
+          )}
+          {localEdges.map(edge => {
             const fromNode = nodeMap.get(edge.from);
             const toNode   = nodeMap.get(edge.to);
             if (!fromNode || !toNode) return null;
-
             const fp = edge.fromPort ?? "right";
             const tp = edge.toPort   ?? "left";
             const from = portPos(fromNode, fp);
@@ -971,36 +1072,96 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
                 <NodeBody node={node} isDark={isDark} />
               </div>
 
-              {/* Port links (Input) */}
-              <div style={{
-                position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)",
-                width: 14, height: 14, borderRadius: "50%",
-                background: isDark ? "#1A1A1A" : "#FFFFFF",
-                border: `2px solid ${isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)"}`,
-                zIndex: 3,
-              }} />
-
+               {/* Port links (Input) */}
+              {(() => {
+                const isHovP = hoveredPort?.nodeId === node.id && hoveredPort?.port === "left";
+                const isTarget = connecting && connecting.fromNodeId !== node.id;
+                return (
+                  <div
+                    style={{
+                      position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)",
+                      width: isHovP ? 18 : 14, height: isHovP ? 18 : 14,
+                      marginLeft: isHovP ? -2 : 0, marginTop: isHovP ? -2 : 0,
+                      borderRadius: "50%",
+                      background: isHovP ? (isDark ? typeColor : darkenColor(typeColor)) : (isDark ? "#1A1A1A" : "#FFFFFF"),
+                      border: `2px solid ${isHovP ? (isDark ? typeColor : darkenColor(typeColor)) : (isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)")}`,
+                      boxShadow: isHovP ? `0 0 10px ${typeColor}88` : undefined,
+                      zIndex: 4,
+                      cursor: isTarget ? "crosshair" : "default",
+                      transition: "all 0.12s ease",
+                    }}
+                    onMouseEnter={() => isTarget && setHoveredPort({ nodeId: node.id, port: "left" })}
+                    onMouseLeave={() => setHoveredPort(null)}
+                    onMouseUp={e => {
+                      if (connecting && connecting.fromNodeId !== node.id) {
+                        e.stopPropagation();
+                        const isDuplicate = localEdges.some(
+                          ed => ed.from === connecting.fromNodeId && ed.to === node.id &&
+                               ed.fromPort === connecting.fromPort && ed.toPort === "left"
+                        );
+                        if (!isDuplicate) {
+                          setLocalEdges(prev => [...prev, {
+                            id: `e-${Date.now()}`,
+                            from: connecting.fromNodeId,
+                            to: node.id,
+                            fromPort: connecting.fromPort,
+                            toPort: "left",
+                            style: "bezier",
+                          }]);
+                        }
+                        setConnecting(null);
+                        setHoveredPort(null);
+                      }
+                    }}
+                  />
+                );
+              })()}
               {/* Port rechts (Output) */}
-              <div style={{
-                position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)",
-                width: 14, height: 14, borderRadius: "50%",
-                background: isDark ? "#1A1A1A" : "#FFFFFF",
-                border: `2.5px solid ${isDark ? typeColor : darkenColor(typeColor)}`,
-                boxShadow: `0 0 8px ${typeColor}66`,
-                zIndex: 3,
-              }} />
-
+              {(() => {
+                const isHovP = hoveredPort?.nodeId === node.id && hoveredPort?.port === "right";
+                return (
+                  <div
+                    style={{
+                      position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)",
+                      width: isHovP ? 18 : 14, height: isHovP ? 18 : 14,
+                      marginRight: isHovP ? -2 : 0, marginTop: isHovP ? -2 : 0,
+                      borderRadius: "50%",
+                      background: isDark ? "#1A1A1A" : "#FFFFFF",
+                      border: `2.5px solid ${isDark ? typeColor : darkenColor(typeColor)}`,
+                      boxShadow: isHovP ? `0 0 12px ${typeColor}` : `0 0 8px ${typeColor}66`,
+                      zIndex: 4,
+                      cursor: "crosshair",
+                      transition: "all 0.12s ease",
+                    }}
+                    onMouseDown={e => startConnect(e, node.id, "right")}
+                    onMouseEnter={() => setHoveredPort({ nodeId: node.id, port: "right" })}
+                    onMouseLeave={() => setHoveredPort(null)}
+                  />
+                );
+              })()}
               {/* Port unten (Decision: FALSE-Pfad) */}
-              {node.type === "decision" && (
-                <div style={{
-                  position: "absolute", bottom: -7, left: "50%", transform: "translateX(-50%)",
-                  width: 14, height: 14, borderRadius: "50%",
-                  background: isDark ? "#1A1A1A" : "#FFFFFF",
-                  border: `2.5px solid ${isDark ? "#FF6B6B" : "#D94040"}`,
-                  boxShadow: "0 0 8px #FF6B6B66",
-                  zIndex: 3,
-                }} />
-              )}
+              {node.type === "decision" && (() => {
+                const isHovP = hoveredPort?.nodeId === node.id && hoveredPort?.port === "bottom";
+                return (
+                  <div
+                    style={{
+                      position: "absolute", bottom: -7, left: "50%", transform: "translateX(-50%)",
+                      width: isHovP ? 18 : 14, height: isHovP ? 18 : 14,
+                      marginLeft: isHovP ? -2 : 0, marginBottom: isHovP ? -2 : 0,
+                      borderRadius: "50%",
+                      background: isDark ? "#1A1A1A" : "#FFFFFF",
+                      border: `2.5px solid ${isDark ? "#FF6B6B" : "#D94040"}`,
+                      boxShadow: isHovP ? "0 0 12px #FF6B6B" : "0 0 8px #FF6B6B66",
+                      zIndex: 4,
+                      cursor: "crosshair",
+                      transition: "all 0.12s ease",
+                    }}
+                    onMouseDown={e => startConnect(e, node.id, "bottom")}
+                    onMouseEnter={() => setHoveredPort({ nodeId: node.id, port: "bottom" })}
+                    onMouseLeave={() => setHoveredPort(null)}
+                  />
+                );
+              })()}
 
               {/* Resize-Handle */}
               {!isDisabled && (
