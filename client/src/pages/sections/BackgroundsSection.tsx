@@ -94,14 +94,62 @@ const PATTERNS = [
     description: "Schraffur-Muster – für Statusanzeigen und Warnbereiche",
     cssClass: "pattern-diagonal",
     bg: "#FFF5BA",
-    code: `.pattern-diagonal {\n  background-image: repeating-linear-gradient(\n    45deg,\n    transparent,\n    transparent 8px,\n    rgba(0,0,0,0.06) 8px,\n    rgba(0,0,0,0.06) 16px\n  );\n}`,
+    code: `.pattern-diagonal {\n  background-color: #FFF5BA;\n  background-image: repeating-linear-gradient(\n    45deg,\n    transparent,\n    transparent 8px,\n    rgba(0,0,0,0.10) 8px,\n    rgba(0,0,0,0.10) 16px\n  );\n}`,
     preview: (
       <div className="w-full h-full rounded-xl overflow-hidden" style={{
-        backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,0,0,0.08) 8px, rgba(0,0,0,0.08) 16px)",
         backgroundColor: "#FFF5BA",
+        backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,0,0,0.10) 8px, rgba(0,0,0,0.10) 16px)",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">diagonal · 45° · 16px</span>
+          <span className="font-mono text-xs text-foreground/60 bg-white/60 px-2 py-1 rounded">diagonal · 45° · 16px</span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "circuit",
+    name: "Circuit",
+    description: "Schaltkreis-Muster – für Tech- und Terminal-Bereiche",
+    cssClass: "pattern-circuit",
+    bg: "#0A0A0A",
+    code: `.pattern-circuit {\n  background-color: #0A0A0A;\n  background-image:\n    linear-gradient(rgba(228,255,151,0.08) 1px, transparent 1px),\n    linear-gradient(90deg, rgba(228,255,151,0.08) 1px, transparent 1px),\n    radial-gradient(circle, rgba(228,255,151,0.25) 1px, transparent 1px);\n  background-size: 40px 40px, 40px 40px, 40px 40px;\n  background-position: 0 0, 0 0, 20px 20px;\n}`,
+    preview: (
+      <div className="w-full h-full rounded-xl overflow-hidden" style={{
+        backgroundColor: "#0A0A0A",
+        backgroundImage: [
+          "linear-gradient(rgba(228,255,151,0.08) 1px, transparent 1px)",
+          "linear-gradient(90deg, rgba(228,255,151,0.08) 1px, transparent 1px)",
+          "radial-gradient(circle, rgba(228,255,151,0.25) 1px, transparent 1px)",
+        ].join(", "),
+        backgroundSize: "40px 40px, 40px 40px, 40px 40px",
+        backgroundPosition: "0 0, 0 0, 20px 20px",
+      }}>
+        <div className="w-full h-full flex items-center justify-center">
+          <span className="font-mono text-xs text-[#E4FF97]/70 bg-black/40 px-2 py-1 rounded">circuit · grid · nodes</span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "hexagon",
+    name: "Hexagon",
+    description: "Hexagonales Muster – für strukturierte Flächen",
+    cssClass: "pattern-hexagon",
+    bg: "#F0F4FF",
+    code: `.pattern-hexagon {\n  background-color: #F0F4FF;\n  background-image:\n    radial-gradient(circle at 0% 50%, transparent 20px, rgba(100,120,200,0.07) 21px, rgba(100,120,200,0.07) 22px, transparent 23px),\n    radial-gradient(circle at 100% 50%, transparent 20px, rgba(100,120,200,0.07) 21px, rgba(100,120,200,0.07) 22px, transparent 23px),\n    radial-gradient(circle at 50% 0%, transparent 20px, rgba(100,120,200,0.07) 21px, rgba(100,120,200,0.07) 22px, transparent 23px);\n  background-size: 40px 70px;\n}`,
+    preview: (
+      <div className="w-full h-full rounded-xl overflow-hidden" style={{
+        backgroundColor: "#F0F4FF",
+        backgroundImage: [
+          "radial-gradient(circle at 0% 50%, transparent 20px, rgba(80,100,180,0.12) 21px, rgba(80,100,180,0.12) 22px, transparent 23px)",
+          "radial-gradient(circle at 100% 50%, transparent 20px, rgba(80,100,180,0.12) 21px, rgba(80,100,180,0.12) 22px, transparent 23px)",
+          "radial-gradient(circle at 50% 0%, transparent 20px, rgba(80,100,180,0.12) 21px, rgba(80,100,180,0.12) 22px, transparent 23px)",
+          "radial-gradient(circle at 50% 100%, transparent 20px, rgba(80,100,180,0.12) 21px, rgba(80,100,180,0.12) 22px, transparent 23px)",
+        ].join(", "),
+        backgroundSize: "40px 70px",
+      }}>
+        <div className="w-full h-full flex items-center justify-center">
+          <span className="font-mono text-xs text-foreground/60 bg-white/70 px-2 py-1 rounded">hexagon · 40×70px</span>
         </div>
       </div>
     ),
@@ -184,6 +232,48 @@ const GRADIENTS = [
     description: "Radialer Lime-Verlauf – für Spotlight-Effekte",
     style: { background: "radial-gradient(ellipse at 30% 40%, #E4FF97 0%, #FFFFFF 70%)" },
     code: "background: radial-gradient(ellipse at 30% 40%, #E4FF97 0%, #FFFFFF 70%);",
+  },
+  {
+    id: "deep-dark",
+    name: "Deep Dark",
+    description: "Schwarz → Dunkelgrau · Nacht",
+    style: { background: "linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 40%, #2A2A2A 70%, #111111 100%)" },
+    code: "background: linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 40%, #2A2A2A 70%, #111111 100%);",
+  },
+  {
+    id: "soft-lime",
+    name: "Soft Lime",
+    description: "Heller Verlauf · UI-Flächen",
+    style: { background: "linear-gradient(135deg, #F5FFDC 0%, #EAFFB0 50%, #E4FF97 100%)" },
+    code: "background: linear-gradient(135deg, #F5FFDC 0%, #EAFFB0 50%, #E4FF97 100%);",
+  },
+  {
+    id: "pastel-blend",
+    name: "Pastel Blend",
+    description: "Rose → Mint · Datenkodierung",
+    style: { background: "linear-gradient(135deg, #FFD6E0 0%, #C3F4D3 100%)" },
+    code: "background: linear-gradient(135deg, #FFD6E0 0%, #C3F4D3 100%);",
+  },
+  {
+    id: "hero-background",
+    name: "Hero Background",
+    description: "Lime-Basis · subtile Orbs",
+    style: { background: "radial-gradient(ellipse at 20% 30%, #E4FF97 0%, #F0FFD0 40%, #FAFFF0 100%)" },
+    code: "background: radial-gradient(ellipse at 20% 30%, #E4FF97 0%, #F0FFD0 40%, #FAFFF0 100%);",
+  },
+  {
+    id: "volt-gradient",
+    name: "Volt Gradient",
+    description: "Lime → Schwarz (Brand-Verlauf)",
+    style: { background: "linear-gradient(135deg, #E4FF97 0%, #8BAA3A 40%, #2A3A0A 70%, #0A0A0A 100%)" },
+    code: "background: linear-gradient(135deg, #E4FF97 0%, #8BAA3A 40%, #2A3A0A 70%, #0A0A0A 100%);",
+  },
+  {
+    id: "atmospheric",
+    name: "Atmospheric",
+    description: "Radiale Orbs · Lime-Akzent",
+    style: { background: "radial-gradient(ellipse at 30% 50%, rgba(60,70,20,0.9) 0%, #0A0A0A 60%), radial-gradient(ellipse at 70% 20%, rgba(228,255,151,0.15) 0%, transparent 50%)" },
+    code: "background: radial-gradient(ellipse at 30% 50%, rgba(60,70,20,0.9) 0%, #0A0A0A 60%),\n  radial-gradient(ellipse at 70% 20%, rgba(228,255,151,0.15) 0%, transparent 50%);",
   },
 ];
 
