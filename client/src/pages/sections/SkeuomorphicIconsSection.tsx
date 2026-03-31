@@ -219,7 +219,7 @@ export default function SkeuomorphicIconsSection() {
     <section className="space-y-10">
       {/* ── Header ── */}
       <div>
-        <p className="section-label mb-2">21 — Skeuomorphic Icons</p>
+        <p className="section-label mb-2">19 — Skeuomorphic Icons</p>
         <h2 className="font-display font-bold text-3xl tracking-tight mb-3">
           Skeuomorphisches Icon-Set
         </h2>

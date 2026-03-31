@@ -73,7 +73,7 @@ const sidebarSections = [
     items: [
       { id: "foundations", label: "Foundations",          description: "Farben, Typo, Patterns, Tokens",        icon: <Palette className="w-4 h-4" /> },
       { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette2 className="w-4 h-4" /> },
-      { id: "icons",       label: "Icon-Set",             description: "150+ Icons, kategorisiert",             icon: <Shapes className="w-4 h-4" /> },
+      { id: "icons",       label: "Icon-Set",             description: "611+ Icons, kategorisiert",             icon: <Shapes className="w-4 h-4" /> },
       { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Image className="w-4 h-4" /> },
       { id: "signet",      label: "Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Fingerprint className="w-4 h-4" /> },
     ],
@@ -97,7 +97,7 @@ const sidebarSections = [
       { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" /> },
       { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" /> },
       { id: "imagelang",   label: "Bildsprache",           description: "Visuelle Prinzipien & Moodboard",        icon: <Image className="w-4 h-4" /> },
-      { id: "skeuicons",   label: "Skeuomorphic Icons",    description: "9 Icons im 3D-Plastik-Grau-Stil",        icon: <Shapes className="w-4 h-4" /> },
+      { id: "skeuicons",   label: "Skeuomorphic Icons",    description: "18 Icons im 3D-Plastik-Grau-Stil",        icon: <Shapes className="w-4 h-4" /> },
     ],
   },
   {

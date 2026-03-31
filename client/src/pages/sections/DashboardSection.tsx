@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
 import { motion } from "framer-motion";
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
@@ -281,7 +282,7 @@ export const DashboardSection: React.FC = () => {
           <VoltButton variant="outline" size="sm" leftIcon={<RefreshCw className="w-3.5 h-3.5" />}>
             Aktualisieren
           </VoltButton>
-          <VoltButton variant="solid" size="sm" leftIcon={<Download className="w-3.5 h-3.5" />}>
+          <VoltButton variant="solid" size="sm" leftIcon={<Download className="w-3.5 h-3.5" />} onClick={() => toast.success("Export gestartet", { description: "CSV-Datei wird vorbereitet …" })}>
             Export
           </VoltButton>
         </div>
