@@ -68,7 +68,7 @@ const VoltToastItem: React.FC<VoltToastItemProps> = ({ toast, onDismiss }) => {
       exit={{ opacity: 0, x: 48, scale: 0.94 }}
       transition={{ type: "spring", stiffness: 350, damping: 28 }}
       className={cn(
-        "relative flex items-start gap-3 w-80 rounded-xl overflow-hidden grain",
+        "relative flex items-start gap-3 w-80 rounded-xl overflow-hidden volt-texture",
         "glass-strong ring-1 ring-border/40",
         "p-4"
       )}

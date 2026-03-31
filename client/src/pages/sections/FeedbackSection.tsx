@@ -36,7 +36,7 @@ const tabContent = {
   code: (
     <div className="code-block text-xs">
       <span className="token-comment">{"// Volt-Textur als CSS"}</span>{"\n"}
-      <span className="token-blue">.grain</span>::after {"{"}{"\n"}
+      <span className="token-blue">.volt-texture</span>::after {"{"}{"\n"}
       {"  "}background-image: <span className="token-yellow">url("data:image/svg+xml,…")</span>;{"\n"}
       {"  "}opacity: <span className="token-red">0.06</span>;{"\n"}
       {"}"}
@@ -53,7 +53,7 @@ const tabContent = {
     </div>
   ),
   preview: (
-    <div className="bg-grain-hero rounded-xl p-6 grain">
+    <div className="bg-volt-hero rounded-xl p-6 volt-texture">
       <p className="font-display font-bold text-2xl text-foreground">Volt UI</p>
       <p className="text-sm text-muted-foreground font-body mt-1">Live-Vorschau des Gradient-Hintergrunds</p>
     </div>

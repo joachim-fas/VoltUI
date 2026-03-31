@@ -66,7 +66,7 @@ export const VoltAvatar = React.forwardRef<HTMLDivElement, VoltAvatarProps>(
       <div
         ref={ref}
         className={cn(
-          "relative inline-flex items-center justify-center rounded-full flex-shrink-0 grain overflow-hidden",
+          "relative inline-flex items-center justify-center rounded-full flex-shrink-0 volt-texture overflow-hidden",
           sizeClasses[size],
           ring && "ring-2 ring-primary/30 ring-offset-2 ring-offset-background",
           className

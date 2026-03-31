@@ -183,7 +183,7 @@ Du arbeitest mit dem Volt UI Design System.
 
 ## Designprinzipien
 - Terminal-inspiriert: >_ Signet, Mono-Akzente
-- Atmosphärisch: SVG-Grain-Textur auf Flächen
+- Atmosphärisch: SVG-Volt-Textur auf Flächen
 - Kontrastreich: Lime + Schwarz als Primärpaar
 - Portabel: Alle Styles als CSS-Variablen
 
@@ -530,7 +530,7 @@ export const ExportSection: React.FC = () => {
                 { cls: ".pattern-grid",     val: "Quadratisches Raster" },
                 { cls: ".pattern-diagonal", val: "45° Diagonallinien" },
                 { cls: ".pattern-circuit",  val: "Schaltkreis-Muster" },
-                { cls: ".grain",            val: "SVG-Rausch-Textur" },
+                { cls: ".volt-texture",            val: "SVG-Volt-Textur" },
               ],
             },
             {

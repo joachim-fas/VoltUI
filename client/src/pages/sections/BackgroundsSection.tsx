@@ -8,18 +8,18 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Copy, Check } from "lucide-react";
 
-/* ── Flux Grain SVG als Data-URI ── */
-const GRAIN_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`;
+/* ── Volt SVG als Data-URI ── */
+const VOLT_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`;
 
 /* ── Pattern-Definitionen ── */
 const PATTERNS = [
   {
-    id: "grain",
+    id: "volt-texture",
     name: "Volt Textur",
     description: "Atmosphärisches Rauschen – das Markenzeichen von Volt UI",
-    cssClass: "pattern-grain",
+    cssClass: "pattern-volt",
     bg: "#F8F8F8",
-    code: `.pattern-grain::after {\n  content: "";\n  position: absolute;\n  inset: 0;\n  background-image: ${GRAIN_SVG};\n  opacity: 0.06;\n  pointer-events: none;\n}`,
+    code: `.pattern-volt-texture::after {\n  content: "";\n  position: absolute;\n  inset: 0;\n  background-image: ${VOLT_SVG};\n  opacity: 0.06;\n  pointer-events: none;\n}`,
     preview: (
       <div className="relative w-full h-full rounded-xl overflow-hidden" style={{ background: "#F8F8F8" }}>
         <div className="absolute inset-0" style={{
@@ -27,7 +27,7 @@ const PATTERNS = [
           opacity: 0.12,
         }} />
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-mono text-xs text-muted-foreground">grain · noise · texture</span>
+          <span className="font-mono text-xs text-muted-foreground">volt · noise · texture</span>
         </div>
       </div>
     ),
@@ -190,57 +190,57 @@ const GRADIENTS = [
 /* ── Atmosphärische Hintergründe ── */
 const ATMOSPHERIC = [
   {
-    id: "lime-grain",
-    name: "Lime Grain",
+    id: "lime-volt",
+    name: "Lime Volt",
     description: "Hero-Hintergrund – Lime mit Volt-Textur",
     textColor: "#0A0A0A",
     style: { background: "#E4FF97" },
-    grain: true,
+    volt: true,
     code: `background: #E4FF97;\n/* + Flux-Overlay mit opacity: 0.06 */`,
   },
   {
-    id: "dark-grain",
-    name: "Dark Grain",
+    id: "dark-volt",
+    name: "Dark Volt",
     description: "Dunkler Hintergrund mit Volt-Textur",
     textColor: "#FFFFFF",
     style: { background: "#0A0A0A" },
-    grain: true,
+    volt: true,
     code: `background: #0A0A0A;\n/* + Flux-Overlay mit opacity: 0.08 */`,
   },
   {
-    id: "rose-grain",
-    name: "Rose Grain",
+    id: "rose-volt",
+    name: "Rose Volt",
     description: "Warmer Pastell-Hintergrund",
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)" },
-    grain: true,
+    volt: true,
     code: `background: linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%);\n/* + Flux-Overlay */`,
   },
   {
-    id: "mint-grain",
-    name: "Mint Grain",
+    id: "mint-volt",
+    name: "Mint Volt",
     description: "Frischer Hintergrund für Erfolgs-Zustände",
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)" },
-    grain: true,
+    volt: true,
     code: `background: linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%);\n/* + Flux-Overlay */`,
   },
   {
-    id: "orchid-grain",
-    name: "Orchid Grain",
+    id: "orchid-volt",
+    name: "Orchid Volt",
     description: "Weicher Hintergrund für kreative Bereiche",
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FDE2FF 0%, #D4E8FF 100%)" },
-    grain: true,
+    volt: true,
     code: `background: linear-gradient(135deg, #FDE2FF 0%, #D4E8FF 100%);\n/* + Flux-Overlay */`,
   },
   {
-    id: "butter-grain",
-    name: "Butter Grain",
+    id: "butter-volt",
+    name: "Butter Volt",
     description: "Warmer Hintergrund für Warnhinweise",
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%)" },
-    grain: true,
+    volt: true,
     code: `background: linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%);\n/* + Flux-Overlay */`,
   },
 ];
@@ -354,7 +354,7 @@ export const BackgroundsSection: React.FC = () => {
             >
               {/* Atmospheric Preview */}
               <div className="relative h-40" style={a.style}>
-                {a.grain && (
+                {a.volt && (
                   <div className="absolute inset-0" style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
                     opacity: 0.07,

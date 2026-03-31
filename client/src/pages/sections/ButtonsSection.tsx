@@ -44,7 +44,7 @@ export const ButtonsSection: React.FC = () => {
               <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
               <span className="text-xs font-mono text-muted-foreground ml-2">Vorschau</span>
             </div>
-            <div className="flex flex-wrap items-center gap-3 p-6 bg-atmospheric grain">
+            <div className="flex flex-wrap items-center gap-3 p-6 bg-atmospheric volt-texture">
               <VoltButton variant="primary">Primary</VoltButton>
               <VoltButton variant="solid">Solid</VoltButton>
               <VoltButton variant="outline">Outline</VoltButton>

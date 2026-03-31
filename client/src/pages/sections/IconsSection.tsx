@@ -1,7 +1,7 @@
 /**
  * IconsSection – Volt UI
  * 150+ Icons aus Lucide React, kategorisiert und durchsuchbar
- * Grain-Styling: Farbe, Größe, Kontext
+ * Volt-Styling: Farbe, Größe, Kontext
  */
 
 import React, { useState, useMemo } from "react";

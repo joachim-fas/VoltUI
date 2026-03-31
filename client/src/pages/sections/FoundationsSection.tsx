@@ -1,12 +1,12 @@
 /**
- * FoundationsSection – Design Tokens, Farben, Typografie, Grain-Effekte, Patterns
+ * FoundationsSection – Design Tokens, Farben, Typografie, Volt-Effekte, Patterns
  * Volt UI – Atmospheric Design System
  */
 
 import React, { useState } from "react";
 import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
 import { VoltBadge } from "@/components/volt/VoltBadge";
-import { GRAIN_NEON, GRAIN_PASTEL } from "@/components/volt/VoltChart";
+import { VOLT_NEON, VOLT_PASTEL } from "@/components/volt/VoltChart";
 
 const colorTokens = [
   { name: "--neon-yellow",     hex: "#E4FF97", role: "Neon Yellow (Leading)", bg: "bg-[#E4FF97]" },
@@ -136,7 +136,7 @@ export const FoundationsSection: React.FC = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {colorTokens.map((token) => (
               <div key={token.name} className="flex flex-col gap-2">
-                <div className={`h-20 rounded-xl grain ${token.bg}`} />
+                <div className={`h-20 rounded-xl volt-texture ${token.bg}`} />
                 <div>
                   <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                     <span className="text-xs font-semibold font-ui text-foreground">{token.role}</span>
@@ -182,24 +182,24 @@ export const FoundationsSection: React.FC = () => {
         <VoltCardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             {[
-              { label: "Lime Grain",     cls: "",    text: "text-foreground", bg: "#E4FF97" },
-              { label: "Dark Grain",     cls: "",    text: "text-white",     bg: "#0A0A0A" },
-              { label: "Rose Grain",     cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)" },
-              { label: "Mint Grain",     cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)" },
-              { label: "Orchid Grain",   cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FDE2FF 0%, #E8D0F0 100%)" },
-              { label: "Butter Grain",   cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%)" },
+              { label: "Lime Volt",     cls: "",    text: "text-foreground", bg: "#E4FF97" },
+              { label: "Dark Volt",     cls: "",    text: "text-white",     bg: "#0A0A0A" },
+              { label: "Rose Volt",     cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)" },
+              { label: "Mint Volt",     cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)" },
+              { label: "Orchid Volt",   cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FDE2FF 0%, #E8D0F0 100%)" },
+              { label: "Butter Volt",   cls: "",    text: "text-foreground", bg: "linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%)" },
             ].map((item) => (
-              <div key={item.label} className={`h-24 rounded-xl grain relative overflow-hidden flex items-end p-3`} style={{ background: item.bg }}>
+              <div key={item.label} className={`h-24 rounded-xl volt-texture relative overflow-hidden flex items-end p-3`} style={{ background: item.bg }}>
                 <span className={`text-xs font-semibold font-ui ${item.text} relative z-10`}>{item.label}</span>
               </div>
             ))}
           </div>
           <div className="p-4 rounded-xl bg-[#0A0A14] border border-border">
             <p className="text-[11px] font-mono text-[oklch(0.75_0.04_268)] leading-relaxed">
-              <span className="text-[#FA716B]">.grain</span> <span className="text-[#8888aa]">{"{"}</span><br />
+              <span className="text-[#FA716B]">.volt-texture</span> <span className="text-[#8888aa]">{"{"}</span><br />
               {"  "}<span className="text-[#4A8FD4]">position</span>: relative;<br />
               {"}"}<br />
-              <span className="text-[#FA716B]">.grain::after</span> <span className="text-[#8888aa]">{"{"}</span><br />
+              <span className="text-[#FA716B]">.volt-texture::after</span> <span className="text-[#8888aa]">{"{"}</span><br />
               {"  "}<span className="text-[#4A8FD4]">content</span>: <span className="text-[#72D44A]">""</span>; position: absolute; inset: 0;<br />
               {"  "}<span className="text-[#4A8FD4]">background-image</span>: <span className="text-[#72D44A]">url("data:image/svg+xml,…feTurbulence…")</span>;<br />
               {"  "}<span className="text-[#4A8FD4]">opacity</span>: 0.055; pointer-events: none;<br />
@@ -240,7 +240,7 @@ export const FoundationsSection: React.FC = () => {
             {gradients.map((g) => (
               <div
                 key={g.label}
-                className="h-28 rounded-xl grain flex items-end p-3"
+                className="h-28 rounded-xl volt-texture flex items-end p-3"
                 style={g.style}
               >
                 <div>
@@ -260,7 +260,7 @@ export const FoundationsSection: React.FC = () => {
           <p className="text-xs text-muted-foreground font-body mt-0.5">Backdrop-Filter-Effekte für überlagerte Elemente</p>
         </VoltCardHeader>
         <VoltCardContent>
-          <div className="relative rounded-xl overflow-hidden p-6 grain" style={{ background: 'linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%)' }}>
+          <div className="relative rounded-xl overflow-hidden p-6 volt-texture" style={{ background: 'linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%)' }}>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {glassVariants.map((g) => (
                 <div key={g.label} className={`${g.cls} rounded-xl p-4`}>
@@ -382,7 +382,7 @@ export const FoundationsSection: React.FC = () => {
               { label: "full",r: "rounded-full", px: "∞" },
             ].map(({ label, r, px }) => (
               <div key={label} className="flex flex-col items-center gap-2">
-                <div className={`w-12 h-12 bg-primary/70 grain ${r}`} />
+                <div className={`w-12 h-12 bg-primary/70 volt-texture ${r}`} />
                 <span className="text-[9px] font-mono text-muted-foreground text-center">{label}<br />{px}</span>
               </div>
             ))}
@@ -426,7 +426,7 @@ const PALETTES = [
     id: "standard",
     label: "Standard",
     desc: "Gesättigte Pastell-Farben · Harmonisch und lesbar · Ideal für alle Diagramm-Typen",
-    colors: GRAIN_PASTEL,
+    colors: VOLT_PASTEL,
     names: ["Rose Quartz", "Peach", "Mint Green", "Soft Orchid", "Baby Blue", "Butter Yellow", "Powder Orange", "Aqua Mist"],
     roles: ["Kategorie 1", "Kategorie 2", "Kategorie 3", "Kategorie 4", "Kategorie 5", "Kategorie 6", "Kategorie 7", "Kategorie 8"],
   },
@@ -434,7 +434,7 @@ const PALETTES = [
     id: "neon",
     label: "Neon",
     desc: "Maximale Chroma · Elektrische Leuchtkraft · Ideal für Dark Mode & Dashboards",
-    colors: GRAIN_NEON,
+    colors: VOLT_NEON,
     names: ["Cyan", "Hot Pink", "Acid Green", "Laser Orange", "Electric Violet", "Neon Mint", "Electric Yellow", "Neon Red"],
     roles: ["Primär", "Highlight", "Erfolg", "Warnung", "Sekundär", "Positiv", "Energie", "Kritisch"],
   },
@@ -442,7 +442,7 @@ const PALETTES = [
     id: "pastel",
     label: "Pastell",
     desc: "8 harmonische Pastell-Töne · Ideal für Reporting & Kategorien · Niedrige Ermüdung",
-    colors: GRAIN_PASTEL,
+    colors: VOLT_PASTEL,
     names: ["Rose Quartz", "Peach Cream", "Mint Green", "Soft Orchid", "Baby Blue", "Butter Yellow", "Powder Orange", "Aqua Mist"],
     roles: ["Kategorie 1", "Kategorie 2", "Kategorie 3", "Kategorie 4", "Kategorie 5", "Kategorie 6", "Kategorie 7", "Kategorie 8"],
   },

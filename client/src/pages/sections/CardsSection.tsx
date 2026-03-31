@@ -50,7 +50,7 @@ export const CardsSection: React.FC = () => {
           </VoltCard>
 
           {/* Glass */}
-          <div className="bg-grain-hero rounded-2xl p-0.5">
+          <div className="bg-volt-texture-hero rounded-2xl p-0.5">
             <VoltCard variant="glass" className="h-full">
               <VoltCardHeader>
                 <div className="flex items-center justify-between">

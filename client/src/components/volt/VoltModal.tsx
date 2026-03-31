@@ -74,7 +74,7 @@ export const VoltModal: React.FC<VoltModalProps> = ({
             exit={{ opacity: 0, scale: 0.95, y: 8 }}
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
             className={cn(
-              "relative w-full glass-strong rounded-2xl overflow-hidden grain",
+              "relative w-full glass-strong rounded-2xl overflow-hidden volt-texture",
               "ring-1 ring-border/40",
               sizeClasses[size],
               className

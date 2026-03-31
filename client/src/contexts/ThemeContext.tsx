@@ -57,7 +57,7 @@ export function ThemeProvider({
       switchable,
       theme: darkMode,
       toggleTheme: toggleDarkMode,
-      colorTheme: "grain",
+      colorTheme: "volt",
       setColorTheme: () => {},
     }}>
       {children}

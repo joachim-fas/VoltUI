@@ -21,30 +21,30 @@ import {
   ReferenceLine,
 } from "recharts";
 
-/* ── Grain Farbpaletten für Recharts ── */
+/* ── Volt Farbpaletten für Recharts ── */
 
-export const GRAIN_HEX = [
+export const VOLT_HEX = [
   "#E4FF97", "#000000", "#1A9E5A", "#E8402A",
   "#6B7A9A", "#C3F4D3", "#D4E8FF", "#FFD6E0",
 ];
 
-export const GRAIN_NEON = [
+export const VOLT_NEON = [
   "#00F5FF", "#FF0090", "#AAFF00", "#FF6600",
   "#7B00FF", "#00FF88", "#FFE600", "#FF2D55",
 ];
 
-export const GRAIN_PASTEL = [
+export const VOLT_PASTEL = [
   "#F4A0B5", "#F5C87A", "#6DDBA0", "#D98AE8",
   "#7AB8F5", "#E8C840", "#F0956A", "#5ECECE",
 ];
 
-export const GRAIN_CHART_COLORS = GRAIN_PASTEL;
+export const VOLT_CHART_COLORS = VOLT_PASTEL;
 
 export type FluxPalette = "standard" | "neon" | "pastel";
 export const getPalette = (p?: FluxPalette) =>
-  p === "neon" ? GRAIN_NEON : GRAIN_PASTEL;
+  p === "neon" ? VOLT_NEON : VOLT_PASTEL;
 
-const C = GRAIN_PASTEL;
+const C = VOLT_PASTEL;
 
 /* ══════════════════════════════════════════════════════════════════════
    INTERSECTION OBSERVER HOOK – triggert Animation beim Einblenden

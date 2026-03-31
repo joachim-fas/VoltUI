@@ -63,7 +63,7 @@ export const VoltAlert = React.forwardRef<HTMLDivElement, VoltAlertProps>(
         ref={ref}
         role="alert"
         className={cn(
-          "relative flex gap-3 rounded-xl border p-4 grain overflow-hidden",
+          "relative flex gap-3 rounded-xl border p-4 volt-texture overflow-hidden",
           config.bg,
           config.border,
           className

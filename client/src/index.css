@@ -120,7 +120,7 @@
   --sidebar-border:             #E8E8E8;
   --sidebar-ring:               #E4FF97;
 
-  /* ── Grain-Gradient (für GrainCard variant="gradient") ── */
+  /* ── Volt-Gradient (für VoltCard variant="gradient") ── */
   --theme-gradient: linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%);
 }
 
@@ -328,12 +328,12 @@
 }
 
 /* ═══════════════════════════════════════════════════════
-   GRAIN TEXTURE
+   VOLT TEXTURE
 ═══════════════════════════════════════════════════════ */
-.grain {
+.volt-texture {
   position: relative;
 }
-.grain::after {
+.volt-texture::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -419,15 +419,15 @@
 }
 
 /* ═══════════════════════════════════════════════════════
-   GRAIN HERO BACKGROUND
+   VOLT HERO BACKGROUND
 ═══════════════════════════════════════════════════════ */
-.bg-grain-hero {
+.bg-volt-hero {
   background-color: #E4FF97;
   background-image:
     radial-gradient(ellipse at 20% 50%, rgba(10, 10, 10, 0.04) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 20%, rgba(10, 10, 10, 0.03) 0%, transparent 50%);
 }
-.dark .bg-grain-hero {
+.dark .bg-volt-hero {
   background-color: #0A0A0A;
   background-image:
     radial-gradient(ellipse at 20% 50%, rgba(228, 255, 151, 0.08) 0%, transparent 60%),
@@ -435,10 +435,10 @@
 }
 
 /* ── Gradient-Hintergründe ── */
-.bg-grain-gradient {
+.bg-volt-gradient {
   background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
 }
-.bg-grain-gradient-soft {
+.bg-volt-gradient-soft {
   background: linear-gradient(135deg, rgba(228, 255, 151, 0.15) 0%, rgba(228, 255, 151, 0.05) 100%);
 }
 .bg-atmospheric {

@@ -262,7 +262,7 @@ const BubbleMapSection: React.FC = () => {
             {
               rule: "02",
               title: "Keine Einzelfarben",
-              desc: "Jede Bubble muss einen Radial-Gradienten haben. Flache Einfarbigkeit widerspricht der Grain-Ästhetik.",
+              desc: "Jede Bubble muss einen Radial-Gradienten haben. Flache Einfarbigkeit widerspricht der Volt-Ästhetik.",
               ok: true,
             },
             {

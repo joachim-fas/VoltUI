@@ -61,12 +61,12 @@ export const VoltCursor: React.FC<VoltCursorProps> = ({
     >
       {animated && (
         <style>{`
-          @keyframes grain-cursor-blink {
+          @keyframes volt-cursor-blink {
             0%, 49%   { opacity: 1; }
             50%, 100% { opacity: 0; }
           }
-          .grain-cursor-bar {
-            animation: grain-cursor-blink 1s steps(1, end) infinite;
+          .volt-cursor-bar {
+            animation: volt-cursor-blink 1s steps(1, end) infinite;
           }
         `}</style>
       )}
@@ -78,7 +78,7 @@ export const VoltCursor: React.FC<VoltCursorProps> = ({
       {/* Blinkender Balken */}
       {showBar && (
         <path
-          className={animated ? "grain-cursor-bar" : undefined}
+          className={animated ? "volt-cursor-bar" : undefined}
           d="M207.12,269.82v-55.74h207.12v55.74h-207.12Z"
           fill={fill}
         />
@@ -122,7 +122,7 @@ export const VoltCursorLogo: React.FC<VoltCursorLogoProps> = ({
       <VoltCursor size={iconSize} color={iconColor} animated />
       <div className="flex flex-col leading-none">
         <span className={cn("font-display tracking-tight", titleSize, textColor)}>
-          grain
+          volt-texture
           <span style={{ color: inverted ? "#E4FF97" : "#0A0A0A", opacity: inverted ? 1 : 0.35 }}>ui</span>
         </span>
         {showTagline && (

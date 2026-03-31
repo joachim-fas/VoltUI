@@ -1,5 +1,5 @@
 /**
- * VoltToggle / FluxCheckbox / GrainRadio – Volt UI
+ * VoltToggle / FluxCheckbox / VoltRadio – Volt UI
  * KONTRAST-GARANTIE: Alle Farben über CSS-Variablen.
  * Light: text-foreground = #000000 auf #FFFFFF → 21:1
  * Dark:  text-foreground = #F5F5F5 auf #000000 → 19:1

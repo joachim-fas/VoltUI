@@ -1,7 +1,7 @@
 /**
  * VoltBubbleMap – Force-Layout Bubble Visualisierung
  * ─────────────────────────────────────────────────────────────────────────────
- * Design: Grain OS · Pastell-Radial-Gradienten
+ * Design: Volt OS · Pastell-Radial-Gradienten
  *
  * Visuelles Hierarchie-System:
  *   Größe      → Wert (Score / Gewichtung)
@@ -21,7 +21,7 @@ import * as d3 from "d3";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
 
-/* ── Grain Kategorie-Farben ── */
+/* ── Volt Kategorie-Farben ── */
 const CATEGORY_COLORS: string[] = [
   "#F4A0B5", // Rose
   "#7AB8F5", // Sky

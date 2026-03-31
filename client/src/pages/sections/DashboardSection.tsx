@@ -31,7 +31,7 @@ const C = {
   positive: "#1A9E5A",   /* Signal Positiv */
   negative: "#E8402A",   /* Signal Negativ */
   neutral:  "#6B7A9A",   /* Signal Neutral */
-  /* Pastell-Palette für Charts – alle 8 GRAIN_PASTEL Töne */
+  /* Pastell-Palette für Charts – alle 8 VOLT_PASTEL Töne */
   rose:     "#F4A0B5",   /* Pastell Rose Quartz */
   peach:    "#F5C87A",   /* Pastell Peach Cream */
   mint:     "#6DDBA0",   /* Pastell Mint Green */

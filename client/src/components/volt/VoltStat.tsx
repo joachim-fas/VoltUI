@@ -1,5 +1,5 @@
 /**
- * VoltStat / GrainKPI – Atmospheric Volt UI Design System
+ * VoltStat / VoltKPI – Atmospheric Volt UI Design System
  * Kennzahlen-Karten für Dashboards.
  * Farbsystem: Lime+Schwarz primär, Pastell sekundär, Signale für Trends
  */
@@ -114,7 +114,7 @@ export const VoltStat: React.FC<VoltStatProps> = ({
   return (
     <div
       className={cn(
-        "relative rounded-2xl p-5 grain overflow-hidden",
+        "relative rounded-2xl p-5 volt-texture overflow-hidden",
         "transition-all duration-300 hover:-translate-y-0.5",
         "ring-1 ring-border hover:ring-[#E4FF97]/40",
         variantStyles[variant] ?? variantStyles.default,

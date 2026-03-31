@@ -76,7 +76,7 @@ export const VoltCard = React.forwardRef<HTMLDivElement, VoltCardProps>(
     return (
       <div
         ref={ref}
-        className={cn(cardVariants({ variant }), withTexture && "grain", className)}
+        className={cn(cardVariants({ variant }), withTexture && "volt-texture", className)}
         {...props}
       >
         {children}

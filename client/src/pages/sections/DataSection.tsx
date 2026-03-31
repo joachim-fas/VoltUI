@@ -10,7 +10,7 @@ import {
   FluxRadarChart, FluxScatterChart, FluxComposedChart,
   FluxRadialBarChart, FluxFunnelChart, FluxTrendChart,
   FluxStackedAreaChart, FluxStackedBarChart,
-  GRAIN_PASTEL,
+  VOLT_PASTEL,
 } from "@/components/volt/VoltChart";
 import { VoltTable } from "@/components/volt/VoltTable";
 import { VoltBadge } from "@/components/volt/VoltBadge";
@@ -133,84 +133,84 @@ const chartTypes = [
   {
     icon: Activity,
     label: "Area Chart",
-    color: GRAIN_PASTEL[0],
+    color: VOLT_PASTEL[0],
     when: "Zeitreihen mit Volumen",
     reads: "Trend + Fläche unter der Kurve",
   },
   {
     icon: BarChart2,
     label: "Bar Chart",
-    color: GRAIN_PASTEL[1],
+    color: VOLT_PASTEL[1],
     when: "Kategorien vergleichen",
     reads: "Absolute Werte nebeneinander",
   },
   {
     icon: TrendingUp,
     label: "Line Chart",
-    color: GRAIN_PASTEL[2],
+    color: VOLT_PASTEL[2],
     when: "Mehrere Trends vergleichen",
     reads: "Richtung und Schnittpunkte",
   },
   {
     icon: PieChart,
     label: "Donut / Pie",
-    color: GRAIN_PASTEL[3],
+    color: VOLT_PASTEL[3],
     when: "Anteile eines Ganzen",
     reads: "Prozentuale Verteilung",
   },
   {
     icon: Target,
     label: "Radar Chart",
-    color: GRAIN_PASTEL[4],
+    color: VOLT_PASTEL[4],
     when: "Multi-dimensionaler Vergleich",
     reads: "Stärken und Schwächen",
   },
   {
     icon: GitBranch,
     label: "Scatter / Bubble",
-    color: GRAIN_PASTEL[5],
+    color: VOLT_PASTEL[5],
     when: "Korrelationen sichtbar machen",
     reads: "Cluster und Ausreißer",
   },
   {
     icon: Layers,
     label: "Composed Chart",
-    color: GRAIN_PASTEL[6],
+    color: VOLT_PASTEL[6],
     when: "Verschiedene Metriken kombinieren",
     reads: "Bar + Line in einem View",
   },
   {
     icon: Activity,
     label: "Radial Bar",
-    color: GRAIN_PASTEL[7 % GRAIN_PASTEL.length],
+    color: VOLT_PASTEL[7 % VOLT_PASTEL.length],
     when: "Fortschritt je Kategorie",
     reads: "Ringförmige Fortschrittsanzeige",
   },
   {
     icon: BarChart2,
     label: "Funnel Chart",
-    color: GRAIN_PASTEL[0],
+    color: VOLT_PASTEL[0],
     when: "Conversion-Prozesse",
     reads: "Verlust zwischen Stufen",
   },
   {
     icon: TrendingUp,
     label: "Trend Chart",
-    color: GRAIN_PASTEL[1],
+    color: VOLT_PASTEL[1],
     when: "Langzeit-Trends mit Referenz",
     reads: "Abweichung vom Zielwert",
   },
   {
     icon: Activity,
     label: "Stacked Area",
-    color: GRAIN_PASTEL[2],
+    color: VOLT_PASTEL[2],
     when: "Zusammensetzung über Zeit",
     reads: "Anteile + Gesamtentwicklung",
   },
   {
     icon: BarChart2,
     label: "Stacked Bar",
-    color: GRAIN_PASTEL[3],
+    color: VOLT_PASTEL[3],
     when: "Zusammensetzung je Kategorie",
     reads: "Teile und Ganzes gleichzeitig",
   },
@@ -255,7 +255,7 @@ export const DataSection: React.FC = () => {
         <p className="text-muted-foreground font-body text-sm leading-relaxed max-w-2xl mb-4">
           12 Graphen-Typen – jeder für einen spezifischen Informationsbedarf. Das Ziel ist nicht
           der schönste Chart, sondern der <strong className="text-foreground">richtige Chart für die richtige Frage</strong>.
-          Alle Visualisierungen nutzen Recharts mit der Grain-Farbpalette.
+          Alle Visualisierungen nutzen Recharts mit der Volt-Farbpalette.
         </p>
         {/* Lese-Anleitung */}
         <div className="flex flex-wrap gap-3">
@@ -336,7 +336,7 @@ export const DataSection: React.FC = () => {
             { label: "Performance", value: "98 pts", change: 3, icon: <Zap className="w-4 h-4" />, colorClass: "bg-[#1A9E5A]", insight: "Lighthouse Score" },
           ].map((kpi, i) => (
             <motion.div key={kpi.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}>
-              <div className={`relative rounded-2xl p-5 grain overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${
+              <div className={`relative rounded-2xl p-5 volt-texture overflow-hidden transition-all duration-300 hover:-translate-y-0.5 ${
                 (kpi as any).colorClass
                   ? `${(kpi as any).colorClass} ${(kpi as any).lime ? 'text-foreground' : 'text-white'}`
                   : "bg-card border border-border"
@@ -504,17 +504,17 @@ export const DataSection: React.FC = () => {
         <VoltCardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             {[
-              { hex: GRAIN_PASTEL[0], name: "Butter",      role: "Warm" },
-              { hex: GRAIN_PASTEL[1], name: "Mint",        role: "Frisch" },
-              { hex: GRAIN_PASTEL[2], name: "Baby Blue",   role: "Ruhig" },
-              { hex: GRAIN_PASTEL[3], name: "Rose Quartz", role: "Sanft" },
-              { hex: GRAIN_PASTEL[4], name: "Orchid",      role: "Elegant" },
-              { hex: GRAIN_PASTEL[5], name: "Peach",       role: "Warm" },
-              { hex: GRAIN_PASTEL[6], name: "Aqua",        role: "Frisch" },
-              { hex: GRAIN_PASTEL[7 % GRAIN_PASTEL.length], name: "Lavender", role: "Sanft" },
+              { hex: VOLT_PASTEL[0], name: "Butter",      role: "Warm" },
+              { hex: VOLT_PASTEL[1], name: "Mint",        role: "Frisch" },
+              { hex: VOLT_PASTEL[2], name: "Baby Blue",   role: "Ruhig" },
+              { hex: VOLT_PASTEL[3], name: "Rose Quartz", role: "Sanft" },
+              { hex: VOLT_PASTEL[4], name: "Orchid",      role: "Elegant" },
+              { hex: VOLT_PASTEL[5], name: "Peach",       role: "Warm" },
+              { hex: VOLT_PASTEL[6], name: "Aqua",        role: "Frisch" },
+              { hex: VOLT_PASTEL[7 % VOLT_PASTEL.length], name: "Lavender", role: "Sanft" },
             ].map(({ hex, name, role }) => (
               <div key={name} className="flex flex-col gap-2">
-                <div className="h-12 rounded-xl grain" style={{ background: hex }} />
+                <div className="h-12 rounded-xl volt-texture" style={{ background: hex }} />
                 <div>
                   <p className="text-xs font-ui font-semibold text-foreground">{name}</p>
                   <p className="text-[9px] font-mono text-muted-foreground">{role}</p>
