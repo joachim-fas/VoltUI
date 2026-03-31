@@ -78,7 +78,7 @@ export const FluxNavbar: React.FC<FluxNavbarProps> = ({
                 "text-sm font-semibold font-body",
                 "transition-all duration-150",
                 item.active
-                  ? "text-[#000000] bg-[#E4FF97] font-bold"
+                  ? "text-foreground font-bold"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
@@ -133,7 +133,7 @@ export const FluxNavbar: React.FC<FluxNavbarProps> = ({
                     "text-sm font-semibold font-body",
                     "transition-colors duration-150",
                     item.active
-                      ? "text-[#000000] bg-[#E4FF97] font-bold"
+                      ? "text-foreground font-bold"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   )}
                 >
