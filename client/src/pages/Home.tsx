@@ -53,13 +53,13 @@ const ALL_SECTIONS = [
   { id: "navigation",  Component: NavigationSection },
   { id: "op",          Component: OperatingPrincipleSection },
   { id: "brand",       Component: BrandArchitectureSection },
-  { id: "dialog",      Component: DialogSection },
   { id: "brandstory",  Component: BrandStorySection },
+  { id: "dialog",      Component: DialogSection },
   { id: "imagelang",   Component: ImageLanguageSection },
+  { id: "skeuicons",   Component: SkeuomorphicIconsSection },
   { id: "dashboard",   Component: DashboardSection },
   { id: "bubblemap",   Component: BubbleMapSection },
   { id: "nodecanvas",  Component: NodeCanvasSection },
-  { id: "skeuicons",   Component: SkeuomorphicIconsSection },
   { id: "export",      Component: ExportSection },
 ] as const;
 
