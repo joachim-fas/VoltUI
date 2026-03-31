@@ -284,7 +284,7 @@ export default function Page() {
   return (
     <main className="p-8">
       <VoltCard>
-        <h1 className="font-display font-bold text-3xl">
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight">
           Volt UI in Next.js
         </h1>
         <VoltButton variant="lime">Los geht's →</VoltButton>

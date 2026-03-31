@@ -19,8 +19,8 @@ export const FormsSection: React.FC = () => {
   return (
     <div className="space-y-10">
       <div>
-        <p className="section-label mb-2">04 — Forms</p>
-        <h2 className="font-display font-bold text-3xl text-foreground mb-3">Formular-Elemente</h2>
+        <p className="section-label mb-2">08 — Forms</p>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">Formular-Elemente</h2>
         <p className="text-muted-foreground font-body leading-relaxed max-w-2xl">
           Alle Formular-Komponenten mit atmosphärischen Fokus-Effekten, Validierungszuständen
           und vollständiger Zugänglichkeit. Kein externes Formular-Framework notwendig.

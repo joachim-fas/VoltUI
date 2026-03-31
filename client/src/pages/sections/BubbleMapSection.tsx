@@ -105,7 +105,7 @@ const BubbleMapSection: React.FC = () => {
     <div className="space-y-16">
       {/* ── Intro ── */}
       <div className="max-w-3xl">
-        <p className="section-label mb-2">Visualisierung — Bubble Map</p>
+        <p className="section-label mb-2">18 — Bubble Map</p>
         <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
           Bubble Map
         </h2>
@@ -231,7 +231,7 @@ const BubbleMapSection: React.FC = () => {
                 <th className="text-left px-5 py-3 font-mono font-semibold text-foreground">Prop</th>
                 <th className="text-left px-5 py-3 font-mono font-semibold text-foreground">Typ</th>
                 <th className="text-left px-4 py-3 font-mono font-semibold text-foreground">Req.</th>
-                <th className="text-left px-5 py-3 font-semibold text-foreground">Beschreibung</th>
+                <th className="text-left px-5 py-3 font-ui font-semibold text-foreground">Beschreibung</th>
               </tr>
             </thead>
             <tbody>

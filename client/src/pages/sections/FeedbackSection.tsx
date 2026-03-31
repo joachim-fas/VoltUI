@@ -70,8 +70,8 @@ export const FeedbackSection: React.FC = () => {
       <VoltToastContainer toasts={toasts} onDismiss={dismiss} position="bottom-right" />
 
       <div>
-        <p className="section-label mb-2">05 — Feedback</p>
-        <h2 className="font-display font-bold text-3xl text-foreground mb-3">Tabs, Modal & Toast</h2>
+        <p className="section-label mb-2">09 — Feedback</p>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">Tabs, Modal & Toast</h2>
         <p className="text-muted-foreground font-body leading-relaxed max-w-2xl">
           Interaktive Feedback-Komponenten mit Framer Motion Animationen.
           Alle Übergänge sind flüssig und reagieren auf Tastatureingaben.

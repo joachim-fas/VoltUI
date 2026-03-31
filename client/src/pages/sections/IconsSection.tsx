@@ -316,7 +316,7 @@ const IconCard: React.FC<{ name: string; color: string; bg: string }> = ({ name,
             style={{ background: bg }}
           >
             <CheckCheck className="w-5 h-5" style={{ color }} />
-            <span className="text-[9px] font-semibold font-ui" style={{ color }}>Kopiert!</span>
+            <span className="text-[9px] font-ui font-semibold font-ui" style={{ color }}>Kopiert!</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -349,7 +349,7 @@ export const IconsSection: React.FC = () => {
 
       {/* ── Header ── */}
       <div>
-        <p className="section-label mb-2">08 — Icons</p>
+        <p className="section-label mb-2">03 — Icon-Set</p>
         <h2 className="font-display text-3xl font-bold text-foreground tracking-tight mb-3">
           Icon-Set
         </h2>
@@ -388,7 +388,7 @@ export const IconsSection: React.FC = () => {
         <div className="flex gap-1.5 flex-wrap">
           <button
             onClick={() => setActiveCategory(null)}
-            className={`px-3 py-2 text-xs font-semibold font-ui rounded-xl border transition-all ${
+            className={`px-3 py-2 text-xs font-ui font-semibold font-ui rounded-xl border transition-all ${
               activeCategory === null
                 ? "bg-primary text-primary-foreground border-primary"
                 : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/20"
@@ -400,7 +400,7 @@ export const IconsSection: React.FC = () => {
             <button
               key={key}
               onClick={() => setActiveCategory(activeCategory === key ? null : key)}
-              className={`px-3 py-2 text-xs font-semibold font-ui rounded-xl border transition-all`}
+              className={`px-3 py-2 text-xs font-ui font-semibold font-ui rounded-xl border transition-all`}
               style={activeCategory === key ? { background: cat.color, color: "white", borderColor: cat.color } : {}}
             >
               {cat.label.split(" ")[0]}
@@ -435,7 +435,7 @@ export const IconsSection: React.FC = () => {
                   }}
                 />
                 <div className="text-center">
-                  <p className="text-[10px] font-semibold font-ui text-foreground">{size.label}</p>
+                  <p className="text-[10px] font-ui font-semibold font-ui text-foreground">{size.label}</p>
                   <p className="text-[9px] font-mono text-muted-foreground">{size.px}px</p>
                   <p className="text-[9px] font-mono text-muted-foreground">{size.class}</p>
                 </div>
@@ -447,7 +447,7 @@ export const IconsSection: React.FC = () => {
               <span className="text-[#1A9E5A]">import</span>{" "}
               {"{ Layers }"}{" "}
               <span className="text-[#1A9E5A]">from</span>{" "}
-              <span className="text-[#000000] font-semibold">"lucide-react"</span>
+              <span className="text-[#000000] font-ui font-semibold">"lucide-react"</span>
               {" // "}
               <span className="text-muted-foreground">&lt;Layers className="{SIZES.find(s => s.label === activeSize)?.class}" /&gt;</span>
             </p>
@@ -503,7 +503,7 @@ export const IconsSection: React.FC = () => {
                   setCopiedAll(catKey);
                   setTimeout(() => setCopiedAll(null), 1500);
                 }}
-                className="flex items-center gap-1.5 text-[10px] font-semibold font-ui text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-muted"
+                className="flex items-center gap-1.5 text-[10px] font-ui font-semibold font-ui text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-muted"
               >
                 {copiedAll === catKey ? <CheckCheck className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                 {copiedAll === catKey ? "Kopiert!" : "Alle kopieren"}
@@ -546,7 +546,7 @@ export const IconsSection: React.FC = () => {
                       <Icon className="w-6 h-6" style={{ color }} />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold font-ui text-foreground">{label}</p>
+                      <p className="text-xs font-ui font-semibold font-ui text-foreground">{label}</p>
                       <p className="text-[10px] font-ui text-muted-foreground mt-0.5">{desc}</p>
                     </div>
                   </div>

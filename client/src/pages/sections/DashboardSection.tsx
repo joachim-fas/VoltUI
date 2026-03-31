@@ -269,8 +269,8 @@ export const DashboardSection: React.FC = () => {
       {/* ── Header ── */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <p className="section-label mb-2">08 — Dashboard</p>
-          <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-2">
+          <p className="section-label mb-2">17 — Dashboard</p>
+          <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
             Analytics Dashboard
           </h2>
           <p className="text-muted-foreground font-ui text-sm leading-relaxed max-w-xl">

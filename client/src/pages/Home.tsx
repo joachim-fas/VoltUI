@@ -30,8 +30,8 @@ import { ExportSection }              from "./sections/ExportSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
-  LayoutDashboard, Shapes, Palette as Palette2, Workflow, Layers,
-  BookOpen, Terminal, Fingerprint, Network, Brush,
+  LayoutDashboard, Shapes, Palette as Palette2, GitMerge, Layers,
+  BookOpen, Terminal, Fingerprint, Network, Image, Bell, Download,
 } from "lucide-react";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
@@ -72,8 +72,8 @@ const sidebarSections = [
       { id: "foundations", label: "Foundations",          description: "Farben, Typo, Patterns, Tokens",        icon: <Palette className="w-4 h-4" /> },
       { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette2 className="w-4 h-4" /> },
       { id: "icons",       label: "Icon-Set",             description: "150+ Icons, kategorisiert",             icon: <Shapes className="w-4 h-4" /> },
-      { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Brush className="w-4 h-4" /> },
-      { id: "signet",      label: "Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Terminal className="w-4 h-4" /> },
+      { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Image className="w-4 h-4" /> },
+      { id: "signet",      label: "Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Fingerprint className="w-4 h-4" /> },
     ],
   },
   {
@@ -82,7 +82,7 @@ const sidebarSections = [
       { id: "buttons",     label: "Buttons",              description: "Aktionen & Interaktionen",              icon: <MousePointer2 className="w-4 h-4" /> },
       { id: "cards",       label: "Cards & Surfaces",     description: "Inhaltsflächen & Container",            icon: <LayoutGrid className="w-4 h-4" /> },
       { id: "forms",       label: "Forms & Inputs",       description: "Eingabe & Validierung",                 icon: <FormInput className="w-4 h-4" /> },
-      { id: "feedback",    label: "Feedback & Overlay",   description: "Toast, Modal, Tooltip, Tabs",           icon: <MessageSquare className="w-4 h-4" /> },
+      { id: "feedback",    label: "Feedback & Overlay",   description: "Toast, Modal, Tooltip, Tabs",           icon: <Bell className="w-4 h-4" /> },
       { id: "data",        label: "Data & Charts",        description: "12 Diagramm-Typen & Tabellen",          icon: <BarChart2 className="w-4 h-4" /> },
       { id: "navigation",  label: "Navigation",           description: "Navbar, Breadcrumb, Tabs",              icon: <Navigation className="w-4 h-4" /> },
     ],
@@ -90,11 +90,11 @@ const sidebarSections = [
   {
     title: "Konzept & Marke",
     items: [
-      { id: "op",          label: "Operating Principle",  description: "Eingabe → Workflow → Ausgabe",          icon: <Workflow className="w-4 h-4" /> },
-      { id: "brand",       label: "Brand Architecture",   description: "Volt UI & Tochterprojekte",             icon: <Fingerprint className="w-4 h-4" /> },
+      { id: "op",          label: "Operating Principle",  description: "Eingabe → Workflow → Ausgabe",          icon: <GitMerge className="w-4 h-4" /> },
+      { id: "brand",       label: "Brand Architecture",   description: "Volt UI & Tochterprojekte",             icon: <Layers className="w-4 h-4" /> },
       { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" /> },
       { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" /> },
-      { id: "imagelang",   label: "Bildsprache",           description: "Visuelle Prinzipien & Moodboard",        icon: <Brush className="w-4 h-4" /> },
+      { id: "imagelang",   label: "Bildsprache",           description: "Visuelle Prinzipien & Moodboard",        icon: <Image className="w-4 h-4" /> },
     ],
   },
   {
@@ -102,13 +102,8 @@ const sidebarSections = [
     items: [
       { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" /> },
       { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <Network className="w-4 h-4" /> },
-      { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <Workflow className="w-4 h-4" /> },
-    ],
-  },
-  {
-    title: "Export",
-    items: [
-      { id: "export",      label: "Export & Import",      description: "CSS, Snippets, Anleitung",              icon: <Terminal className="w-4 h-4" /> },
+      { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <GitMerge className="w-4 h-4" /> },
+      { id: "export",      label: "Export & Import",      description: "CSS, Snippets, Anleitung",              icon: <Download className="w-4 h-4" /> },
     ],
   },
 ];

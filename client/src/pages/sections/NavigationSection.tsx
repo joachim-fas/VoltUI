@@ -19,7 +19,7 @@ const Breadcrumb: React.FC<{ items: string[] }> = ({ items }) => (
         <span className={cn(
           "text-sm font-body",
           i === items.length - 1
-            ? "font-semibold text-foreground"
+            ? "font-ui font-semibold text-foreground"
             : "text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
         )}>
           {i === 0 ? <Home className="w-3.5 h-3.5 inline" /> : item}
@@ -48,7 +48,7 @@ const Pagination: React.FC<{ total: number; current: number; onChange: (p: numbe
           key={p}
           onClick={() => onChange(p)}
           className={cn(
-            "w-8 h-8 flex items-center justify-center rounded-lg text-sm font-semibold font-body transition-all duration-150",
+            "w-8 h-8 flex items-center justify-center rounded-lg text-sm font-ui font-semibold font-body transition-all duration-150",
             p === current
               ? "bg-[#0A0A0A] text-white"
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -87,7 +87,7 @@ const Stepper: React.FC<{ current: number }> = ({ current }) => (
               {done ? <Check className="w-4 h-4" /> : active ? <Circle className="w-2.5 h-2.5 fill-white" /> : i + 1}
             </div>
             <span className={cn(
-              "text-xs font-semibold font-body whitespace-nowrap",
+              "text-xs font-ui font-semibold font-body whitespace-nowrap",
               active ? "text-foreground font-bold" : done ? "text-foreground" : "text-muted-foreground"
             )}>
               {step}
@@ -119,8 +119,8 @@ export const NavigationSection: React.FC = () => {
   return (
     <div className="space-y-10">
       <div>
-        <p className="section-label mb-2">07 — Navigation</p>
-        <h2 className="font-display font-bold text-3xl text-foreground mb-3">Navigation</h2>
+        <p className="section-label mb-2">11 — Navigation</p>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">Navigation</h2>
         <p className="text-muted-foreground font-body leading-relaxed max-w-2xl">
           Navbar, Breadcrumb, Pagination und Stepper – alle mit atmosphärischen
           Hover-Effekten und vollständiger Tastatur-Zugänglichkeit.

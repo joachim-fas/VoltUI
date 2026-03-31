@@ -221,10 +221,10 @@ export const DialogSection: React.FC = () => {
       {/* ── HEADER ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div>
-          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Dialog-Prinzip</p>
-          <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
+          <p className="section-label mb-2">15 — Dialog &amp; I/O</p>
+          <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
             Kein Pingpong.<br />Kein Nebel.
-          </h1>
+          </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mb-6">
             Dialog ist kein Selbstzweck. Jede Interaktion folgt dem Prinzip:{" "}
             <span className="font-mono font-bold text-foreground">Input mit Konsequenz.</span>{" "}
@@ -291,7 +291,7 @@ export const DialogSection: React.FC = () => {
                   {dir.label}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-foreground truncate">{dir.title}</p>
+                  <p className="text-xs font-ui font-semibold text-foreground truncate">{dir.title}</p>
                   <p className="text-[10px] text-muted-foreground truncate">{dir.subtitle}</p>
                 </div>
                 {activeDir === dir.id && (
@@ -332,7 +332,7 @@ export const DialogSection: React.FC = () => {
                     {step.label}
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-foreground mb-1">{step.content}</p>
+                    <p className="text-sm font-ui font-semibold text-foreground mb-1">{step.content}</p>
                     <p className="text-xs text-muted-foreground leading-relaxed">{step.detail}</p>
                   </div>
                 </div>
@@ -447,7 +447,7 @@ export const DialogSection: React.FC = () => {
               className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors"
             >
               <span className="font-mono text-[9px] text-muted-foreground/40">{String(i+1).padStart(2,"0")}</span>
-              <span className="text-xs font-semibold text-foreground">{g}</span>
+              <span className="text-xs font-ui font-semibold text-foreground">{g}</span>
             </div>
           ))}
         </div>

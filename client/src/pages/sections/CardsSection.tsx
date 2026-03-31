@@ -18,8 +18,8 @@ export const CardsSection: React.FC = () => {
   return (
     <div className="space-y-10">
       <div>
-        <p className="section-label mb-2">03 — Surfaces</p>
-        <h2 className="font-display font-bold text-3xl text-foreground mb-3">Cards, Badges & Alerts</h2>
+        <p className="section-label mb-2">07 — Cards &amp; Surfaces</p>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">Cards, Badges & Alerts</h2>
         <p className="text-muted-foreground font-body leading-relaxed max-w-2xl">
           Oberflächen-Komponenten mit Glasmorphismus, Volt-Textur und atmosphärischen Schatten.
           Alle Varianten reagieren auf Hover und unterstützen Dark Mode.
@@ -127,7 +127,7 @@ export const CardsSection: React.FC = () => {
               <div className="flex items-center gap-3">
                 <VoltAvatar name="Anna Müller" size="md" online />
                 <div>
-                  <p className="text-sm font-semibold font-body">Anna Müller</p>
+                  <p className="text-sm font-ui font-semibold font-body">Anna Müller</p>
                   <p className="text-xs text-muted-foreground font-body">Design Lead</p>
                 </div>
               </div>
@@ -263,7 +263,7 @@ export const CardsSection: React.FC = () => {
             <div className="text-center py-8 text-muted-foreground font-body text-sm">
               Alle Alerts wurden geschlossen.{" "}
               <button
-                className="text-foreground font-semibold hover:underline underline-offset-2"
+                className="text-foreground font-ui font-semibold hover:underline underline-offset-2"
                 onClick={() => setAlerts({ info: true, success: true, warning: true, error: true })}
               >
                 Zurücksetzen

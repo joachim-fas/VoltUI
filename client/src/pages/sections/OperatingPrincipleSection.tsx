@@ -228,9 +228,7 @@ const TEMPLATE_TEXT = `### Eingang
 ══════════════════════════════════════════════ */
 
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
-    {children}
-  </p>
+  <p className="section-label mb-4 flex items-center gap-2">{children}</p>
 );
 
 const PhaseChip: React.FC<{ phase: keyof typeof PHASE_COLORS }> = ({ phase }) => {
@@ -323,6 +321,10 @@ export default function OperatingPrincipleSection() {
 
   return (
     <div className="space-y-16">
+      {/* ── HEADER ── */}
+      <div>
+        <p className="section-label mb-2">12 — Operating Principle</p>
+      </div>
 
       {/* ── HERO-BILD ── */}
       <div className="relative rounded-3xl overflow-hidden h-56 md:h-72">
@@ -334,9 +336,9 @@ export default function OperatingPrincipleSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12">
           <p className="font-mono text-[10px] uppercase tracking-widest text-white/60 mb-2">Operating Principle</p>
-          <h1 className="font-display font-bold text-3xl md:text-4xl text-white leading-tight">
+          <h2 className="font-display font-bold text-3xl md:text-4xl text-white leading-tight">
             Eingang → Ablauf → Ergebnis
-          </h1>
+          </h2>
           <p className="text-white/70 text-sm mt-2 max-w-md font-body">
             Das Fundament jedes Workflows bei Free-Agents.io.
           </p>
@@ -350,9 +352,9 @@ export default function OperatingPrincipleSection() {
         </div>
         <div>
           <SectionLabel>Operating Principle</SectionLabel>
-          <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
+          <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
             Eingabe &rarr; Workflow &rarr; Ausgabe
-          </h1>
+          </h2>
           <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed mb-4">
             Ein universelles Schema, nach dem jede Aktivitaet bei Free-Agents.io gedacht,
             geplant und dokumentiert wird. Kein Input ohne Output. Kein Output ohne Owner.
@@ -400,7 +402,7 @@ export default function OperatingPrincipleSection() {
               <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-card">
                 <span className="text-foreground mt-0.5">{item.icon}</span>
                 <div>
-                  <p className="text-xs font-semibold text-foreground">{item.label}</p>
+                  <p className="text-xs font-ui font-semibold text-foreground">{item.label}</p>
                   <p className="text-[10px] text-muted-foreground">{item.sub}</p>
                 </div>
               </div>
@@ -416,7 +418,7 @@ export default function OperatingPrincipleSection() {
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-6 bg-foreground text-background">
               <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3">Digitales OS</p>
-              <p className="font-display font-bold text-lg mb-4 text-primary">Betriebssystem</p>
+              <p className="font-display font-bold text-lg mb-4 text-[#E4FF97]">Betriebssystem</p>
               <div className="space-y-2 text-sm text-white/70">
                 <div className="flex items-center gap-2"><span className="text-[#D4E8FF] font-mono text-xs">INPUT</span><span>Events, Files, Requests</span></div>
                 <div className="flex items-center gap-2 pl-4"><ArrowRight size={12} className="text-muted-foreground" /></div>
@@ -438,7 +440,7 @@ export default function OperatingPrincipleSection() {
             </div>
           </div>
           <div className="px-6 py-3 bg-primary border-t border-primary/60">
-            <p className="text-xs font-mono text-primary-foreground text-center">
+            <p className="text-xs font-mono text-[#E4FF97]-foreground text-center">
               <strong>Wichtig:</strong> Das OP ist kein „Framework", sondern eine <strong>Betriebsart</strong>.
             </p>
           </div>
@@ -495,7 +497,7 @@ export default function OperatingPrincipleSection() {
                 <span className="text-foreground">{ot.icon}</span>
               </div>
               <div>
-                <p className="text-xs font-semibold text-foreground">{ot.type}</p>
+                <p className="text-xs font-ui font-semibold text-foreground">{ot.type}</p>
                 <p className="text-[10px] text-muted-foreground hidden group-hover:block">{ot.desc}</p>
               </div>
             </div>
@@ -545,7 +547,7 @@ export default function OperatingPrincipleSection() {
           ))}
         </div>
         <div className="mt-4 px-4 py-3 rounded-xl bg-foreground text-center">
-            <p className="text-sm font-mono text-primary">
+            <p className="text-sm font-mono text-[#E4FF97]">
               Kein Pingpong. Kein Nebel. <strong>Input mit Konsequenz.</strong>
             </p>
         </div>
@@ -566,7 +568,7 @@ export default function OperatingPrincipleSection() {
                 <div key={i} className="flex gap-3 p-3 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
                   <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-0.5">{String(i+1).padStart(2,"0")}</span>
                   <div>
-                    <p className="text-xs font-semibold text-foreground mb-0.5">{p.title}</p>
+                    <p className="text-xs font-ui font-semibold text-foreground mb-0.5">{p.title}</p>
                     <p className="text-[11px] text-muted-foreground leading-relaxed">{p.desc}</p>
                   </div>
                 </div>
@@ -577,7 +579,7 @@ export default function OperatingPrincipleSection() {
             <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3">E2E Quick-Check</p>
             <div className="rounded-2xl border border-border overflow-hidden">
               <div className="px-4 py-3 bg-muted border-b border-border">
-                <p className="text-xs font-semibold text-foreground">3 Fragen, die jeder Output beantworten muss:</p>
+                <p className="text-xs font-ui font-semibold text-foreground">3 Fragen, die jeder Output beantworten muss:</p>
               </div>
               {E2E_CRITERIA.map((c, i) => (
                 <div key={i} className="flex gap-3 px-4 py-3 border-b border-border last:border-0 bg-card">
@@ -599,7 +601,7 @@ export default function OperatingPrincipleSection() {
               key={i}
               onClick={() => setActiveWorkflow(i)}
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all",
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-ui font-semibold border transition-all",
                 activeWorkflow === i
                   ? "bg-foreground text-background border-foreground"
                   : "bg-card text-foreground border-border hover:border-foreground"
@@ -646,7 +648,7 @@ export default function OperatingPrincipleSection() {
             <div key={i} className="flex gap-3 p-4 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
               <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-0.5">{g.n}</span>
               <div>
-                <p className="text-xs font-semibold text-foreground mb-0.5">{g.title}</p>
+                <p className="text-xs font-ui font-semibold text-foreground mb-0.5">{g.title}</p>
                 <p className="text-[11px] text-muted-foreground leading-relaxed">{g.desc}</p>
               </div>
             </div>

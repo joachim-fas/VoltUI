@@ -29,16 +29,7 @@ import {
 ══════════════════════════════════════════════════════════════════════════════ */
 
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div style={{
-    display: "inline-flex", alignItems: "center", gap: 6,
-    fontSize: 10, fontFamily: '"DM Mono", monospace',
-    fontWeight: 600, letterSpacing: "0.12em",
-    color: "var(--muted-foreground)", textTransform: "uppercase",
-    marginBottom: 12,
-  }}>
-    <span style={{ color: "#E4FF97" }}>&gt;_</span>
-    {children}
-  </div>
+  <p className="section-label mb-2">{children}</p>
 );
 
 const CodeBlock: React.FC<{ code: string; label?: string }> = ({ code, label }) => (
@@ -563,8 +554,8 @@ const NodeCanvasSection: React.FC = () => {
 
       {/* ── Titel ── */}
       <div>
-        <SectionLabel>Templates &amp; Visualisierung</SectionLabel>
-        <h2 className="font-display font-bold text-3xl text-foreground mb-4">
+        <SectionLabel>19 — Node Canvas</SectionLabel>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
           Node Canvas
         </h2>
         <p style={{ fontSize: 14, color: muted, lineHeight: 1.7, maxWidth: 640 }}>

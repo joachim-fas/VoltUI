@@ -253,7 +253,7 @@ export const ImageLanguageSection: React.FC = () => {
 
       {/* ── HEADER ── */}
       <div>
-        <p className="section-label mb-2">Bildsprache</p>
+        <p className="section-label mb-2">16 — Bildsprache</p>
         <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
           Brutalismus &amp; Futurismus
         </h2>

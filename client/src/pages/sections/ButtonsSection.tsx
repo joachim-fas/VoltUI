@@ -22,8 +22,8 @@ export const ButtonsSection: React.FC = () => {
   return (
     <div className="space-y-10">
       <div>
-        <p className="section-label mb-2">02 — Buttons</p>
-        <h2 className="font-display font-bold text-3xl text-foreground mb-3">Button-Komponente</h2>
+        <p className="section-label mb-2">06 — Buttons</p>
+        <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">Button-Komponente</h2>
         <p className="text-muted-foreground font-body text-sm leading-relaxed max-w-xl">
           Sieben Varianten mit Volt-Textur-Overlay, atmosphärischen Glow-Effekten und vollständiger Tastatur-Zugänglichkeit.
           Alle Effekte sind reiner CSS-Code.

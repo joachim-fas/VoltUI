@@ -266,7 +266,7 @@ export const BackgroundsSection: React.FC = () => {
 
       {/* Header */}
       <div>
-        <p className="section-label mb-2">Design System — Hintergründe</p>
+        <p className="section-label mb-2">04 — Hintergründe</p>
         <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
           Hintergründe & Patterns
         </h2>

@@ -174,10 +174,10 @@ export const BrandArchitectureSection: React.FC = () => {
       {/* ── HEADER ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div>
-          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Brand Architecture</p>
-          <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
+          <p className="section-label mb-2">13 — Brand Architecture</p>
+          <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
             Eine Sprache.<br />Viele Projekte.
-          </h1>
+          </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
             Volt UI ist das portable Design System von Free Agents und allen Projekten, die daraus entstehen.
             Das{" "}<span className="font-mono font-bold text-foreground">&gt;_</span> Signet ist der visuelle Anker.
@@ -255,7 +255,7 @@ export const BrandArchitectureSection: React.FC = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <p className="text-xs font-semibold text-foreground truncate">{project.name}</p>
+                      <p className="text-xs font-ui font-semibold text-foreground truncate">{project.name}</p>
                       <span className="text-[9px] font-mono shrink-0" style={{ color: s.color }}>
                         {s.label}
                       </span>
@@ -395,7 +395,7 @@ export const BrandArchitectureSection: React.FC = () => {
           <div className="grid border-t border-border" style={{ gridTemplateColumns: `repeat(${PROJECTS.length}, 1fr)` }}>
             {PROJECTS.map((project, i) => (
               <div key={i} className="px-3 py-2 border-r border-border last:border-0">
-                <p className="text-[9px] font-mono text-foreground font-semibold truncate">{project.name}</p>
+                <p className="text-[9px] font-mono text-foreground font-ui font-semibold truncate">{project.name}</p>
                 <p className="text-[8px] font-mono text-muted-foreground truncate">{project.tokens[0]}</p>
               </div>
             ))}

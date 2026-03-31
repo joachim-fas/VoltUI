@@ -206,7 +206,7 @@ export const ColorSection: React.FC = () => {
 
       {/* ── Header ── */}
       <div>
-        <p className="section-label mb-2">02 — Farbsystem</p>
+        <p className="section-label mb-2">02 — Farbcodierung</p>
         <h2 className="font-display text-3xl font-bold text-foreground tracking-tight mb-3">
           Semantische Farbkodierung
         </h2>

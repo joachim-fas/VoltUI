@@ -98,7 +98,7 @@ export const SignetSection: React.FC = () => {
 
       {/* ── Header ── */}
       <div>
-        <p className="section-label mb-2">Signet</p>
+        <p className="section-label mb-2">05 — Signet</p>
         <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
           Das <span className="font-mono">&gt;_</span> Signet
         </h2>

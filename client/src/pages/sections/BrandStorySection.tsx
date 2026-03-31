@@ -159,10 +159,10 @@ export const BrandStorySection: React.FC = () => {
       {/* ── HEADER mit Bild ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div>
-          <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Brand Story</p>
-          <h1 className="font-display font-bold text-4xl text-foreground mb-4 leading-tight">
+          <p className="section-label mb-2">14 — Brand Story</p>
+          <h2 className="font-display font-bold text-3xl text-foreground tracking-tight mb-3">
             Free-Agents.io
-          </h1>
+          </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
             Die vollständige Markengeschichte: Warum Free-Agents.io existiert, was es
             unterscheidet und wie es klingt – als lebendiges Dokument im Design System.
@@ -290,7 +290,7 @@ export const BrandStorySection: React.FC = () => {
                 >
                   {p.n}
                 </div>
-                <p className="text-xs font-semibold text-foreground truncate">{p.title}</p>
+                <p className="text-xs font-ui font-semibold text-foreground truncate">{p.title}</p>
                 {activeP === i && <div className="w-1.5 h-1.5 rounded-full bg-[#0A0A0A] shrink-0 ml-auto" />}
               </button>
             ))}
@@ -308,7 +308,7 @@ export const BrandStorySection: React.FC = () => {
               </div>
               <div className="p-5 bg-card space-y-3">
                 <div className="flex gap-3">
-                  <span className="font-mono text-[10px] font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded shrink-0">DO</span>
+                  <span className="font-mono text-[10px] font-bold text-[#1A9E5A] bg-[#E8F5EE] px-2 py-0.5 rounded shrink-0">DO</span>
                   <p className="font-mono text-xs text-foreground">{FIVE_PRINCIPLES[activeP].do}</p>
                 </div>
                 <div className="flex gap-3">
@@ -368,7 +368,7 @@ export const BrandStorySection: React.FC = () => {
             <div key={i} className="flex items-start gap-4 p-4 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
               <span className="font-mono font-bold text-[#E4FF97] bg-[#0A0A0A] w-6 h-6 rounded flex items-center justify-center text-sm shrink-0 mt-0.5">&gt;</span>
               <div>
-                <p className="font-semibold text-sm text-foreground mb-0.5">{d.title}</p>
+                <p className="font-ui font-semibold text-sm text-foreground mb-0.5">{d.title}</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">{d.desc}</p>
               </div>
             </div>
@@ -382,11 +382,11 @@ export const BrandStorySection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Copy-Regeln */}
           <div>
-            <p className="text-xs font-semibold text-foreground mb-3">Copy-Regeln</p>
+            <p className="text-xs font-ui font-semibold text-foreground mb-3">Copy-Regeln</p>
             <div className="space-y-2">
               {VOICE_RULES.map((r, i) => (
                 <div key={i} className="p-3 rounded-xl border border-border bg-card">
-                  <p className="text-xs font-semibold text-foreground mb-1">{r.rule}</p>
+                  <p className="text-xs font-ui font-semibold text-foreground mb-1">{r.rule}</p>
                   <p className="font-mono text-[10px] text-muted-foreground">{r.example}</p>
                 </div>
               ))}
@@ -394,7 +394,7 @@ export const BrandStorySection: React.FC = () => {
           </div>
           {/* Vokabular */}
           <div>
-            <p className="text-xs font-semibold text-foreground mb-3">Vokabular</p>
+            <p className="text-xs font-ui font-semibold text-foreground mb-3">Vokabular</p>
             <div className="rounded-xl border border-border overflow-hidden">
               <div className="grid grid-cols-3 bg-[#F7F7F7] px-3 py-2 border-b border-border">
                 <span className="text-[9px] font-mono font-bold text-muted-foreground uppercase">Verwenden</span>
@@ -403,7 +403,7 @@ export const BrandStorySection: React.FC = () => {
               </div>
               {VOCAB.map((v, i) => (
                 <div key={i} className="grid grid-cols-3 px-3 py-2.5 border-b border-border last:border-0 hover:bg-[#FAFAFA]">
-                  <span className="text-xs font-semibold text-green-700">{v.use}</span>
+                  <span className="text-xs font-ui font-semibold text-[#1A9E5A]">{v.use}</span>
                   <span className="text-xs text-red-500 line-through">{v.avoid}</span>
                   <span className="text-[10px] text-muted-foreground">{v.why}</span>
                 </div>

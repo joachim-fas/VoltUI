@@ -248,7 +248,7 @@ export const DataSection: React.FC = () => {
 
       {/* ── Sektion-Header ── */}
       <div>
-        <p className="section-label mb-2">06 — Data & Charts</p>
+        <p className="section-label mb-2">10 — Data &amp; Charts</p>
         <h2 className="font-display text-3xl font-bold text-foreground tracking-tight mb-3">
           Daten & Visualisierung
         </h2>
