@@ -124,11 +124,17 @@ export const CardsSection: React.FC = () => {
               </VoltCardDescription>
             </VoltCardHeader>
             <VoltCardContent>
-              <div className="flex items-center gap-3">
-                <VoltAvatar name="Anna Müller" size="md" online />
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-ui font-semibold font-body">Anna Müller</p>
-                  <p className="text-xs text-muted-foreground font-body">Design Lead</p>
+                  <p className="text-2xl font-display font-bold text-foreground">4.8</p>
+                  <p className="text-xs text-muted-foreground font-body mt-0.5">Ø Bewertung · 1.240 Stimmen</p>
+                </div>
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(i => (
+                    <svg key={i} className="w-4 h-4" viewBox="0 0 16 16" fill={i <= 4 ? "#0A0A0A" : "none"} stroke="#0A0A0A" strokeWidth="1.2">
+                      <path d="M8 1.5l1.8 3.6 4 .6-2.9 2.8.7 4L8 10.5l-3.6 1.9.7-4L2.2 5.7l4-.6z" />
+                    </svg>
+                  ))}
                 </div>
               </div>
             </VoltCardContent>

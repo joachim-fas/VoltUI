@@ -279,7 +279,7 @@ export const DashboardSection: React.FC = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <VoltButton variant="outline" size="sm" leftIcon={<RefreshCw className="w-3.5 h-3.5" />}>
+          <VoltButton variant="outline" size="sm" leftIcon={<RefreshCw className="w-3.5 h-3.5" />} onClick={() => toast.info("Dashboard aktualisiert", { description: "Alle Daten sind auf dem neuesten Stand." })}>
             Aktualisieren
           </VoltButton>
           <VoltButton variant="solid" size="sm" leftIcon={<Download className="w-3.5 h-3.5" />} onClick={() => toast.success("Export gestartet", { description: "CSV-Datei wird vorbereitet …" })}>

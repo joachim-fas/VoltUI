@@ -141,7 +141,7 @@ export const NavigationSection: React.FC = () => {
               logo={
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-[#E4FF97] flex items-center justify-center">
-                    <span className="text-foreground font-display font-bold text-xs">G</span>
+                    <span className="text-foreground font-display font-bold text-xs">V</span>
                   </div>
                   <span className="font-display font-bold text-base text-foreground">Volt UI</span>
                 </div>
