@@ -1,5 +1,5 @@
 /**
- * VoltToggle / FluxCheckbox / VoltRadio – Volt UI
+ * VoltToggle / VoltCheckbox / VoltRadio – Volt UI
  * KONTRAST-GARANTIE: Alle Farben über CSS-Variablen.
  * Light: text-foreground = #000000 auf #FFFFFF → 21:1
  * Dark:  text-foreground = #F5F5F5 auf #000000 → 19:1
@@ -155,16 +155,16 @@ export const VoltToggle: React.FC<VoltToggleProps> = ({
 };
 
 /* ════════════════════════════════════════════════
-   FluxCheckbox
+   VoltCheckbox
 ════════════════════════════════════════════════ */
-export interface FluxCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface VoltCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   description?: string;
   variant?: keyof typeof FILL_BG;
   indeterminate?: boolean;
 }
 
-export const FluxCheckbox: React.FC<FluxCheckboxProps> = ({
+export const VoltCheckbox: React.FC<VoltCheckboxProps> = ({
   label,
   description,
   variant = "default",
@@ -233,9 +233,9 @@ export const FluxCheckbox: React.FC<FluxCheckboxProps> = ({
 };
 
 /* ════════════════════════════════════════════════
-   FluxRadioGroup
+   VoltRadioGroup
 ════════════════════════════════════════════════ */
-export interface FluxRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+export interface VoltRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   options: Array<{ value: string; label: string; description?: string }>;
   value?: string;
   defaultValue?: string;
@@ -244,7 +244,7 @@ export interface FluxRadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivEl
   onValueChange?: (value: string) => void;
 }
 
-export const FluxRadioGroup: React.FC<FluxRadioGroupProps> = ({
+export const VoltRadioGroup: React.FC<VoltRadioGroupProps> = ({
   options,
   value,
   defaultValue,

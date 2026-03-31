@@ -4,9 +4,9 @@
 
 import React, { useState } from "react";
 import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle, VoltCardDescription } from "@/components/volt/VoltCard";
-import { VoltInput, FluxTextarea, FluxSelect } from "@/components/volt/VoltInput";
-import { VoltToggle, FluxCheckbox, FluxRadioGroup } from "@/components/volt/VoltToggle";
-import { VoltProgress, FluxSlider } from "@/components/volt/VoltProgress";
+import { VoltInput, VoltTextarea, VoltSelect } from "@/components/volt/VoltInput";
+import { VoltToggle, VoltCheckbox, VoltRadioGroup } from "@/components/volt/VoltToggle";
+import { VoltProgress, VoltSlider } from "@/components/volt/VoltProgress";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { Mail, Lock, Search, User, Eye, EyeOff } from "lucide-react";
 
@@ -90,26 +90,26 @@ export const FormsSection: React.FC = () => {
         </VoltCardHeader>
         <VoltCardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <FluxTextarea
+            <VoltTextarea
               label="Nachricht"
               placeholder="Schreibe hier deine Nachricht…"
               hint="Maximal 500 Zeichen."
               rows={4}
             />
             <div className="flex flex-col gap-5">
-              <FluxSelect label="Kategorie" hint="Wähle eine Kategorie aus.">
+              <VoltSelect label="Kategorie" hint="Wähle eine Kategorie aus.">
                 <option value="" disabled>Bitte auswählen…</option>
                 <option value="design">Design System</option>
                 <option value="components">Komponenten</option>
                 <option value="tokens">Design Tokens</option>
                 <option value="animation">Animation</option>
-              </FluxSelect>
-              <FluxSelect label="Priorität">
+              </VoltSelect>
+              <VoltSelect label="Priorität">
                 <option value="low">Niedrig</option>
                 <option value="medium">Mittel</option>
                 <option value="high">Hoch</option>
                 <option value="critical">Kritisch</option>
-              </FluxSelect>
+              </VoltSelect>
             </div>
           </div>
         </VoltCardContent>
@@ -200,10 +200,10 @@ export const FormsSection: React.FC = () => {
             <div className="space-y-5">
               <div className="space-y-3">
                 <p className="section-label">Checkboxen</p>
-                <FluxCheckbox label="Design Tokens exportieren" variant="default" defaultChecked />
-                <FluxCheckbox label="Dark Mode aktivieren" variant="primary" />
-                <FluxCheckbox label="Teilweise ausgewählt" variant="default" indeterminate />
-                <FluxCheckbox
+                <VoltCheckbox label="Design Tokens exportieren" variant="default" defaultChecked />
+                <VoltCheckbox label="Dark Mode aktivieren" variant="primary" />
+                <VoltCheckbox label="Teilweise ausgewählt" variant="default" indeterminate />
+                <VoltCheckbox
                   label="Nutzungsbedingungen akzeptieren"
                   description="Ich stimme den AGB und der Datenschutzerklärung zu."
                   variant="primary"
@@ -211,7 +211,7 @@ export const FormsSection: React.FC = () => {
               </div>
               <div className="space-y-3 pt-2">
                 <p className="section-label">Radio-Gruppe</p>
-                <FluxRadioGroup
+                <VoltRadioGroup
                   name="plan"
                   value={radioVal}
                   onValueChange={setRadioVal}
@@ -245,14 +245,14 @@ export const FormsSection: React.FC = () => {
             </div>
             <div className="space-y-4 pt-2">
               <p className="section-label">Schieberegler</p>
-              <FluxSlider
+              <VoltSlider
                 label="Lautstärke"
                 showValue
                 value={sliderA}
                 onChange={(v) => setSliderA(v)}
                 variant="default"
               />
-              <FluxSlider
+              <VoltSlider
                 label="Helligkeit"
                 showValue
                 value={sliderB}
@@ -289,19 +289,19 @@ export const FormsSection: React.FC = () => {
               placeholder="Sicheres Passwort wählen"
               leftElement={<Lock className="w-4 h-4" />}
             />
-            <FluxSelect label="Rolle">
+            <VoltSelect label="Rolle">
               <option value="designer">Designer</option>
               <option value="developer">Developer</option>
               <option value="manager">Manager</option>
-            </FluxSelect>
-            <FluxTextarea label="Über mich" placeholder="Kurze Beschreibung…" rows={3} />
+            </VoltSelect>
+            <VoltTextarea label="Über mich" placeholder="Kurze Beschreibung…" rows={3} />
             <VoltToggle
               label="Newsletter abonnieren"
               description="Erhalte Updates zu neuen Komponenten."
               variant="default"
               defaultChecked
             />
-            <FluxCheckbox
+            <VoltCheckbox
               label="Ich akzeptiere die Nutzungsbedingungen"
               variant="default"
             />

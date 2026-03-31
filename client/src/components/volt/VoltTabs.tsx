@@ -7,7 +7,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
-export interface FluxTabItem {
+export interface VoltTabItem {
   id: string;
   label: string;
   icon?: React.ReactNode;
@@ -16,7 +16,7 @@ export interface FluxTabItem {
 }
 
 export interface VoltTabsProps extends React.HTMLAttributes<HTMLDivElement> {
-  tabs: FluxTabItem[];
+  tabs: VoltTabItem[];
   defaultTab?: string;
   activeTab?: string;
   onTabChange?: (id: string) => void;

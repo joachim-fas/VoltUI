@@ -148,7 +148,7 @@ const DESIGN_PRINCIPLES = [
   },
   {
     title: "Farbe als Kontext-Signal",
-    desc: "Jedes Projekt bekommt eine Pastell-Farbe aus dem Flux-System. Die Farbe signalisiert den Kontext, nicht die Marke.",
+    desc: "Jedes Projekt bekommt eine Pastell-Farbe aus dem Volt-System. Die Farbe signalisiert den Kontext, nicht die Marke.",
   },
   {
     title: "Signet als Konstante",

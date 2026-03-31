@@ -196,7 +196,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "#E4FF97" },
     volt: true,
-    code: `background: #E4FF97;\n/* + Flux-Overlay mit opacity: 0.06 */`,
+    code: `background: #E4FF97;\n/* + Volt-Overlay mit opacity: 0.06 */`,
   },
   {
     id: "dark-volt",
@@ -205,7 +205,7 @@ const ATMOSPHERIC = [
     textColor: "#FFFFFF",
     style: { background: "#0A0A0A" },
     volt: true,
-    code: `background: #0A0A0A;\n/* + Flux-Overlay mit opacity: 0.08 */`,
+    code: `background: #0A0A0A;\n/* + Volt-Overlay mit opacity: 0.08 */`,
   },
   {
     id: "rose-volt",
@@ -214,7 +214,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%)" },
     volt: true,
-    code: `background: linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%);\n/* + Flux-Overlay */`,
+    code: `background: linear-gradient(135deg, #FFD6E0 0%, #FFECD2 100%);\n/* + Volt-Overlay */`,
   },
   {
     id: "mint-volt",
@@ -223,7 +223,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%)" },
     volt: true,
-    code: `background: linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%);\n/* + Flux-Overlay */`,
+    code: `background: linear-gradient(135deg, #C3F4D3 0%, #D6F5F5 100%);\n/* + Volt-Overlay */`,
   },
   {
     id: "orchid-volt",
@@ -232,7 +232,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FDE2FF 0%, #D4E8FF 100%)" },
     volt: true,
-    code: `background: linear-gradient(135deg, #FDE2FF 0%, #D4E8FF 100%);\n/* + Flux-Overlay */`,
+    code: `background: linear-gradient(135deg, #FDE2FF 0%, #D4E8FF 100%);\n/* + Volt-Overlay */`,
   },
   {
     id: "butter-volt",
@@ -241,7 +241,7 @@ const ATMOSPHERIC = [
     textColor: "#0A0A0A",
     style: { background: "linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%)" },
     volt: true,
-    code: `background: linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%);\n/* + Flux-Overlay */`,
+    code: `background: linear-gradient(135deg, #FFF5BA 0%, #FFE0CC 100%);\n/* + Volt-Overlay */`,
   },
 ];
 

@@ -445,9 +445,9 @@ export const SignetSection: React.FC = () => {
                 <VoltCursor size="md" color="black" animated />
                 <div>
                   <p className="font-display font-bold text-sm text-foreground leading-tight tracking-tight">
-                    flux<span className="opacity-30"> ui</span>
+                    volt<span className="opacity-30"> ui</span>
                   </p>
-                  <p className="text-[0.6rem] font-mono text-muted-foreground leading-tight tracking-widest uppercase">Design Concept</p>
+                  <p className="text-[0.6rem] font-mono text-muted-foreground leading-tight tracking-widest uppercase">Design System</p>
                 </div>
               </div>
               <CodeBlock

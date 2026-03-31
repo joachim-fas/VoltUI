@@ -180,7 +180,7 @@ export default function Home() {
         </div>
         <div>
           <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
-            flux<span className="opacity-30"> ui</span>
+            volt<span className="opacity-30"> ui</span>
           </p>
           <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Design Concept</p>
         </div>
@@ -240,7 +240,7 @@ export default function Home() {
               <Terminal className="w-3 h-3 text-primary" />
             </div>
             <span className="font-display font-bold text-sm text-foreground tracking-tight">
-              flux<span className="opacity-30"> ui</span>
+              volt<span className="opacity-30"> ui</span>
             </span>
           </div>
           <div className="w-9" />

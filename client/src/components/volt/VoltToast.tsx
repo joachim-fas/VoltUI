@@ -1,5 +1,5 @@
 /**
- * VoltToast / FluxTooltip – Atmospheric Volt UI Design System
+ * VoltToast / VoltTooltip – Atmospheric Volt UI Design System
  * Benachrichtigungs- und Tooltip-Komponenten.
  */
 
@@ -150,15 +150,15 @@ export function useVoltToast() {
   return { toasts, add, dismiss };
 }
 
-/* ── FluxTooltip ── */
-export interface FluxTooltipProps {
+/* ── VoltTooltip ── */
+export interface VoltTooltipProps {
   content: React.ReactNode;
   children: React.ReactElement;
   side?: "top" | "bottom" | "left" | "right";
   delay?: number;
 }
 
-export const FluxTooltip: React.FC<FluxTooltipProps> = ({
+export const VoltTooltip: React.FC<VoltTooltipProps> = ({
   content,
   children,
   side = "top",

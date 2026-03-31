@@ -6,10 +6,10 @@
 
 import React, { useState } from "react";
 import {
-  FluxAreaChart, FluxBarChart, FluxLineChart, FluxDonutChart,
-  FluxRadarChart, FluxScatterChart, FluxComposedChart,
-  FluxRadialBarChart, FluxFunnelChart, FluxTrendChart,
-  FluxStackedAreaChart, FluxStackedBarChart,
+  VoltAreaChart, VoltBarChart, VoltLineChart, VoltDonutChart,
+  VoltRadarChart, VoltScatterChart, VoltComposedChart,
+  VoltRadialBarChart, VoltFunnelChart, VoltTrendChart,
+  VoltStackedAreaChart, VoltStackedBarChart,
   VOLT_PASTEL,
 } from "@/components/volt/VoltChart";
 import { VoltTable } from "@/components/volt/VoltTable";
@@ -371,9 +371,9 @@ export const DataSection: React.FC = () => {
           insight="Faustregel: Area für eine Metrik, Line für den Vergleich mehrerer"
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <FluxAreaChart data={monthlyData} dataKeys={["Besucher", "Konversionen"]} xKey="name"
+          <VoltAreaChart data={monthlyData} dataKeys={["Besucher", "Konversionen"]} xKey="name"
             title="Besucher & Konversionen" subtitle="Area Chart · Jan–Jul · Volumen sichtbar durch Fläche" height={260} />
-          <FluxLineChart data={monthlyData} dataKeys={["Besucher", "Umsatz"]} xKey="name"
+          <VoltLineChart data={monthlyData} dataKeys={["Besucher", "Umsatz"]} xKey="name"
             title="Trend-Vergleich" subtitle="Line Chart · Besucher vs. Umsatz · Schnittpunkte erkennbar" height={260} />
         </div>
       </div>
@@ -387,9 +387,9 @@ export const DataSection: React.FC = () => {
           insight="Horizontal-Bars sind lesbarer bei mehr als 5 Kategorien"
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <FluxBarChart data={weeklyData} dataKeys={["Design", "Code", "Review"]} xKey="name"
+          <VoltBarChart data={weeklyData} dataKeys={["Design", "Code", "Review"]} xKey="name"
             title="Wöchentliche Aktivität" subtitle="Bar Chart · Gruppenvergleich · Design / Code / Review" height={300} />
-          <FluxBarChart data={frameworkData} dataKeys={["Nutzung"]} xKey="name"
+          <VoltBarChart data={frameworkData} dataKeys={["Nutzung"]} xKey="name"
             title="Framework-Popularität" subtitle="Horizontales Bar Chart · Lesbarer bei langen Labels"
             horizontal height={300} />
         </div>
@@ -404,11 +404,11 @@ export const DataSection: React.FC = () => {
           insight="Nicht mehr als 6 Segmente – sonst wird die Legende wichtiger als der Chart"
         />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <FluxDonutChart data={donutData} title="Komponenten-Nutzung"
+          <VoltDonutChart data={donutData} title="Komponenten-Nutzung"
             subtitle="Donut Chart · Gesamtzahl im Zentrum" innerLabel="Gesamt" innerValue={100} height={280} />
-          <FluxDonutChart data={donutData} title="Pie Chart (Vollkreis)"
+          <VoltDonutChart data={donutData} title="Pie Chart (Vollkreis)"
             subtitle="Ohne Donut-Loch · Für reine Anteilsdarstellung" donut={false} height={280} />
-          <FluxStackedAreaChart data={stackedAreaData} dataKeys={["Mobile", "Desktop", "Tablet"]} xKey="name"
+          <VoltStackedAreaChart data={stackedAreaData} dataKeys={["Mobile", "Desktop", "Tablet"]} xKey="name"
             title="Gerätenutzung über Zeit" subtitle="Stacked Area · Anteile + Gesamtentwicklung" height={280} />
         </div>
       </div>
@@ -420,7 +420,7 @@ export const DataSection: React.FC = () => {
           title="Zusammensetzung je Kategorie"
           description="Stacked Bar Charts zeigen sowohl den Gesamtwert als auch die Zusammensetzung. Ideal wenn die Frage lautet: 'Wie viel insgesamt, und woraus besteht es?'"
         />
-        <FluxStackedBarChart data={weeklyData} dataKeys={["Design", "Code", "Review"]} xKey="name"
+        <VoltStackedBarChart data={weeklyData} dataKeys={["Design", "Code", "Review"]} xKey="name"
           title="Aufgaben-Verteilung pro Woche" subtitle="Stacked Bar · Gesamtstunden + Zusammensetzung" height={260} />
       </div>
 
@@ -433,9 +433,9 @@ export const DataSection: React.FC = () => {
           insight="Radar: maximal 8 Achsen · Scatter: mindestens 20 Datenpunkte für sinnvolle Muster"
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <FluxRadarChart data={radarData} dataKeys={["A", "B"]} angleKey="subject"
+          <VoltRadarChart data={radarData} dataKeys={["A", "B"]} angleKey="subject"
             title="Performance-Radar" subtitle="Radar Chart · Projekt A vs. B · 6 Dimensionen" height={300} />
-          <FluxScatterChart data={scatterData} title="Korrelations-Analyse"
+          <VoltScatterChart data={scatterData} title="Korrelations-Analyse"
             subtitle="Scatter Chart · Reichweite vs. Engagement · Cluster sichtbar" xLabel="Reichweite" yLabel="Engagement" height={300} />
         </div>
       </div>
@@ -449,11 +449,11 @@ export const DataSection: React.FC = () => {
           insight="Funnel: Verlust zwischen Stufen ist oft wichtiger als die absoluten Zahlen"
         />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <FluxFunnelChart data={funnelData} title="Sales Funnel"
+          <VoltFunnelChart data={funnelData} title="Sales Funnel"
             subtitle="Funnel Chart · 10.000 Besucher → 620 Kunden (6.2%)" height={300} />
-          <FluxRadialBarChart data={radialData} title="Fortschritt je Kategorie"
+          <VoltRadialBarChart data={radialData} title="Fortschritt je Kategorie"
             subtitle="Radial Bar · Ringförmige Fortschrittsanzeige" height={300} />
-          <FluxComposedChart data={composedData} barKeys={["Budget", "Ausgaben"]} lineKeys={["Effizienz"]} xKey="name"
+          <VoltComposedChart data={composedData} barKeys={["Budget", "Ausgaben"]} lineKeys={["Effizienz"]} xKey="name"
             title="Budget vs. Effizienz" subtitle="Composed Chart · Bar + Line kombiniert" height={300} />
         </div>
       </div>
@@ -466,7 +466,7 @@ export const DataSection: React.FC = () => {
           description="Trend Charts mit Referenzlinie zeigen sofort: Liegt die Metrik über oder unter dem Ziel? Die gestrichelte Linie ist der Zielwert – alles darüber ist grün."
           insight="Referenzlinien machen Abweichungen sofort sichtbar ohne Tabelle"
         />
-        <FluxTrendChart data={trendData} dataKeys={["v1", "v2", "v3"]} xKey="name"
+        <VoltTrendChart data={trendData} dataKeys={["v1", "v2", "v3"]} xKey="name"
           title="Multi-Trend Vergleich" subtitle="Trend Chart · 3 Metriken über 8 Wochen · Referenzlinie bei 500"
           showReferenceLine={500} height={280} />
       </div>

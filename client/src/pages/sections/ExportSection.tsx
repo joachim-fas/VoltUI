@@ -71,29 +71,29 @@ const SNIPPETS: Record<string, { steps: { title: string; code: string; lang: str
       {
         title: "2. Erste Komponente",
         lang: "html",
-        desc: "Verwende die Flux-Klassen direkt in deinem HTML. Keine JavaScript-Abhängigkeiten nötig.",
+        desc: "Verwende die Volt-Klassen direkt in deinem HTML. Keine JavaScript-Abhängigkeiten nötig.",
         code: `<!-- Button -->
-<button class="flux-btn flux-btn-lime">
+<button class="volt-btn volt-btn-lime">
   Jetzt starten →
 </button>
 
 <!-- Card -->
-<div class="flux-card">
-  <h2 class="flux-heading">Titel</h2>
-  <p class="flux-body">Inhalt der Karte</p>
+<div class="volt-card">
+  <h2 class="volt-heading">Titel</h2>
+  <p class="volt-body">Inhalt der Karte</p>
 </div>
 
 <!-- Badge -->
-<span class="flux-badge flux-badge-lime">Neu</span>`,
+<span class="volt-badge volt-badge-lime">Neu</span>`,
       },
       {
         title: "3. Design Tokens nutzen",
         lang: "css",
         desc: "Alle Farben, Abstände und Typografie-Werte sind als CSS-Variablen verfügbar.",
-        code: `/* Eigene Styles mit Flux-Tokens */
+        code: `/* Eigene Styles mit Volt-Tokens */
 .mein-element {
-  background: var(--flux-lime);       /* #E4FF97 */
-  color: var(--flux-black);           /* #0A0A0A */
+  background: var(--volt-lime);       /* #E4FF97 */
+  color: var(--volt-black);           /* #0A0A0A */
   font-family: var(--font-display);   /* Bricolage Grotesque */
   border-radius: var(--radius-xl);    /* 1rem */
   padding: var(--spacing-6);          /* 1.5rem */
@@ -139,16 +139,16 @@ export function App() {
       {
         title: "3. Tailwind-Konfiguration",
         lang: "css",
-        desc: "Falls du Tailwind CSS verwendest, füge die Flux-Tokens in deine index.css ein. Die @theme-Direktive registriert alle Tokens als Tailwind-Utilities.",
+        desc: "Falls du Tailwind CSS verwendest, füge die Volt-Tokens in deine index.css ein. Die @theme-Direktive registriert alle Tokens als Tailwind-Utilities.",
         code: `/* index.css – Volt UI Tokens für Tailwind 4 */
 @import "tailwindcss";
 
 @theme inline {
-  --color-flux-lime:    #E4FF97;
-  --color-flux-black:   #0A0A0A;
-  --color-flux-signal-positive: #1A9E5A;
-  --color-flux-signal-negative: #E8402A;
-  --color-flux-signal-neutral:  #6B7A9A;
+  --color-volt-lime:    #E4FF97;
+  --color-volt-black:   #0A0A0A;
+  --color-volt-signal-positive: #1A9E5A;
+  --color-volt-signal-negative: #E8402A;
+  --color-volt-signal-neutral:  #6B7A9A;
 
   --font-display: "Bricolage Grotesque", sans-serif;
   --font-ui:      "DM Sans", sans-serif;
@@ -163,7 +163,7 @@ export function App() {
       {
         title: "1. System-Prompt mit Volt UI Kontext",
         lang: "text",
-        desc: "Füge diesen Kontext am Anfang deines Claude-Code-Projekts ein. Claude wird dann automatisch Flux-UI-konforme Komponenten generieren.",
+        desc: "Füge diesen Kontext am Anfang deines Claude-Code-Projekts ein. Claude wird dann automatisch Volt-UI-konforme Komponenten generieren.",
         code: `# Volt UI Design System
 
 Du arbeitest mit dem Volt UI Design System.
@@ -196,7 +196,7 @@ Du arbeitest mit dem Volt UI Design System.
       {
         title: "2. Komponenten-Prompt",
         lang: "text",
-        desc: "Verwende diesen Prompt um neue Komponenten im Flux-UI-Stil zu generieren.",
+        desc: "Verwende diesen Prompt um neue Komponenten im Volt-UI-Stil zu generieren.",
         code: `Erstelle eine React-Komponente im Volt UI Stil:
 
 Anforderungen:
@@ -229,7 +229,7 @@ cp volt-ui.css ./public/volt-ui.css
       {
         title: "1. Fonts einbinden",
         lang: "tsx",
-        desc: "Füge die Flux-UI-Schriften in dein Next.js-Layout ein. Alle vier Schriftschnitte werden via Google Fonts geladen.",
+        desc: "Füge die Volt-UI-Schriften in dein Next.js-Layout ein. Alle vier Schriftschnitte werden via Google Fonts geladen.",
         code: `// app/layout.tsx
 import { Bricolage_Grotesque, DM_Sans, Lora, JetBrains_Mono } from "next/font/google";
 import "./volt-ui.css";
@@ -250,15 +250,15 @@ export default function RootLayout({ children }) {
       {
         title: "2. CSS-Variablen in globals.css",
         lang: "css",
-        desc: "Kopiere die Flux-Token-Definitionen in deine globals.css.",
+        desc: "Kopiere die Volt-Token-Definitionen in deine globals.css.",
         code: `/* globals.css */
 :root {
-  --flux-lime:    #E4FF97;
-  --flux-black:   #0A0A0A;
-  --flux-white:   #FFFFFF;
-  --flux-signal-positive: #1A9E5A;
-  --flux-signal-negative: #E8402A;
-  --flux-signal-neutral:  #6B7A9A;
+  --volt-lime:    #E4FF97;
+  --volt-black:   #0A0A0A;
+  --volt-white:   #FFFFFF;
+  --volt-signal-positive: #1A9E5A;
+  --volt-signal-negative: #E8402A;
+  --volt-signal-neutral:  #6B7A9A;
 
   --radius-sm:  0.5rem;
   --radius-md:  0.75rem;
@@ -271,11 +271,11 @@ export default function RootLayout({ children }) {
         title: "3. Komponenten importieren",
         lang: "tsx",
         desc: "Kopiere das /components/volt/ Verzeichnis in dein Next.js-Projekt und passe den Import-Pfad an.",
-        code: `// Komponenten kopieren nach: components/flux/
+        code: `// Komponenten kopieren nach: components/volt/
 // Dann importieren:
-import { VoltButton } from "@/components/flux/VoltButton";
-import { VoltCard }   from "@/components/flux/VoltCard";
-import { VoltBadge }  from "@/components/flux/VoltBadge";
+import { VoltButton } from "@/components/volt/VoltButton";
+import { VoltCard }   from "@/components/volt/VoltCard";
+import { VoltBadge }  from "@/components/volt/VoltBadge";
 
 export default function Page() {
   return (
@@ -300,9 +300,9 @@ export default function Page() {
         desc: "Importiere diese Token-Definitionen in Figma via dem Token Studio Plugin oder einem anderen Token-Manager.",
         code: `{
   "color": {
-    "flux-lime":   { "value": "#E4FF97", "type": "color" },
-    "flux-black":  { "value": "#0A0A0A", "type": "color" },
-    "flux-white":  { "value": "#FFFFFF", "type": "color" },
+    "volt-lime":   { "value": "#E4FF97", "type": "color" },
+    "volt-black":  { "value": "#0A0A0A", "type": "color" },
+    "volt-white":  { "value": "#FFFFFF", "type": "color" },
     "signal": {
       "positive":  { "value": "#1A9E5A", "type": "color" },
       "negative":  { "value": "#E8402A", "type": "color" },
@@ -358,7 +358,7 @@ export default function Page() {
    → Verwendung: Code, Labels, Badges, Monospace-Akzente`,
       },
       {
-        title: "3. Flux-Signet als SVG",
+        title: "3. Volt-Signet als SVG",
         lang: "svg",
         desc: "Das >_ Signet als reiner SVG-Code – direkt in Figma einfügbar.",
         code: `<svg viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg">
@@ -507,11 +507,11 @@ export const ExportSection: React.FC = () => {
             {
               title: "Farb-Tokens",
               items: [
-                { cls: "--flux-lime",             val: "#E4FF97" },
-                { cls: "--flux-black",            val: "#0A0A0A" },
-                { cls: "--flux-signal-positive",  val: "#1A9E5A" },
-                { cls: "--flux-signal-negative",  val: "#E8402A" },
-                { cls: "--flux-signal-neutral",   val: "#6B7A9A" },
+                { cls: "--volt-lime",             val: "#E4FF97" },
+                { cls: "--volt-black",            val: "#0A0A0A" },
+                { cls: "--volt-signal-positive",  val: "#1A9E5A" },
+                { cls: "--volt-signal-negative",  val: "#E8402A" },
+                { cls: "--volt-signal-neutral",   val: "#6B7A9A" },
               ],
             },
             {
@@ -536,7 +536,7 @@ export const ExportSection: React.FC = () => {
             {
               title: "Gradienten",
               items: [
-                { cls: ".bg-flux-gradient",    val: "Lime → Schwarz" },
+                { cls: ".bg-volt-gradient",    val: "Lime → Schwarz" },
                 { cls: ".bg-atmospheric",      val: "Radiale Orbs" },
                 { cls: ".bg-hero",             val: "Lime-Basis" },
                 { cls: ".glass",               val: "65% Weiß + Blur" },

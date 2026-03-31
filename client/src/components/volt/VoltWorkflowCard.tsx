@@ -178,7 +178,7 @@ export function VoltWorkflowCard({
   );
 }
 
-// FluxOPBadge – kleine Labels für OP-Metadaten
+// VoltOPBadge – kleine Labels für OP-Metadaten
 export type OPLabel = "input" | "process" | "output" | "proof" | "dod" | "owner" | "handoff" | "guardrail" | "log";
 
 // Pastell-Badges bleiben intentional farbig (Datenkodierung), aber Text wird semantisch
@@ -194,13 +194,13 @@ const OP_BADGE_CONFIG: Record<OPLabel, { label: string; bgColor: string; textCla
   log:       { label: "Log",        bgColor: "",        textClass: "text-muted-foreground bg-muted" },
 };
 
-interface FluxOPBadgeProps {
+interface VoltOPBadgeProps {
   type: OPLabel;
   value?: string;
   className?: string;
 }
 
-export function FluxOPBadge({ type, value, className }: FluxOPBadgeProps) {
+export function VoltOPBadge({ type, value, className }: VoltOPBadgeProps) {
   const config = OP_BADGE_CONFIG[type];
   const style = config.bgColor ? { backgroundColor: config.bgColor } : {};
   return (

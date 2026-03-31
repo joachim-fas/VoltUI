@@ -1,9 +1,9 @@
 /**
- * VoltProgress & FluxSlider – Volt UI
+ * VoltProgress & VoltSlider – Volt UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Design: Raffiniert, dünn, präzise
  *
- * FluxSlider: Kein nackter Kreis auf dünner Linie.
+ * VoltSlider: Kein nackter Kreis auf dünner Linie.
  * Stattdessen: dicker Pill-Track (8px), abgerundeter Thumb mit Inset-Ring,
  * Filled-Track zeigt Fortschritt, Hover-State mit Glow.
  */
@@ -78,8 +78,8 @@ export const VoltProgress = React.forwardRef<HTMLDivElement, VoltProgressProps>(
 );
 VoltProgress.displayName = "VoltProgress";
 
-/* ── FluxSlider ── */
-export interface FluxSliderProps {
+/* ── VoltSlider ── */
+export interface VoltSliderProps {
   variant?: keyof typeof FILL_COLORS;
   sliderSize?: "sm" | "md" | "lg";
   label?: string;
@@ -94,7 +94,7 @@ export interface FluxSliderProps {
   className?: string;
 }
 
-export const FluxSlider: React.FC<FluxSliderProps> = ({
+export const VoltSlider: React.FC<VoltSliderProps> = ({
   variant = "default",
   sliderSize = "md",
   label,

@@ -1,5 +1,5 @@
 /**
- * VoltInput / FluxTextarea / FluxSelect – Volt UI
+ * VoltInput / VoltTextarea / VoltSelect – Volt UI
  * Hauptfarben: #E4FF97 Neon Yellow + #000000 Black
  * Design: Raffiniert, leicht, dünnere Linien, elegante Fokus-Übergänge
  */
@@ -112,8 +112,8 @@ export const VoltInput = React.forwardRef<HTMLInputElement, VoltInputProps>(
 );
 VoltInput.displayName = "VoltInput";
 
-/* ── FluxTextarea ── */
-export interface FluxTextareaProps
+/* ── VoltTextarea ── */
+export interface VoltTextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   hint?: string;
@@ -121,7 +121,7 @@ export interface FluxTextareaProps
   variant?: "default" | "filled" | "boxed";
 }
 
-export const FluxTextarea = React.forwardRef<HTMLTextAreaElement, FluxTextareaProps>(
+export const VoltTextarea = React.forwardRef<HTMLTextAreaElement, VoltTextareaProps>(
   ({ className, variant = "default", label, hint, error, id, ...props }, ref) => {
     const textareaId = id || React.useId();
     const hasError = !!error;
@@ -178,10 +178,10 @@ export const FluxTextarea = React.forwardRef<HTMLTextAreaElement, FluxTextareaPr
     );
   }
 );
-FluxTextarea.displayName = "FluxTextarea";
+VoltTextarea.displayName = "VoltTextarea";
 
-/* ── FluxSelect ── */
-export interface FluxSelectProps
+/* ── VoltSelect ── */
+export interface VoltSelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   hint?: string;
@@ -189,7 +189,7 @@ export interface FluxSelectProps
   variant?: "default" | "filled" | "boxed";
 }
 
-export const FluxSelect = React.forwardRef<HTMLSelectElement, FluxSelectProps>(
+export const VoltSelect = React.forwardRef<HTMLSelectElement, VoltSelectProps>(
   ({ className, variant = "default", label, hint, error, id, children, ...props }, ref) => {
     const selectId = id || React.useId();
     const hasError = !!error;
@@ -243,4 +243,4 @@ export const FluxSelect = React.forwardRef<HTMLSelectElement, FluxSelectProps>(
     );
   }
 );
-FluxSelect.displayName = "FluxSelect";
+VoltSelect.displayName = "VoltSelect";

@@ -40,8 +40,8 @@ export const VOLT_PASTEL = [
 
 export const VOLT_CHART_COLORS = VOLT_PASTEL;
 
-export type FluxPalette = "standard" | "neon" | "pastel";
-export const getPalette = (p?: FluxPalette) =>
+export type VoltPalette = "standard" | "neon" | "pastel";
+export const getPalette = (p?: VoltPalette) =>
   p === "neon" ? VOLT_NEON : VOLT_PASTEL;
 
 const C = VOLT_PASTEL;
@@ -197,7 +197,7 @@ function injectChartStyles() {
 /* ══════════════════════════════════════════════════════════════════════
    1. AREA CHART
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxAreaChartProps {
+export interface VoltAreaChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey?: string;
@@ -210,7 +210,7 @@ export interface FluxAreaChartProps {
   delay?: number;
   live?: boolean;
 }
-export const FluxAreaChart: React.FC<FluxAreaChartProps> = ({
+export const VoltAreaChart: React.FC<VoltAreaChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle,
   stacked, gradient = true, className, delay = 0, live,
 }) => {
@@ -258,7 +258,7 @@ export const FluxAreaChart: React.FC<FluxAreaChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    2. BAR CHART
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxBarChartProps {
+export interface VoltBarChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey?: string;
@@ -267,7 +267,7 @@ export interface FluxBarChartProps {
   subtitle?: string;
   stacked?: boolean;
   horizontal?: boolean;
-  palette?: FluxPalette;
+  palette?: VoltPalette;
   className?: string;
   delay?: number;
 }
@@ -353,7 +353,7 @@ const HorizontalBarChart: React.FC<{
   );
 };
 
-export const FluxBarChart: React.FC<FluxBarChartProps> = ({
+export const VoltBarChart: React.FC<VoltBarChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle,
   stacked, horizontal, palette, className, delay = 0,
 }) => {
@@ -401,7 +401,7 @@ export const FluxBarChart: React.FC<FluxBarChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    3. LINE CHART – mit animiertem Pulse-Dot am letzten Datenpunkt
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxLineChartProps {
+export interface VoltLineChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey?: string;
@@ -427,7 +427,7 @@ const PulseDot = (props: any) => {
   );
 };
 
-export const FluxLineChart: React.FC<FluxLineChartProps> = ({
+export const VoltLineChart: React.FC<VoltLineChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle,
   curved = true, className, delay = 0, live,
 }) => {
@@ -472,7 +472,7 @@ export const FluxLineChart: React.FC<FluxLineChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    4. DONUT / PIE CHART – CountUp für innerValue
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxDonutChartProps {
+export interface VoltDonutChartProps {
   data: Array<{ name: string; value: number }>;
   height?: number;
   title?: string;
@@ -483,7 +483,7 @@ export interface FluxDonutChartProps {
   className?: string;
   delay?: number;
 }
-export const FluxDonutChart: React.FC<FluxDonutChartProps> = ({
+export const VoltDonutChart: React.FC<VoltDonutChartProps> = ({
   data, height = 280, title, subtitle, innerLabel, innerValue,
   donut = true, className, delay = 0,
 }) => {
@@ -532,7 +532,7 @@ export const FluxDonutChart: React.FC<FluxDonutChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    5. RADAR CHART
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxRadarChartProps {
+export interface VoltRadarChartProps {
   data: Array<Record<string, any>>;
   dataKeys: string[];
   angleKey?: string;
@@ -542,7 +542,7 @@ export interface FluxRadarChartProps {
   className?: string;
   delay?: number;
 }
-export const FluxRadarChart: React.FC<FluxRadarChartProps> = ({
+export const VoltRadarChart: React.FC<VoltRadarChartProps> = ({
   data, dataKeys, angleKey = "subject", height = 280, title, subtitle, className, delay = 0,
 }) => {
   injectChartStyles();
@@ -580,7 +580,7 @@ export const FluxRadarChart: React.FC<FluxRadarChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    6. SCATTER CHART
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxScatterChartProps {
+export interface VoltScatterChartProps {
   data: Array<{ x: number; y: number; z?: number }>;
   height?: number;
   title?: string;
@@ -590,7 +590,7 @@ export interface FluxScatterChartProps {
   className?: string;
   delay?: number;
 }
-export const FluxScatterChart: React.FC<FluxScatterChartProps> = ({
+export const VoltScatterChart: React.FC<VoltScatterChartProps> = ({
   data, height = 280, title, subtitle, xLabel = "X", yLabel = "Y", className, delay = 0,
 }) => {
   injectChartStyles();
@@ -624,7 +624,7 @@ export const FluxScatterChart: React.FC<FluxScatterChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    7. COMPOSED CHART (Bar + Line)
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxComposedChartProps {
+export interface VoltComposedChartProps {
   data: Record<string, unknown>[];
   barKeys: string[];
   lineKeys: string[];
@@ -635,7 +635,7 @@ export interface FluxComposedChartProps {
   className?: string;
   delay?: number;
 }
-export const FluxComposedChart: React.FC<FluxComposedChartProps> = ({
+export const VoltComposedChart: React.FC<VoltComposedChartProps> = ({
   data, barKeys, lineKeys, xKey = "name", height = 280, title, subtitle, className, delay = 0,
 }) => {
   injectChartStyles();
@@ -682,7 +682,7 @@ export const FluxComposedChart: React.FC<FluxComposedChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    8. RADIAL BAR CHART
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxRadialBarChartProps {
+export interface VoltRadialBarChartProps {
   data: Array<{ name: string; value: number; fill?: string }>;
   height?: number;
   title?: string;
@@ -690,7 +690,7 @@ export interface FluxRadialBarChartProps {
   className?: string;
   delay?: number;
 }
-export const FluxRadialBarChart: React.FC<FluxRadialBarChartProps> = ({
+export const VoltRadialBarChart: React.FC<VoltRadialBarChartProps> = ({
   data, height = 280, title, subtitle, className, delay = 0,
 }) => {
   injectChartStyles();
@@ -722,7 +722,7 @@ export const FluxRadialBarChart: React.FC<FluxRadialBarChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    9. FUNNEL CHART
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxFunnelChartProps {
+export interface VoltFunnelChartProps {
   data: Array<{ name: string; value: number }>;
   height?: number;
   title?: string;
@@ -730,7 +730,7 @@ export interface FluxFunnelChartProps {
   className?: string;
   delay?: number;
 }
-export const FluxFunnelChart: React.FC<FluxFunnelChartProps> = ({
+export const VoltFunnelChart: React.FC<VoltFunnelChartProps> = ({
   data, height = 280, title, subtitle, className, delay = 0,
 }) => {
   injectChartStyles();
@@ -760,7 +760,7 @@ export const FluxFunnelChart: React.FC<FluxFunnelChartProps> = ({
 /* ══════════════════════════════════════════════════════════════════════
    10. TREND / MULTI-LINE WITH REFERENCE
 ══════════════════════════════════════════════════════════════════════ */
-export interface FluxTrendChartProps {
+export interface VoltTrendChartProps {
   data: Record<string, unknown>[];
   dataKeys: string[];
   xKey?: string;
@@ -772,7 +772,7 @@ export interface FluxTrendChartProps {
   delay?: number;
   live?: boolean;
 }
-export const FluxTrendChart: React.FC<FluxTrendChartProps> = ({
+export const VoltTrendChart: React.FC<VoltTrendChartProps> = ({
   data, dataKeys, xKey = "name", height = 280, title, subtitle,
   showReferenceLine, className, delay = 0, live,
 }) => {
@@ -813,11 +813,11 @@ export const FluxTrendChart: React.FC<FluxTrendChartProps> = ({
 };
 
 /* ── 11. Stacked Area ── */
-export const FluxStackedAreaChart: React.FC<FluxAreaChartProps> = (props) => (
-  <FluxAreaChart {...props} stacked gradient />
+export const VoltStackedAreaChart: React.FC<VoltAreaChartProps> = (props) => (
+  <VoltAreaChart {...props} stacked gradient />
 );
 
 /* ── 12. Stacked Bar ── */
-export const FluxStackedBarChart: React.FC<FluxBarChartProps> = (props) => (
-  <FluxBarChart {...props} stacked palette={props.palette ?? "pastel"} />
+export const VoltStackedBarChart: React.FC<VoltBarChartProps> = (props) => (
+  <VoltBarChart {...props} stacked palette={props.palette ?? "pastel"} />
 );

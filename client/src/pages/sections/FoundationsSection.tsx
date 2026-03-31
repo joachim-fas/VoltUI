@@ -35,7 +35,7 @@ const typeScale = [
   { name: "UI Body",     size: "text-base", weight: "font-medium", family: "font-ui",      sample: "Portables Design System für jedes Projekt und jede Plattform", font: "DM Sans" },
   { name: "Body Serif",  size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Volt-Textur, Gradienten und Glasmorphismus.", font: "Lora" },
   { name: "Caption",     size: "text-xs",   weight: "font-medium", family: "font-ui",      sample: "Subtile Texturen als verbindendes Element", font: "DM Sans" },
-  { name: "Mono",        size: "text-sm",   weight: "font-normal", family: "font-mono",    sample: "const flux = oklch(0.95 0.18 120); // Lime", font: "JetBrains Mono" },
+  { name: "Mono",        size: "text-sm",   weight: "font-normal", family: "font-mono",    sample: "const volt = oklch(0.95 0.18 120); // Lime", font: "JetBrains Mono" },
 ];
 
 const patterns = [
@@ -97,7 +97,7 @@ const gradients = [
 ];
 
 const themes = [
-  { id: "flux",    label: "Volt Primary",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Die Primärpalette – klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
+  { id: "volt",    label: "Volt Primary",  desc: "Lime #E4FF97 + Schwarz #0A0A0A. Die Primärpalette – klar, kontrastreich, modern.", light: "#E4FF97", dark: "#0A0A0A" },
   { id: "rose",    label: "Volt Rose",     desc: "Rose #F9D0D0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#F9D0D0", dark: "#0A0A0A" },
   { id: "mint",    label: "Volt Mint",     desc: "Mint #C8F0E0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",          light: "#C8F0E0", dark: "#0A0A0A" },
   { id: "orchid",  label: "Volt Orchid",   desc: "Orchid #E8D0F0 + Schwarz #0A0A0A. Pastell-Erweiterung für Datenkodierung.",        light: "#E8D0F0", dark: "#0A0A0A" },

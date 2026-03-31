@@ -7,7 +7,7 @@ import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle, VoltCardDescr
 import { VoltTabs } from "@/components/volt/VoltTabs";
 import { VoltModal } from "@/components/volt/VoltModal";
 import { VoltToastContainer, useVoltToast } from "@/components/volt/VoltToast";
-import { FluxTooltip } from "@/components/volt/VoltToast";
+import { VoltTooltip } from "@/components/volt/VoltToast";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltInput } from "@/components/volt/VoltInput";
@@ -233,21 +233,21 @@ export const FeedbackSection: React.FC = () => {
         </VoltCardHeader>
         <VoltCardContent>
           <div className="flex flex-wrap gap-4 py-4 justify-center">
-            <FluxTooltip content="Oben angezeigt" side="top">
+            <VoltTooltip content="Oben angezeigt" side="top">
               <VoltButton variant="outline" size="sm">Oben</VoltButton>
-            </FluxTooltip>
-            <FluxTooltip content="Unten angezeigt" side="bottom">
+            </VoltTooltip>
+            <VoltTooltip content="Unten angezeigt" side="bottom">
               <VoltButton variant="outline" size="sm">Unten</VoltButton>
-            </FluxTooltip>
-            <FluxTooltip content="Links angezeigt" side="left">
+            </VoltTooltip>
+            <VoltTooltip content="Links angezeigt" side="left">
               <VoltButton variant="outline" size="sm">Links</VoltButton>
-            </FluxTooltip>
-            <FluxTooltip content="Rechts angezeigt" side="right">
+            </VoltTooltip>
+            <VoltTooltip content="Rechts angezeigt" side="right">
               <VoltButton variant="outline" size="sm">Rechts</VoltButton>
-            </FluxTooltip>
-            <FluxTooltip content={<span>Mit <strong>HTML</strong> Inhalt</span>} side="top">
+            </VoltTooltip>
+            <VoltTooltip content={<span>Mit <strong>HTML</strong> Inhalt</span>} side="top">
               <VoltButton variant="gradient" size="sm">Rich Tooltip</VoltButton>
-            </FluxTooltip>
+            </VoltTooltip>
           </div>
         </VoltCardContent>
       </VoltCard>
