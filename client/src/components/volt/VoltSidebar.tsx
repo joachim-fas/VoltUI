@@ -1,6 +1,6 @@
 /**
  * VoltSidebar – Volt UI
- * Hell: Weißer Hintergrund + schwarzer Text + Schwarz (#0A0A0A) für aktive Items
+ * Hell: Weißer Hintergrund + schwarzer Text + Neon Yellow (#E4FF97) für aktive Items
  * Dark: Dunkler Hintergrund + Neon Yellow (#E4FF97) für aktive Items
  * Auto-Scroll: aktives Item scrollt immer in den sichtbaren Bereich
  */
@@ -105,7 +105,7 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
           <div className="h-1 rounded-full overflow-hidden" style={{ background: trackBg }}>
             <div
               className="h-full rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${progress}%`, background: isDark ? "#E4FF97" : "#0A0A0A" }}
+              style={{ width: `${progress}%`, background: "#E4FF97" }}
             />
           </div>
         </div>
@@ -132,7 +132,7 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
                       onClick={() => onSelect?.(item.id)}
                       className="w-full flex items-start gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all duration-150 group"
                       style={isActive
-                        ? { background: isDark ? "#E4FF97" : "#0A0A0A", color: isDark ? "#0A0A0A" : "#FFFFFF" }
+                        ? { background: "#E4FF97", color: "#0A0A0A" }
                         : { color: textMuted }
                       }
                       onMouseEnter={e => {
@@ -149,7 +149,7 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
                       }}
                     >
                       {item.icon && (
-                        <span className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: isActive ? (isDark ? "#0A0A0A" : "#FFFFFF") : "inherit", opacity: isActive ? 1 : 0.6 }}>
+                        <span className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: isActive ? "#0A0A0A" : "inherit", opacity: isActive ? 1 : 0.6 }}>
                           {item.icon}
                         </span>
                       )}
@@ -163,7 +163,7 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
                         </div>
                         {item.description && (
                           <p className="text-[0.65rem] leading-tight mt-0.5 truncate"
-                            style={{ color: isActive ? (isDark ? "rgba(10,10,10,0.55)" : "rgba(255,255,255,0.60)") : descColor }}>
+                            style={{ color: isActive ? "rgba(10,10,10,0.55)" : descColor }}>
                             {item.description}
                           </p>
                         )}
@@ -198,7 +198,7 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
 
         <div className="pt-2" style={{ borderTop: `1px solid ${borderColor}50` }}>
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: isDark ? "#E4FF97" : "#0A0A0A" }} />
+            <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#E4FF97" }} />
             <span className="text-[0.55rem] font-mono" style={{ color: dotText }}>Volt UI · React 19 · Tailwind 4</span>
           </div>
         </div>

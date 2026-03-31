@@ -27,6 +27,7 @@ import ImageLanguageSection          from "./sections/ImageLanguageSection";
 import BubbleMapSection              from "./sections/BubbleMapSection";
 import NodeCanvasSection             from "./sections/NodeCanvasSection";
 import { ExportSection }              from "./sections/ExportSection";
+import SkeuomorphicIconsSection       from "./sections/SkeuomorphicIconsSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
@@ -56,6 +57,7 @@ const ALL_SECTIONS = [
   { id: "dashboard",   Component: DashboardSection },
   { id: "bubblemap",   Component: BubbleMapSection },
   { id: "nodecanvas",  Component: NodeCanvasSection },
+  { id: "skeuicons",   Component: SkeuomorphicIconsSection },
   { id: "export",      Component: ExportSection },
 ] as const;
 
@@ -95,6 +97,7 @@ const sidebarSections = [
       { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" /> },
       { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" /> },
       { id: "imagelang",   label: "Bildsprache",           description: "Visuelle Prinzipien & Moodboard",        icon: <Image className="w-4 h-4" /> },
+      { id: "skeuicons",   label: "Skeuomorphic Icons",    description: "9 Icons im 3D-Plastik-Grau-Stil",        icon: <Shapes className="w-4 h-4" /> },
     ],
   },
   {
