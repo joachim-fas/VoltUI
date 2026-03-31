@@ -150,18 +150,18 @@ export const NODE_COLORS: Record<NodeType, string> = {
  * gesättigte Varianten ersetzt, die auf weißem Hintergrund gut lesbar sind.
  */
 export const NODE_COLORS_LIGHT: Record<NodeType, string> = {
-  trigger:   "#1A1A1A",  // Primär → Schwarz (Markenfarbe)
-  text:      "#2563EB",  // Hellblau → kräftiges Blau
-  image:     "#C2410C",  // Pfirsich → gedecktes Orange
-  generator: "#059669",  // Mintgrün → gedecktes Smaragd
-  list:      "#7C3AED",  // Lavendel → gedecktes Violett
-  data:      "#DC2626",  // Rosa → klares Rot
-  decision:  "#D97706",  // Hellgelb → gedecktes Amber
-  api:       "#0891B2",  // Cyan → gedecktes Cyan
-  transform: "#DB2777",  // Hellrosa → gedecktes Pink
-  output:    "#1A1A1A",  // Primär → Schwarz (Markenfarbe)
-  webhook:   "#EA580C",  // Lachs → gedecktes Orange-Rot
-  note:      "#6B7280",  // Hellgrau → neutrales Grau
+  trigger:   "#1D4ED8",  // Trigger   → kräftiges Blau   (WCAG AA auf Weiß)
+  text:      "#1D4ED8",  // Text      → kräftiges Blau
+  image:     "#92400E",  // Image     → tiefes Amber-Braun
+  generator: "#065F46",  // Generator → tiefes Smaragd
+  list:      "#5B21B6",  // List      → tiefes Violett
+  data:      "#991B1B",  // Data      → tiefes Rot
+  decision:  "#78350F",  // Decision  → dunkles Amber-Braun
+  api:       "#164E63",  // API       → tiefes Teal
+  transform: "#831843",  // Transform → tiefes Pink
+  output:    "#1D4ED8",  // Output    → kräftiges Blau
+  webhook:   "#9A3412",  // Webhook   → tiefes Orange-Rot
+  note:      "#1F2937",  // Note      → fast Schwarz
 };
 
 export const NODE_ICONS: Record<NodeType, LucideIcon> = {
@@ -295,7 +295,7 @@ function NodeBody({ node, isDark }: { node: CanvasNode; isDark: boolean }) {
             display: "flex", alignItems: "center", justifyContent: "center",
             boxShadow: `0 0 14px ${typeColor}55`,
           }}>
-            <Play size={13} style={{ color: "#000", marginLeft: 2 }} />
+            <Play size={13} style={{ color: isDark ? "#000" : "#fff", marginLeft: 2 }} />
           </div>
           <span style={{ fontSize: 12, color: content ? textCol : mutedCol, fontFamily: '"DM Mono", monospace' }}>
             {content || (meta.event as string) || "on:start"}
@@ -811,7 +811,7 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
         <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }}>
           <defs>
             {edges.map(edge => {
-              const col = edge.color ?? (isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.45)");
+              const col = edge.color ?? (isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.65)");
               return (
                 <marker key={`arr-${edge.id}`} id={`arr-${edge.id}`}
                   markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
@@ -831,7 +831,7 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
             const from = portPos(fromNode, fp);
             const to   = portPos(toNode,   tp);
             const d = buildPath(from, to, fp, tp, edge.style ?? "bezier");
-            const edgeColor = edge.color ?? (isDark ? "rgba(255,255,255,0.30)" : "rgba(0,0,0,0.40)");
+            const edgeColor = edge.color ?? (isDark ? "rgba(255,255,255,0.30)" : "rgba(0,0,0,0.60)");
             const pulses = edge.pulseCount ?? (edge.animated ? 1 : 0);
 
             // Partikel-Positionen via linearer Interpolation
@@ -957,8 +957,9 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
                 </span>
                 <span style={{
                   fontSize: 9, fontFamily: '"DM Mono", monospace',
-                  color: isDark ? typeColor : darkenColor(typeColor),
-                  background: isDark ? `${typeColor}1A` : `${typeColor}33`,
+                  color: isDark ? typeColor : typeColor,
+                  background: isDark ? `${typeColor}1A` : `${typeColor}18`,
+                  border: isDark ? undefined : `1px solid ${typeColor}40`,
                   padding: "2px 7px", borderRadius: 5, letterSpacing: "0.05em", flexShrink: 0,
                 }}>
                   {node.type.toUpperCase()}

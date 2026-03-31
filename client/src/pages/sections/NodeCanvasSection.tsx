@@ -337,7 +337,7 @@ function ConfigPanel({ nodeType, isDark, onClose }: ConfigPanelProps) {
   const card  = isDark ? "#1E1E1E" : "#F8F8F8";
   const border= isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
   const text  = isDark ? "rgba(255,255,255,0.80)" : "rgba(0,0,0,0.78)";
-  const muted = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)";
+  const muted = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.55)";
   const inputBg = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)";
 
   return (
@@ -494,9 +494,8 @@ const NodeCanvasSection: React.FC = () => {
   const card  = isDark ? "#141414" : "#FFFFFF";
   const border= isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
   const text  = isDark ? "rgba(255,255,255,0.82)" : "rgba(0,0,0,0.78)";
-  const muted = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)";
-
-  /* Node-Typen-Galerie: alle 12 Typen als einzelne Mini-Canvas */
+  const muted = isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.55)";
+  /* singleNodeGallery: alle 12 Typen als einzelne Mini-Canvas */
   const galleryNodes = useMemo<CanvasNode[]>(() =>
     ALL_NODE_TYPES.map((type, i) => ({
       id: `gallery-${type}`,
