@@ -177,7 +177,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
               Konsistenz über alle Projekte hinweg.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Alle Projekte im Free-Agents-Ökosystem teilen dieselbe visuelle Sprache: Lime + Schwarz, Bricolage Grotesque, das &gt;_ Signet und die Volt-Textur.
+              Alle Projekte im Free-Agents-Ökosystem teilen dieselbe visuelle Sprache: Lime + Schwarz, Space Grotesk, das &gt;_ Signet und die Volt-Textur.
             </p>
           </div>
           {/* Wie */}

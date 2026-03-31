@@ -24,7 +24,7 @@ const BRAND_LAYERS = [
   },
   {
     layer: "Visuell",
-    desc: "Signet, Lime+Schwarz, Bricolage Grotesque, Volt-Textur, Pastell-Palette.",
+    desc: "Signet, Lime+Schwarz, Space Grotesk, Volt-Textur, Pastell-Palette.",
     token: "Design Tokens",
     color: "#D4E8FF",
   },
@@ -61,7 +61,7 @@ const PROJECTS = [
     textColor: "#0A0A0A",
     status: "aktiv",
     tagline: "Weniger Abstimmung. Mehr Ergebnis.",
-    tokens: ["Lime + Schwarz", "Bricolage Grotesque", ">_ Signet", "Volt-Textur"],
+    tokens: ["Lime + Schwarz", "Space Grotesk", ">_ Signet", "Volt-Textur"],
   },
   {
     id: "politik",

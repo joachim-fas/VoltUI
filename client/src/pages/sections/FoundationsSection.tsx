@@ -28,12 +28,12 @@ const semanticTokens = [
 ];
 
 const typeScale = [
-  { name: "Display XL",  size: "text-5xl",  weight: "font-black",  family: "font-display", sample: "Volt UI", font: "Bricolage Grotesque" },
-  { name: "Display L",   size: "text-4xl",  weight: "font-bold",   family: "font-display", sample: "Atmospheric", font: "Bricolage Grotesque" },
-  { name: "Display M",   size: "text-2xl",  weight: "font-bold",   family: "font-display", sample: "Design System", font: "Bricolage Grotesque" },
+  { name: "Display XL",  size: "text-5xl",  weight: "font-black",  family: "font-display", sample: "Volt UI", font: "Space Grotesk" },
+  { name: "Display L",   size: "text-4xl",  weight: "font-bold",   family: "font-display", sample: "Atmospheric", font: "Space Grotesk" },
+  { name: "Display M",   size: "text-2xl",  weight: "font-bold",   family: "font-display", sample: "Design System", font: "Space Grotesk" },
   { name: "UI Heading",  size: "text-xl",   weight: "font-semibold", family: "font-ui",    sample: "Component Library", font: "DM Sans" },
   { name: "UI Body",     size: "text-base", weight: "font-medium", family: "font-ui",      sample: "Portables Design System für jedes Projekt und jede Plattform", font: "DM Sans" },
-  { name: "Body Serif",  size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Volt-Textur, Gradienten und Glasmorphismus.", font: "Lora" },
+  { name: "UI Small",    size: "text-sm",   weight: "font-normal", family: "font-body",    sample: "Tiefe durch Schichtung von Volt-Textur, Gradienten und Glasmorphismus.", font: "DM Sans" },
   { name: "Caption",     size: "text-xs",   weight: "font-medium", family: "font-ui",      sample: "Subtile Texturen als verbindendes Element", font: "DM Sans" },
   { name: "Mono",        size: "text-sm",   weight: "font-normal", family: "font-mono",    sample: "const volt = oklch(0.95 0.18 120); // Lime", font: "JetBrains Mono" },
 ];
@@ -278,16 +278,15 @@ export const FoundationsSection: React.FC = () => {
         <VoltCardHeader>
           <VoltCardTitle>Typografie-System</VoltCardTitle>
           <p className="text-xs text-muted-foreground font-body mt-0.5">
-            Bricolage Grotesque (Display) · DM Sans (UI) · Lora (Body Serif) · JetBrains Mono (Code)
+            Space Grotesk (Display) · DM Sans (UI/Body) · JetBrains Mono (Code)
           </p>
         </VoltCardHeader>
         <VoltCardContent>
           {/* Font Specimens */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[
-              { name: "Bricolage Grotesque", role: "Display", sample: "Aa", cls: "font-display" },
-              { name: "DM Sans", role: "UI & Zahlen", sample: "Aa", cls: "font-ui" },
-              { name: "Lora", role: "Body Serif", sample: "Aa", cls: "font-body" },
+              { name: "Space Grotesk", role: "Display & Headlines", sample: "Aa", cls: "font-display" },
+              { name: "DM Sans", role: "UI, Body & Zahlen", sample: "Aa", cls: "font-ui" },
               { name: "JetBrains Mono", role: "Code & Mono", sample: "Aa", cls: "font-mono" },
             ].map((f) => (
               <div key={f.name} className="p-4 rounded-xl border border-border bg-muted/30">

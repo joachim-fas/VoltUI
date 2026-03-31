@@ -97,7 +97,7 @@ const SNIPPETS: Record<string, { steps: { title: string; code: string; lang: str
 .mein-element {
   background: var(--volt-lime);       /* #E4FF97 */
   color: var(--volt-black);           /* #0A0A0A */
-  font-family: var(--font-display);   /* Bricolage Grotesque */
+  font-family: var(--font-display);   /* Space Grotesk */
   border-radius: var(--radius-xl);    /* 1rem */
   padding: var(--spacing-6);          /* 1.5rem */
 }`,
@@ -153,9 +153,9 @@ export function App() {
   --color-volt-signal-negative: #E8402A;
   --color-volt-signal-neutral:  #6B7A9A;
 
-  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
   --font-ui:      "DM Sans", sans-serif;
-  --font-body:    "Lora", serif;
+  --font-body:    "DM Sans", sans-serif;
   --font-mono:    "JetBrains Mono", monospace;
 }`,
       },
@@ -179,9 +179,9 @@ Du arbeitest mit dem Volt UI Design System.
 - Akzent-Negativ: #E8402A
 
 ## Typografie
-- Display: Bricolage Grotesque (Bold/Black)
+- Display: Space Grotesk (Bold/Black)
 - UI: DM Sans (Regular/Medium)
-- Body: Lora (Regular)
+- Body: DM Sans (Regular)
 - Mono: JetBrains Mono
 
 ## Designprinzipien
@@ -204,7 +204,7 @@ Du arbeitest mit dem Volt UI Design System.
 
 Anforderungen:
 - Farben: Lime #E4FF97, Schwarz #0A0A0A, Weiß #FFFFFF
-- Typografie: font-display (Bricolage Grotesque) für Headlines,
+- Typografie: font-display (Space Grotesk) für Headlines,
   font-ui (DM Sans) für Body, font-mono für Labels
 - Abstände: Tailwind spacing (p-4, p-6, p-8, gap-3, gap-4)
 - Rahmen: border border-border, rounded-xl oder rounded-2xl
@@ -234,12 +234,12 @@ cp volt-ui.css ./public/volt-ui.css
         lang: "tsx",
         desc: "Füge die Volt-UI-Schriften in dein Next.js-Layout ein. Alle vier Schriftschnitte werden via Google Fonts geladen.",
         code: `// app/layout.tsx
-import { Bricolage_Grotesque, DM_Sans, Lora, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./volt-ui.css";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display" });
+const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display" });
 const ui      = DM_Sans({ subsets: ["latin"], variable: "--font-ui" });
-const body    = Lora({ subsets: ["latin"], variable: "--font-body" });
+const body    = DM_Sans({ subsets: ["latin"], variable: "--font-body" });
 const mono    = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export default function RootLayout({ children }) {
@@ -334,13 +334,13 @@ export default function Page() {
       "type": "font_picker",
       "id": "volt_font_display",
       "label": "Display-Schrift",
-      "default": "bricolage_grotesque_n7"
+      "default": "space_grotesk_n7"
     },
     {
       "type": "font_picker",
       "id": "volt_font_body",
       "label": "Fließtext-Schrift",
-      "default": "lora_n4"
+      "default": "dm_sans_n4"
     },
     { "type": "header", "content": "Abstände & Radien" },
     {
@@ -475,9 +475,9 @@ export default function Page() {
   --volt-butter:  #FFF5BA;
 
   /* ── Typografie ── */
-  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
   --font-ui:      'DM Sans', sans-serif;
-  --font-body:    'Lora', serif;
+  --font-body:    'DM Sans', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
   /* ── Schriftgrößen ── */
@@ -672,9 +672,9 @@ export const voltTokens = {
     },
   },
   fonts: {
-    display: "'Bricolage Grotesque', sans-serif",
+    display: "'Space Grotesk', sans-serif",
     ui:      "'DM Sans', sans-serif",
-    body:    "'Lora', serif",
+    body:    "'DM Sans', sans-serif",
     mono:    "'JetBrains Mono', monospace",
   },
   fontSizes: {
@@ -827,9 +827,9 @@ export type VoltSpacing = typeof voltTokens.spacing;`,
     }
   },
   "typography": {
-    "display":  { "value": "Bricolage Grotesque", "type": "fontFamily" },
+    "display":  { "value": "Space Grotesk", "type": "fontFamily" },
     "ui":       { "value": "DM Sans",             "type": "fontFamily" },
-    "body":     { "value": "Lora",                "type": "fontFamily" },
+    "body":     { "value": "DM Sans",             "type": "fontFamily" },
     "mono":     { "value": "JetBrains Mono",      "type": "fontFamily" }
   },
   "spacing": {
@@ -850,20 +850,13 @@ export type VoltSpacing = typeof voltTokens.spacing;`,
         lang: "text",
         desc: "Installiere alle vier Schriften aus Google Fonts in Figma (Figma → Ressourcen → Schriften).",
         code: `Benötigte Google Fonts:
-
-1. Bricolage Grotesque
+1. Space Grotesk
    → Stärken: Bold (700), ExtraBold (800), Black (900)
    → Verwendung: Headlines, Display-Text, Logos
-
 2. DM Sans
    → Stärken: Regular (400), Medium (500), SemiBold (600)
-   → Verwendung: UI-Text, Buttons, Labels
-
-3. Lora
-   → Stärken: Regular (400), Italic
-   → Verwendung: Fließtext, Zitate, Beschreibungen
-
-4. JetBrains Mono
+   → Verwendung: UI-Text, Body, Buttons, Labels
+3. JetBrains Mono
    → Stärken: Regular (400), Medium (500)
    → Verwendung: Code, Labels, Badges, Monospace-Akzente`,
       },
@@ -1027,9 +1020,9 @@ export const ExportSection: React.FC = () => {
             {
               title: "Typografie",
               items: [
-                { cls: "font-display",  val: "Bricolage Grotesque" },
+                { cls: "font-display",  val: "Space Grotesk" },
                 { cls: "font-ui",       val: "DM Sans" },
-                { cls: "font-body",     val: "Lora" },
+                { cls: "font-body",     val: "DM Sans" },
                 { cls: "font-mono",     val: "JetBrains Mono" },
               ],
             },
