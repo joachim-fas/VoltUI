@@ -93,15 +93,15 @@ const PATTERNS = [
     name: "Diagonale Streifen",
     description: "Schraffur-Muster – für Statusanzeigen und Warnbereiche",
     cssClass: "pattern-diagonal",
-    bg: "#FFF5BA",
-    code: `.pattern-diagonal {\n  background-color: #FFF5BA;\n  background-image: repeating-linear-gradient(\n    45deg,\n    transparent,\n    transparent 8px,\n    rgba(0,0,0,0.10) 8px,\n    rgba(0,0,0,0.10) 16px\n  );\n}`,
+    bg: "#FFFFFF",
+    code: `.pattern-diagonal {\n  background-image: repeating-linear-gradient(\n    45deg,\n    transparent,\n    transparent 14px,\n    #E8E8E8 14px,\n    #E8E8E8 15px\n  );\n}`,
     preview: (
       <div className="w-full h-full rounded-xl overflow-hidden" style={{
-        backgroundColor: "#FFF5BA",
-        backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(0,0,0,0.10) 8px, rgba(0,0,0,0.10) 16px)",
+        backgroundColor: "#FFFFFF",
+        backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 14px, #E8E8E8 14px, #E8E8E8 15px)",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-foreground/60 bg-white/60 px-2 py-1 rounded">diagonal · 45° · 16px</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">diagonal · 45° · 15px</span>
         </div>
       </div>
     ),
@@ -111,21 +111,21 @@ const PATTERNS = [
     name: "Circuit",
     description: "Schaltkreis-Muster – für Tech- und Terminal-Bereiche",
     cssClass: "pattern-circuit",
-    bg: "#0A0A0A",
-    code: `.pattern-circuit {\n  background-color: #0A0A0A;\n  background-image:\n    linear-gradient(rgba(228,255,151,0.08) 1px, transparent 1px),\n    linear-gradient(90deg, rgba(228,255,151,0.08) 1px, transparent 1px),\n    radial-gradient(circle, rgba(228,255,151,0.25) 1px, transparent 1px);\n  background-size: 40px 40px, 40px 40px, 40px 40px;\n  background-position: 0 0, 0 0, 20px 20px;\n}`,
+    bg: "#FFFFFF",
+    code: `.pattern-circuit {\n  background-image:\n    linear-gradient(#E8E8E8 1px, transparent 1px),\n    linear-gradient(90deg, #E8E8E8 1px, transparent 1px),\n    radial-gradient(circle, #C0C0C0 1.5px, transparent 1.5px);\n  background-size: 32px 32px, 32px 32px, 32px 32px;\n  background-position: 0 0, 0 0, 16px 16px;\n}`,
     preview: (
       <div className="w-full h-full rounded-xl overflow-hidden" style={{
-        backgroundColor: "#0A0A0A",
+        backgroundColor: "#FFFFFF",
         backgroundImage: [
-          "linear-gradient(rgba(228,255,151,0.08) 1px, transparent 1px)",
-          "linear-gradient(90deg, rgba(228,255,151,0.08) 1px, transparent 1px)",
-          "radial-gradient(circle, rgba(228,255,151,0.25) 1px, transparent 1px)",
+          "linear-gradient(#E8E8E8 1px, transparent 1px)",
+          "linear-gradient(90deg, #E8E8E8 1px, transparent 1px)",
+          "radial-gradient(circle, #C0C0C0 1.5px, transparent 1.5px)",
         ].join(", "),
-        backgroundSize: "40px 40px, 40px 40px, 40px 40px",
-        backgroundPosition: "0 0, 0 0, 20px 20px",
+        backgroundSize: "32px 32px, 32px 32px, 32px 32px",
+        backgroundPosition: "0 0, 0 0, 16px 16px",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-[#E4FF97]/70 bg-black/40 px-2 py-1 rounded">circuit · grid · nodes</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">circuit · grid · nodes</span>
         </div>
       </div>
     ),
@@ -135,21 +135,21 @@ const PATTERNS = [
     name: "Hexagon",
     description: "Hexagonales Muster – für strukturierte Flächen",
     cssClass: "pattern-hexagon",
-    bg: "#F0F4FF",
-    code: `.pattern-hexagon {\n  background-color: #F0F4FF;\n  background-image:\n    radial-gradient(circle at 0% 50%, transparent 20px, rgba(100,120,200,0.07) 21px, rgba(100,120,200,0.07) 22px, transparent 23px),\n    radial-gradient(circle at 100% 50%, transparent 20px, rgba(100,120,200,0.07) 21px, rgba(100,120,200,0.07) 22px, transparent 23px),\n    radial-gradient(circle at 50% 0%, transparent 20px, rgba(100,120,200,0.07) 21px, rgba(100,120,200,0.07) 22px, transparent 23px);\n  background-size: 40px 70px;\n}`,
+    bg: "#FFFFFF",
+    code: `.pattern-hexagon {\n  background-image:\n    radial-gradient(circle at 0% 50%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px),\n    radial-gradient(circle at 100% 50%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px),\n    radial-gradient(circle at 50% 0%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px),\n    radial-gradient(circle at 50% 100%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px);\n  background-size: 40px 70px;\n}`,
     preview: (
       <div className="w-full h-full rounded-xl overflow-hidden" style={{
-        backgroundColor: "#F0F4FF",
+        backgroundColor: "#FFFFFF",
         backgroundImage: [
-          "radial-gradient(circle at 0% 50%, transparent 20px, rgba(80,100,180,0.12) 21px, rgba(80,100,180,0.12) 22px, transparent 23px)",
-          "radial-gradient(circle at 100% 50%, transparent 20px, rgba(80,100,180,0.12) 21px, rgba(80,100,180,0.12) 22px, transparent 23px)",
-          "radial-gradient(circle at 50% 0%, transparent 20px, rgba(80,100,180,0.12) 21px, rgba(80,100,180,0.12) 22px, transparent 23px)",
-          "radial-gradient(circle at 50% 100%, transparent 20px, rgba(80,100,180,0.12) 21px, rgba(80,100,180,0.12) 22px, transparent 23px)",
+          "radial-gradient(circle at 0% 50%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px)",
+          "radial-gradient(circle at 100% 50%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px)",
+          "radial-gradient(circle at 50% 0%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px)",
+          "radial-gradient(circle at 50% 100%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px)",
         ].join(", "),
         backgroundSize: "40px 70px",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-foreground/60 bg-white/70 px-2 py-1 rounded">hexagon · 40×70px</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">hexagon · 40×70px</span>
         </div>
       </div>
     ),
