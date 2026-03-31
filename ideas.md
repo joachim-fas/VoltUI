@@ -1,4 +1,4 @@
-# Grain UI – Design-Ideen
+# Volt UI – Design-Ideen
 
 Inspiriert vom körnigen Gradienten-Bild: Tiefblau (#552AAF → #5782C7), Leuchtendes Rot (#F50B0C → #BE1946), Gebrochenes Weiß (#ECEDED).
 
