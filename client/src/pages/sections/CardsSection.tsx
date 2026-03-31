@@ -90,7 +90,7 @@ export const CardsSection: React.FC = () => {
                 </VoltCardDescription>
               </VoltCardHeader>
               <VoltCardFooter>
-                <VoltButton variant="glass" size="sm">Entdecken</VoltButton>
+                <VoltButton variant="outline" size="sm">Entdecken</VoltButton>
               </VoltCardFooter>
             </VoltCard>
           </div>
@@ -137,7 +137,7 @@ export const CardsSection: React.FC = () => {
           {/* Outlined */}
           <VoltCard variant="outlined">
             <VoltCardHeader>
-              <VoltBadge variant="outline" size="sm">Outlined</VoltBadge>
+                <VoltBadge variant="muted" size="sm">Outlined</VoltBadge>
               <VoltCardTitle>Outlined Card</VoltCardTitle>
               <VoltCardDescription>
                 Transparenter Hintergrund mit farbigem Rahmen. Für sekundäre Inhalte.
@@ -158,17 +158,10 @@ export const CardsSection: React.FC = () => {
               </VoltCardDescription>
             </VoltCardHeader>
             <VoltCardContent>
-              <VoltAvatarGroup
-                avatars={[
-                  { name: "Max S." },
-                  { name: "Lisa K." },
-                  { name: "Tom B." },
-                  { name: "Sara W." },
-                  { name: "Jan F." },
-                ]}
-                max={4}
-                size="sm"
-              />
+              <div className="flex items-center gap-2 text-xs text-muted-foreground font-body">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-muted-foreground/40" />
+                Sehr zurückhaltend, für sekundäre Flächen
+              </div>
             </VoltCardContent>
           </VoltCard>
         </div>

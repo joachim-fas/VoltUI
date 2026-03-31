@@ -30,9 +30,11 @@ import { ExportSection }              from "./sections/ExportSection";
 import SkeuomorphicIconsSection       from "./sections/SkeuomorphicIconsSection";
 import {
   Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
-  FormInput, MessageSquare, BarChart2, Navigation, Menu, X,
-  LayoutDashboard, Shapes, Palette as Palette2, GitMerge, Layers,
-  BookOpen, Terminal, Fingerprint, Network, Image, Bell, Download,
+  FormInput, MessageSquare, BarChart2, Menu, X,
+  LayoutDashboard, Layers, Workflow,
+  BookOpen, Network, Image, Bell, Download,
+  Wallpaper, Stamp, RectangleHorizontal, Grid2x2,
+  Eye, Box, Boxes, CircleDot, Terminal,
 } from "lucide-react";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
@@ -71,41 +73,41 @@ const sidebarSections = [
   {
     title: "Design System",
     items: [
-      { id: "foundations", label: "Foundations",          description: "Farben, Typo, Patterns, Tokens",        icon: <Palette className="w-4 h-4" /> },
-      { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette2 className="w-4 h-4" /> },
-      { id: "icons",       label: "Icon-Set",             description: "611+ Icons, kategorisiert",             icon: <Shapes className="w-4 h-4" /> },
-      { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Image className="w-4 h-4" /> },
-      { id: "signet",      label: "Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Fingerprint className="w-4 h-4" /> },
+      { id: "foundations", label: "Foundations",          description: "Farben, Typo, Patterns, Tokens",        icon: <Layers className="w-4 h-4" /> },
+      { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette className="w-4 h-4" /> },
+      { id: "icons",       label: "Icon-Set",             description: "611+ Icons, kategorisiert",             icon: <Grid2x2 className="w-4 h-4" /> },
+      { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Wallpaper className="w-4 h-4" /> },
+      { id: "signet",      label: "Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Stamp className="w-4 h-4" /> },
     ],
   },
   {
     title: "Komponenten",
     items: [
-      { id: "buttons",     label: "Buttons",              description: "Aktionen & Interaktionen",              icon: <MousePointer2 className="w-4 h-4" /> },
+      { id: "buttons",     label: "Buttons",              description: "Aktionen & Interaktionen",              icon: <RectangleHorizontal className="w-4 h-4" /> },
       { id: "cards",       label: "Cards & Surfaces",     description: "Inhaltsflächen & Container",            icon: <LayoutGrid className="w-4 h-4" /> },
       { id: "forms",       label: "Forms & Inputs",       description: "Eingabe & Validierung",                 icon: <FormInput className="w-4 h-4" /> },
       { id: "feedback",    label: "Feedback & Overlay",   description: "Toast, Modal, Tooltip, Tabs",           icon: <Bell className="w-4 h-4" /> },
       { id: "data",        label: "Data & Charts",        description: "12 Diagramm-Typen & Tabellen",          icon: <BarChart2 className="w-4 h-4" /> },
-      { id: "navigation",  label: "Navigation",           description: "Navbar, Breadcrumb, Tabs",              icon: <Navigation className="w-4 h-4" /> },
+      { id: "navigation",  label: "Navigation",           description: "Navbar, Breadcrumb, Tabs",              icon: <Menu className="w-4 h-4" /> },
     ],
   },
   {
     title: "Konzept & Marke",
     items: [
-      { id: "op",          label: "Operating Principle",  description: "Eingabe → Workflow → Ausgabe",          icon: <GitMerge className="w-4 h-4" /> },
-      { id: "brand",       label: "Brand Architecture",   description: "Volt UI & Tochterprojekte",             icon: <Layers className="w-4 h-4" /> },
+      { id: "op",          label: "Operating Principle",  description: "Eingabe → Workflow → Ausgabe",          icon: <Workflow className="w-4 h-4" /> },
+      { id: "brand",       label: "Brand Architecture",   description: "Volt UI & Tochterprojekte",             icon: <Boxes className="w-4 h-4" /> },
       { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" /> },
       { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" /> },
-      { id: "imagelang",   label: "Bildsprache",           description: "Visuelle Prinzipien & Moodboard",        icon: <Image className="w-4 h-4" /> },
-      { id: "skeuicons",   label: "Skeuomorphic Icons",    description: "18 Icons im 3D-Plastik-Grau-Stil",        icon: <Shapes className="w-4 h-4" /> },
+      { id: "imagelang",   label: "Bildsprache",           description: "Visuelle Prinzipien & Moodboard",        icon: <Eye className="w-4 h-4" /> },
+      { id: "skeuicons",   label: "Skeuomorphic Icons",    description: "18 Icons im 3D-Plastik-Grau-Stil",        icon: <Box className="w-4 h-4" /> },
     ],
   },
   {
     title: "Templates & Visualisierung",
     items: [
       { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" /> },
-      { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <Network className="w-4 h-4" /> },
-      { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <GitMerge className="w-4 h-4" /> },
+      { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <CircleDot className="w-4 h-4" /> },
+      { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <Network className="w-4 h-4" /> },
     ],
   },
   {
