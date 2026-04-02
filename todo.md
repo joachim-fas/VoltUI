@@ -169,3 +169,7 @@
 - [x] IconSetsSection.tsx – eigene Section nach Templates & Visualisierungen
 - [x] Sidebar: neuer Eintrag "Icon-Sets" nach Templates & Visualisierungen
 - [x] Home.tsx: IconSetsSection einbinden
+
+## v3.5.1 Icon-Set aus Design System verschieben
+- [x] Icon-Set-Eintrag aus Sidebar "Design System" entfernt
+- [x] Icon-Set-Eintrag in Sidebar-Kategorie "Icon-Sets" verschoben (vor Kategorie & Methoden)

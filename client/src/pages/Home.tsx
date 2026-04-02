@@ -81,7 +81,6 @@ const sidebarSections = [
     items: [
       { id: "foundations", label: "Foundations",          description: "Farben, Typo, Patterns, Tokens",        icon: <Layers className="w-4 h-4" /> },
       { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette className="w-4 h-4" /> },
-      { id: "icons",       label: "Icon-Set",             description: "611+ Icons, kategorisiert",             icon: <Grid2x2 className="w-4 h-4" /> },
       { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Wallpaper className="w-4 h-4" /> },
       { id: "signet",      label: "Signet",               description: "Markenzeichen & Anwendungsregeln",      icon: <Stamp className="w-4 h-4" /> },
     ],
@@ -120,7 +119,8 @@ const sidebarSections = [
   {
     title: "Icon-Sets",
     items: [
-      { id: "iconsets",    label: "Kategorie & Methoden", description: "13 Kategorie-Icons + 6 Methoden-Karten", icon: <Shapes className="w-4 h-4" /> },
+      { id: "icons",       label: "Icon-Set",             description: "611+ Icons, kategorisiert",             icon: <Grid2x2 className="w-4 h-4" /> },
+      { id: "iconsets",    label: "Kategorie & Methoden", description: "12 Kategorie-Icons + 6 Methoden-Karten", icon: <Shapes className="w-4 h-4" /> },
     ],
   },
   {
