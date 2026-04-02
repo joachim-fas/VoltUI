@@ -86,10 +86,10 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
   const dotColor    = isDark ? "rgba(255,255,255,0.25)" : "rgba(10,10,10,0.20)";
   const footerMono  = isDark ? "rgba(255,255,255,0.20)" : "#CCCCCC";
 
-  // Aktives Item: Schwarz auf Weiß (Light) / Weiß auf Schwarz (Dark)
-  const activeBg    = isDark ? "#FFFFFF" : "#0A0A0A";
-  const activeText  = isDark ? "#0A0A0A" : "#FFFFFF";
-  const activeDesc  = isDark ? "rgba(10,10,10,0.55)" : "rgba(255,255,255,0.55)";
+  // Aktives Item: Lime-Gelb (#E4FF97) auf Schwarz – original Volt UI Stil
+  const activeBg    = "#E4FF97";
+  const activeText  = "#0A0A0A";
+  const activeDesc  = "rgba(10,10,10,0.55)";
 
   /* ── Standard-Kategorie ── */
   function renderStandardSection(section: VoltSidebarSection, si: number) {
@@ -240,7 +240,7 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
       {/* ── Sticky Header: Logo + Fortschrittsbalken ── */}
       <div className="flex-shrink-0 sticky top-0 z-10" style={{ background: bg }}>
         {logo && (
-          <div className="px-5 pt-5 pb-4" style={{ borderBottom: `1px solid ${borderColor}` }}>
+          <div className="px-5 pt-5 pb-4" style={{ background: bg, borderBottom: `1px solid ${borderColor}` }}>
             {logo}
           </div>
         )}

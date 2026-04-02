@@ -51,3 +51,7 @@
 - [x] Sidebar: V2-Kategorie dezenter gestalten (kein Lime-Block)
 - [x] Theme Agent: Eigene Route /theme-agent mit eigenem Layout
 - [x] Sidebar: V2-Eintrag als Link zur Route (nicht Scroll)
+
+## v2.4.2 Sidebar-Korrekturen
+- [x] Logo-Bereich: Schwarzen Hintergrund entfernen (soll weiß sein wie Rest der Sidebar)
+- [x] Aktive Items: Lime-Gelb (#E4FF97) als Hintergrund wiederherstellen statt Schwarz

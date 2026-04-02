@@ -244,14 +244,14 @@ export default function Home() {
   const Logo = ({ showClose = false }: { showClose?: boolean }) => (
     <div className="flex items-center justify-between w-full">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-[#0A0A0A] flex items-center justify-center flex-shrink-0">
-          <Terminal className="w-4 h-4 text-[#E4FF97]" />
+        <div className="w-8 h-8 rounded-lg bg-[#E4FF97] flex items-center justify-center flex-shrink-0">
+          <Terminal className="w-4 h-4 text-[#0A0A0A]" />
         </div>
         <div>
-          <p className="font-display font-bold text-sm text-white leading-none tracking-tight">
-            volt<span className="text-white/30"> ui</span>
+          <p className="font-display font-bold text-sm text-foreground leading-none tracking-tight">
+            volt<span className="text-foreground/30"> ui</span>
           </p>
-          <p className="text-[0.6rem] font-mono text-white/40 leading-none tracking-widest uppercase mt-1">Design Concept</p>
+          <p className="text-[0.6rem] font-mono text-foreground/40 leading-none tracking-widest uppercase mt-1">Design Concept</p>
         </div>
       </div>
       {showClose && (
