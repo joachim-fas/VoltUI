@@ -975,8 +975,8 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
                 {isLightEdge && (
                   <path
                     d={d} fill="none"
-                    stroke="rgba(0,0,0,0.80)"
-                    strokeWidth={6}
+                    stroke="rgba(0,0,0,0.45)"
+                    strokeWidth={3}
                     strokeLinecap="round"
                     strokeDasharray={edge.animated ? "6 4" : undefined}
                     style={{
@@ -991,7 +991,7 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
                   stroke={isEdgeHovered
                     ? (isDark ? "rgba(255,100,100,0.75)" : "rgba(200,40,40,0.65)")
                     : edgeColor}
-                  strokeWidth={isEdgeHovered ? 2.5 : 2.5}
+                  strokeWidth={isEdgeHovered ? 2 : 1.5}
                   strokeLinecap="round"
                   markerEnd={`url(#arr-${edge.id})`}
                   strokeDasharray={edge.animated ? "6 4" : undefined}

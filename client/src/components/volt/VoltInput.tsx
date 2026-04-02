@@ -64,7 +64,7 @@ export const VoltInput = React.forwardRef<HTMLInputElement, VoltInputProps>(
         )}
         <div className="relative flex items-center">
           {leftElement && (
-            <div className="absolute left-0 flex items-center text-muted-foreground/60 z-10 pointer-events-none">
+            <div className="absolute left-3 flex items-center text-muted-foreground/60 z-10 pointer-events-none">
               {leftElement}
             </div>
           )}
@@ -77,15 +77,15 @@ export const VoltInput = React.forwardRef<HTMLInputElement, VoltInputProps>(
               sizeClass,
               variantClass,
               stateClass,
-              leftElement && (variant === "default" || variant === "glass" ? "pl-6" : "pl-10"),
-              rightElement && (variant === "default" || variant === "glass" ? "pr-6" : "pr-10"),
+              leftElement && (variant === "default" || variant === "glass" ? "pl-9" : "pl-10"),
+              rightElement && (variant === "default" || variant === "glass" ? "pr-9" : "pr-10"),
               "disabled:opacity-40 disabled:cursor-not-allowed",
               className
             )}
             {...props}
           />
           {rightElement && (
-            <div className="absolute right-0 flex items-center text-muted-foreground/60 z-10">
+            <div className="absolute right-3 flex items-center text-muted-foreground/60 z-10">
               {rightElement}
             </div>
           )}
