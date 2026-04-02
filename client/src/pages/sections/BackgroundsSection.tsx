@@ -9,7 +9,10 @@ import { motion } from "framer-motion";
 import { Copy, Check } from "lucide-react";
 
 /* ── Volt SVG als Data-URI ── */
-const VOLT_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`;
+const VOLT_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`;
+
+/* ── Hexagon SVG als Data-URI (echtes Sechseck-Raster) ── */
+const HEXAGON_SVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='90'%3E%3Cpath d='M26 1 L51 15 L51 45 L26 59 L1 45 L1 15 Z' fill='none' stroke='%23D8D8D8' stroke-width='1.2'/%3E%3Cpath d='M26 59 L51 73 L51 90' fill='none' stroke='%23D8D8D8' stroke-width='1.2'/%3E%3Cpath d='M26 59 L1 73 L1 90' fill='none' stroke='%23D8D8D8' stroke-width='1.2'/%3E%3C/svg%3E")`;
 
 /* ── Pattern-Definitionen ── */
 const PATTERNS = [
@@ -23,8 +26,8 @@ const PATTERNS = [
     preview: (
       <div className="relative w-full h-full rounded-xl overflow-hidden" style={{ background: "#F8F8F8" }}>
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
-          opacity: 0.12,
+          backgroundImage: VOLT_SVG,
+          opacity: 0.35,
         }} />
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="font-mono text-xs text-muted-foreground">volt · noise · texture</span>
@@ -136,20 +139,16 @@ const PATTERNS = [
     description: "Hexagonales Muster – für strukturierte Flächen",
     cssClass: "pattern-hexagon",
     bg: "#FFFFFF",
-    code: `.pattern-hexagon {\n  background-image:\n    radial-gradient(circle at 0% 50%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px),\n    radial-gradient(circle at 100% 50%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px),\n    radial-gradient(circle at 50% 0%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px),\n    radial-gradient(circle at 50% 100%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px);\n  background-size: 40px 70px;\n}`,
+    code: `.pattern-hexagon {\n  background-image: url("data:image/svg+xml,...");\n  background-size: 52px 90px;\n  background-repeat: repeat;\n}`,
     preview: (
       <div className="w-full h-full rounded-xl overflow-hidden" style={{
         backgroundColor: "#FFFFFF",
-        backgroundImage: [
-          "radial-gradient(circle at 0% 50%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px)",
-          "radial-gradient(circle at 100% 50%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px)",
-          "radial-gradient(circle at 50% 0%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px)",
-          "radial-gradient(circle at 50% 100%, transparent 19px, #E8E8E8 20px, #E8E8E8 21px, transparent 22px)",
-        ].join(", "),
-        backgroundSize: "40px 70px",
+        backgroundImage: HEXAGON_SVG,
+        backgroundSize: "52px 90px",
+        backgroundRepeat: "repeat",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">hexagon · 40×70px</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">hexagon · 52×90px</span>
         </div>
       </div>
     ),
