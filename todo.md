@@ -113,3 +113,11 @@
 - [x] Backend: htmlPreview wird in TransformedFile gecacht und direkt vom Preview-Endpoint geliefert
 - [x] Frontend: iframe zeigt LLM-generiertes HTML statt rohen JSX-Code
 - [x] Fallback: Hinweis wenn Vorschau noch nicht verfügbar
+
+## v3.0 Responsive-Breakpoint-Buttons in Vorschau
+- [x] Mobile (375px), Tablet (768px), Desktop (100%) Buttons in Preview-Toolbar
+- [x] iframe-Breite dynamisch anpassen je nach gewähltem Breakpoint
+- [x] Aktiver Breakpoint visuell hervorheben (bg-foreground text-background)
+- [x] Icons: Smartphone, Tablet, Monitor (lucide-react)
+- [x] Breakpoint-Breite in Browser-Bar anzeigen (bei Mobile/Tablet)
+- [x] iframe zentriert bei Mobile/Tablet mit Schatten und Border

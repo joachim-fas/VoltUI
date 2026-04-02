@@ -13,7 +13,7 @@ import {
   FileCode, CheckCircle2, AlertCircle, Loader2, Terminal,
   ArrowRight, Code2, Layers, Zap, Lock, Eye, EyeOff,
   KeyRound, Trash2, ShieldCheck, RefreshCw, ArrowLeft, ExternalLink,
-  Upload, FolderOpen, X
+  Upload, FolderOpen, X, Smartphone, Tablet, Monitor
 } from "lucide-react";
 
 // ─── Typen ───────────────────────────────────────────────────────────────────
@@ -295,36 +295,70 @@ function TokenManager() {
 
 // ─── Visual Preview ───────────────────────────────────────────────────────────
 
+type Breakpoint = "mobile" | "tablet" | "desktop";
+
+const BREAKPOINTS: { key: Breakpoint; label: string; width: string; icon: React.ReactNode }[] = [
+  { key: "mobile",  label: "375px",  width: "375px",  icon: <Smartphone className="w-3.5 h-3.5" /> },
+  { key: "tablet",  label: "768px",  width: "768px",  icon: <Tablet className="w-3.5 h-3.5" /> },
+  { key: "desktop", label: "100%",   width: "100%",   icon: <Monitor className="w-3.5 h-3.5" /> },
+];
+
 function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFile[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
+  const [breakpoint, setBreakpoint] = useState<Breakpoint>("desktop");
   const previewUrl = `/api/theme-transform/preview/${cacheKey}/${selectedIndex}`;
+
+  const activeBreakpoint = BREAKPOINTS.find(b => b.key === breakpoint)!;
 
   return (
     <div className={`border border-border rounded-xl overflow-hidden bg-card ${
-      fullscreen ? "fixed inset-4 z-50 shadow-2xl" : ""
+      fullscreen ? "fixed inset-4 z-50 shadow-2xl flex flex-col" : ""
     }`}>
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-secondary/40">
-        <div className="flex items-center gap-2 min-w-0 flex-1">
-          {/* Datei-Auswahl */}
-          <div className="flex items-center gap-1 overflow-x-auto">
-            {files.map((file, i) => (
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-secondary/40 flex-shrink-0">
+        {/* Datei-Auswahl */}
+        <div className="flex items-center gap-1 overflow-x-auto min-w-0 flex-1 mr-4">
+          {files.map((file, i) => (
+            <button
+              key={i}
+              onClick={() => setSelectedIndex(i)}
+              className={`flex-shrink-0 px-3 py-1 rounded text-xs font-mono transition-colors ${
+                selectedIndex === i
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              }`}
+            >
+              {file.path.split("/").pop()}
+            </button>
+          ))}
+        </div>
+
+        {/* Rechte Toolbar-Gruppe */}
+        <div className="flex items-center gap-3 flex-shrink-0">
+          {/* Breakpoint-Buttons */}
+          <div className="flex items-center gap-0.5 bg-background border border-border rounded-lg p-0.5">
+            {BREAKPOINTS.map(bp => (
               <button
-                key={i}
-                onClick={() => setSelectedIndex(i)}
-                className={`flex-shrink-0 px-3 py-1 rounded text-xs font-mono transition-colors ${
-                  selectedIndex === i
-                    ? "bg-foreground text-background"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                key={bp.key}
+                onClick={() => setBreakpoint(bp.key)}
+                title={`${bp.label} – ${bp.key.charAt(0).toUpperCase() + bp.key.slice(1)}`}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-all ${
+                  breakpoint === bp.key
+                    ? "bg-foreground text-background shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {file.path.split("/").pop()}
+                {bp.icon}
+                <span className="hidden sm:inline">{bp.label}</span>
               </button>
             ))}
           </div>
-        </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
+
+          {/* Separator */}
+          <div className="w-px h-4 bg-border" />
+
+          {/* In neuem Tab öffnen */}
           <a
             href={previewUrl}
             target="_blank"
@@ -334,20 +368,20 @@ function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFi
           >
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
+
+          {/* Vollbild */}
           <button
             onClick={() => setFullscreen(f => !f)}
             className="p-1.5 rounded hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
             title={fullscreen ? "Vollbild beenden" : "Vollbild"}
           >
-            {fullscreen
-              ? <X className="w-3.5 h-3.5" />
-              : <Eye className="w-3.5 h-3.5" />}
+            {fullscreen ? <X className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
           </button>
         </div>
       </div>
 
       {/* Browser-Bar */}
-      <div className="flex items-center gap-2 px-4 py-2 bg-secondary/20 border-b border-border">
+      <div className="flex items-center gap-2 px-4 py-2 bg-secondary/20 border-b border-border flex-shrink-0">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
           <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
@@ -356,22 +390,42 @@ function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFi
         <div className="flex-1 bg-background border border-border rounded px-3 py-0.5 text-xs font-mono text-muted-foreground truncate">
           {files[selectedIndex]?.path}
         </div>
+        {breakpoint !== "desktop" && (
+          <span className="text-xs font-mono text-muted-foreground/60 flex-shrink-0">
+            {activeBreakpoint.label}
+          </span>
+        )}
       </div>
 
-      {/* iframe */}
-      <iframe
-        key={`${cacheKey}-${selectedIndex}`}
-        src={previewUrl}
-        className={`w-full border-0 bg-white ${
-          fullscreen ? "h-[calc(100vh-120px)]" : "h-[520px]"
+      {/* iframe-Wrapper: zentriert den iframe bei Mobile/Tablet */}
+      <div
+        className={`overflow-auto bg-secondary/10 ${
+          fullscreen ? "flex-1" : "h-[520px]"
+        } flex ${
+          breakpoint === "desktop" ? "" : "justify-center py-4"
         }`}
-        title={`Volt UI Vorschau – ${files[selectedIndex]?.path}`}
-        sandbox="allow-scripts allow-same-origin"
-      />
+      >
+        <iframe
+          key={`${cacheKey}-${selectedIndex}-${breakpoint}`}
+          src={previewUrl}
+          style={{
+            width: activeBreakpoint.width,
+            minWidth: breakpoint === "desktop" ? "100%" : undefined,
+            height: fullscreen ? "100%" : "100%",
+            border: breakpoint !== "desktop" ? "1px solid var(--border)" : "none",
+            borderRadius: breakpoint !== "desktop" ? "8px" : "0",
+            boxShadow: breakpoint !== "desktop" ? "0 4px 24px rgba(0,0,0,0.10)" : "none",
+            background: "white",
+            flexShrink: 0,
+          }}
+          title={`Volt UI Vorschau – ${files[selectedIndex]?.path}`}
+          sandbox="allow-scripts allow-same-origin"
+        />
+      </div>
 
       {fullscreen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40"
+          className="fixed inset-0 bg-black/50"
           onClick={() => setFullscreen(false)}
           style={{ zIndex: 49 }}
         />
