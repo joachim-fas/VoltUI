@@ -114,7 +114,7 @@ const sidebarSections = [
   {
     title: "Icon-Sets",
     items: [
-      { id: "iconsets",    label: "Alle Icon-Sets",        description: "Lucide · Kategorie · Skeuomorphic",      icon: <Shapes className="w-4 h-4" /> },
+      { id: "iconsets",    label: "Icon-Sets",             description: "UI · Quellen & Methoden · Skeuomorphic",   icon: <Shapes className="w-4 h-4" /> },
     ],
   },
   {

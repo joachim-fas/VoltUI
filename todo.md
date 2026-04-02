@@ -180,3 +180,8 @@
 - [ ] Einheitlicher Karten-Stil über alle Icon-Typen hinweg
 - [ ] Home.tsx: icons + skeuicons aus ALL_SECTIONS entfernen
 - [ ] Sidebar: auf einen einzigen Icon-Sets-Eintrag reduzieren
+
+## v3.7 Methoden-Icons + Bezeichnung
+- [x] Methoden-Icons für alle 6 Analyse-Methoden-Karten ergänzen (eigene SVG-Icons)
+- [x] Tab-Bezeichnung von "Kategorie & Methoden" zu "Quellen & Methoden" ändern
+- [x] Sidebar-Label entsprechend anpassen

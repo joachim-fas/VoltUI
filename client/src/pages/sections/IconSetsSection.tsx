@@ -638,7 +638,7 @@ const CategoryMethodTab: React.FC = () => (
     {/* Kategorie-Icons */}
     <div>
       <div className="flex items-center gap-3 mb-5">
-        <h3 className="text-sm font-semibold text-foreground">Kategorie-Icons</h3>
+        <h3 className="text-sm font-semibold text-foreground">Datenquellen-Icons</h3>
         <span className="px-2 py-0.5 rounded-lg text-[10px] font-mono bg-muted text-muted-foreground border border-border">
           {CATEGORY_ICON_LIST.length} Icons
         </span>
@@ -791,9 +791,9 @@ const SkeuomorphicTab: React.FC = () => {
 type TabId = "lucide" | "category" | "skeuomorphic";
 
 const TABS: { id: TabId; label: string; count: string; description: string }[] = [
-  { id: "lucide",       label: "Lucide Icons",       count: "600+",  description: "Durchsuchbar, kategorisiert, copy-to-clipboard" },
-  { id: "category",     label: "Kategorie & Methoden", count: "18",  description: "12 Kategorie-Icons + 6 Analyse-Methoden" },
-  { id: "skeuomorphic", label: "Skeuomorphic",        count: "18",   description: "3D-Plastik-Grau-Stil, SVG-Gradienten" },
+  { id: "lucide",       label: "UI-Icons",            count: "600+",  description: "Lucide · durchsuchbar · copy-to-clipboard" },
+  { id: "category",     label: "Quellen & Methoden",  count: "18",   description: "12 Datenquellen-Icons + 6 Analyse-Methoden" },
+  { id: "skeuomorphic", label: "Skeuomorphic",        count: "18",   description: "3D-Plastik-Grau · SVG-Gradienten" },
 ];
 
 export default function IconSetsSection() {
