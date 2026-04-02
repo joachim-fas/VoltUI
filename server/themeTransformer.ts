@@ -34,6 +34,7 @@ export interface TransformedFile {
   originalContent: string;
   transformedContent: string;
   changes: string[];
+  htmlPreview?: string; // Vollständiges HTML für iframe-Vorschau (vom LLM generiert)
 }
 
 // ─── Volt UI Komponenten-Mapping ─────────────────────────────────────────────
@@ -272,11 +273,58 @@ Antworte nur mit dem vollständigen transformierten Code.`;
 
     log.push(`✓ Transformiert: ${file.path} (${changes.length} Änderungen)`);
 
+    // HTML-Preview generieren: LLM konvertiert JSX zu vollständigem HTML
+    let htmlPreview: string | undefined;
+    try {
+      const previewResponse = await invokeLLM({
+        messages: [
+          {
+            role: "system",
+            content: `Du bist ein Experte für die Konvertierung von React/JSX zu statischem HTML.
+Konvertiere den gegebenen React/JSX-Code in vollständiges, eigenständiges HTML das direkt im Browser gerendert werden kann.
+
+Volt UI CSS-Variablen und Klassen:
+- Farben: --volt-lime: #E4FF97, --volt-black: #0A0A0A, --volt-white: #FFFFFF
+- Klassen: .volt-btn, .volt-btn-primary, .volt-card, .volt-input, .volt-nav, .volt-badge
+- Fonts: Space Grotesk (Display), DM Sans (Body), JetBrains Mono (Code)
+
+Regeln:
+1. Gib NUR vollständiges HTML zurück (<!DOCTYPE html> bis </html>)
+2. Ersetze JSX-Ausdrücke {variable} durch sinnvolle Platzhalter-Werte
+3. Ersetze className= durch class=
+4. Entferne alle React-Hooks, State, Event-Handler (nur statisches HTML)
+5. Binde Google Fonts ein: Space Grotesk, DM Sans, JetBrains Mono
+6. Verwende die Volt UI CSS-Variablen für Farben und Styling
+7. Das Ergebnis soll wie eine fertige Volt UI Seite aussehen
+8. Keine Erklärungen, nur HTML`,
+          },
+          {
+            role: "user",
+            content: `Konvertiere diesen transformierten Volt UI Code zu statischem HTML für die Vorschau:
+
+${transformed.slice(0, 5000)}
+
+Gib vollständiges HTML zurück das direkt im Browser gerendert werden kann.`,
+          },
+        ],
+      });
+      const rawHtml = previewResponse.choices?.[0]?.message?.content;
+      if (typeof rawHtml === "string" && rawHtml.includes("<!DOCTYPE")) {
+        htmlPreview = rawHtml;
+      } else if (typeof rawHtml === "string") {
+        // Falls kein vollständiges HTML, in Template einbetten
+        htmlPreview = `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Volt UI Vorschau</title><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>:root{--volt-lime:#E4FF97;--volt-black:#0A0A0A;--volt-white:#FFFFFF;--volt-background:#FFFFFF;--volt-foreground:#0A0A0A;--volt-muted:#F5F5F5;--volt-muted-fg:#6B6B6B;--volt-border:#E5E5E5;--volt-radius:8px;--volt-font-display:'Space Grotesk',sans-serif;--volt-font-body:'DM Sans',sans-serif;--volt-font-mono:'JetBrains Mono',monospace;}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}body{font-family:var(--volt-font-body);background:var(--volt-background);color:var(--volt-foreground);line-height:1.5;padding:24px;}.volt-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--volt-radius);font-family:var(--volt-font-body);font-weight:500;font-size:14px;cursor:pointer;border:none;transition:all 0.15s ease;}.volt-btn-primary{background:var(--volt-black);color:var(--volt-lime);}.volt-btn-secondary{background:var(--volt-muted);color:var(--volt-foreground);}.volt-input{width:100%;padding:10px 14px;border:1.5px solid var(--volt-border);border-radius:var(--volt-radius);font-family:var(--volt-font-body);font-size:14px;background:var(--volt-background);color:var(--volt-foreground);}.volt-card{background:var(--volt-background);border:1.5px solid var(--volt-border);border-radius:calc(var(--volt-radius)*1.5);padding:24px;}.volt-nav{display:flex;align-items:center;gap:8px;padding:12px 24px;background:var(--volt-black);}.volt-nav a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;}.volt-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:500;}.volt-badge-primary{background:var(--volt-black);color:var(--volt-lime);}.flex{display:flex;}.flex-col{flex-direction:column;}.items-center{align-items:center;}.justify-between{justify-content:space-between;}.gap-2{gap:8px;}.gap-4{gap:16px;}.p-4{padding:16px;}.p-6{padding:24px;}.mb-4{margin-bottom:16px;}.w-full{width:100%;}.text-sm{font-size:14px;}.text-lg{font-size:18px;}.font-bold{font-weight:700;}.font-semibold{font-weight:600;}.rounded-lg{border-radius:8px;}.bg-white{background:#fff;}.border{border:1px solid #E5E5E5;}.grid{display:grid;}.grid-cols-2{grid-template-columns:repeat(2,1fr);}.grid-cols-3{grid-template-columns:repeat(3,1fr);}.space-y-4>*+*{margin-top:16px;}.max-w-5xl{max-width:1024px;}.mx-auto{margin-left:auto;margin-right:auto;}.container{max-width:1200px;margin:0 auto;padding:0 24px;}</style></head><body>${rawHtml}</body></html>`;
+      }
+    } catch (previewErr: any) {
+      log.push(`⚠ HTML-Vorschau für ${file.path} fehlgeschlagen: ${previewErr.message}`);
+    }
+
     return {
       path: file.path,
       originalContent: file.content,
       transformedContent: transformed,
       changes,
+      htmlPreview,
     };
   } catch (err: any) {
     log.push(`✗ Fehler bei ${file.path}: ${err.message}`);

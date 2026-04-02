@@ -107,3 +107,9 @@
 - [x] Frontend: 3-Tab-Umschalter: Visuelle Vorschau / Code-Diff / Analyse-Log
 - [x] Frontend: Vollbild-Preview-Modus
 - [x] Frontend: "In neuem Tab öffnen" Button
+
+## v2.9 Visuelle Vorschau grundlegend überarbeiten
+- [x] Backend: LLM konvertiert JSX zu vollständigem HTML für Preview (parallel zur Code-Transformation)
+- [x] Backend: htmlPreview wird in TransformedFile gecacht und direkt vom Preview-Endpoint geliefert
+- [x] Frontend: iframe zeigt LLM-generiertes HTML statt rohen JSX-Code
+- [x] Fallback: Hinweis wenn Vorschau noch nicht verfügbar
