@@ -307,9 +307,14 @@ function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFi
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
   const [breakpoint, setBreakpoint] = useState<Breakpoint>("desktop");
+  const [iframeLoading, setIframeLoading] = useState(true);
   const previewUrl = `/api/theme-transform/preview/${cacheKey}/${selectedIndex}`;
 
   const activeBreakpoint = BREAKPOINTS.find(b => b.key === breakpoint)!;
+
+  // Ladezustand zurücksetzen wenn Datei oder Breakpoint wechselt
+  const handleIframeLoad = () => setIframeLoading(false);
+  const resetLoading = () => setIframeLoading(true);
 
   return (
     <div className={`border border-border rounded-xl overflow-hidden bg-card ${
@@ -322,7 +327,7 @@ function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFi
           {files.map((file, i) => (
             <button
               key={i}
-              onClick={() => setSelectedIndex(i)}
+              onClick={() => { setSelectedIndex(i); resetLoading(); }}
               className={`flex-shrink-0 px-3 py-1 rounded text-xs font-mono transition-colors ${
                 selectedIndex === i
                   ? "bg-foreground text-background"
@@ -341,7 +346,7 @@ function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFi
             {BREAKPOINTS.map(bp => (
               <button
                 key={bp.key}
-                onClick={() => setBreakpoint(bp.key)}
+                onClick={() => { setBreakpoint(bp.key); resetLoading(); }}
                 title={`${bp.label} – ${bp.key.charAt(0).toUpperCase() + bp.key.slice(1)}`}
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-all ${
                   breakpoint === bp.key
@@ -397,17 +402,53 @@ function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFi
         )}
       </div>
 
-      {/* iframe-Wrapper: zentriert den iframe bei Mobile/Tablet */}
+      {/* iframe-Wrapper: zentriert den iframe bei Mobile/Tablet, zeigt Skeleton beim Laden */}
       <div
-        className={`overflow-auto bg-secondary/10 ${
+        className={`relative overflow-auto bg-secondary/10 ${
           fullscreen ? "flex-1" : "h-[520px]"
         } flex ${
           breakpoint === "desktop" ? "" : "justify-center py-4"
         }`}
       >
+        {/* Skeleton-Overlay während iframe lädt */}
+        {iframeLoading && (
+          <div
+            className={`absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-secondary/30 backdrop-blur-[2px] ${
+              breakpoint !== "desktop" ? "rounded-lg" : ""
+            }`}
+            style={{
+              left: breakpoint !== "desktop" ? "50%" : 0,
+              transform: breakpoint !== "desktop" ? `translateX(-50%)` : undefined,
+              width: breakpoint !== "desktop" ? activeBreakpoint.width : "100%",
+              top: breakpoint !== "desktop" ? "16px" : 0,
+              bottom: breakpoint !== "desktop" ? "16px" : 0,
+            }}
+          >
+            {/* Animierter Spinner im Volt UI Stil */}
+            <div className="relative w-12 h-12">
+              <div className="absolute inset-0 rounded-full border-2 border-border" />
+              <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-foreground animate-spin" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-foreground" />
+              </div>
+            </div>
+            {/* Skeleton-Zeilen */}
+            <div className="flex flex-col gap-2 w-48">
+              <div className="h-2.5 bg-border rounded-full animate-pulse w-full" />
+              <div className="h-2.5 bg-border rounded-full animate-pulse w-4/5" />
+              <div className="h-2.5 bg-border rounded-full animate-pulse w-3/5" />
+            </div>
+            <p className="text-xs font-mono text-muted-foreground/60 tracking-widest uppercase">
+              Vorschau lädt…
+            </p>
+          </div>
+        )}
+
+        {/* iframe */}
         <iframe
           key={`${cacheKey}-${selectedIndex}-${breakpoint}`}
           src={previewUrl}
+          onLoad={handleIframeLoad}
           style={{
             width: activeBreakpoint.width,
             minWidth: breakpoint === "desktop" ? "100%" : undefined,
@@ -417,6 +458,8 @@ function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFi
             boxShadow: breakpoint !== "desktop" ? "0 4px 24px rgba(0,0,0,0.10)" : "none",
             background: "white",
             flexShrink: 0,
+            opacity: iframeLoading ? 0 : 1,
+            transition: "opacity 0.3s ease",
           }}
           title={`Volt UI Vorschau – ${files[selectedIndex]?.path}`}
           sandbox="allow-scripts allow-same-origin"

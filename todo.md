@@ -121,3 +121,11 @@
 - [x] Icons: Smartphone, Tablet, Monitor (lucide-react)
 - [x] Breakpoint-Breite in Browser-Bar anzeigen (bei Mobile/Tablet)
 - [x] iframe zentriert bei Mobile/Tablet mit Schatten und Border
+
+## v3.1 Ladeindikator für iframe-Vorschau
+- [x] onLoad-Event am iframe abfangen um Ladezustand zu erkennen
+- [x] Skeleton-Overlay über dem iframe während des Ladens (backdrop-blur)
+- [x] Spinner im Volt UI Stil (rotierende Border + Dot in der Mitte)
+- [x] Skeleton-Zeilen (3 animierte Pulse-Balken)
+- [x] Smooth Fade-in wenn iframe geladen ist (opacity 0 → 1, 0.3s ease)
+- [x] Ladezustand zurücksetzen bei Datei- und Breakpoint-Wechsel
