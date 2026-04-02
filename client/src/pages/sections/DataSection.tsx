@@ -482,7 +482,6 @@ export const DataSection: React.FC = () => {
           number="Tabellen"
           title="Strukturierte Daten"
           description="Tabellen sind ideal wenn genaue Werte wichtig sind und Nutzer filtern, sortieren oder einzelne Zeilen vergleichen müssen. Charts zeigen Muster, Tabellen zeigen Fakten."
-          badge={`${tableData.length} Einträge`}
           insight="Faustregel: Chart für Trends, Tabelle für exakte Werte"
         />
         <VoltTable<TableRow>

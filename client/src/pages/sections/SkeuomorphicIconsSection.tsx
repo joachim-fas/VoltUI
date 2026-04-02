@@ -219,12 +219,12 @@ export default function SkeuomorphicIconsSection() {
     <section className="space-y-10">
       {/* ── Header ── */}
       <div>
-        <p className="section-label mb-2">19 — Skeuomorphic Icons</p>
+        <p className="section-label mb-2">Skeuomorphic Icons</p>
         <h2 className="font-display font-bold text-3xl tracking-tight mb-3">
           Skeuomorphisches Icon-Set
         </h2>
         <p className="text-muted-foreground font-ui text-base max-w-2xl">
-          18 Icons im 3D-Plastik-Grau-Stil der klassischen macOS-Ära. Vollständig als SVG via Code –
+          Icons im 3D-Plastik-Grau-Stil der klassischen macOS-Ära. Vollständig als SVG via Code –
           keine Bilddateien, maximale Skalierbarkeit. Jedes Icon nutzt SVG-Gradienten, Filter und
           Pfade um Tiefe, Glanzlichter und Materialität zu simulieren.
         </p>

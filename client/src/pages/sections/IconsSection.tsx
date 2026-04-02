@@ -354,8 +354,7 @@ export const IconsSection: React.FC = () => {
           Icon-Set
         </h2>
         <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl mb-4">
-          <strong className="text-foreground">{totalCount}+ Icons</strong> aus Lucide React, kategorisiert und
-          durchsuchbar. Alle Icons sind als React-Komponenten verfügbar, skalierbar und farbkodiert.
+          Icons aus Lucide React, kategorisiert und durchsuchbar. Alle Icons sind als React-Komponenten verfügbar, skalierbar und farbkodiert.
           Klicke auf ein Icon um den Import-Code zu kopieren.
         </p>
         <div className="flex flex-wrap gap-2">

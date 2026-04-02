@@ -92,7 +92,7 @@ const sidebarSections = [
       { id: "cards",       label: "Cards & Surfaces",     description: "Inhaltsflächen & Container",            icon: <LayoutGrid className="w-4 h-4" /> },
       { id: "forms",       label: "Forms & Inputs",       description: "Eingabe & Validierung",                 icon: <FormInput className="w-4 h-4" /> },
       { id: "feedback",    label: "Feedback & Overlay",   description: "Toast, Modal, Tooltip, Tabs",           icon: <Bell className="w-4 h-4" /> },
-      { id: "data",        label: "Data & Charts",        description: "12 Diagramm-Typen & Tabellen",          icon: <BarChart2 className="w-4 h-4" /> },
+      { id: "data",        label: "Data & Charts",        description: "Diagramm-Typen & Tabellen",          icon: <BarChart2 className="w-4 h-4" /> },
       { id: "navigation",  label: "Navigation",           description: "Navbar, Breadcrumb, Tabs",              icon: <Menu className="w-4 h-4" /> },
     ],
   },
@@ -118,9 +118,9 @@ const sidebarSections = [
   {
     title: "Icon-Sets",
     items: [
-      { id: "uiicons",         label: "UI-Icons",           description: "600+ Lucide-Icons, kategorisiert & durchsuchbar",  icon: <Shapes className="w-4 h-4" /> },
-      { id: "quellenmethoden", label: "Quellen & Methoden", description: "12 Datenquellen · 6 Analyse-Frameworks",           icon: <Layers3 className="w-4 h-4" /> },
-      { id: "skeuomorphic",    label: "Skeuomorphic",       description: "18 handgefertigte 3D-Icons",                       icon: <Box className="w-4 h-4" /> },
+      { id: "uiicons",         label: "UI-Icons",           description: "Lucide-Icons, kategorisiert & durchsuchbar",  icon: <Shapes className="w-4 h-4" /> },
+      { id: "quellenmethoden", label: "Quellen & Methoden", description: "Datenquellen & Analyse-Frameworks",           icon: <Layers3 className="w-4 h-4" /> },
+      { id: "skeuomorphic",    label: "Skeuomorphic",       description: "Handgefertigte 3D-Icons",                       icon: <Box className="w-4 h-4" /> },
     ],
   },
   {

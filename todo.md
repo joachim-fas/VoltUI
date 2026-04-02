@@ -197,3 +197,6 @@
 
 ## v3.11 Icon-Zähler entfernen
 - [x] Alle Icon-Anzahl-Badges aus UIIconsSection, QuellenMethodenSection und Sidebar entfernen
+
+## v3.12 Alle quantifizierten Aufzählungen entfernen
+- [x] Alle Zahlen-Badges, Zähler, "X Icons", "X Komponenten" etc. aus dem gesamten Projekt entfernen

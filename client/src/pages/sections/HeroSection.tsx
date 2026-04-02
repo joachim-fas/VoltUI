@@ -19,18 +19,18 @@ const features = [
   { icon: <Code2 className="w-4 h-4" />,      title: "Reiner Code",           desc: "Kein Bild-Asset, alles CSS",      lightBg: "#0A0A0A", darkBg: "#E4FF97", fg: "#FFFFFF", darkFg: "#0A0A0A" },
   { icon: <Zap className="w-4 h-4" />,        title: "Framer Motion",         desc: "Flüssige Übergänge",              lightBg: "#1A9E5A", darkBg: "#1A9E5A", fg: "#FFFFFF" },
   { icon: <Layers className="w-4 h-4" />,     title: "Design Tokens",         desc: "CSS-Variablen, portabel",         lightBg: "#F4F4F4", darkBg: "#2A2A2A", fg: "#0A0A0A", darkFg: "#E4FF97" },
-  { icon: <BarChart2 className="w-4 h-4" />,  title: "12 Graphen-Typen",      desc: "Recharts mit Volt-Styling",       lightBg: "#E4FF97", darkBg: "#E4FF97", fg: "#0A0A0A" },
-  { icon: <Package className="w-4 h-4" />,    title: "18 Komponenten",        desc: "Vollständige Bibliothek",         lightBg: "#0A0A0A", darkBg: "#E4FF97", fg: "#FFFFFF", darkFg: "#0A0A0A" },
+  { icon: <BarChart2 className="w-4 h-4" />,  title: "Graphen-Typen",         desc: "Recharts mit Volt-Styling",       lightBg: "#E4FF97", darkBg: "#E4FF97", fg: "#0A0A0A" },
+  { icon: <Package className="w-4 h-4" />,    title: "Komponenten",           desc: "Vollständige Bibliothek",         lightBg: "#0A0A0A", darkBg: "#E4FF97", fg: "#FFFFFF", darkFg: "#0A0A0A" },
   { icon: <Cpu className="w-4 h-4" />,        title: "React 19",              desc: "Modernste React-Version",         lightBg: "#6B7A9A", darkBg: "#6B7A9A", fg: "#FFFFFF" },
   { icon: <Workflow className="w-4 h-4" />,   title: "Operating Principle",   desc: "Eingabe → Workflow → Ausgabe",    lightBg: "#D4E8FF", darkBg: "#1A2A3A", fg: "#0A0A0A", darkFg: "#D4E8FF" },
   { icon: <Fingerprint className="w-4 h-4" />,title: "TypeScript",            desc: "Vollständig typisiert",           lightBg: "#F4F4F4", darkBg: "#2A2A2A", fg: "#0A0A0A", darkFg: "#F5F5F5" },
 ];
 
 const stats = [
-  { value: "18",  label: "Komponenten",   suffix: "" },
-  { value: "12",  label: "Graphen-Typen", suffix: "" },
-  { value: "48",  label: "CSS-Variablen", suffix: "+" },
-  { value: "4",   label: "Schriftschnitte", suffix: "" },
+  { value: "",  label: "Komponenten",   suffix: "" },
+  { value: "",  label: "Graphen-Typen", suffix: "" },
+  { value: "",  label: "CSS-Variablen", suffix: "" },
+  { value: "",  label: "Schriftschnitte", suffix: "" },
 ];
 
 const codeSnippet = `import { VoltButton } from "volt-ui";
@@ -110,22 +110,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
           </motion.div>
         </motion.div>
 
-        {/* Stats-Leiste unten */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-8"
-        >
-          {stats.map((s, i) => (
-            <div key={i} className="text-center">
-              <p className="font-display font-black text-2xl text-[#0A0A0A] leading-none">
-                {s.value}{s.suffix}
-              </p>
-              <p className="text-[0.65rem] font-mono text-[#0A0A0A]/50 mt-0.5 uppercase tracking-wider">{s.label}</p>
-            </div>
-          ))}
-        </motion.div>
+
       </div>
 
       {/* ── Intro-Panel: Was ist Volt UI? ── */}
