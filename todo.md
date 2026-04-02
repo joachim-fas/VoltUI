@@ -173,3 +173,10 @@
 ## v3.5.1 Icon-Set aus Design System verschieben
 - [x] Icon-Set-Eintrag aus Sidebar "Design System" entfernt
 - [x] Icon-Set-Eintrag in Sidebar-Kategorie "Icon-Sets" verschoben (vor Kategorie & Methoden)
+
+## v3.6 Icon-Sets Bereich komplett überarbeiten
+- [ ] Neue vereinte IconSetsSection: 3 Tabs (Lucide-Icons / Kategorie & Methoden / Skeuomorphic) mit einheitlichem Karten-Stil
+- [ ] Neue SVG-Icons für alle 13 Kategorien (News & Medien, Daten & Statistik, Wissenschaft & Forschung, Geopolitik & Konflikte, Finanzen & Märkte, Umfragen & Meinungsforschung, Prediction Markets, Innovation & Patente, Social & Community, Klima & Umwelt, Gesundheit & Bevölkerung, Foresight & Szenarien)
+- [ ] Einheitlicher Karten-Stil über alle Icon-Typen hinweg
+- [ ] Home.tsx: icons + skeuicons aus ALL_SECTIONS entfernen
+- [ ] Sidebar: auf einen einzigen Icon-Sets-Eintrag reduzieren

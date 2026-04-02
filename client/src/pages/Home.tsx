@@ -16,7 +16,6 @@ import { FeedbackSection }           from "./sections/FeedbackSection";
 import { DataSection }               from "./sections/DataSection";
 import { NavigationSection }         from "./sections/NavigationSection";
 import { DashboardSection }          from "./sections/DashboardSection";
-import { IconsSection }              from "./sections/IconsSection";
 import { ColorSection }              from "./sections/ColorSection";
 import OperatingPrincipleSection     from "./sections/OperatingPrincipleSection";
 import { BackgroundsSection }        from "./sections/BackgroundsSection";
@@ -30,14 +29,13 @@ const NodeCanvasSection = lazy(() => import("./sections/NodeCanvasSection"));
 const RadarSection = lazy(() => import("./sections/RadarSection"));
 const IconSetsSection = lazy(() => import("./sections/IconSetsSection"));
 import { ExportSection }              from "./sections/ExportSection";
-import SkeuomorphicIconsSection       from "./sections/SkeuomorphicIconsSection";
 import {
   Home as HomeIcon, Palette, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Menu, X,
   LayoutDashboard, Layers, Workflow,
   BookOpen, Network, Bell, Download,
-  Wallpaper, Stamp, RectangleHorizontal, Grid2x2,
-  Eye, Box, Boxes, CircleDot, Terminal, Sparkles,
+  Wallpaper, Stamp, RectangleHorizontal,
+  Eye, Boxes, CircleDot, Terminal, Sparkles,
   Radar, Shapes,
 } from "lucide-react";
 
@@ -46,7 +44,6 @@ const ALL_SECTIONS = [
   { id: "home",        Component: HeroSection },
   { id: "foundations", Component: FoundationsSection },
   { id: "colors",      Component: ColorSection },
-  { id: "icons",       Component: IconsSection },
   { id: "backgrounds", Component: BackgroundsSection },
   { id: "signet",      Component: SignetSection },
   { id: "buttons",     Component: ButtonsSection },
@@ -60,7 +57,6 @@ const ALL_SECTIONS = [
   { id: "brandstory",  Component: BrandStorySection },
   { id: "dialog",      Component: DialogSection },
   { id: "imagelang",   Component: ImageLanguageSection },
-  { id: "skeuicons",   Component: SkeuomorphicIconsSection },
   { id: "dashboard",   Component: DashboardSection },
   { id: "bubblemap",   Component: BubbleMapSection },
   { id: "radar",       Component: RadarSection },
@@ -104,7 +100,6 @@ const sidebarSections = [
       { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" /> },
       { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" /> },
       { id: "imagelang",   label: "Bildsprache",          description: "Visuelle Prinzipien & Moodboard",       icon: <Eye className="w-4 h-4" /> },
-      { id: "skeuicons",   label: "Skeuomorphic Icons",   description: "18 Icons im 3D-Plastik-Grau-Stil",      icon: <Box className="w-4 h-4" /> },
     ],
   },
   {
@@ -119,8 +114,7 @@ const sidebarSections = [
   {
     title: "Icon-Sets",
     items: [
-      { id: "icons",       label: "Icon-Set",             description: "611+ Icons, kategorisiert",             icon: <Grid2x2 className="w-4 h-4" /> },
-      { id: "iconsets",    label: "Kategorie & Methoden", description: "12 Kategorie-Icons + 6 Methoden-Karten", icon: <Shapes className="w-4 h-4" /> },
+      { id: "iconsets",    label: "Alle Icon-Sets",        description: "Lucide · Kategorie · Skeuomorphic",      icon: <Shapes className="w-4 h-4" /> },
     ],
   },
   {
