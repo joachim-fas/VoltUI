@@ -185,3 +185,8 @@
 - [x] Methoden-Icons für alle 6 Analyse-Methoden-Karten ergänzen (eigene SVG-Icons)
 - [x] Tab-Bezeichnung von "Kategorie & Methoden" zu "Quellen & Methoden" ändern
 - [x] Sidebar-Label entsprechend anpassen
+
+## v3.9 Kategorie-Icons ausbauen (3-5 Icons pro Kategorie)
+- [x] 12 Datenquellen: je 3-5 Sub-Icons (News, Daten, Wissenschaft, Geopolitik, Finanzen, Umfragen, Prediction, Innovation, Social, Klima, Gesundheit, Foresight)
+- [x] 6 Methoden: je 3-5 Sub-Icons (Marktanalyse, War-Gaming, Pre-Mortem, Post-Mortem, Trend Deep-Dive, Stakeholder)
+- [x] QuellenMethodenSection: Kategoriekarten zu aufklappbaren Gruppen mit Icon-Grid umbauen
