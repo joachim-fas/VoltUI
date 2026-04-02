@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tm-bg" x1="32" y1="4" x2="32" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2A2A2A"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <filter id="tm-sd" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="10" fill="url(#tm-bg)" filter="url(#tm-sd)"/>
+  <rect x="4" y="4" width="56" height="14" rx="10" fill="#3A3A3A"/>
+  <rect x="4" y="11" width="56" height="7" fill="#3A3A3A"/>
+  <circle cx="14" cy="11" r="3" fill="#FF5F57"/>
+  <circle cx="23" cy="11" r="3" fill="#FEBC2E"/>
+  <circle cx="32" cy="11" r="3" fill="#28C840"/>
+  <text x="12" y="34" font-family="monospace" font-size="10" fill="#E4FF97" opacity="0.9">&gt;_ volt ui</text>
+  <text x="12" y="46" font-family="monospace" font-size="8" fill="#888888">design concept</text>
+  <rect x="12" y="50" width="8" height="2" fill="#E4FF97" opacity="0.7"/>
+</svg>

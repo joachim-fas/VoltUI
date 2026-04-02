@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mc-body" x1="32" y1="6" x2="32" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E8E8E8"/>
+      <stop offset="100%" stop-color="#BBBBBB"/>
+    </linearGradient>
+    <filter id="mc-sd" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect x="22" y="6" width="20" height="32" rx="10" fill="url(#mc-body)" filter="url(#mc-sd)"/>
+  <path d="M14 32 Q14 48 32 48 Q50 48 50 32" stroke="#AAAAAA" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <line x1="32" y1="48" x2="32" y2="58" stroke="#AAAAAA" stroke-width="3" stroke-linecap="round"/>
+  <line x1="22" y1="58" x2="42" y2="58" stroke="#AAAAAA" stroke-width="3" stroke-linecap="round"/>
+  <rect x="22" y="6" width="20" height="32" rx="10" stroke="white" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ml-body" x1="32" y1="12" x2="32" y2="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F0F0F0"/>
+      <stop offset="100%" stop-color="#D0D0D0"/>
+    </linearGradient>
+    <filter id="ml-sd" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect x="6" y="14" width="52" height="36" rx="6" fill="url(#ml-body)" filter="url(#ml-sd)"/>
+  <path d="M6 18 L32 36 L58 18" stroke="#AAAAAA" stroke-width="2" fill="none"/>
+  <line x1="6" y1="50" x2="24" y2="34" stroke="#CCCCCC" stroke-width="1.5"/>
+  <line x1="58" y1="50" x2="40" y2="34" stroke="#CCCCCC" stroke-width="1.5"/>
+  <rect x="6" y="14" width="52" height="36" rx="6" stroke="white" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
+</svg>

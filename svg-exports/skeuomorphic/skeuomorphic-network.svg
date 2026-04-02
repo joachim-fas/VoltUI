@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="nw-node" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#EFEFEF"/>
+      <stop offset="100%" stop-color="#BBBBBB"/>
+    </radialGradient>
+    <filter id="nw-sd" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <line x1="32" y1="12" x2="12" y2="44" stroke="#CCCCCC" stroke-width="2"/>
+  <line x1="32" y1="12" x2="52" y2="44" stroke="#CCCCCC" stroke-width="2"/>
+  <line x1="12" y1="44" x2="52" y2="44" stroke="#CCCCCC" stroke-width="2"/>
+  <circle cx="32" cy="12" r="8" fill="url(#nw-node)" filter="url(#nw-sd)"/>
+  <circle cx="12" cy="44" r="8" fill="url(#nw-node)" filter="url(#nw-sd)"/>
+  <circle cx="52" cy="44" r="8" fill="url(#nw-node)" filter="url(#nw-sd)"/>
+  <circle cx="32" cy="12" r="3" fill="#AAAAAA"/>
+  <circle cx="12" cy="44" r="3" fill="#AAAAAA"/>
+  <circle cx="52" cy="44" r="3" fill="#AAAAAA"/>
+</svg>
