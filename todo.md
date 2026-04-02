@@ -19,4 +19,10 @@
 - [x] Frontend: Ergebnis-Vorschau (extrahierte Farben/Fonts, gemappte Tokens)
 - [x] Frontend: Download-Button für angepasste volt-ui.css
 - [x] Integration: Theme Agent in Sidebar einbinden
-- [ ] Test: Beispiel-Repo analysieren und Ergebnis validieren
+- [x] Test: Beispiel-Repo analysieren und Ergebnis validieren (SOP-SonicPulse)
+
+## v2.1 Live-Vorschau
+- [x] ThemePreview-Komponente mit dynamischen CSS-Variablen
+- [x] Vorschau-Panels: Buttons, Cards, Typography, Forms, Navigation
+- [x] Dark/Light-Toggle in der Vorschau
+- [x] Integration in ThemeAgentSection nach Analyse-Ergebnis

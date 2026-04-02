@@ -388,8 +388,15 @@ export async function analyzeGitRepo(repoUrl: string): Promise<AnalysisResult> {
       execSync(cloneCmd, { timeout: 60_000, stdio: "pipe" });
       log.push(`✓ Repository geklont nach ${tmpDir}`);
     } catch (err: any) {
-      log.push(`✗ Fehler beim Klonen: ${err.message}`);
-      throw new Error(`Git-Klon fehlgeschlagen: ${err.message}`);
+      const errMsg = err.message || "";
+      log.push(`✗ Fehler beim Klonen: ${errMsg}`);
+      if (errMsg.includes("Repository not found") || errMsg.includes("not found") || errMsg.includes("authentication") || errMsg.includes("could not read")) {
+        throw new Error(
+          "Repository nicht gefunden oder privat. Bitte stelle sicher, dass das Repository öffentlich zugänglich ist. " +
+          "Private Repos werden aktuell nicht unterstützt."
+        );
+      }
+      throw new Error(`Git-Klon fehlgeschlagen: ${errMsg}`);
     }
 
     const repoName = repoUrl.split("/").pop()?.replace(/\.git$/, "") || "unknown";

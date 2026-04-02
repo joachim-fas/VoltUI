@@ -10,6 +10,7 @@ import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltInput } from "@/components/volt/VoltInput";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { Github, Sparkles, Download, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { ThemePreview } from "@/components/volt/ThemePreview";
 import { toast } from "sonner";
 
 export function ThemeAgentSection() {
@@ -290,6 +291,22 @@ export function ThemeAgentSection() {
                   </div>
                 </div>
               </div>
+            </VoltCardContent>
+          </VoltCard>
+
+          {/* Live-Vorschau */}
+          <VoltCard>
+            <VoltCardHeader>
+              <VoltCardTitle>Live-Vorschau</VoltCardTitle>
+              <p className="text-xs text-muted-foreground mt-1">
+                So sieht dein Projekt mit Volt UI Tokens aus – interaktiv, mit Dark/Light-Toggle.
+              </p>
+            </VoltCardHeader>
+            <VoltCardContent>
+              <ThemePreview
+                tokens={analysisResult.tokenMapping}
+                repoName={analysisResult.repoName}
+              />
             </VoltCardContent>
           </VoltCard>
 
