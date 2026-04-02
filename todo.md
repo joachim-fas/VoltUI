@@ -55,3 +55,19 @@
 ## v2.4.2 Sidebar-Korrekturen
 - [x] Logo-Bereich: Schwarzen Hintergrund entfernen (soll weiß sein wie Rest der Sidebar)
 - [x] Aktive Items: Lime-Gelb (#E4FF97) als Hintergrund wiederherstellen statt Schwarz
+
+## v2.4.3 ThemeAgentPage Design
+- [ ] ThemeAgentPage: Schwarzes Layout durch helles Design ersetzen (bg-background, text-foreground)
+
+## v2.5 Volt UI Design auf Theme Agent Seite anwenden
+- [x] Körniger Gradienten-Hintergrund wie auf Hauptseite (Lime-Gelb #E4FF97)
+- [x] Hero-Section mit großem ">_ Volt UI" Logo und Terminal-Ästhetik
+- [x] Feature-Cards mit Volt UI Styling (Border, Glow-Effekte)
+- [x] Input-Felder im Volt UI Stil (Lime-Akzente, Terminal-Font)
+- [x] Buttons mit Volt UI Design (Schwarz auf Lime-Gelb)
+- [x] Token-Manager Card mit Volt UI Styling
+- [x] Ergebnis-Cards mit körnigem Hintergrund und Lime-Akzenten
+- [x] Konsistente Typografie (Space Grotesk + JetBrains Mono)
+- [x] Schwarzer Hintergrund (#0A0A0A) mit Lime-Akzenten
+- [x] Terminal-Log mit Volt UI Styling
+- [x] Diff-Viewer mit Volt UI Design
