@@ -190,3 +190,7 @@
 - [x] 12 Datenquellen: je 3-5 Sub-Icons (News, Daten, Wissenschaft, Geopolitik, Finanzen, Umfragen, Prediction, Innovation, Social, Klima, Gesundheit, Foresight)
 - [x] 6 Methoden: je 3-5 Sub-Icons (Marktanalyse, War-Gaming, Pre-Mortem, Post-Mortem, Trend Deep-Dive, Stakeholder)
 - [x] QuellenMethodenSection: Kategoriekarten zu aufklappbaren Gruppen mit Icon-Grid umbauen
+
+## v3.10 Icon-Stil vereinheitlichen
+- [x] UIIconsSection: Zähler auf tatsächliche Icon-Anzahl synchronisieren (mehr Kategorien/Icons hinzufügen)
+- [x] QuellenMethodenSection: Alle Custom-SVG-Icons durch Lucide-Icons ersetzen (identischer Stil)

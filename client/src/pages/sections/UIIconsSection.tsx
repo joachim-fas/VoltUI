@@ -17,7 +17,10 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
       "Home", "LayoutDashboard", "LayoutGrid", "Sidebar", "PanelLeft", "PanelRight",
       "Menu", "MoreHorizontal", "MoreVertical", "ChevronLeft", "ChevronRight",
       "ChevronUp", "ChevronDown", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown",
-      "ArrowUpRight", "Navigation", "Compass", "Map", "MapPin",
+      "ArrowUpRight", "ArrowDownLeft", "ArrowUpLeft", "ArrowDownRight",
+      "Navigation", "Compass", "Map", "MapPin", "MapPinned",
+      "MoveLeft", "MoveRight", "MoveUp", "MoveDown", "Move",
+      "ChevronsLeft", "ChevronsRight", "ChevronsUpDown",
     ],
   },
   actions: {
@@ -26,9 +29,13 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     bg: "#E4FF97",
     icons: [
       "Plus", "Minus", "X", "Check", "Search", "Filter", "SortAsc", "SortDesc",
-      "Edit", "Pencil", "Trash2", "Copy", "Clipboard", "ClipboardCheck",
-      "Download", "Upload", "Share2", "Send", "RefreshCw", "RotateCw",
-      "Undo2", "Redo2", "ZoomIn", "ZoomOut",
+      "Edit", "Edit2", "Edit3", "Pencil", "PencilLine", "Trash", "Trash2",
+      "Copy", "Clipboard", "ClipboardCheck", "ClipboardList", "ClipboardPaste",
+      "Download", "Upload", "Share", "Share2", "Send", "SendHorizontal",
+      "RefreshCw", "RefreshCcw", "RotateCw", "RotateCcw",
+      "Undo", "Undo2", "Redo", "Redo2",
+      "ZoomIn", "ZoomOut", "Maximize", "Minimize", "Maximize2", "Minimize2",
+      "Lock", "Unlock", "Eye", "EyeOff", "Pin", "PinOff",
     ],
   },
   data: {
@@ -36,10 +43,13 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     color: "#0F6038",
     bg: "#C3F4D3",
     icons: [
-      "BarChart", "BarChart2", "BarChart3", "LineChart", "AreaChart", "PieChart",
+      "BarChart", "BarChart2", "BarChart3", "BarChart4", "BarChartHorizontal",
+      "LineChart", "AreaChart", "PieChart", "DonutChart",
       "TrendingUp", "TrendingDown", "Activity", "Gauge", "Target", "Radar",
-      "Table", "TableProperties", "Database", "Server", "HardDrive",
-      "FileSpreadsheet", "FileBarChart", "ChartPie",
+      "Table", "TableProperties", "TableColumns", "TableRows",
+      "Database", "DatabaseBackup", "DatabaseZap", "Server", "HardDrive",
+      "FileSpreadsheet", "FileBarChart", "FileBarChart2", "ChartPie",
+      "Sigma", "Hash", "Binary", "Braces", "BracesIcon",
     ],
   },
   communication: {
@@ -47,9 +57,13 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     color: "#1A3A8A",
     bg: "#D6E4FF",
     icons: [
-      "MessageSquare", "MessageCircle", "Mail", "Inbox", "Bell", "BellRing",
-      "Phone", "PhoneCall", "Video", "Mic", "MicOff", "Volume2",
+      "MessageSquare", "MessageSquarePlus", "MessageSquareText", "MessageCircle",
+      "Mail", "MailOpen", "MailPlus", "Inbox", "InboxIcon",
+      "Bell", "BellRing", "BellOff", "BellDot",
+      "Phone", "PhoneCall", "PhoneIncoming", "PhoneOutgoing", "PhoneMissed",
+      "Video", "VideoOff", "Mic", "MicOff", "Volume", "Volume2", "VolumeX",
       "AtSign", "Hash", "Link", "Link2", "ExternalLink", "Globe",
+      "Reply", "ReplyAll", "Forward",
     ],
   },
   media: {
@@ -57,9 +71,13 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     color: "#6A1A6A",
     bg: "#F0D6FF",
     icons: [
-      "Image", "ImagePlus", "Camera", "Film", "Music", "Play", "Pause",
-      "FileText", "File", "FilePlus", "FileCheck", "FileImage", "FileVideo",
-      "Folder", "FolderOpen", "FolderPlus", "Archive", "Package",
+      "Image", "ImagePlus", "ImageOff", "Images", "Camera", "CameraOff",
+      "Film", "Clapperboard", "Music", "Music2", "Music3", "Music4",
+      "Play", "Pause", "Stop", "SkipBack", "SkipForward", "Rewind", "FastForward",
+      "FileText", "File", "FilePlus", "FilePlus2", "FileCheck", "FileCheck2",
+      "FileImage", "FileVideo", "FileAudio", "FileCode", "FileCog",
+      "Folder", "FolderOpen", "FolderPlus", "FolderTree",
+      "Archive", "Package", "Package2", "PackageOpen",
     ],
   },
   tech: {
@@ -67,9 +85,14 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     color: "#1A4A6A",
     bg: "#D6F0FF",
     icons: [
-      "Code", "Code2", "Terminal", "Cpu", "Bot", "BrainCircuit", "Workflow",
-      "GitBranch", "GitCommit", "Bug", "Wrench", "Settings", "Settings2",
-      "Globe", "Monitor", "Laptop", "Smartphone", "Keyboard",
+      "Code", "Code2", "CodeXml", "Terminal", "TerminalSquare",
+      "Cpu", "Bot", "BrainCircuit", "Brain", "Workflow", "GitBranch",
+      "GitCommit", "GitMerge", "GitPullRequest", "Github",
+      "Bug", "BugOff", "Wrench", "WrenchIcon", "Settings", "Settings2",
+      "Globe", "Monitor", "MonitorCheck", "Laptop", "Laptop2",
+      "Smartphone", "Tablet", "Keyboard", "Mouse", "Printer",
+      "Wifi", "WifiOff", "Bluetooth", "BluetoothConnected",
+      "Cloud", "CloudUpload", "CloudDownload", "CloudOff",
     ],
   },
   finance: {
@@ -77,9 +100,12 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     color: "#0A4A20",
     bg: "#C3F4D3",
     icons: [
-      "DollarSign", "Euro", "Bitcoin", "Coins", "Banknote", "CreditCard",
-      "Wallet", "PiggyBank", "HandCoins", "TrendingUp", "BarChart2",
-      "Receipt", "Scale", "Percent", "Calculator", "Landmark",
+      "DollarSign", "Euro", "PoundSterling", "JapaneseYen", "Bitcoin",
+      "Coins", "Banknote", "CreditCard", "Wallet", "PiggyBank",
+      "HandCoins", "TrendingUp", "TrendingDown", "BarChart2",
+      "Receipt", "ReceiptText", "Scale", "Percent", "Calculator",
+      "Landmark", "Building", "Building2", "Briefcase", "BriefcaseBusiness",
+      "ShoppingCart", "ShoppingBag", "Store", "Package",
     ],
   },
   innovation: {
@@ -87,9 +113,11 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     color: "#4A0A7A",
     bg: "#EDD4FF",
     icons: [
-      "Lightbulb", "Sparkles", "Zap", "Rocket", "Wand2", "FlaskConical",
-      "Microscope", "Atom", "Dna", "BrainCircuit", "Bot", "Cpu",
-      "Telescope", "Satellite", "Network", "Workflow",
+      "Lightbulb", "LightbulbOff", "Sparkles", "Zap", "ZapOff",
+      "Rocket", "Wand", "Wand2", "FlaskConical", "FlaskRound",
+      "Microscope", "Atom", "Dna", "BrainCircuit", "Brain",
+      "Bot", "Cpu", "Telescope", "Satellite", "SatelliteDish",
+      "Network", "Workflow", "CircuitBoard", "Microchip",
     ],
   },
   social: {
@@ -97,9 +125,11 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     color: "#8A1A3A",
     bg: "#FFD6E0",
     icons: [
-      "Heart", "HeartHandshake", "Handshake", "Users", "Share2",
-      "ThumbsUp", "Smile", "PartyPopper", "Gift", "Star", "Trophy",
-      "Flag", "Rss", "Bell",
+      "Heart", "HeartHandshake", "HeartPulse", "Handshake",
+      "Users", "Users2", "UserPlus", "UserCheck", "UserMinus",
+      "Share2", "ThumbsUp", "ThumbsDown", "Smile", "SmilePlus",
+      "PartyPopper", "Gift", "Star", "StarOff", "Trophy",
+      "Flag", "Rss", "Bell", "Globe2",
     ],
   },
   nature: {
@@ -107,9 +137,37 @@ const LUCIDE_CATEGORIES: Record<string, { label: string; color: string; bg: stri
     color: "#0F6038",
     bg: "#D6F5F5",
     icons: [
-      "Sun", "Moon", "Cloud", "CloudRain", "Wind", "Waves", "Flame",
-      "Leaf", "TreePine", "Mountain", "Globe", "Satellite",
-      "Zap", "Sparkles", "Sunrise",
+      "Sun", "SunMedium", "SunDim", "Moon", "MoonStar",
+      "Cloud", "CloudRain", "CloudSnow", "CloudLightning", "CloudFog",
+      "Wind", "Waves", "Droplets", "Droplet",
+      "Flame", "Leaf", "LeafyGreen", "TreePine", "TreeDeciduous",
+      "Mountain", "MountainSnow", "Globe", "Globe2",
+      "Zap", "Sparkles", "Sunrise", "Sunset", "Thermometer",
+    ],
+  },
+  health: {
+    label: "Gesundheit & Medizin",
+    color: "#8A1A1A",
+    bg: "#FFD6D6",
+    icons: [
+      "Stethoscope", "Pill", "Syringe", "HeartPulse", "Activity",
+      "Baby", "PersonStanding", "Accessibility",
+      "Cross", "Plus", "Shield", "ShieldCheck",
+      "Eye", "EyeOff", "Brain", "Dna",
+      "Thermometer", "Scale", "ClipboardList", "ClipboardPlus",
+    ],
+  },
+  geopolitics: {
+    label: "Geopolitik & Sicherheit",
+    color: "#3A1A0A",
+    bg: "#FFE8D6",
+    icons: [
+      "Globe", "Globe2", "Map", "MapPin", "MapPinned",
+      "Flag", "FlagOff", "Shield", "ShieldAlert", "ShieldCheck", "ShieldOff",
+      "Swords", "Crosshair", "Target", "AlertTriangle", "AlertOctagon",
+      "Landmark", "Building", "Building2", "Vote",
+      "Lock", "Unlock", "Key", "KeyRound",
+      "Eye", "EyeOff", "Search", "ScanSearch",
     ],
   },
 };
@@ -190,10 +248,10 @@ export default function UIIconsSection() {
         <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Icon-Sets · UI-Icons</p>
         <div className="flex items-center gap-3 mb-3">
           <h2 className="font-display font-bold text-3xl text-foreground tracking-tight">UI-Icons</h2>
-          <span className="px-2.5 py-1 rounded-xl text-[11px] font-mono bg-muted text-muted-foreground border border-border">{totalCount}+ Icons</span>
+          <span className="px-2.5 py-1 rounded-xl text-[11px] font-mono bg-muted text-muted-foreground border border-border">{totalCount} Icons</span>
         </div>
         <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
-          Lucide-Icons in zehn thematischen Kategorien. Klick auf ein Icon kopiert den JSX-Import direkt in die Zwischenablage.
+          Lucide-Icons in zwölf thematischen Kategorien. Klick auf ein Icon kopiert den JSX-Import direkt in die Zwischenablage.
         </p>
       </div>
 
