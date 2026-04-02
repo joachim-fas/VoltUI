@@ -134,4 +134,16 @@
 - [x] Alle GRAIN_*.md und GRAIN_*.pdf Dateien entfernt
 - [x] QA_REPORT.md, QA_AUDIT.md, DESIGN_AUDIT.md, GRAIN_FLUX_AUDIT.md entfernt
 - [x] check-icons.mjs und check-icons.cjs entfernt (Build-Artefakte)
-- [ ] Bereinigten Stand committen und in GitHub pushen
+- [x] Bereinigten Stand committen und in GitHub pushen
+
+## v3.3 Code-Bereinigung (Qualitätsbericht-Abarbeitung)
+- [x] Tote Dateien entfernt: ComponentShowcase.tsx, ThemePreview.tsx, VoltWorkflowCard.tsx, ThemeAgentSection.tsx, server/index.ts
+- [x] `add`-Paket aus package.json entfernt
+- [x] `axios` auf 1.14.0 aktualisiert (Sicherheits-Patch)
+- [x] In-Memory-Cache mit LRU (max. 50 Einträge) + TTL (30 min) + .unref() abgesichert
+- [x] `any`-Typen in themeTransformRouter.ts durch Request/Response ersetzt
+- [x] `any`-Typen in themeTransformer.ts durch GitHubTreeEntry und unknown ersetzt
+- [x] LLM-Aufrufe parallelisiert mit Promise.all (GitHub + lokal)
+- [x] server/index.ts entfernt (war toter Code, _core/index.ts ist der echte Einstiegspunkt)
+- [x] TypeScript: 0 Fehler nach allen Änderungen
+- [ ] Checkpoint und GitHub-Push
