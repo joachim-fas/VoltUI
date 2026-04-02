@@ -1032,7 +1032,7 @@ export const ExportSection: React.FC = () => {
                 { cls: ".pattern-dots",     val: "Radiale Punkte" },
                 { cls: ".pattern-grid",     val: "Quadratisches Raster" },
                 { cls: ".pattern-diagonal", val: "45° Diagonallinien" },
-                { cls: ".pattern-circuit",  val: "Schaltkreis-Muster" },
+                { cls: ".pattern-cross",    val: "Kreuz-Raster" },
                 { cls: ".volt-texture",            val: "SVG-Volt-Textur" },
               ],
             },

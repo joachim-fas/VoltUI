@@ -11,9 +11,6 @@ import { Copy, Check } from "lucide-react";
 /* ── Volt SVG als Data-URI ── */
 const VOLT_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`;
 
-/* ── Hexagon SVG als Data-URI (echtes Sechseck-Raster) ── */
-const HEXAGON_SVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='90'%3E%3Cpath d='M26 1 L51 15 L51 45 L26 59 L1 45 L1 15 Z' fill='none' stroke='%23AAAAAA' stroke-width='1.5'/%3E%3Cpath d='M26 59 L51 73 L51 90' fill='none' stroke='%23AAAAAA' stroke-width='1.5'/%3E%3Cpath d='M26 59 L1 73 L1 90' fill='none' stroke='%23AAAAAA' stroke-width='1.5'/%3E%3C/svg%3E")`;
-
 /* ── Pattern-Definitionen ── */
 const PATTERNS = [
   {
@@ -105,58 +102,6 @@ const PATTERNS = [
       }}>
         <div className="w-full h-full flex items-center justify-center">
           <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">diagonal · 45° · 15px</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: "circuit",
-    name: "Circuit",
-    description: "Schaltkreis-Muster – für Tech- und Terminal-Bereiche",
-    cssClass: "pattern-circuit",
-    bg: "#FFFFFF",
-    code: `.pattern-circuit {\n  background-image:\n    linear-gradient(#E8E8E8 1px, transparent 1px),\n    linear-gradient(90deg, #E8E8E8 1px, transparent 1px),\n    radial-gradient(circle, #C0C0C0 1.5px, transparent 1.5px);\n  background-size: 32px 32px, 32px 32px, 32px 32px;\n  background-position: 0 0, 0 0, 16px 16px;\n}`,
-    preview: (
-      <div className="w-full h-full rounded-xl overflow-hidden" style={{ backgroundColor: "#FFFFFF", position: "relative" }}>
-        <svg width="100%" height="100%" style={{ position: "absolute", inset: 0 }} xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="circuit-preview" x="0" y="0" width="64" height="64" patternUnits="userSpaceOnUse">
-              <line x1="0" y1="32" x2="64" y2="32" stroke="rgba(10,10,10,0.06)" strokeWidth="1"/>
-              <line x1="32" y1="0" x2="32" y2="64" stroke="rgba(10,10,10,0.06)" strokeWidth="1"/>
-              <path d="M0 16 H24 V48 H64" fill="none" stroke="rgba(10,10,10,0.20)" strokeWidth="1.5"/>
-              <path d="M0 48 H16 V16 H64" fill="none" stroke="rgba(10,10,10,0.12)" strokeWidth="1"/>
-              <circle cx="24" cy="16" r="2.5" fill="rgba(10,10,10,0.32)"/>
-              <circle cx="24" cy="48" r="2.5" fill="rgba(10,10,10,0.32)"/>
-              <circle cx="16" cy="16" r="2" fill="rgba(10,10,10,0.18)"/>
-              <circle cx="16" cy="48" r="2" fill="rgba(10,10,10,0.18)"/>
-              <circle cx="24" cy="16" r="4.5" fill="none" stroke="rgba(10,10,10,0.12)" strokeWidth="1"/>
-              <circle cx="24" cy="48" r="4.5" fill="none" stroke="rgba(10,10,10,0.12)" strokeWidth="1"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#circuit-preview)"/>
-        </svg>
-        <div className="relative z-10 w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">circuit · traces · vias</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: "hexagon",
-    name: "Hexagon",
-    description: "Hexagonales Muster – für strukturierte Flächen",
-    cssClass: "pattern-hexagon",
-    bg: "#FFFFFF",
-    code: `.pattern-hexagon {\n  background-image: url("data:image/svg+xml,...");\n  background-size: 52px 90px;\n  background-repeat: repeat;\n}`,
-    preview: (
-      <div className="w-full h-full rounded-xl overflow-hidden" style={{
-        backgroundColor: "#FFFFFF",
-        backgroundImage: HEXAGON_SVG,
-        backgroundSize: "52px 90px",
-        backgroundRepeat: "repeat",
-      }}>
-        <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">hexagon · 52×90px</span>
         </div>
       </div>
     ),

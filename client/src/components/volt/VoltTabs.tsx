@@ -1,6 +1,12 @@
 /**
- * VoltTabs – Atmospheric Volt UI Design System
- * Tab-Navigation mit atmosphärischen Übergängen.
+ * VoltTabs – Volt UI Design System
+ * Tab-Navigation mit vier Varianten: underline, pills, glass, boxed
+ *
+ * Kontrast-Regeln:
+ *  - underline: aktiv = text-foreground + Unterstrich; inaktiv = text-muted-foreground
+ *  - pills:     aktiv = bg-foreground + text-background (invertiert); inaktiv = text-muted-foreground
+ *  - boxed:     aktiv = bg-background + text-foreground + Ring; inaktiv = text-muted-foreground
+ *  - glass:     aktiv = bg-white/80 + text-foreground + Ring; inaktiv = text-muted-foreground
  */
 
 import React from "react";
@@ -42,6 +48,17 @@ export const VoltTabs: React.FC<VoltTabsProps> = ({
 
   const activeTab_ = tabs.find(t => t.id === active);
 
+  /* ── Textfarbe des aktiven Tabs je Variante ── */
+  const activeTextClass = (variant: string) => {
+    switch (variant) {
+      case "pills":    return "text-background";   // weiß auf schwarzem Hintergrund
+      case "boxed":    return "text-foreground";   // schwarz auf weißem Hintergrund
+      case "glass":    return "text-foreground";   // schwarz auf weißem Glas
+      case "underline": return "text-foreground font-bold";
+      default:         return "text-foreground";
+    }
+  };
+
   return (
     <div className={cn("w-full", className)} {...props}>
       {/* Tab List */}
@@ -50,9 +67,9 @@ export const VoltTabs: React.FC<VoltTabsProps> = ({
         className={cn(
           "flex items-center gap-1",
           variant === "underline" && "border-b border-border pb-0 gap-0",
-          variant === "boxed" && "bg-muted rounded-xl p-1",
-          variant === "glass" && "glass rounded-xl p-1",
-          variant === "pills" && "gap-1",
+          variant === "boxed"     && "bg-muted rounded-xl p-1",
+          variant === "glass"     && "glass rounded-xl p-1",
+          variant === "pills"     && "gap-1",
         )}
       >
         {tabs.map((tab) => {
@@ -66,23 +83,39 @@ export const VoltTabs: React.FC<VoltTabsProps> = ({
               onClick={() => handleChange(tab.id)}
               className={cn(
                 "relative flex items-center gap-1.5 font-body font-semibold text-sm",
-                "transition-all duration-200 ease-out select-none",
+                "transition-colors duration-200 ease-out select-none",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                /* Underline */
                 variant === "underline" && [
                   "px-4 py-2.5 rounded-none",
                   isActive
                     ? "text-foreground font-bold"
                     : "text-muted-foreground hover:text-foreground",
                 ],
-                (variant === "pills" || variant === "boxed" || variant === "glass") && [
+                /* Pills */
+                variant === "pills" && [
                   "px-4 py-2 rounded-lg",
                   isActive
                     ? "text-background"
                     : "text-muted-foreground hover:text-foreground hover:bg-background/50",
                 ],
+                /* Boxed – aktiv: text-foreground (schwarz) auf weißem bg-background */
+                variant === "boxed" && [
+                  "px-4 py-2 rounded-lg",
+                  isActive
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-background/50",
+                ],
+                /* Glass – aktiv: text-foreground auf hellem Glas */
+                variant === "glass" && [
+                  "px-4 py-2 rounded-lg",
+                  isActive
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-white/30",
+                ],
               )}
             >
-              {/* Active indicator for underline */}
+              {/* Underline-Indikator */}
               {variant === "underline" && isActive && (
                 <motion.div
                   layoutId="tab-underline"
@@ -90,19 +123,34 @@ export const VoltTabs: React.FC<VoltTabsProps> = ({
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              {/* Active background for pills/boxed/glass */}
-              {(variant === "pills" || variant === "boxed" || variant === "glass") && isActive && (
+
+              {/* Pills-Hintergrund: bg-foreground (schwarz) → text-background (weiß) */}
+              {variant === "pills" && isActive && (
                 <motion.div
-                  layoutId="tab-bg"
-                  className={cn(
-                    "absolute inset-0 rounded-lg",
-                    variant === "pills"
-                      ? "bg-foreground"
-                      : "bg-background ring-1 ring-border"
-                  )}
+                  layoutId="tab-bg-pills"
+                  className="absolute inset-0 rounded-lg bg-foreground"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
+
+              {/* Boxed-Hintergrund: bg-background (weiß) + Ring → text-foreground (schwarz) */}
+              {variant === "boxed" && isActive && (
+                <motion.div
+                  layoutId="tab-bg-boxed"
+                  className="absolute inset-0 rounded-lg bg-background ring-1 ring-border shadow-sm"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+
+              {/* Glass-Hintergrund: weißes Glas + Ring → text-foreground (schwarz) */}
+              {variant === "glass" && isActive && (
+                <motion.div
+                  layoutId="tab-bg-glass"
+                  className="absolute inset-0 rounded-lg bg-white/80 ring-1 ring-white/60 shadow-sm"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+
               {tab.icon && (
                 <span className="relative z-10 w-4 h-4">{tab.icon}</span>
               )}
@@ -111,7 +159,7 @@ export const VoltTabs: React.FC<VoltTabsProps> = ({
                 <span className={cn(
                   "relative z-10 inline-flex items-center justify-center min-w-[1.1rem] h-[1.1rem] px-1",
                   "rounded-full text-[0.6rem] font-bold",
-                  isActive
+                  isActive && variant === "pills"
                     ? "bg-white/20 text-white"
                     : "bg-muted text-muted-foreground"
                 )}>

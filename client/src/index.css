@@ -414,6 +414,19 @@
     linear-gradient(90deg, rgba(228, 255, 151, 0.10) 1px, transparent 1px);
   background-size: 16px 16px;
 }
+/* Alias: pattern-diagonal = pattern-lines */
+.pattern-diagonal {
+  background-image: repeating-linear-gradient(
+    45deg, transparent, transparent 14px,
+    rgba(10, 10, 10, 0.12) 14px, rgba(10, 10, 10, 0.12) 15px
+  );
+}
+.dark .pattern-diagonal {
+  background-image: repeating-linear-gradient(
+    45deg, transparent, transparent 14px,
+    rgba(228, 255, 151, 0.10) 14px, rgba(228, 255, 151, 0.10) 15px
+  );
+}
 
 /* ═══════════════════════════════════════════════════════
    GLOW EFFECTS

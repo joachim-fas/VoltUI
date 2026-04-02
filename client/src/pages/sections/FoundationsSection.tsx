@@ -39,12 +39,10 @@ const typeScale = [
 ];
 
 const patterns = [
-  { label: "Dots",     cls: "pattern-dots",     desc: "Radiale Punkte" },
-  { label: "Grid",     cls: "pattern-grid",     desc: "Quadratisches Raster" },
-  { label: "Diagonal", cls: "pattern-diagonal", desc: "45° Diagonallinien" },
-  { label: "Cross",    cls: "pattern-cross",     desc: "Kreuz-Raster" },
-  { label: "Circuit",  cls: "pattern-circuit",  desc: "Schaltkreis-Muster" },
-  { label: "Hexagon",  cls: "pattern-hexagon",  desc: "Hexagonales Muster" },
+  { label: "Dots",     cls: "pattern-dots",  desc: "Radiale Punkte" },
+  { label: "Grid",     cls: "pattern-grid",  desc: "Quadratisches Raster" },
+  { label: "Diagonal", cls: "pattern-lines", desc: "45° Diagonallinien" },
+  { label: "Cross",    cls: "pattern-cross", desc: "Kreuz-Raster" },
 ];
 
 const gradients = [
