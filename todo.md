@@ -26,3 +26,14 @@
 - [x] Vorschau-Panels: Buttons, Cards, Typography, Forms, Navigation
 - [x] Dark/Light-Toggle in der Vorschau
 - [x] Integration in ThemeAgentSection nach Analyse-Ergebnis
+
+## v2.2 Theme Agent – Vollständige Komponenten-Transformation
+- [x] Backend: GitHub API-basierter Datei-Scanner (kein vollständiger Klon, nur relevante Dateien)
+- [x] Backend: Stack-Erkennung (React+Tailwind / React+CSS / plain HTML)
+- [x] Backend: LLM-Transformation – UI-Komponenten durch Volt UI Äquivalente ersetzen
+- [x] Backend: Mapping-Tabelle (Button → VoltButton, Card → VoltCard, Input → VoltInput, etc.)
+- [x] Backend: ZIP-Generator für transformierte Dateien
+- [x] Backend: Download-Endpoint für ZIP
+- [x] Frontend: Theme Agent UI überarbeiten (Fortschritts-Steps, Diff-Vorschau, Download)
+- [ ] Test mit öffentlichem Repo
+- [x] Sidebar: Theme Agent als eigene Kategorie "V2" darstellen (visuell hervorgehoben)

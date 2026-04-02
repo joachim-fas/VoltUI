@@ -3,6 +3,7 @@
  * Hell: Weißer Hintergrund + schwarzer Text + Neon Yellow (#E4FF97) für aktive Items
  * Dark: Dunkler Hintergrund + Neon Yellow (#E4FF97) für aktive Items
  * Auto-Scroll: aktives Item scrollt immer in den sichtbaren Bereich
+ * V2-Kategorien: visuell hervorgehoben mit Lime-Rahmen und NEU-Badge
  */
 
 import React, { useRef, useEffect } from "react";
@@ -36,13 +37,13 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
   const { darkMode, toggleDarkMode } = useTheme();
   const isDark = darkMode === "dark";
 
-  const navRef      = useRef<HTMLElement>(null);
-  const activeRef   = useRef<HTMLButtonElement>(null);
-  const asideRef    = useRef<HTMLElement>(null);
+  const navRef    = useRef<HTMLElement>(null);
+  const activeRef = useRef<HTMLButtonElement>(null);
+  const asideRef  = useRef<HTMLElement>(null);
 
-  const allItems = sections.flatMap(s => s.items);
+  const allItems   = sections.flatMap(s => s.items);
   const activeIndex = allItems.findIndex(i => i.id === activeId);
-  const progress = allItems.length > 1 ? Math.round((activeIndex / (allItems.length - 1)) * 100) : 0;
+  const progress   = allItems.length > 1 ? Math.round((activeIndex / (allItems.length - 1)) * 100) : 0;
 
   /* ── Auto-Scroll: aktives Item in den sichtbaren Bereich scrollen ── */
   useEffect(() => {
@@ -50,12 +51,11 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
     const active = activeRef.current;
     if (!nav || !active) return;
 
-    const navTop    = nav.scrollTop;
-    const navBottom = navTop + nav.clientHeight;
-    const itemTop   = active.offsetTop;
+    const navTop     = nav.scrollTop;
+    const navBottom  = navTop + nav.clientHeight;
+    const itemTop    = active.offsetTop;
     const itemBottom = itemTop + active.offsetHeight;
 
-    // Nur scrollen wenn das Item außerhalb des sichtbaren Bereichs liegt
     if (itemTop < navTop + 40) {
       nav.scrollTo({ top: itemTop - 40, behavior: "smooth" });
     } else if (itemBottom > navBottom - 40) {
@@ -72,13 +72,159 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
   const textHover   = isDark ? "#FFFFFF" : "#0A0A0A";
   const hoverBg     = isDark ? "rgba(255,255,255,0.06)" : "#F5F5F5";
   const descColor   = isDark ? "rgba(255,255,255,0.25)" : "#AAAAAA";
-  const countBg     = isDark ? "#2A2A2A" : "#F0F0F0";
-  const countText   = isDark ? "rgba(255,255,255,0.50)" : "#6B6B6B";
   const footerText  = isDark ? "rgba(255,255,255,0.25)" : "#AAAAAA";
   const btnBorder   = isDark ? "#2A2A2A" : "#E8E8E8";
   const btnText     = isDark ? "rgba(255,255,255,0.50)" : "#6B6B6B";
   const btnHoverBg  = isDark ? "#1A1A1A" : "#F0F0F0";
   const dotText     = isDark ? "rgba(255,255,255,0.25)" : "#AAAAAA";
+
+  /* ── Standard-Kategorie ── */
+  function renderStandardSection(section: VoltSidebarSection, si: number) {
+    return (
+      <div key={si}>
+        <div className="px-2 mb-1.5 flex items-center gap-2">
+          <span
+            className="text-[0.6rem] font-bold uppercase tracking-[0.14em] font-mono"
+            style={{ color: labelColor }}
+          >
+            {section.title}
+          </span>
+          <div className="flex-1 h-px" style={{ background: borderColor }} />
+        </div>
+        <ul className="space-y-0.5">
+          {section.items.map((item) => {
+            const isActive = item.id === activeId;
+            return (
+              <li key={item.id}>
+                <button
+                  ref={isActive ? activeRef : undefined}
+                  onClick={() => onSelect?.(item.id)}
+                  className="w-full flex items-start gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all duration-150 group"
+                  style={isActive ? { background: "#E4FF97", color: "#0A0A0A" } : { color: textMuted }}
+                  onMouseEnter={e => {
+                    if (!isActive) {
+                      (e.currentTarget as HTMLButtonElement).style.background = hoverBg;
+                      (e.currentTarget as HTMLButtonElement).style.color = textHover;
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (!isActive) {
+                      (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                      (e.currentTarget as HTMLButtonElement).style.color = textMuted;
+                    }
+                  }}
+                >
+                  {item.icon && (
+                    <span
+                      className="w-4 h-4 flex-shrink-0 mt-0.5"
+                      style={{ color: isActive ? "#0A0A0A" : "inherit", opacity: isActive ? 1 : 0.6 }}
+                    >
+                      {item.icon}
+                    </span>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <span className="text-sm font-semibold leading-tight truncate block">
+                      {item.label}
+                    </span>
+                    {item.description && (
+                      <p
+                        className="text-[0.65rem] leading-tight mt-0.5 truncate"
+                        style={{ color: isActive ? "rgba(10,10,10,0.55)" : descColor }}
+                      >
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+  /* ── V2-Kategorie (hervorgehoben) ── */
+  function renderV2Section(section: VoltSidebarSection, si: number) {
+    const v2LimeBg    = isDark ? "rgba(228,255,151,0.06)" : "rgba(228,255,151,0.14)";
+    const v2ItemColor = isDark ? "rgba(228,255,151,0.75)" : "#3d4f1a";
+    const v2DescColor = isDark ? "rgba(228,255,151,0.40)" : "#6a7a3a";
+    const v2HoverBg   = isDark ? "rgba(228,255,151,0.12)" : "rgba(228,255,151,0.28)";
+
+    return (
+      <div key={si} className="px-0 mt-1">
+        <div
+          className="rounded-xl overflow-hidden"
+          style={{ border: "1.5px solid #E4FF97", background: v2LimeBg }}
+        >
+          {/* Kategorie-Header */}
+          <div className="px-3 py-2 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(228,255,151,0.2)" }}>
+            <span
+              className="text-[0.6rem] font-bold uppercase tracking-[0.14em] font-mono"
+              style={{ color: "#E4FF97" }}
+            >
+              {section.title}
+            </span>
+            <span
+              className="text-[0.5rem] font-mono px-1.5 py-0.5 rounded font-bold"
+              style={{ background: "#E4FF97", color: "#0A0A0A" }}
+            >
+              NEU
+            </span>
+          </div>
+
+          {/* Items */}
+          <ul className="px-1.5 py-1.5 space-y-0.5">
+            {section.items.map((item) => {
+              const isActive = item.id === activeId;
+              return (
+                <li key={item.id}>
+                  <button
+                    ref={isActive ? activeRef : undefined}
+                    onClick={() => onSelect?.(item.id)}
+                    className="w-full flex items-start gap-2.5 px-3 py-2.5 rounded-lg text-left transition-all duration-150"
+                    style={isActive ? { background: "#E4FF97", color: "#0A0A0A" } : { color: v2ItemColor }}
+                    onMouseEnter={e => {
+                      if (!isActive) {
+                        (e.currentTarget as HTMLButtonElement).style.background = v2HoverBg;
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (!isActive) {
+                        (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                      }
+                    }}
+                  >
+                    {item.icon && (
+                      <span
+                        className="w-4 h-4 flex-shrink-0 mt-0.5"
+                        style={{ color: isActive ? "#0A0A0A" : "#E4FF97" }}
+                      >
+                        {item.icon}
+                      </span>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-semibold leading-tight truncate block">
+                        {item.label}
+                      </span>
+                      {item.description && (
+                        <p
+                          className="text-[0.65rem] leading-tight mt-0.5 truncate"
+                          style={{ color: isActive ? "rgba(10,10,10,0.55)" : v2DescColor }}
+                        >
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <aside
@@ -99,8 +245,12 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
         )}
         <div className="px-5 py-3" style={{ borderBottom: `1px solid ${borderColor}50` }}>
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[0.6rem] font-mono uppercase tracking-wider" style={{ color: labelColor }}>Fortschritt</span>
-            <span className="text-[0.6rem] font-mono" style={{ color: labelColor }}>{activeIndex + 1} / {allItems.length}</span>
+            <span className="text-[0.6rem] font-mono uppercase tracking-wider" style={{ color: labelColor }}>
+              Fortschritt
+            </span>
+            <span className="text-[0.6rem] font-mono" style={{ color: labelColor }}>
+              {activeIndex + 1} / {allItems.length}
+            </span>
           </div>
           <div className="h-1 rounded-full overflow-hidden" style={{ background: trackBg }}>
             <div
@@ -113,74 +263,20 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
 
       {/* ── Scrollbarer Nav-Bereich ── */}
       <nav ref={navRef} className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
-        {sections.map((section, si) => (
-          <div key={si}>
-            <div className="px-2 mb-1.5 flex items-center gap-2">
-              <span className="text-[0.6rem] font-bold uppercase tracking-[0.14em] font-mono" style={{ color: labelColor }}>
-                {section.title}
-              </span>
-              <div className="flex-1 h-px" style={{ background: borderColor }} />
-            </div>
-
-            <ul className="space-y-0.5">
-              {section.items.map((item) => {
-                const isActive = item.id === activeId;
-                return (
-                  <li key={item.id}>
-                    <button
-                      ref={isActive ? activeRef : undefined}
-                      onClick={() => onSelect?.(item.id)}
-                      className="w-full flex items-start gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all duration-150 group"
-                      style={isActive
-                        ? { background: "#E4FF97", color: "#0A0A0A" }
-                        : { color: textMuted }
-                      }
-                      onMouseEnter={e => {
-                        if (!isActive) {
-                          (e.currentTarget as HTMLButtonElement).style.background = hoverBg;
-                          (e.currentTarget as HTMLButtonElement).style.color = textHover;
-                        }
-                      }}
-                      onMouseLeave={e => {
-                        if (!isActive) {
-                          (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-                          (e.currentTarget as HTMLButtonElement).style.color = textMuted;
-                        }
-                      }}
-                    >
-                      {item.icon && (
-                        <span className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: isActive ? "#0A0A0A" : "inherit", opacity: isActive ? 1 : 0.6 }}>
-                          {item.icon}
-                        </span>
-                      )}
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-sm font-semibold leading-tight truncate">
-                            {item.label}
-                          </span>
-
-                        </div>
-                        {item.description && (
-                          <p className="text-[0.65rem] leading-tight mt-0.5 truncate"
-                            style={{ color: isActive ? "rgba(10,10,10,0.55)" : descColor }}>
-                            {item.description}
-                          </p>
-                        )}
-                      </div>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+        {sections.map((section, si) => {
+          const isV2 = section.title.toLowerCase().startsWith("v2");
+          return isV2
+            ? renderV2Section(section, si)
+            : renderStandardSection(section, si);
+        })}
       </nav>
 
       {/* ── Footer ── */}
       <div className="px-4 py-4 flex-shrink-0" style={{ borderTop: `1px solid ${borderColor}` }}>
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[0.6rem] font-mono uppercase tracking-wider" style={{ color: footerText }}>Erscheinungsbild</span>
+          <span className="text-[0.6rem] font-mono uppercase tracking-wider" style={{ color: footerText }}>
+            Erscheinungsbild
+          </span>
           <button
             onClick={toggleDarkMode}
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200"
@@ -199,7 +295,9 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
         <div className="pt-2" style={{ borderTop: `1px solid ${borderColor}50` }}>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#E4FF97" }} />
-            <span className="text-[0.55rem] font-mono" style={{ color: dotText }}>Volt UI · React 19 · Tailwind 4</span>
+            <span className="text-[0.55rem] font-mono" style={{ color: dotText }}>
+              Volt UI · React 19 · Tailwind 4
+            </span>
           </div>
         </div>
       </div>
