@@ -4,11 +4,91 @@
  * Design: Weiß + Schwarz + Lime – keine anderen Farben
  */
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { Download } from "lucide-react";
 import { motion } from "framer-motion";
 import { VoltCursor } from "@/components/volt/VoltCursor";
 import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
 import { VoltBadge } from "@/components/volt/VoltBadge";
+
+/* ── SVG-Quellen für Downloads ── */
+const SVG_BLACK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 414.24 269.82"><style>@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}#bar{animation:blink 1s steps(1,end) infinite}</style><path d="M0,214.08v-54.39l144.89-52.65L0,53.95V0l207.12,78.76v56.57L0,214.08Z" fill="#0A0A0A"/><path id="bar" d="M207.12,269.82v-55.74h207.12v55.74h-207.12Z" fill="#0A0A0A"/></svg>`;
+const SVG_LIME  = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 414.24 269.82"><path d="M0,214.08v-54.39l144.89-52.65L0,53.95V0l207.12,78.76v56.57L0,214.08Z" fill="#E4FF97"/><path d="M207.12,269.82v-55.74h207.12v55.74h-207.12Z" fill="#E4FF97"/></svg>`;
+const SVG_WHITE = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 414.24 269.82"><path d="M0,214.08v-54.39l144.89-52.65L0,53.95V0l207.12,78.76v56.57L0,214.08Z" fill="#FFFFFF"/><path d="M207.12,269.82v-55.74h207.12v55.74h-207.12Z" fill="#FFFFFF"/></svg>`;
+
+/* ── Download-Sektion ── */
+function DownloadSection() {
+  const downloadSVG = useCallback((svgContent: string, filename: string) => {
+    const blob = new Blob([svgContent], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  }, []);
+
+  const downloadPNG = useCallback((svgContent: string, filename: string, bg: string) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 828; canvas.height = 540;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, 828, 540);
+    const img = new Image();
+    const blob = new Blob([svgContent], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, 828, 540);
+      URL.revokeObjectURL(url);
+      canvas.toBlob((b) => {
+        if (!b) return;
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(b); a.download = filename; a.click();
+      }, "image/png");
+    };
+    img.src = url;
+  }, []);
+
+  const variants = [
+    { label: "Schwarz", svg: SVG_BLACK, bg: "#FFFFFF", dark: false, svgFile: "volt-signet-black.svg", pngFile: "volt-signet-black.png" },
+    { label: "Lime",    svg: SVG_LIME,  bg: "#0A0A0A", dark: true,  svgFile: "volt-signet-lime.svg",  pngFile: "volt-signet-lime.png"  },
+    { label: "Weiß",   svg: SVG_WHITE, bg: "#0A0A0A", dark: true,  svgFile: "volt-signet-white.svg", pngFile: "volt-signet-white.png" },
+  ];
+
+  return (
+    <div>
+      <p className="section-label mb-6">Downloads</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {variants.map(({ label, svg, bg, dark, svgFile, pngFile }) => (
+          <div key={label} className={`rounded-2xl p-5 flex flex-col gap-4 border ${
+            dark ? "bg-[#0A0A0A] border-white/10" : "bg-white border-border"
+          }`}>
+            <div className="w-full h-20 rounded-xl flex items-center justify-center" style={{ background: bg }}>
+              <div className="w-16 h-11" dangerouslySetInnerHTML={{ __html: svg }} />
+            </div>
+            <p className={`font-display font-bold text-sm ${dark ? "text-white" : "text-foreground"}`}>{label}</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => downloadSVG(svg, svgFile)}
+                className={`flex-1 flex items-center justify-center gap-1.5 h-8 rounded-lg text-xs font-mono font-medium border transition-opacity hover:opacity-70 ${
+                  dark ? "border-white/20 text-white/70 bg-white/10" : "border-border text-muted-foreground bg-secondary"
+                }`}
+              >
+                <Download className="w-3 h-3" /> SVG
+              </button>
+              <button
+                onClick={() => downloadPNG(svg, pngFile, bg)}
+                className={`flex-1 flex items-center justify-center gap-1.5 h-8 rounded-lg text-xs font-mono font-medium border transition-opacity hover:opacity-70 ${
+                  dark ? "border-white/20 text-white/70 bg-white/10" : "border-border text-muted-foreground bg-secondary"
+                }`}
+              >
+                <Download className="w-3 h-3" /> PNG
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* ── Hilfsfunktion: Code-Kopieren ── */
 const CopyButton: React.FC<{ code: string }> = ({ code }) => {
@@ -506,6 +586,9 @@ export const SignetSection: React.FC = () => {
           </VoltCard>
         </div>
       </div>
+
+      {/* ── Downloads ── */}
+      <DownloadSection />
 
       {/* ── SVG-Quellcode ── */}
       <div>

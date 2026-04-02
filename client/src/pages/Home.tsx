@@ -2,6 +2,7 @@
  * Volt UI – Hauptseite
  * Layout: Schwarze Sidebar (links, sticky) + weißer Hauptinhalt (rechts, durchgehend scrollbar)
  * Scroll-Spy: IntersectionObserver hebt aktiven Abschnitt in der Sidebar hervor
+ * Navigation: scrollIntoView mit forceMount – Lazy Sections werden beim Klick sofort gemountet
  */
 
 import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
@@ -29,10 +30,10 @@ const NodeCanvasSection = lazy(() => import("./sections/NodeCanvasSection"));
 import { ExportSection }              from "./sections/ExportSection";
 import SkeuomorphicIconsSection       from "./sections/SkeuomorphicIconsSection";
 import {
-  Home as HomeIcon, Palette, MousePointer2, LayoutGrid,
+  Home as HomeIcon, Palette, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Menu, X,
   LayoutDashboard, Layers, Workflow,
-  BookOpen, Network, Image, Bell, Download,
+  BookOpen, Network, Bell, Download,
   Wallpaper, Stamp, RectangleHorizontal, Grid2x2,
   Eye, Box, Boxes, CircleDot, Terminal,
 } from "lucide-react";
@@ -77,7 +78,7 @@ const sidebarSections = [
       { id: "colors",      label: "Farbcodierung",        description: "Semantisches Datenfarbsystem",          icon: <Palette className="w-4 h-4" /> },
       { id: "icons",       label: "Icon-Set",             description: "611+ Icons, kategorisiert",             icon: <Grid2x2 className="w-4 h-4" /> },
       { id: "backgrounds", label: "Hintergründe",         description: "Patterns, Verläufe, Texturen",          icon: <Wallpaper className="w-4 h-4" /> },
-      { id: "signet",      label: "Signet",            description: "Markenzeichen & Anwendungsregeln",      icon: <Stamp className="w-4 h-4" /> },
+      { id: "signet",      label: "Signet",               description: "Markenzeichen & Anwendungsregeln",      icon: <Stamp className="w-4 h-4" /> },
     ],
   },
   {
@@ -98,8 +99,8 @@ const sidebarSections = [
       { id: "brand",       label: "Brand Architecture",   description: "Volt UI & Tochterprojekte",             icon: <Boxes className="w-4 h-4" /> },
       { id: "brandstory",  label: "Brand Story",          description: "Identität & Positionierung",            icon: <BookOpen className="w-4 h-4" /> },
       { id: "dialog",      label: "Dialog & I/O",         description: "Input/Output-Kommunikation",            icon: <MessageSquare className="w-4 h-4" /> },
-      { id: "imagelang",   label: "Bildsprache",           description: "Visuelle Prinzipien & Moodboard",        icon: <Eye className="w-4 h-4" /> },
-      { id: "skeuicons",   label: "Skeuomorphic Icons",    description: "18 Icons im 3D-Plastik-Grau-Stil",        icon: <Box className="w-4 h-4" /> },
+      { id: "imagelang",   label: "Bildsprache",          description: "Visuelle Prinzipien & Moodboard",       icon: <Eye className="w-4 h-4" /> },
+      { id: "skeuicons",   label: "Skeuomorphic Icons",   description: "18 Icons im 3D-Plastik-Grau-Stil",      icon: <Box className="w-4 h-4" /> },
     ],
   },
   {
@@ -118,19 +119,32 @@ const sidebarSections = [
   },
 ];
 
-/* ── Lazy Section Wrapper: mountet erst wenn 200px vor dem Viewport ── */
+/* ── Lazy Section Wrapper ──
+   - Mountet automatisch wenn 400px vor dem Viewport (IntersectionObserver)
+   - Kann per forceMount-Prop sofort gemountet werden (für Navigation)
+*/
 function LazySectionWrapper({
   id,
   sectionRefs,
+  forceMount,
   children,
 }: {
   id: string;
   sectionRefs: React.MutableRefObject<Record<string, HTMLElement | null>>;
+  forceMount: boolean;
   children: React.ReactNode;
 }) {
   const [mounted, setMounted] = useState(id === "home");
   const wrapperRef = useRef<HTMLElement | null>(null);
 
+  // forceMount: sofort mounten wenn Navigation es verlangt
+  useEffect(() => {
+    if (forceMount && !mounted) {
+      setMounted(true);
+    }
+  }, [forceMount, mounted]);
+
+  // Automatisch mounten wenn in Viewport-Nähe
   useEffect(() => {
     if (mounted) return;
     const el = wrapperRef.current;
@@ -176,64 +190,97 @@ function SectionSkeleton() {
 }
 
 export default function Home() {
-  const [activeId, setActiveId]   = useState("home");
+  const [activeId, setActiveId]     = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const mainRef   = useRef<HTMLDivElement>(null);
+  // Set of IDs that should be force-mounted (for navigation)
+  const [forceMounted, setForceMounted] = useState<Set<string>>(new Set(["home"]));
+  const mainRef     = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
-  /* Flag: verhindert dass Scroll-Spy den State überschreibt während wir programmatisch scrollen */
-  const isScrollingTo = useRef(false);
+  // Flag: verhindert dass Scroll-Spy den State überschreibt während wir programmatisch scrollen
+  const isScrollingTo   = useRef(false);
+  const scrollTargetId  = useRef<string | null>(null);
 
-  /* ── Scroll-Spy via onScroll ── */
-  const handleScroll = useCallback(() => {
-    if (isScrollingTo.current) return;
-    const container = mainRef.current;
-    if (!container) return;
-
-    // Trigger-Linie: 30% vom oberen Rand des Scroll-Containers
-    const triggerY = container.scrollTop + container.clientHeight * 0.30;
-
-    // Finde den letzten Abschnitt, dessen Oberkante die Trigger-Linie überschritten hat
-    let current: string = ALL_SECTIONS[0].id;
-    for (const { id } of ALL_SECTIONS) {
-      const el = sectionRefs.current[id];
-      if (!el) continue;
-      const elTop = el.offsetTop;
-      if (elTop <= triggerY) {
-        current = id;
-      } else {
-        break;
-      }
-    }
-    setActiveId(current);
-  }, []);
-
+  /* ── Scroll-Spy via IntersectionObserver ── */
   useEffect(() => {
     const container = mainRef.current;
     if (!container) return;
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    // Einmal direkt aufrufen um Initialzustand zu setzen
-    handleScroll();
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (isScrollingTo.current) return;
+        // Finde den sichtbarsten Eintrag
+        let best: { id: string; ratio: number } | null = null;
+        for (const entry of entries) {
+          const id = entry.target.id;
+          if (!id) continue;
+          if (entry.isIntersecting) {
+            if (!best || entry.intersectionRatio > best.ratio) {
+              best = { id, ratio: entry.intersectionRatio };
+            }
+          }
+        }
+        if (best) setActiveId(best.id);
+      },
+      {
+        root: container,
+        threshold: [0, 0.1, 0.25, 0.5],
+        rootMargin: "-10% 0px -60% 0px",
+      }
+    );
+
+    // Beobachte alle Section-Elemente
+    const observe = () => {
+      Object.values(sectionRefs.current).forEach((el) => {
+        if (el) observer.observe(el);
+      });
+    };
+    // Kurz warten bis Refs gesetzt sind
+    const t = setTimeout(observe, 100);
+    return () => {
+      clearTimeout(t);
+      observer.disconnect();
+    };
+  }, []);
 
   /* ── Programmatisches Scrollen beim Klick auf Sidebar-Item ── */
   const scrollToSection = useCallback((id: string) => {
     setMobileOpen(false);
-    const el = sectionRefs.current[id];
-    if (!el || !mainRef.current) return;
-
-    isScrollingTo.current = true;
     setActiveId(id);
 
-    // Offset: 32px Luft oben
-    const containerTop = mainRef.current.getBoundingClientRect().top;
-    const elTop        = el.getBoundingClientRect().top;
-    const offset       = elTop - containerTop + mainRef.current.scrollTop - 32;
+    // Section sofort mounten falls noch nicht geschehen
+    setForceMounted((prev) => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
 
-    mainRef.current.scrollTo({ top: offset, behavior: "smooth" });
+    isScrollingTo.current = true;
+    scrollTargetId.current = id;
 
-    // Flag nach Animation zurücksetzen
-    setTimeout(() => { isScrollingTo.current = false; }, 800);
+    const doScroll = () => {
+      const el = sectionRefs.current[id];
+      const container = mainRef.current;
+      if (!el || !container) return;
+
+      const containerTop = container.getBoundingClientRect().top;
+      const elTop        = el.getBoundingClientRect().top;
+      const offset       = elTop - containerTop + container.scrollTop - 24;
+
+      container.scrollTo({ top: offset, behavior: "smooth" });
+      setTimeout(() => {
+        isScrollingTo.current = false;
+        scrollTargetId.current = null;
+      }, 900);
+    };
+
+    // Falls Section noch nicht gemountet: kurz warten bis React re-rendert
+    const el = sectionRefs.current[id];
+    if (!el || el.querySelector('[data-skeleton]')) {
+      setTimeout(doScroll, 80);
+    } else {
+      doScroll();
+    }
   }, []);
 
   /* ── Logo ── */
@@ -253,7 +300,7 @@ export default function Home() {
       {showClose && (
         <button
           onClick={() => setMobileOpen(false)}
-          className="w-7 h-7 flex items-center justify-center rounded-lg text-[#AAAAAA] hover:text-[#0A0A0A] hover:bg-[#F0F0F0]"
+          className="w-8 h-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary"
         >
           <X className="w-4 h-4" />
         </button>
@@ -262,36 +309,38 @@ export default function Home() {
   );
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background text-foreground">
-
-      {/* ── Desktop Sidebar (sticky) ── */}
-      <div className="hidden lg:flex flex-col h-full">
+    <div className="flex h-screen overflow-hidden bg-background">
+      {/* ── Desktop Sidebar ── */}
+      <aside className="hidden lg:flex flex-col w-64 flex-shrink-0 border-r border-border bg-[#0A0A0A] overflow-hidden">
+        <div className="p-5 border-b border-white/10">
+          <Logo />
+        </div>
         <VoltSidebar
           sections={sidebarSections}
           activeId={activeId}
           onSelect={scrollToSection}
-          logo={<Logo />}
         />
-      </div>
+      </aside>
 
-      {/* ── Mobile Sidebar Overlay ── */}
+      {/* ── Mobile Drawer ── */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
-          <div className="relative z-10 flex flex-col">
+          <div className="w-72 flex flex-col bg-[#0A0A0A] h-full overflow-hidden shadow-2xl">
+            <div className="p-5 border-b border-white/10">
+              <Logo showClose />
+            </div>
             <VoltSidebar
               sections={sidebarSections}
               activeId={activeId}
               onSelect={scrollToSection}
-              logo={<Logo showClose />}
             />
           </div>
+          <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
         </div>
       )}
 
       {/* ── Hauptinhalt: durchgehend scrollbar ── */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0 bg-background">
-
         {/* Mobile Header */}
         <header className="lg:hidden flex items-center justify-between px-4 h-14 border-b border-border bg-background flex-shrink-0 sticky top-0 z-40">
           <button
@@ -301,7 +350,7 @@ export default function Home() {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
+            <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
               <Terminal className="w-3 h-3 text-background" />
             </div>
             <span className="font-display font-bold text-sm text-foreground tracking-tight">
@@ -312,9 +361,14 @@ export default function Home() {
         </header>
 
         {/* Scrollbarer Inhalt – alle Sections untereinander */}
-          <div ref={mainRef} className="flex-1 overflow-y-auto bg-background">
+        <div ref={mainRef} className="flex-1 overflow-y-auto bg-background">
           {ALL_SECTIONS.map(({ id, Component }) => (
-            <LazySectionWrapper key={id} id={id} sectionRefs={sectionRefs}>
+            <LazySectionWrapper
+              key={id}
+              id={id}
+              sectionRefs={sectionRefs}
+              forceMount={forceMounted.has(id)}
+            >
               {id === "home"
                 ? <HeroSection onNavigate={scrollToSection} />
                 : (id === "nodecanvas" || id === "bubblemap")
