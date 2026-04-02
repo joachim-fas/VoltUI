@@ -7,7 +7,7 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import { handleZipDownload, handleLocalRepoUpload } from "../themeTransformRouter";
+import { handleZipDownload, handleLocalRepoUpload, handlePreview } from "../themeTransformRouter";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -40,6 +40,8 @@ async function startServer() {
   app.get("/api/theme-transform/download/:cacheKey", handleZipDownload);
   // Lokaler Repo-Upload (Multipart)
   app.post("/api/theme-transform/upload-local", handleLocalRepoUpload);
+  // HTML-Vorschau einer transformierten Datei
+  app.get("/api/theme-transform/preview/:cacheKey/:fileIndex", handlePreview);
 
   // tRPC API
   app.use(

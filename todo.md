@@ -98,3 +98,12 @@
 - [x] Server: express.json/urlencoded Limit von 50mb auf 500mb erhöhen
 - [x] Server: multer fileSize Limit von 50 MB auf 500 MB erhöhen
 - [x] Frontend: Hinweistext "Max. 50 MB" auf "Max. 500 MB" aktualisieren
+
+## v2.8 Visuelle Vorschau im Theme Agent
+- [x] Backend: HTML-Preview-Endpoint der transformiertes HTML + volt-ui.css zusammenführt
+- [x] Backend: JSX/TSX zu statischem HTML konvertieren für Preview (JSX-Heuristik)
+- [x] Frontend: iframe-Rendering mit Browser-Bar (Traffic-Lights)
+- [x] Frontend: Datei-Auswahl Tabs für Preview (welche Datei anzeigen)
+- [x] Frontend: 3-Tab-Umschalter: Visuelle Vorschau / Code-Diff / Analyse-Log
+- [x] Frontend: Vollbild-Preview-Modus
+- [x] Frontend: "In neuem Tab öffnen" Button

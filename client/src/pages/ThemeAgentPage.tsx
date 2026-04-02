@@ -293,14 +293,105 @@ function TokenManager() {
   );
 }
 
+// ─── Visual Preview ───────────────────────────────────────────────────────────
+
+function VisualPreview({ cacheKey, files }: { cacheKey: string; files: PreviewFile[] }) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [fullscreen, setFullscreen] = useState(false);
+  const previewUrl = `/api/theme-transform/preview/${cacheKey}/${selectedIndex}`;
+
+  return (
+    <div className={`border border-border rounded-xl overflow-hidden bg-card ${
+      fullscreen ? "fixed inset-4 z-50 shadow-2xl" : ""
+    }`}>
+      {/* Toolbar */}
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-secondary/40">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          {/* Datei-Auswahl */}
+          <div className="flex items-center gap-1 overflow-x-auto">
+            {files.map((file, i) => (
+              <button
+                key={i}
+                onClick={() => setSelectedIndex(i)}
+                className={`flex-shrink-0 px-3 py-1 rounded text-xs font-mono transition-colors ${
+                  selectedIndex === i
+                    ? "bg-foreground text-background"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                }`}
+              >
+                {file.path.split("/").pop()}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <a
+            href={previewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1.5 rounded hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+            title="In neuem Tab öffnen"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+          <button
+            onClick={() => setFullscreen(f => !f)}
+            className="p-1.5 rounded hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+            title={fullscreen ? "Vollbild beenden" : "Vollbild"}
+          >
+            {fullscreen
+              ? <X className="w-3.5 h-3.5" />
+              : <Eye className="w-3.5 h-3.5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Browser-Bar */}
+      <div className="flex items-center gap-2 px-4 py-2 bg-secondary/20 border-b border-border">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
+          <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
+          <div className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
+        </div>
+        <div className="flex-1 bg-background border border-border rounded px-3 py-0.5 text-xs font-mono text-muted-foreground truncate">
+          {files[selectedIndex]?.path}
+        </div>
+      </div>
+
+      {/* iframe */}
+      <iframe
+        key={`${cacheKey}-${selectedIndex}`}
+        src={previewUrl}
+        className={`w-full border-0 bg-white ${
+          fullscreen ? "h-[calc(100vh-120px)]" : "h-[520px]"
+        }`}
+        title={`Volt UI Vorschau – ${files[selectedIndex]?.path}`}
+        sandbox="allow-scripts allow-same-origin"
+      />
+
+      {fullscreen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setFullscreen(false)}
+          style={{ zIndex: 49 }}
+        />
+      )}
+    </div>
+  );
+}
+
 // ─── Result Card ──────────────────────────────────────────────────────────────
 
-function ResultCard({ result, onDownload }: {
+function ResultCard({ result, cacheKey, onDownload }: {
   result: TransformResult;
+  cacheKey: string;
   onDownload: () => void;
 }) {
+  const [viewMode, setViewMode] = useState<"visual" | "code" | "log">("visual");
+
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="border border-border rounded-xl p-6 bg-card">
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
@@ -333,29 +424,53 @@ function ResultCard({ result, onDownload }: {
         </div>
       </div>
 
-      <div>
-        <h4 className="text-sm font-semibold text-foreground/70 mb-2 flex items-center gap-2">
-          <Terminal className="w-4 h-4" />
-          Analyse-Log
-        </h4>
-        <LogTerminal lines={result.log} />
+      {/* Tab-Umschalter */}
+      <div className="flex items-center gap-1 p-1 bg-secondary rounded-lg w-fit">
+        {([
+          { key: "visual", label: "Visuelle Vorschau", icon: <Eye className="w-3.5 h-3.5" /> },
+          { key: "code",   label: "Code-Diff",         icon: <Code2 className="w-3.5 h-3.5" /> },
+          { key: "log",    label: "Analyse-Log",        icon: <Terminal className="w-3.5 h-3.5" /> },
+        ] as const).map(tab => (
+          <button
+            key={tab.key}
+            onClick={() => setViewMode(tab.key)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+              viewMode === tab.key
+                ? "bg-background text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
+        ))}
       </div>
 
-      {result.previewFiles.length > 0 && (
-        <div>
-          <h4 className="text-sm font-semibold text-foreground/70 mb-3 flex items-center gap-2">
-            <Code2 className="w-4 h-4" />
-            Vorschau der Transformationen
-            <span className="text-xs font-normal text-muted-foreground">(erste {result.previewFiles.length} Dateien)</span>
-          </h4>
-          <div className="space-y-2">
-            {result.previewFiles.map((file, i) => (
-              <DiffViewer key={i} file={file} />
-            ))}
-          </div>
+      {/* Visuelle Vorschau */}
+      {viewMode === "visual" && result.previewFiles.length > 0 && (
+        <VisualPreview cacheKey={cacheKey} files={result.previewFiles} />
+      )}
+      {viewMode === "visual" && result.previewFiles.length === 0 && (
+        <div className="border border-dashed border-border rounded-xl p-10 text-center text-muted-foreground">
+          Keine Vorschau-Dateien verfügbar.
         </div>
       )}
 
+      {/* Code-Diff */}
+      {viewMode === "code" && result.previewFiles.length > 0 && (
+        <div className="space-y-2">
+          {result.previewFiles.map((file, i) => (
+            <DiffViewer key={i} file={file} />
+          ))}
+        </div>
+      )}
+
+      {/* Analyse-Log */}
+      {viewMode === "log" && (
+        <LogTerminal lines={result.log} />
+      )}
+
+      {/* ZIP-Hinweis */}
       <div className="border border-border rounded-lg p-4 flex items-start gap-3 bg-card">
         <Download className="w-4 h-4 text-foreground mt-0.5 flex-shrink-0" />
         <div className="text-sm text-muted-foreground">
@@ -710,8 +825,8 @@ export default function ThemeAgentPage() {
         )}
 
         {/* Ergebnis */}
-        {result && !isLoading && (
-          <ResultCard result={result} onDownload={handleDownload} />
+        {result && !isLoading && cacheKey && (
+          <ResultCard result={result} cacheKey={cacheKey} onDownload={handleDownload} />
         )}
 
         {/* Leerzustand */}
