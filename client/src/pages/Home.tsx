@@ -29,7 +29,6 @@ const BubbleMapSection = lazy(() => import("./sections/BubbleMapSection"));
 const NodeCanvasSection = lazy(() => import("./sections/NodeCanvasSection"));
 import { ExportSection }              from "./sections/ExportSection";
 import SkeuomorphicIconsSection       from "./sections/SkeuomorphicIconsSection";
-import { ThemeAgentSection }          from "./sections/ThemeAgentSection";
 import {
   Home as HomeIcon, Palette, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Menu, X,
@@ -63,7 +62,6 @@ const ALL_SECTIONS = [
   { id: "bubblemap",   Component: BubbleMapSection },
   { id: "nodecanvas",  Component: NodeCanvasSection },
   { id: "export",      Component: ExportSection },
-  { id: "themeagent",  Component: ThemeAgentSection },
 ] as const;
 
 const sidebarSections = [
@@ -122,7 +120,7 @@ const sidebarSections = [
   {
     title: "v2 · Theme Agent",
     items: [
-      { id: "themeagent", label: "Theme Agent",            description: "Volt UI auf jedes Repo anwenden",       icon: <Sparkles className="w-4 h-4" /> },
+      { id: "themeagent", label: "Theme Agent",            description: "Volt UI auf jedes Repo anwenden",       icon: <Sparkles className="w-4 h-4" />, href: "/theme-agent" },
     ],
   },
 ];

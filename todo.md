@@ -44,3 +44,10 @@
 - [x] Frontend: Token-Management UI (Eingabe, Maske, Löschen-Button)
 - [x] Backend: Token aus DB beim Transformations-Request laden (via tokenStore)
 - [x] Sicherheit: Token nur gehasht in DB, nie im Klartext zurückgeben
+
+## v2.4 Design-Korrekturen
+- [x] Sidebar: Logo-Text Kontrast korrigieren (kein Lime auf Schwarz)
+- [x] Sidebar: Fortschrittsbalken Farbe korrigieren (kein Lime)
+- [x] Sidebar: V2-Kategorie dezenter gestalten (kein Lime-Block)
+- [x] Theme Agent: Eigene Route /theme-agent mit eigenem Layout
+- [x] Sidebar: V2-Eintrag als Link zur Route (nicht Scroll)
