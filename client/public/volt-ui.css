@@ -10,7 +10,7 @@
  * ╚══════════════════════════════════════════════════════════════╝
  *
  * GOOGLE FONTS (in <head> einbinden):
- * @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+ * @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
  */
 
 /* ═══════════════════════════════════════════════════════════════
@@ -19,9 +19,9 @@
 
 :root {
   /* ── Typografie ── */
-  --volt-font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --volt-font-display: "Space Grotesk", system-ui, sans-serif;
   --volt-font-ui:      "DM Sans", system-ui, sans-serif;
-  --volt-font-mono:    "DM Mono", "JetBrains Mono", monospace;
+  --volt-font-mono:    "JetBrains Mono", "Fira Code", monospace;
 
   /* ── Primärfarben ── */
   --volt-lime:         #E4FF97;   /* Neon Lime — Hauptakzent */
@@ -923,3 +923,19 @@ body.volt-body {
 .volt-sky     { background-color: var(--volt-sky);    color: var(--volt-black); }
 .volt-peach   { background-color: var(--volt-peach);  color: var(--volt-black); }
 .volt-aqua    { background-color: var(--volt-aqua);   color: var(--volt-black); }
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOW-EFFEKTE (ergänzt v1.1)
+   ═══════════════════════════════════════════════════════════════ */
+.volt-glow-lime {
+  box-shadow: 0 0 0 1px rgba(228,255,151,0.3), 0 0 12px rgba(228,255,151,0.4), 0 0 32px rgba(228,255,151,0.2);
+}
+.volt-glow-blue {
+  box-shadow: 0 0 0 1px rgba(96,165,250,0.3), 0 0 12px rgba(96,165,250,0.4), 0 0 32px rgba(96,165,250,0.2);
+}
+.volt-glow-red {
+  box-shadow: 0 0 0 1px rgba(248,113,113,0.3), 0 0 12px rgba(248,113,113,0.4), 0 0 32px rgba(248,113,113,0.2);
+}
+.volt-glow-violet {
+  box-shadow: 0 0 0 1px rgba(167,139,250,0.3), 0 0 12px rgba(167,139,250,0.4), 0 0 32px rgba(167,139,250,0.2);
+}

@@ -646,33 +646,34 @@ export const IconTerminal: React.FC<IconProps> = ({ size = 64, className }) => {
     <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
       <defs>
         <linearGradient id={bd} x1="32" y1="8" x2="32" y2="56" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#2A2A2A" />
-          <stop offset="100%" stopColor="#111111" />
+          <stop offset="0%" stopColor="#2D3748" />
+          <stop offset="100%" stopColor="#1A202C" />
         </linearGradient>
         <linearGradient id={tb} x1="32" y1="8" x2="32" y2="22" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#444444" />
-          <stop offset="100%" stopColor="#2A2A2A" />
+          <stop offset="0%" stopColor="#4A5568" />
+          <stop offset="100%" stopColor="#2D3748" />
         </linearGradient>
         <filter id={sd} x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.4" />
+          <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000" floodOpacity="0.5" />
         </filter>
       </defs>
-      {/* Fenster */}
+      {/* Fenster mit sichtbarem Rahmen */}
       <rect x="6" y="8" width="52" height="48" rx="6" fill={`url(#${bd})`} filter={`url(#${sd})`} />
+      <rect x="6" y="8" width="52" height="48" rx="6" stroke="#718096" strokeWidth="1.5" fill="none" />
       {/* Toolbar */}
       <rect x="6" y="8" width="52" height="16" rx="6" fill={`url(#${tb})`} />
       <rect x="6" y="18" width="52" height="6" fill={`url(#${tb})`} />
-      {/* Traffic-Lights */}
-      <circle cx="17" cy="16" r="3.5" fill="#888" />
-      <circle cx="27" cy="16" r="3.5" fill="#888" />
-      <circle cx="37" cy="16" r="3.5" fill="#888" />
-      {/* Prompt-Zeilen */}
-      <text x="12" y="36" fontFamily="monospace" fontSize="8" fill="#AAAAAA">$ volt run</text>
-      <text x="12" y="46" fontFamily="monospace" fontSize="8" fill="#888888">→ ready</text>
+      {/* Traffic-Lights – farbig für bessere Sichtbarkeit */}
+      <circle cx="17" cy="16" r="3.5" fill="#FC8181" />
+      <circle cx="27" cy="16" r="3.5" fill="#F6E05E" />
+      <circle cx="37" cy="16" r="3.5" fill="#68D391" />
+      {/* Prompt-Zeilen – heller */}
+      <text x="12" y="36" fontFamily="monospace" fontSize="8" fill="#E4FF97">$ volt run</text>
+      <text x="12" y="46" fontFamily="monospace" fontSize="8" fill="#A0AEC0">→ ready</text>
       {/* Cursor */}
-      <rect x="12" y="50" width="6" height="7" rx="1" fill="#888" opacity="0.7" />
+      <rect x="12" y="50" width="6" height="7" rx="1" fill="#E4FF97" opacity="0.85" />
       {/* Glanzlicht */}
-      <rect x="6" y="8" width="52" height="10" rx="6" fill="white" opacity="0.06" />
+      <rect x="6" y="8" width="52" height="10" rx="6" fill="white" opacity="0.10" />
     </svg>
   );
 };

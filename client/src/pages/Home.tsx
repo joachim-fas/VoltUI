@@ -4,7 +4,7 @@
  * Scroll-Spy: IntersectionObserver hebt aktiven Abschnitt in der Sidebar hervor
  */
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
 import { VoltSidebar } from "@/components/volt/VoltSidebar";
 import { HeroSection }               from "./sections/HeroSection";
 import { FoundationsSection }        from "./sections/FoundationsSection";
@@ -24,8 +24,8 @@ import BrandArchitectureSection      from "./sections/BrandArchitectureSection";
 import DialogSection                 from "./sections/DialogSection";
 import BrandStorySection             from "./sections/BrandStorySection";
 import ImageLanguageSection          from "./sections/ImageLanguageSection";
-import BubbleMapSection              from "./sections/BubbleMapSection";
-import NodeCanvasSection             from "./sections/NodeCanvasSection";
+const BubbleMapSection = lazy(() => import("./sections/BubbleMapSection"));
+const NodeCanvasSection = lazy(() => import("./sections/NodeCanvasSection"));
 import { ExportSection }              from "./sections/ExportSection";
 import SkeuomorphicIconsSection       from "./sections/SkeuomorphicIconsSection";
 import {
@@ -117,6 +117,63 @@ const sidebarSections = [
     ],
   },
 ];
+
+/* ── Lazy Section Wrapper: mountet erst wenn 200px vor dem Viewport ── */
+function LazySectionWrapper({
+  id,
+  sectionRefs,
+  children,
+}: {
+  id: string;
+  sectionRefs: React.MutableRefObject<Record<string, HTMLElement | null>>;
+  children: React.ReactNode;
+}) {
+  const [mounted, setMounted] = useState(id === "home");
+  const wrapperRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (mounted) return;
+    const el = wrapperRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMounted(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "400px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [mounted]);
+
+  return (
+    <section
+      id={id}
+      ref={(el) => {
+        wrapperRef.current = el;
+        sectionRefs.current[id] = el;
+      }}
+      className="border-b border-border last:border-b-0"
+    >
+      <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 md:py-14">
+        {mounted ? children : <SectionSkeleton />}
+      </div>
+    </section>
+  );
+}
+
+function SectionSkeleton() {
+  return (
+    <div className="w-full h-64 flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3 opacity-30">
+        <div className="w-8 h-8 border-2 border-[#0A0A0A] border-t-transparent rounded-full animate-spin" />
+        <p className="font-mono text-xs text-[#AAAAAA] tracking-widest uppercase">Laden …</p>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [activeId, setActiveId]   = useState("home");
@@ -245,7 +302,7 @@ export default function Home() {
           </button>
           <div className="flex items-center gap-2.5">
               <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
-              <Terminal className="w-3 h-3 text-primary" />
+              <Terminal className="w-3 h-3 text-background" />
             </div>
             <span className="font-display font-bold text-sm text-foreground tracking-tight">
               volt<span className="opacity-30"> ui</span>
@@ -255,21 +312,16 @@ export default function Home() {
         </header>
 
         {/* Scrollbarer Inhalt – alle Sections untereinander */}
-        <div ref={mainRef} className="flex-1 overflow-y-auto bg-background">
+          <div ref={mainRef} className="flex-1 overflow-y-auto bg-background">
           {ALL_SECTIONS.map(({ id, Component }) => (
-            <section
-              key={id}
-              id={id}
-              ref={(el) => { sectionRefs.current[id] = el; }}
-              className="border-b border-border last:border-b-0"
-            >
-              <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 md:py-14">
-                {id === "home"
-                  ? <HeroSection onNavigate={scrollToSection} />
+            <LazySectionWrapper key={id} id={id} sectionRefs={sectionRefs}>
+              {id === "home"
+                ? <HeroSection onNavigate={scrollToSection} />
+                : (id === "nodecanvas" || id === "bubblemap")
+                  ? <Suspense fallback={<SectionSkeleton />}><Component /></Suspense>
                   : <Component />
-                }
-              </div>
-            </section>
+              }
+            </LazySectionWrapper>
           ))}
         </div>
       </div>

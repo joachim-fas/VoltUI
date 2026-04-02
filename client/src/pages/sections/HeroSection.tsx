@@ -57,20 +57,6 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
       <div className="relative min-h-[75vh] rounded-3xl overflow-hidden flex flex-col items-center justify-center text-center px-6 py-24"
         style={{ background: "#E4FF97" }}>
 
-        {/* Unsplash-Hintergrundbild (dunkel, strukturiert) – nur im Dark-Mode sichtbar */}
-        {isDark && (
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80&fit=crop')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              opacity: 0.18,
-              mixBlendMode: "multiply",
-            }}
-          />
-        )}
-
         {/* Subtile Muster-Überlagerung */}
         <div className="absolute inset-0 pattern-dots opacity-20 pointer-events-none" />
 
@@ -154,7 +140,7 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
           <div className="p-8">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
-                <span className="text-primary font-mono text-xs font-bold">&gt;_</span>
+                <span className="text-background font-mono text-xs font-bold">&gt;_</span>
               </div>
               <p className="section-label">Was ist Volt UI?</p>
             </div>

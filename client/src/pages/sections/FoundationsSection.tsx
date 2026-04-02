@@ -260,19 +260,31 @@ export const FoundationsSection: React.FC = () => {
           <p className="text-xs text-muted-foreground font-body mt-0.5">Backdrop-Filter-Effekte für überlagerte Elemente</p>
         </VoltCardHeader>
         <VoltCardContent>
-          <div className="relative rounded-xl overflow-hidden p-6 volt-texture" style={{ background: 'linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%)' }}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Hintergrundebene mit farbigen Formen – macht backdrop-filter:blur sichtbar */}
+          <div className="relative rounded-xl overflow-hidden" style={{ minHeight: 200 }}>
+            {/* Hintergrund */}
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A2A 100%)' }}>
+              {/* Lime-Blob oben links */}
+              <div style={{ position: 'absolute', top: -50, left: -40, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle, #E4FF97 0%, #A8D840 55%, transparent 100%)', opacity: 0.9 }} />
+              {/* Blauer Blob unten rechts */}
+              <div style={{ position: 'absolute', bottom: -60, right: -30, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, #60A5FA 0%, #2563EB 55%, transparent 100%)', opacity: 0.75 }} />
+              {/* Oranger Akzent Mitte */}
+              <div style={{ position: 'absolute', top: '20%', left: '38%', width: 140, height: 140, borderRadius: '50%', background: 'radial-gradient(circle, #FB923C 0%, #EA580C 65%, transparent 100%)', opacity: 0.65 }} />
+              {/* Hintergrundtext */}
+              <div style={{ position: 'absolute', bottom: 8, left: 14, fontFamily: '"Space Grotesk", sans-serif', fontSize: 72, fontWeight: 900, color: 'rgba(255,255,255,0.05)', letterSpacing: '-3px', userSelect: 'none', lineHeight: 1 }}>VOLT</div>
+            </div>
+            {/* Glasskacheln darüber */}
+            <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 p-6">
               {glassVariants.map((g) => (
                 <div key={g.label} className={`${g.cls} rounded-xl p-4`}>
                   <p className="text-sm font-semibold font-ui mb-1">{g.label}</p>
-                  <p className="text-xs font-body text-muted-foreground">{g.desc}</p>
+                  <p className="text-xs font-body opacity-70">{g.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </VoltCardContent>
       </VoltCard>
-
       {/* Typography */}
       <VoltCard>
         <VoltCardHeader>
@@ -396,17 +408,18 @@ export const FoundationsSection: React.FC = () => {
           <p className="text-xs text-muted-foreground font-ui mt-0.5">Tiefe durch Farbe und Glow – kein klassischer Schlagschatten</p>
         </VoltCardHeader>
         <VoltCardContent>
-          <div className="flex flex-wrap gap-6 items-end">
+          <div className="rounded-xl bg-[#0A0A0A] p-6 flex flex-wrap gap-8 items-end">
             {[
-              { label: "border only",   cls: "border border-border" },
-              { label: "border strong", cls: "border-2 border-primary/30" },
-              { label: "glow-blue",     cls: "glow-blue" },
-              { label: "glow-red",      cls: "glow-red" },
-              { label: "glow-violet",   cls: "glow-violet" },
-            ].map(({ label, cls }) => (
+              { label: "border only",   cls: "border border-white/20",                bg: "#1A1A1A" },
+              { label: "border strong", cls: "border-2 border-white/50",              bg: "#1A1A1A" },
+              { label: "glow-blue",     cls: "glow-blue",                             bg: "#1A1A1A" },
+              { label: "glow-red",      cls: "glow-red",                              bg: "#1A1A1A" },
+              { label: "glow-violet",   cls: "glow-violet",                           bg: "#1A1A1A" },
+              { label: "glow-lime",     cls: "glow-lime",                             bg: "#1A1A1A" },
+            ].map(({ label, cls, bg }) => (
               <div key={label} className="flex flex-col items-center gap-3">
-                <div className={`w-14 h-14 rounded-xl bg-secondary ${cls}`} />
-                <span className="text-[9px] font-mono text-muted-foreground text-center">{label}</span>
+                <div className={`w-14 h-14 rounded-xl ${cls}`} style={{ background: bg }} />
+                <span className="text-[9px] font-mono text-white/50 text-center">{label}</span>
               </div>
             ))}
           </div>
