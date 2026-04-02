@@ -129,3 +129,9 @@
 - [x] Skeleton-Zeilen (3 animierte Pulse-Balken)
 - [x] Smooth Fade-in wenn iframe geladen ist (opacity 0 → 1, 0.3s ease)
 - [x] Ladezustand zurücksetzen bei Datei- und Breakpoint-Wechsel
+
+## v3.2 Grain-Dateien bereinigen
+- [x] Alle GRAIN_*.md und GRAIN_*.pdf Dateien entfernt
+- [x] QA_REPORT.md, QA_AUDIT.md, DESIGN_AUDIT.md, GRAIN_FLUX_AUDIT.md entfernt
+- [x] check-icons.mjs und check-icons.cjs entfernt (Build-Artefakte)
+- [ ] Bereinigten Stand committen und in GitHub pushen
