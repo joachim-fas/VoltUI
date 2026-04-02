@@ -29,13 +29,14 @@ const BubbleMapSection = lazy(() => import("./sections/BubbleMapSection"));
 const NodeCanvasSection = lazy(() => import("./sections/NodeCanvasSection"));
 import { ExportSection }              from "./sections/ExportSection";
 import SkeuomorphicIconsSection       from "./sections/SkeuomorphicIconsSection";
+import { ThemeAgentSection }          from "./sections/ThemeAgentSection";
 import {
   Home as HomeIcon, Palette, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Menu, X,
   LayoutDashboard, Layers, Workflow,
   BookOpen, Network, Bell, Download,
   Wallpaper, Stamp, RectangleHorizontal, Grid2x2,
-  Eye, Box, Boxes, CircleDot, Terminal,
+  Eye, Box, Boxes, CircleDot, Terminal, Sparkles,
 } from "lucide-react";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
@@ -62,6 +63,7 @@ const ALL_SECTIONS = [
   { id: "bubblemap",   Component: BubbleMapSection },
   { id: "nodecanvas",  Component: NodeCanvasSection },
   { id: "export",      Component: ExportSection },
+  { id: "themeagent",  Component: ThemeAgentSection },
 ] as const;
 
 const sidebarSections = [
@@ -115,6 +117,12 @@ const sidebarSections = [
     title: "Export",
     items: [
       { id: "export",      label: "Export & Import",      description: "CSS, Snippets, Anleitung",              icon: <Download className="w-4 h-4" /> },
+    ],
+  },
+  {
+    title: "v2 · Theme Agent",
+    items: [
+      { id: "themeagent", label: "Theme Agent",            description: "Volt UI auf jedes Repo anwenden",       icon: <Sparkles className="w-4 h-4" /> },
     ],
   },
 ];
