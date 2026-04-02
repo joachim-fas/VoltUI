@@ -449,7 +449,7 @@ export default function ThemeAgentPage() {
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-foreground" />
               <span className="font-semibold text-sm text-foreground">Theme Agent</span>
-              <span className="text-[0.55rem] font-mono text-[#E4FF97] bg-[#E4FF97]/10 px-1.5 py-0.5 rounded uppercase tracking-widest">V2</span>
+              <span className="text-[0.55rem] font-mono text-background bg-foreground px-1.5 py-0.5 rounded uppercase tracking-widest">V2</span>
             </div>
           </div>
           <a
