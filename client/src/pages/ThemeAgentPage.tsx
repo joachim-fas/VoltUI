@@ -663,7 +663,7 @@ export default function ThemeAgentPage() {
                   )}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Lade dein lokales Git-Repository als ZIP hoch. Max. 50 MB · Unterstützt: React+Tailwind, React+CSS, HTML+CSS
+                  Lade dein lokales Git-Repository als ZIP hoch. Max. 500 MB · Unterstützt: React+Tailwind, React+CSS, HTML+CSS
                 </p>
               </>
             )}

@@ -93,3 +93,8 @@
 - [x] Frontend: File-Upload-Komponente für ZIP-Dateien mit Drag & Drop UI
 - [x] Frontend: handleLocalTransform Funktion für lokalen Upload
 - [x] Hero-Text aktualisiert (GitHub + lokale Repos)
+
+## v2.7 Upload-Limit erhöhen
+- [x] Server: express.json/urlencoded Limit von 50mb auf 500mb erhöhen
+- [x] Server: multer fileSize Limit von 50 MB auf 500 MB erhöhen
+- [x] Frontend: Hinweistext "Max. 50 MB" auf "Max. 500 MB" aktualisieren

@@ -130,7 +130,7 @@ export function handleZipDownload(req: any, res: any) {
  */
 export async function handleLocalRepoUpload(req: any, res: any) {
   const multer = (await import("multer")).default;
-  const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 50 * 1024 * 1024 } });
+  const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 500 * 1024 * 1024 } });
 
   upload.single("repo")(req, res, async (err: any) => {
     if (err) {
