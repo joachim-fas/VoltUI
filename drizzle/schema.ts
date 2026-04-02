@@ -25,4 +25,18 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * GitHub Personal Access Tokens für Theme Agent
+ * Tokens werden gehasht gespeichert (SHA-256) – nie im Klartext
+ */
+export const githubTokens = mysqlTable("github_tokens", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(), // Foreign key zu users.id
+  tokenHash: varchar("tokenHash", { length: 64 }).notNull(), // SHA-256 Hash
+  maskedToken: varchar("maskedToken", { length: 32 }).notNull(), // z.B. "ghp_****...****1234"
+  label: varchar("label", { length: 128 }), // Optional: "Mein GitHub Token"
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GithubToken = typeof githubTokens.$inferSelect;
+export type InsertGithubToken = typeof githubTokens.$inferInsert;

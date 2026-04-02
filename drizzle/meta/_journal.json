@@ -8,6 +8,13 @@
       "when": 1775131349854,
       "tag": "0000_ambitious_galactus",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1775135754386,
+      "tag": "0001_giant_imperial_guard",
+      "breakpoints": true
     }
   ]
 }

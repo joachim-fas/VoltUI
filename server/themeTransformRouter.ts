@@ -7,6 +7,7 @@ import { z } from "zod";
 import { publicProcedure, router } from "./_core/trpc";
 import { transformRepo, generateZip } from "./themeTransformer";
 import { TRPCError } from "@trpc/server";
+import { tokenStore } from "./tokenRouter";
 
 // In-Memory Cache für Transformations-Ergebnisse (für ZIP-Download)
 const transformCache = new Map<string, {
@@ -34,11 +35,14 @@ export const themeTransformRouter = router({
     .input(
       z.object({
         repoUrl: z.string().min(1, "GitHub-URL ist erforderlich"),
-        token: z.string().optional(), // Optionaler GitHub PAT für private Repos
+        token: z.string().optional(), // Optionaler GitHub PAT (wird normalerweise aus tokenStore geladen)
       })
     )
-    .mutation(async ({ input }) => {
-      const { repoUrl, token } = input;
+    .mutation(async ({ input, ctx }) => {
+      const { repoUrl } = input;
+      // Token-Priorität: 1. Direkt im Request, 2. Gespeicherter Token aus Memory-Store
+      const userId = ctx.user?.id ?? 0;
+      const token = input.token || tokenStore.get(userId);
 
       try {
         const result = await transformRepo(repoUrl, token);

@@ -1,6 +1,7 @@
 /**
- * Theme Agent Section v2.2
+ * Theme Agent Section v2.3
  * GitHub-Repo-URL eingeben → UI-Komponenten durch Volt UI ersetzen → ZIP herunterladen
+ * Neu: Persistentes GitHub Token Management (speichern, anzeigen, löschen)
  */
 
 import React, { useState } from "react";
@@ -8,7 +9,8 @@ import { trpc } from "@/lib/trpc";
 import {
   Github, Sparkles, Download, ChevronRight, ChevronDown,
   FileCode, CheckCircle2, AlertCircle, Loader2, Terminal,
-  ArrowRight, Code2, Layers, Zap, Lock
+  ArrowRight, Code2, Layers, Zap, Lock, Eye, EyeOff,
+  KeyRound, Trash2, ShieldCheck, RefreshCw
 } from "lucide-react";
 
 // ─── Typen ───────────────────────────────────────────────────────────────────
@@ -91,7 +93,7 @@ function DiffViewer({ file }: { file: PreviewFile }) {
           <FileCode className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           <span className="font-mono text-xs text-foreground truncate">{file.path}</span>
           {hasChanges && (
-            <span className="flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 bg-[#E4FF97]/20 text-[#0A0A0A] rounded text-xs font-medium">
+            <span className="flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 bg-[#E4FF97]/20 text-[#0A0A0A] dark:text-[#E4FF97] rounded text-xs font-medium">
               <CheckCircle2 className="w-3 h-3" />
               {file.changes.length} Änderung{file.changes.length !== 1 ? "en" : ""}
             </span>
@@ -137,6 +139,171 @@ function DiffViewer({ file }: { file: PreviewFile }) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Token-Manager ────────────────────────────────────────────────────────────
+
+function TokenManager() {
+  const [inputToken, setInputToken]   = useState("");
+  const [inputLabel, setInputLabel]   = useState("");
+  const [showInput, setShowInput]     = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const utils = trpc.useUtils();
+
+  const { data: tokenData, isLoading: tokenLoading } = trpc.githubToken.get.useQuery();
+
+  const saveMutation = trpc.githubToken.save.useMutation({
+    onSuccess: () => {
+      utils.githubToken.get.invalidate();
+      setInputToken("");
+      setInputLabel("");
+      setShowInput(false);
+    },
+  });
+
+  const deleteMutation = trpc.githubToken.delete.useMutation({
+    onSuccess: () => {
+      utils.githubToken.get.invalidate();
+    },
+  });
+
+  const handleSave = () => {
+    if (!inputToken.trim()) return;
+    saveMutation.mutate({ token: inputToken.trim(), label: inputLabel.trim() || undefined });
+  };
+
+  if (tokenLoading) {
+    return (
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <Loader2 className="w-3 h-3 animate-spin" />
+        Token-Status wird geladen...
+      </div>
+    );
+  }
+
+  return (
+    <div className="border border-border rounded-xl overflow-hidden">
+      {/* Header */}
+      <div className="px-4 py-3 bg-muted/30 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <KeyRound className="w-4 h-4 text-muted-foreground" />
+          <span className="text-sm font-semibold text-foreground">GitHub Token</span>
+          <span className="text-xs text-muted-foreground">(für private Repositories)</span>
+        </div>
+        {tokenData?.hasToken && (
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#E4FF97]" />
+            <span className="text-xs font-mono text-[#E4FF97] font-semibold">Aktiv</span>
+          </div>
+        )}
+      </div>
+
+      <div className="p-4 space-y-3">
+        {/* Gespeicherter Token */}
+        {tokenData?.hasToken ? (
+          <div className="flex items-center justify-between gap-3 bg-[#E4FF97]/5 border border-[#E4FF97]/20 rounded-lg px-4 py-3">
+            <div className="min-w-0">
+              <div className="text-xs text-muted-foreground mb-0.5">{tokenData.label ?? "GitHub Token"}</div>
+              <code className="text-sm font-mono text-foreground">{tokenData.maskedToken}</code>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <button
+                onClick={() => setShowInput(true)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              >
+                <RefreshCw className="w-3 h-3" />
+                Ersetzen
+              </button>
+              <button
+                onClick={() => deleteMutation.mutate()}
+                disabled={deleteMutation.isPending}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-lg border border-red-200 dark:border-red-900/30 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors disabled:opacity-50"
+              >
+                {deleteMutation.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <Trash2 className="w-3 h-3" />}
+                Löschen
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="text-xs text-muted-foreground flex items-center gap-2">
+            <Lock className="w-3 h-3" />
+            Kein Token gespeichert – öffentliche Repos werden ohne Token analysiert.
+          </div>
+        )}
+
+        {/* Token-Eingabe */}
+        {(!tokenData?.hasToken || showInput) && (
+          <div className="space-y-2">
+            <div className="relative">
+              <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+              <input
+                type={showPassword ? "text" : "password"}
+                value={inputToken}
+                onChange={e => setInputToken(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && handleSave()}
+                placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                className="w-full pl-9 pr-10 py-2 border border-border rounded-lg bg-background text-foreground text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:border-transparent"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(s => !s)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+            <input
+              type="text"
+              value={inputLabel}
+              onChange={e => setInputLabel(e.target.value)}
+              placeholder="Label (optional, z.B. Mein GitHub Token)"
+              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:border-transparent"
+            />
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleSave}
+                disabled={!inputToken.trim() || saveMutation.isPending}
+                className="flex items-center gap-1.5 px-4 py-2 bg-[#0A0A0A] text-[#E4FF97] rounded-lg text-xs font-semibold hover:bg-[#1a1a1a] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                {saveMutation.isPending ? <Loader2 className="w-3 h-3 animate-spin" /> : <ShieldCheck className="w-3 h-3" />}
+                Token speichern
+              </button>
+              {showInput && (
+                <button
+                  onClick={() => { setShowInput(false); setInputToken(""); }}
+                  className="px-3 py-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Abbrechen
+                </button>
+              )}
+              <span className="text-xs text-muted-foreground">
+                Token wird gehasht gespeichert – nie im Klartext.
+              </span>
+            </div>
+            {saveMutation.error && (
+              <p className="text-xs text-red-500">{saveMutation.error.message}</p>
+            )}
+          </div>
+        )}
+
+        {/* Hinweis */}
+        <p className="text-xs text-muted-foreground">
+          Erstelle ein Token unter{" "}
+          <a
+            href="https://github.com/settings/tokens"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-foreground"
+          >
+            github.com/settings/tokens
+          </a>{" "}
+          mit <code className="font-mono bg-muted px-1 rounded">repo</code>-Berechtigung.
+          Nach einem Server-Neustart muss der Token neu eingegeben werden.
+        </p>
+      </div>
     </div>
   );
 }
@@ -226,11 +393,12 @@ function ResultCard({ result, onDownload }: {
 // ─── Haupt-Komponente ─────────────────────────────────────────────────────────
 
 export function ThemeAgentSection() {
-  const [repoUrl, setRepoUrl]   = useState("");
-  const [token, setToken]       = useState("");
-  const [showToken, setShowToken] = useState(false);
-  const [result, setResult]     = useState<TransformResult | null>(null);
+  const [repoUrl, setRepoUrl] = useState("");
+  const [result, setResult]   = useState<TransformResult | null>(null);
   const [cacheKey, setCacheKey] = useState<string | null>(null);
+
+  // Gespeicherten Token aus DB laden
+  const { data: tokenData } = trpc.githubToken.get.useQuery();
 
   const transformMutation = trpc.themeTransform.transform.useMutation({
     onSuccess: (data) => {
@@ -244,7 +412,7 @@ export function ThemeAgentSection() {
     setResult(null);
     transformMutation.mutate({
       repoUrl: repoUrl.trim(),
-      token: token.trim() || undefined,
+      // Token wird serverseitig aus dem Memory-Store geladen, wenn gespeichert
     });
   };
 
@@ -295,11 +463,20 @@ export function ThemeAgentSection() {
         ))}
       </div>
 
+      {/* Token Manager */}
+      <TokenManager />
+
       {/* Input-Bereich */}
       <div className="border border-border rounded-xl p-6 space-y-4">
         <h3 className="font-semibold text-foreground flex items-center gap-2">
           <Github className="w-4 h-4" />
           Repository transformieren
+          {tokenData?.hasToken && (
+            <span className="flex items-center gap-1 text-xs font-normal text-[#E4FF97] bg-[#E4FF97]/10 px-2 py-0.5 rounded-full">
+              <ShieldCheck className="w-3 h-3" />
+              Token aktiv
+            </span>
+          )}
         </h3>
 
         <div className="flex gap-3">
@@ -327,29 +504,9 @@ export function ThemeAgentSection() {
           </button>
         </div>
 
-        {/* Token-Option */}
-        <div>
-          <button
-            onClick={() => setShowToken(o => !o)}
-            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Lock className="w-3 h-3" />
-            {showToken ? "Token ausblenden" : "GitHub Token für private Repos (optional)"}
-          </button>
-          {showToken && (
-            <input
-              type="password"
-              value={token}
-              onChange={e => setToken(e.target.value)}
-              placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-              className="mt-2 w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#0A0A0A]"
-              disabled={isLoading}
-            />
-          )}
-        </div>
-
         <p className="text-xs text-muted-foreground">
-          Unterstützt: GitHub, GitLab, Bitbucket · Öffentliche Repositories · Max. 30 Dateien werden transformiert
+          Unterstützt: React+Tailwind, React+CSS, HTML+CSS · Max. 30 Dateien werden transformiert
+          {tokenData?.hasToken && " · Private Repos werden mit gespeichertem Token analysiert"}
         </p>
       </div>
 

@@ -37,3 +37,10 @@
 - [x] Frontend: Theme Agent UI überarbeiten (Fortschritts-Steps, Diff-Vorschau, Download)
 - [ ] Test mit öffentlichem Repo
 - [x] Sidebar: Theme Agent als eigene Kategorie "V2" darstellen (visuell hervorgehoben)
+
+## v2.3 GitHub Token Management
+- [x] DB: github_tokens Tabelle (id, tokenHash, maskedToken, label, createdAt)
+- [x] Backend: tRPC-Prozeduren saveToken / getToken / deleteToken
+- [x] Frontend: Token-Management UI (Eingabe, Maske, Löschen-Button)
+- [x] Backend: Token aus DB beim Transformations-Request laden (via tokenStore)
+- [x] Sicherheit: Token nur gehasht in DB, nie im Klartext zurückgeben
