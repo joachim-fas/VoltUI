@@ -71,3 +71,13 @@
 - [x] Schwarzer Hintergrund (#0A0A0A) mit Lime-Akzenten
 - [x] Terminal-Log mit Volt UI Styling
 - [x] Diff-Viewer mit Volt UI Design
+
+## v2.5.1 Theme Agent Hintergrund korrigieren
+- [x] Schwarzen Hintergrund (#0A0A0A) entfernen
+- [x] Weißen/hellen Hintergrund (bg-background) verwenden wie auf Hauptseite
+- [x] Nur Hero-Section behält Lime-Gelb Hintergrund
+- [x] Cards und Sections: heller Hintergrund mit subtilen Borders
+- [x] Text-Farben anpassen für hellen Hintergrund
+- [x] TokenManager: heller Hintergrund mit bg-card und bg-secondary
+- [x] LogTerminal: bg-secondary statt schwarz
+- [x] DiffViewer: helle Cards mit bg-card und bg-secondary

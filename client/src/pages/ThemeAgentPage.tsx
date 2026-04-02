@@ -60,20 +60,20 @@ function StackBadge({ stack }: { stack: TechStack }) {
 
 function LogTerminal({ lines }: { lines: string[] }) {
   return (
-    <div className="bg-[#0A0A0A] border border-[#E4FF97]/20 rounded-lg p-4 font-mono text-xs max-h-48 overflow-y-auto">
+    <div className="bg-secondary border border-border rounded-lg p-4 font-mono text-xs max-h-48 overflow-y-auto">
       {lines.map((line, i) => (
         <div key={i} className={`leading-relaxed ${
-          line.startsWith("✓") ? "text-[#E4FF97]" :
-          line.startsWith("✗") ? "text-red-400" :
-          line.startsWith("[") ? "text-white/30" :
-          "text-white/70"
+          line.startsWith("✓") ? "text-[#1A9E5A]" :
+          line.startsWith("✗") ? "text-red-500" :
+          line.startsWith("[") ? "text-muted-foreground" :
+          "text-foreground/70"
         }`}>
-          <span className="text-white/20 mr-2 select-none">{String(i + 1).padStart(2, "00")}</span>
+          <span className="text-muted-foreground/40 mr-2 select-none">{String(i + 1).padStart(2, "00")}</span>
           {line}
         </div>
       ))}
       {lines.length === 0 && (
-        <div className="text-white/30 italic">Warte auf Analyse...</div>
+        <div className="text-muted-foreground italic">Warte auf Analyse...</div>
       )}
     </div>
   );
@@ -86,14 +86,14 @@ function DiffViewer({ file }: { file: PreviewFile }) {
   const hasChanges = file.changes.length > 0;
 
   return (
-    <div className="border border-[#E4FF97]/20 rounded-lg overflow-hidden bg-[#0A0A0A]/40">
+    <div className="border border-border rounded-lg overflow-hidden bg-card">
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between px-4 py-3 hover:bg-[#E4FF97]/10 transition-colors text-left"
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-secondary/50 transition-colors text-left"
       >
         <div className="flex items-center gap-3 min-w-0">
-          <FileCode className="w-4 h-4 text-[#E4FF97]/60 flex-shrink-0" />
-          <span className="font-mono text-xs text-white/80 truncate">{file.path}</span>
+          <FileCode className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+          <span className="font-mono text-xs text-foreground/80 truncate">{file.path}</span>
           {hasChanges && (
             <span className="flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 bg-[#E4FF97] text-[#0A0A0A] rounded text-xs font-medium">
               <CheckCircle2 className="w-3 h-3" />
@@ -102,17 +102,17 @@ function DiffViewer({ file }: { file: PreviewFile }) {
           )}
         </div>
         {open
-          ? <ChevronDown className="w-4 h-4 text-white/40 flex-shrink-0" />
-          : <ChevronRight className="w-4 h-4 text-white/40 flex-shrink-0" />
+          ? <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+          : <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
         }
       </button>
 
       {open && (
-        <div className="p-4 space-y-3 bg-[#0A0A0A]/60">
+        <div className="p-4 space-y-3 bg-secondary/30">
           {hasChanges && (
             <div className="flex flex-wrap gap-2">
               {file.changes.map((change, i) => (
-                <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#0A0A0A] border border-[#E4FF97]/20 rounded text-xs font-mono text-white/60">
+                <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-secondary border border-border rounded text-xs font-mono text-muted-foreground">
                   <ArrowRight className="w-3 h-3 text-[#E4FF97]/60" />
                   {change}
                 </span>
@@ -121,7 +121,7 @@ function DiffViewer({ file }: { file: PreviewFile }) {
           )}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <div className="text-xs font-mono text-white/40 mb-1.5 flex items-center gap-1">
+              <div className="text-xs font-mono text-muted-foreground mb-1.5 flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-red-400 inline-block" />
                 Original
               </div>
@@ -130,12 +130,12 @@ function DiffViewer({ file }: { file: PreviewFile }) {
               </pre>
             </div>
             <div>
-              <div className="text-xs font-mono text-white/40 mb-1.5 flex items-center gap-1">
+              <div className="text-xs font-mono text-muted-foreground mb-1.5 flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-[#E4FF97] inline-block" />
                 Volt UI
               </div>
-              <pre className="bg-[#0A0A0A] border border-[#E4FF97]/20 rounded p-3 text-xs font-mono overflow-x-auto max-h-48 whitespace-pre-wrap break-all">
-                <code className="text-[#E4FF97]/80">{file.transformedContent}</code>
+              <pre className="bg-secondary border border-border rounded p-3 text-xs font-mono overflow-x-auto max-h-48 whitespace-pre-wrap break-all">
+                <code className="text-[#1A9E5A]">{file.transformedContent}</code>
               </pre>
             </div>
           </div>
@@ -179,12 +179,12 @@ function TokenManager() {
   }
 
   return (
-    <div className="border border-[#E4FF97]/20 rounded-xl overflow-hidden bg-[#0A0A0A]/40">
-      <div className="px-4 py-3 bg-[#E4FF97]/10 flex items-center justify-between">
+    <div className="border border-border rounded-xl overflow-hidden bg-card">
+      <div className="px-4 py-3 bg-secondary/50 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <KeyRound className="w-4 h-4 text-[#E4FF97]" />
-          <span className="text-sm font-semibold text-white">GitHub Token</span>
-          <span className="text-xs text-white/40">(für private Repositories)</span>
+          <span className="text-sm font-semibold text-foreground">GitHub Token</span>
+          <span className="text-xs text-muted-foreground">(für private Repositories)</span>
         </div>
         {tokenData?.hasToken && (
           <div className="flex items-center gap-1.5">
@@ -196,15 +196,15 @@ function TokenManager() {
 
       <div className="p-4 space-y-3">
         {tokenData?.hasToken ? (
-          <div className="flex items-center justify-between gap-3 bg-[#0A0A0A]/60 border border-[#E4FF97]/10 rounded-lg px-4 py-3">
+          <div className="flex items-center justify-between gap-3 bg-secondary border border-border rounded-lg px-4 py-3">
             <div className="min-w-0">
-              <div className="text-xs text-white/40 mb-0.5">{tokenData.label ?? "GitHub Token"}</div>
-              <code className="text-sm font-mono text-white/70">{tokenData.maskedToken}</code>
+              <div className="text-xs text-muted-foreground mb-0.5">{tokenData.label ?? "GitHub Token"}</div>
+              <code className="text-sm font-mono text-foreground/70">{tokenData.maskedToken}</code>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={() => setShowInput(true)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-lg border border-[#E4FF97]/20 text-white/60 hover:text-white hover:bg-[#E4FF97]/10 transition-colors"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
               >
                 <RefreshCw className="w-3 h-3" />
                 Ersetzen
@@ -220,7 +220,7 @@ function TokenManager() {
             </div>
           </div>
         ) : (
-          <div className="text-xs text-white/40 flex items-center gap-2">
+          <div className="text-xs text-muted-foreground flex items-center gap-2">
             <Lock className="w-3 h-3" />
             Kein Token gespeichert – öffentliche Repos werden ohne Token analysiert.
           </div>
@@ -236,12 +236,12 @@ function TokenManager() {
                 onChange={e => setInputToken(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && saveMutation.mutate({ token: inputToken.trim(), label: inputLabel.trim() || undefined })}
                 placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-                className="w-full pl-9 pr-10 py-2 border border-[#E4FF97]/20 rounded-lg bg-[#0A0A0A]/60 text-white text-sm font-mono placeholder:text-white/20 focus:outline-none focus:ring-1 focus:ring-[#E4FF97]/40"
+                className="w-full pl-9 pr-10 py-2 border border-border rounded-lg bg-background text-foreground text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(s => !s)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
               </button>
@@ -251,7 +251,7 @@ function TokenManager() {
               value={inputLabel}
               onChange={e => setInputLabel(e.target.value)}
               placeholder="Label (optional)"
-              className="w-full px-3 py-2 border border-[#E4FF97]/20 rounded-lg bg-[#0A0A0A]/60 text-white text-sm placeholder:text-white/20 focus:outline-none focus:ring-1 focus:ring-[#E4FF97]/40"
+              className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
             />
             <div className="flex items-center gap-2">
               <button
@@ -265,27 +265,27 @@ function TokenManager() {
               {showInput && (
                 <button
                   onClick={() => { setShowInput(false); setInputToken(""); }}
-                  className="px-3 py-2 text-xs text-white/40 hover:text-white/70 transition-colors"
+                  className="px-3 py-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Abbrechen
                 </button>
               )}
-              <span className="text-xs text-white/30">Token wird gehasht – nie im Klartext gespeichert.</span>
+              <span className="text-xs text-muted-foreground/60">Token wird gehasht – nie im Klartext gespeichert.</span>
             </div>
           </div>
         )}
 
-        <p className="text-xs text-white/30">
+        <p className="text-xs text-muted-foreground">
           Token erstellen unter{" "}
           <a
             href="https://github.com/settings/tokens"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-white/50"
+            className="underline hover:text-foreground"
           >
             github.com/settings/tokens
           </a>{" "}
-          mit <code className="font-mono bg-[#0A0A0A]/60 px-1 rounded">repo</code>-Berechtigung.
+          mit <code className="font-mono bg-secondary px-1 rounded">repo</code>-Berechtigung.
         </p>
       </div>
     </div>
@@ -300,13 +300,13 @@ function ResultCard({ result, onDownload }: {
 }) {
   return (
     <div className="space-y-6">
-      <div className="border border-[#E4FF97]/20 rounded-xl p-6 bg-[#0A0A0A]/40">
+      <div className="border border-border rounded-xl p-6 bg-card">
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Github className="w-4 h-4 text-[#E4FF97]/60" />
-              <span className="text-white/50 text-sm font-mono">{result.owner}/</span>
-              <span className="text-white font-bold text-lg font-display">{result.repoName}</span>
+              <span className="text-muted-foreground text-sm font-mono">{result.owner}/</span>
+              <span className="text-foreground font-bold text-lg font-display">{result.repoName}</span>
             </div>
             <StackBadge stack={result.stack} />
           </div>
@@ -324,16 +324,16 @@ function ResultCard({ result, onDownload }: {
             { label: "Transformiert",   value: result.filesTransformed },
             { label: "Dateien im ZIP",  value: result.totalFiles },
           ].map(stat => (
-            <div key={stat.label} className="bg-[#0A0A0A]/60 border border-[#E4FF97]/10 rounded-lg p-3 text-center">
-              <div className="text-2xl font-bold font-display text-[#E4FF97]">{stat.value}</div>
-              <div className="text-xs text-white/40 mt-0.5">{stat.label}</div>
+            <div key={stat.label} className="bg-secondary border border-border rounded-lg p-3 text-center">
+              <div className="text-2xl font-bold font-display text-foreground">{stat.value}</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{stat.label}</div>
             </div>
           ))}
         </div>
       </div>
 
       <div>
-        <h4 className="text-sm font-semibold text-white/70 mb-2 flex items-center gap-2">
+        <h4 className="text-sm font-semibold text-foreground/70 mb-2 flex items-center gap-2">
           <Terminal className="w-4 h-4" />
           Analyse-Log
         </h4>
@@ -342,10 +342,10 @@ function ResultCard({ result, onDownload }: {
 
       {result.previewFiles.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-white/70 mb-3 flex items-center gap-2">
+          <h4 className="text-sm font-semibold text-foreground/70 mb-3 flex items-center gap-2">
             <Code2 className="w-4 h-4" />
             Vorschau der Transformationen
-            <span className="text-xs font-normal text-white/30">(erste {result.previewFiles.length} Dateien)</span>
+            <span className="text-xs font-normal text-muted-foreground">(erste {result.previewFiles.length} Dateien)</span>
           </h4>
           <div className="space-y-2">
             {result.previewFiles.map((file, i) => (
@@ -355,12 +355,12 @@ function ResultCard({ result, onDownload }: {
         </div>
       )}
 
-      <div className="border border-[#E4FF97]/20 rounded-lg p-4 flex items-start gap-3 bg-[#0A0A0A]/40">
+      <div className="border border-border rounded-lg p-4 flex items-start gap-3 bg-card">
         <Download className="w-4 h-4 text-[#E4FF97]/60 mt-0.5 flex-shrink-0" />
-        <div className="text-sm text-white/60">
+        <div className="text-sm text-muted-foreground">
           Das ZIP-Paket enthält alle transformierten Dateien sowie{" "}
-          <code className="font-mono text-xs bg-[#0A0A0A]/60 px-1 py-0.5 rounded">volt-ui.css</code> und eine{" "}
-          <code className="font-mono text-xs bg-[#0A0A0A]/60 px-1 py-0.5 rounded">VOLT_UI_MIGRATION.md</code>{" "}
+          <code className="font-mono text-xs bg-secondary px-1 py-0.5 rounded">volt-ui.css</code> und eine{" "}
+          <code className="font-mono text-xs bg-secondary px-1 py-0.5 rounded">VOLT_UI_MIGRATION.md</code>{" "}
           mit Integrationsanleitung.
         </div>
       </div>
@@ -400,25 +400,23 @@ export default function ThemeAgentPage() {
   const error = transformMutation.error?.message;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
-      {/* Subtile Muster-Überlagerung */}
-      <div className="fixed inset-0 pattern-dots opacity-10 pointer-events-none" />
+    <div className="min-h-screen bg-background text-foreground">
 
       {/* ── Kopfzeile ── */}
-      <header className="sticky top-0 z-50 border-b border-[#E4FF97]/10 bg-[#0A0A0A]/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setLocation("/")}
-              className="flex items-center gap-1.5 text-white/50 hover:text-white transition-colors text-sm"
+              className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors text-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               Volt UI
             </button>
-            <div className="w-px h-4 bg-[#E4FF97]/20" />
+            <div className="w-px h-4 bg-border" />
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-[#E4FF97]" />
-              <span className="font-semibold text-sm text-white">Theme Agent</span>
+              <span className="font-semibold text-sm text-foreground">Theme Agent</span>
               <span className="text-[0.55rem] font-mono text-[#E4FF97] bg-[#E4FF97]/10 px-1.5 py-0.5 rounded uppercase tracking-widest">V2</span>
             </div>
           </div>
@@ -426,7 +424,7 @@ export default function ThemeAgentPage() {
             href="https://github.com/settings/tokens"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/70 transition-colors"
+            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             <Github className="w-3.5 h-3.5" />
             Token erstellen
@@ -478,11 +476,11 @@ export default function ThemeAgentPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1, duration: 0.4 }}
-              className="border border-[#E4FF97]/20 rounded-lg p-4 bg-[#0A0A0A]/40"
+              className="border border-border rounded-lg p-4 bg-card"
             >
               <div className="text-[#E4FF97] mb-2">{f.icon}</div>
-              <div className="font-semibold text-sm text-white mb-0.5">{f.title}</div>
-              <div className="text-xs text-white/50">{f.desc}</div>
+              <div className="font-semibold text-sm text-foreground mb-0.5">{f.title}</div>
+              <div className="text-xs text-muted-foreground">{f.desc}</div>
             </motion.div>
           ))}
         </div>
@@ -491,12 +489,12 @@ export default function ThemeAgentPage() {
         <TokenManager />
 
         {/* Input */}
-        <div className="border border-[#E4FF97]/20 rounded-xl p-6 space-y-4 bg-[#0A0A0A]/40">
-          <h3 className="font-semibold text-white flex items-center gap-2 text-sm">
+        <div className="border border-border rounded-xl p-6 space-y-4 bg-card">
+          <h3 className="font-semibold text-foreground flex items-center gap-2 text-sm">
             <Github className="w-4 h-4 text-[#E4FF97]/60" />
             Repository transformieren
             {tokenData?.hasToken && (
-              <span className="flex items-center gap-1 text-xs font-normal text-white/50 bg-[#E4FF97]/10 px-2 py-0.5 rounded-full">
+              <span className="flex items-center gap-1 text-xs font-normal text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">
                 <ShieldCheck className="w-3 h-3" />
                 Token aktiv
               </span>
@@ -512,7 +510,7 @@ export default function ThemeAgentPage() {
                 onChange={e => setRepoUrl(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && handleTransform()}
                 placeholder="https://github.com/username/repo"
-                className="w-full pl-10 pr-4 py-2.5 border border-[#E4FF97]/20 rounded-lg bg-[#0A0A0A]/60 text-white text-sm font-mono placeholder:text-white/20 focus:outline-none focus:ring-1 focus:ring-[#E4FF97]/40"
+                className="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg bg-background text-foreground text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
                 disabled={isLoading}
               />
             </div>
@@ -528,7 +526,7 @@ export default function ThemeAgentPage() {
             </button>
           </div>
 
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-muted-foreground">
             Unterstützt: React+Tailwind, React+CSS, HTML+CSS · Max. 30 Dateien
             {tokenData?.hasToken && " · Private Repos mit gespeichertem Token"}
           </p>
@@ -536,16 +534,16 @@ export default function ThemeAgentPage() {
 
         {/* Lade-Zustand */}
         {isLoading && (
-          <div className="border border-[#E4FF97]/20 rounded-xl p-10 flex flex-col items-center gap-4 text-center bg-[#0A0A0A]/40">
+          <div className="border border-border rounded-xl p-10 flex flex-col items-center gap-4 text-center bg-card">
             <div className="relative">
-              <div className="w-12 h-12 rounded-xl bg-[#E4FF97]/10 border border-[#E4FF97]/20 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-secondary border border-border flex items-center justify-center">
                 <Sparkles className="w-6 h-6 text-[#E4FF97]" />
               </div>
-              <div className="absolute -inset-1 rounded-xl border border-[#E4FF97]/30 animate-pulse" />
+              <div className="absolute -inset-1 rounded-xl border border-border animate-pulse" />
             </div>
             <div>
-              <div className="font-semibold text-white mb-1">Transformation läuft...</div>
-              <div className="text-sm text-white/50">
+              <div className="font-semibold text-foreground mb-1">Transformation läuft...</div>
+              <div className="text-sm text-muted-foreground">
                 Dateien werden geladen, analysiert und durch Volt UI Komponenten ersetzt.
                 <br />Das kann 30–60 Sekunden dauern.
               </div>
@@ -580,10 +578,10 @@ export default function ThemeAgentPage() {
 
         {/* Leerzustand */}
         {!result && !isLoading && !error && (
-          <div className="border border-dashed border-[#E4FF97]/20 rounded-xl p-14 flex flex-col items-center gap-3 text-center">
-            <Github className="w-10 h-10 text-[#E4FF97]/30" />
-            <div className="font-semibold text-white/60">Bereit zur Transformation</div>
-            <div className="text-sm text-white/40 max-w-sm">
+          <div className="border border-dashed border-border rounded-xl p-14 flex flex-col items-center gap-3 text-center">
+            <Github className="w-10 h-10 text-muted-foreground/30" />
+            <div className="font-semibold text-muted-foreground">Bereit zur Transformation</div>
+            <div className="text-sm text-muted-foreground/70 max-w-sm">
               Gib oben eine GitHub-URL ein. Der Theme Agent analysiert automatisch alle
               UI-Komponenten und wandelt sie in Volt UI Komponenten um.
             </div>
