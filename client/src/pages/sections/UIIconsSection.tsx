@@ -222,10 +222,6 @@ export default function UIIconsSection() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [copiedName, setCopiedName] = useState<string | null>(null);
 
-  const totalCount = useMemo(
-    () => Object.values(LUCIDE_CATEGORIES).reduce((sum, cat) => sum + cat.icons.length, 0), []
-  );
-
   const allIcons = useMemo(() =>
     Object.entries(LUCIDE_CATEGORIES).flatMap(([catKey, cat]) =>
       cat.icons.map(name => ({ name, catKey, color: cat.color, bg: cat.bg }))
@@ -248,9 +244,8 @@ export default function UIIconsSection() {
         <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Icon-Sets · UI-Icons</p>
         <div className="flex items-center gap-3 mb-3">
           <h2 className="font-display font-bold text-3xl text-foreground tracking-tight">UI-Icons</h2>
-          <span className="px-2.5 py-1 rounded-xl text-[11px] font-mono bg-muted text-muted-foreground border border-border">{totalCount} Icons</span>
         </div>
-        <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
+          <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
           Lucide-Icons in zwölf thematischen Kategorien. Klick auf ein Icon kopiert den JSX-Import direkt in die Zwischenablage.
         </p>
       </div>
@@ -326,7 +321,7 @@ export default function UIIconsSection() {
                 <div className="flex items-center gap-2.5 mb-3">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ background: cat.color }} />
                   <h3 className="text-[12px] font-semibold text-foreground">{cat.label}</h3>
-                  <span className="text-[10px] font-mono text-muted-foreground">{cat.icons.length}</span>
+
                 </div>
                 <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-2">
                   {cat.icons.map(name => {

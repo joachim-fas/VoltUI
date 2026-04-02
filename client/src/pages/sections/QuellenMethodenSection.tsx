@@ -417,9 +417,7 @@ const CategoryCard: React.FC<{ item: CategoryItem }> = ({ item }) => {
           <p className="text-[10px] font-mono text-muted-foreground leading-tight mt-0.5">{item.sublabel}</p>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-lg border" style={{ color: item.color, borderColor: `${item.color}35`, background: `${item.color}0D` }}>
-            {item.icons.length} Icons
-          </span>
+
           <ChevronDown
             className="w-4 h-4 text-muted-foreground transition-transform duration-200"
             style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
@@ -463,9 +461,6 @@ const CategoryCard: React.FC<{ item: CategoryItem }> = ({ item }) => {
 ══════════════════════════════════════════════════════════════════════ */
 
 export default function QuellenMethodenSection() {
-  const totalQuellenIcons = QUELLEN_LIST.reduce((s, q) => s + q.icons.length, 0);
-  const totalMethodenIcons = METHODEN_LIST.reduce((s, m) => s + m.icons.length, 0);
-
   return (
     <section className="space-y-10">
       {/* Header */}
@@ -473,9 +468,6 @@ export default function QuellenMethodenSection() {
         <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">Icon-Sets · Quellen & Methoden</p>
         <div className="flex items-center gap-3 mb-3">
           <h2 className="font-display font-bold text-3xl text-foreground tracking-tight">Quellen & Methoden</h2>
-          <span className="px-2.5 py-1 rounded-xl text-[11px] font-mono bg-muted text-muted-foreground border border-border">
-            {totalQuellenIcons + totalMethodenIcons} Icons
-          </span>
         </div>
         <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
           Thematische Icons für Datenquellen und Analyse-Frameworks. Klick auf eine Kategorie öffnet das Icon-Set – Klick auf ein Icon kopiert den JSX-Import.
@@ -487,7 +479,7 @@ export default function QuellenMethodenSection() {
         <div className="flex items-center gap-2.5 mb-4">
           <div className="w-2.5 h-2.5 rounded-full bg-foreground" />
           <h3 className="text-[12px] font-semibold text-foreground">Datenquellen</h3>
-          <span className="text-[10px] font-mono text-muted-foreground">{QUELLEN_LIST.length} Kategorien · {totalQuellenIcons} Icons</span>
+
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {QUELLEN_LIST.map(item => (
@@ -501,7 +493,7 @@ export default function QuellenMethodenSection() {
         <div className="flex items-center gap-2.5 mb-4">
           <div className="w-2.5 h-2.5 rounded-full bg-foreground" />
           <h3 className="text-[12px] font-semibold text-foreground">Analyse-Methoden</h3>
-          <span className="text-[10px] font-mono text-muted-foreground">{METHODEN_LIST.length} Kategorien · {totalMethodenIcons} Icons</span>
+
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {METHODEN_LIST.map(item => (

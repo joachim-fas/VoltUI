@@ -194,3 +194,6 @@
 ## v3.10 Icon-Stil vereinheitlichen
 - [x] UIIconsSection: Zähler auf tatsächliche Icon-Anzahl synchronisieren (mehr Kategorien/Icons hinzufügen)
 - [x] QuellenMethodenSection: Alle Custom-SVG-Icons durch Lucide-Icons ersetzen (identischer Stil)
+
+## v3.11 Icon-Zähler entfernen
+- [x] Alle Icon-Anzahl-Badges aus UIIconsSection, QuellenMethodenSection und Sidebar entfernen
