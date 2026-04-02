@@ -268,8 +268,8 @@ export default function Home() {
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* ── Desktop Sidebar ── */}
-      <aside className="hidden lg:flex flex-col w-64 flex-shrink-0 border-r border-border bg-[#0A0A0A] overflow-hidden">
-        <div className="p-5 border-b border-white/10">
+      <aside className="hidden lg:flex flex-col w-64 flex-shrink-0 border-r border-border bg-background overflow-hidden">
+        <div className="p-5 border-b border-border">
           <Logo />
         </div>
         <VoltSidebar
@@ -282,8 +282,8 @@ export default function Home() {
       {/* ── Mobile Drawer ── */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div className="w-72 flex flex-col bg-[#0A0A0A] h-full overflow-hidden shadow-2xl">
-            <div className="p-5 border-b border-white/10">
+          <div className="w-72 flex flex-col bg-background h-full overflow-hidden shadow-2xl">
+            <div className="p-5 border-b border-border">
               <Logo showClose />
             </div>
             <VoltSidebar
