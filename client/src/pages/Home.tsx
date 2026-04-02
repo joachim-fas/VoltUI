@@ -27,7 +27,9 @@ import ImageLanguageSection          from "./sections/ImageLanguageSection";
 const BubbleMapSection = lazy(() => import("./sections/BubbleMapSection"));
 const NodeCanvasSection = lazy(() => import("./sections/NodeCanvasSection"));
 const RadarSection = lazy(() => import("./sections/RadarSection"));
-const IconSetsSection = lazy(() => import("./sections/IconSetsSection"));
+const UIIconsSection = lazy(() => import("./sections/UIIconsSection"));
+const QuellenMethodenSection = lazy(() => import("./sections/QuellenMethodenSection"));
+const SkeuomorphicSection = lazy(() => import("./sections/SkeuomorphicSection"));
 import { ExportSection }              from "./sections/ExportSection";
 import {
   Home as HomeIcon, Palette, LayoutGrid,
@@ -36,7 +38,7 @@ import {
   BookOpen, Network, Bell, Download,
   Wallpaper, Stamp, RectangleHorizontal,
   Eye, Boxes, CircleDot, Terminal, Sparkles,
-  Radar, Shapes,
+  Radar, Shapes, Box, Layers3,
 } from "lucide-react";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
@@ -61,7 +63,9 @@ const ALL_SECTIONS = [
   { id: "bubblemap",   Component: BubbleMapSection },
   { id: "radar",       Component: RadarSection },
   { id: "nodecanvas",  Component: NodeCanvasSection },
-  { id: "iconsets",    Component: IconSetsSection },
+  { id: "uiicons",         Component: UIIconsSection },
+  { id: "quellenmethoden", Component: QuellenMethodenSection },
+  { id: "skeuomorphic",    Component: SkeuomorphicSection },
   { id: "export",      Component: ExportSection },
 ] as const;
 
@@ -114,7 +118,9 @@ const sidebarSections = [
   {
     title: "Icon-Sets",
     items: [
-      { id: "iconsets",    label: "Icon-Sets",             description: "UI · Quellen & Methoden · Skeuomorphic",   icon: <Shapes className="w-4 h-4" /> },
+      { id: "uiicons",         label: "UI-Icons",           description: "600+ Lucide-Icons, kategorisiert & durchsuchbar",  icon: <Shapes className="w-4 h-4" /> },
+      { id: "quellenmethoden", label: "Quellen & Methoden", description: "12 Datenquellen · 6 Analyse-Frameworks",           icon: <Layers3 className="w-4 h-4" /> },
+      { id: "skeuomorphic",    label: "Skeuomorphic",       description: "18 handgefertigte 3D-Icons",                       icon: <Box className="w-4 h-4" /> },
     ],
   },
   {
@@ -333,7 +339,7 @@ export default function Home() {
             >
               {id === "home"
                 ? <HeroSection onNavigate={scrollToSection} />
-                : (id === "nodecanvas" || id === "bubblemap" || id === "radar" || id === "iconsets")
+                : (id === "nodecanvas" || id === "bubblemap" || id === "radar" || id === "uiicons" || id === "quellenmethoden" || id === "skeuomorphic")
                   ? <Suspense fallback={<SectionSkeleton />}><Component /></Suspense>
                   : <Component />
               }
