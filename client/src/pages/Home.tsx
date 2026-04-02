@@ -27,6 +27,8 @@ import BrandStorySection             from "./sections/BrandStorySection";
 import ImageLanguageSection          from "./sections/ImageLanguageSection";
 const BubbleMapSection = lazy(() => import("./sections/BubbleMapSection"));
 const NodeCanvasSection = lazy(() => import("./sections/NodeCanvasSection"));
+const RadarSection = lazy(() => import("./sections/RadarSection"));
+const IconSetsSection = lazy(() => import("./sections/IconSetsSection"));
 import { ExportSection }              from "./sections/ExportSection";
 import SkeuomorphicIconsSection       from "./sections/SkeuomorphicIconsSection";
 import {
@@ -36,6 +38,7 @@ import {
   BookOpen, Network, Bell, Download,
   Wallpaper, Stamp, RectangleHorizontal, Grid2x2,
   Eye, Box, Boxes, CircleDot, Terminal, Sparkles,
+  Radar, Shapes,
 } from "lucide-react";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
@@ -60,7 +63,9 @@ const ALL_SECTIONS = [
   { id: "skeuicons",   Component: SkeuomorphicIconsSection },
   { id: "dashboard",   Component: DashboardSection },
   { id: "bubblemap",   Component: BubbleMapSection },
+  { id: "radar",       Component: RadarSection },
   { id: "nodecanvas",  Component: NodeCanvasSection },
+  { id: "iconsets",    Component: IconSetsSection },
   { id: "export",      Component: ExportSection },
 ] as const;
 
@@ -108,7 +113,14 @@ const sidebarSections = [
     items: [
       { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" /> },
       { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <CircleDot className="w-4 h-4" /> },
+      { id: "radar",       label: "Quadranten-Radar",     description: "Radar + Ranked List für Intelligence",   icon: <Radar className="w-4 h-4" /> },
       { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <Network className="w-4 h-4" /> },
+    ],
+  },
+  {
+    title: "Icon-Sets",
+    items: [
+      { id: "iconsets",    label: "Kategorie & Methoden", description: "13 Kategorie-Icons + 6 Methoden-Karten", icon: <Shapes className="w-4 h-4" /> },
     ],
   },
   {
@@ -327,7 +339,7 @@ export default function Home() {
             >
               {id === "home"
                 ? <HeroSection onNavigate={scrollToSection} />
-                : (id === "nodecanvas" || id === "bubblemap")
+                : (id === "nodecanvas" || id === "bubblemap" || id === "radar" || id === "iconsets")
                   ? <Suspense fallback={<SectionSkeleton />}><Component /></Suspense>
                   : <Component />
               }

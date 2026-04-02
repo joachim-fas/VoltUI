@@ -13,6 +13,7 @@ import {
   VOLT_PASTEL,
 } from "@/components/volt/VoltChart";
 import { VoltTable } from "@/components/volt/VoltTable";
+
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
 import { motion } from "framer-motion";
@@ -127,6 +128,10 @@ const tableData: TableRow[] = [
   { name: "VoltChart",    version: "2.0.0", status: "beta",   downloads: "4.1k",  updated: "heute" },
   { name: "VoltTable",    version: "2.0.0", status: "stable", downloads: "3.7k",  updated: "heute" },
 ];
+
+
+
+
 
 /* ── Chart-Typ Übersicht mit Erklärungen ── */
 const chartTypes = [
@@ -531,6 +536,8 @@ export const DataSection: React.FC = () => {
           </div>
         </VoltCardContent>
       </VoltCard>
+
+
 
     </section>
   );

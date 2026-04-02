@@ -146,4 +146,26 @@
 - [x] LLM-Aufrufe parallelisiert mit Promise.all (GitHub + lokal)
 - [x] server/index.ts entfernt (war toter Code, _core/index.ts ist der echte Einstiegspunkt)
 - [x] TypeScript: 0 Fehler nach allen Änderungen
-- [ ] Checkpoint und GitHub-Push
+- [x] Checkpoint und GitHub-Push
+
+## v3.4 VoltRankedList + VoltRadarChart implementieren
+- [ ] VoltRankedList.tsx – kategorisierte Rangliste mit Trend-Pfeilen, Farbpunkten, Fortschrittsbalken
+- [ ] VoltRadarChart.tsx – Quadranten-Blasen-Visualisierung mit SVG + D3-Skalen
+- [ ] DataSection.tsx – beide Komponenten mit Demo-Daten integrieren
+- [ ] Checkpoint + GitHub Push
+
+## v3.4b VoltRadarChart visuell angleichen + verschieben
+- [x] VoltRadarChart: Hintergrund auf bg-secondary/30 + Volt-Textur wie BubbleMap
+- [x] VoltRadarChart: Blasen als Radial-Gradienten (Pastell-Palette wie BubbleMap)
+- [x] VoltRadarChart: Tooltip auf weißen Stil umstellen (wie BubbleMap-Tooltip)
+- [x] VoltRadarChart: Legende unten wie BubbleMap (Farbpunkte + Labels)
+- [x] DataSection: Radar-Chart und RankedList aus DataSection entfernen
+- [x] Neue Section "RadarSection.tsx" in Templates & Visualisierungen erstellen
+- [x] Home.tsx + Sidebar: Radar-Eintrag in Templates & Visualisierungen verschieben
+
+## v3.5 Neue Icon-Sets implementieren
+- [x] Kategorie-Icons (12 SVG-Komponenten): News & Medien, Daten & Statistik, Wissenschaft & Forschung, Geopolitik & Konflikte, Finanzen & Märkte, Umfragen & Meinungsforschung, Prediction Markets, Innovation & Patente, Social & Community, Klima & Umwelt, Gesundheit & Bevölkerung, Foresight & Szenarien
+- [x] Analyse-Methoden-Karten (6 Stück): Marktanalyse, War-Gaming, Pre-Mortem, Post-Mortem, Trend Deep-Dive, Stakeholder
+- [x] IconSetsSection.tsx – eigene Section nach Templates & Visualisierungen
+- [x] Sidebar: neuer Eintrag "Icon-Sets" nach Templates & Visualisierungen
+- [x] Home.tsx: IconSetsSection einbinden
