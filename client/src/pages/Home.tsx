@@ -2,7 +2,7 @@
  * Volt UI – Hauptseite
  * Layout: Schwarze Sidebar (links, sticky) + weißer Hauptinhalt (rechts, durchgehend scrollbar)
  * Scroll-Spy: IntersectionObserver hebt aktiven Abschnitt in der Sidebar hervor
- * Navigation: scrollIntoView mit forceMount – Lazy Sections werden beim Klick sofort gemountet
+ * Navigation: scrollIntoView – alle Sections sofort gemountet, kein Lazy-Loading-Konflikt
  */
 
 import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from "react";
@@ -119,60 +119,29 @@ const sidebarSections = [
   },
 ];
 
-/* ── Lazy Section Wrapper ──
-   - Mountet automatisch wenn 400px vor dem Viewport (IntersectionObserver)
-   - Kann per forceMount-Prop sofort gemountet werden (für Navigation)
+/* ── Section Wrapper ──
+   Alle Sections werden sofort gemountet damit Navigation korrekt funktioniert.
+   Nur NodeCanvas und BubbleMap werden via React.lazy geladen (Code-Splitting).
 */
-function LazySectionWrapper({
+function SectionWrapper({
   id,
   sectionRefs,
-  forceMount,
   children,
 }: {
   id: string;
   sectionRefs: React.MutableRefObject<Record<string, HTMLElement | null>>;
-  forceMount: boolean;
   children: React.ReactNode;
 }) {
-  const [mounted, setMounted] = useState(id === "home");
-  const wrapperRef = useRef<HTMLElement | null>(null);
-
-  // forceMount: sofort mounten wenn Navigation es verlangt
-  useEffect(() => {
-    if (forceMount && !mounted) {
-      setMounted(true);
-    }
-  }, [forceMount, mounted]);
-
-  // Automatisch mounten wenn in Viewport-Nähe
-  useEffect(() => {
-    if (mounted) return;
-    const el = wrapperRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setMounted(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "400px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [mounted]);
-
   return (
     <section
       id={id}
       ref={(el) => {
-        wrapperRef.current = el;
         sectionRefs.current[id] = el;
       }}
       className="border-b border-border last:border-b-0"
     >
       <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 md:py-14">
-        {mounted ? children : <SectionSkeleton />}
+        {children}
       </div>
     </section>
   );
@@ -192,13 +161,10 @@ function SectionSkeleton() {
 export default function Home() {
   const [activeId, setActiveId]     = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
-  // Set of IDs that should be force-mounted (for navigation)
-  const [forceMounted, setForceMounted] = useState<Set<string>>(new Set(["home"]));
   const mainRef     = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
   // Flag: verhindert dass Scroll-Spy den State überschreibt während wir programmatisch scrollen
-  const isScrollingTo   = useRef(false);
-  const scrollTargetId  = useRef<string | null>(null);
+  const isScrollingTo = useRef(false);
 
   /* ── Scroll-Spy via IntersectionObserver ── */
   useEffect(() => {
@@ -208,79 +174,64 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (isScrollingTo.current) return;
-        // Finde den sichtbarsten Eintrag
-        let best: { id: string; ratio: number } | null = null;
+        // Nimm den Eintrag, der am nächsten am oberen Rand ist
+        let topmost: { id: string; top: number } | null = null;
         for (const entry of entries) {
           const id = entry.target.id;
-          if (!id) continue;
-          if (entry.isIntersecting) {
-            if (!best || entry.intersectionRatio > best.ratio) {
-              best = { id, ratio: entry.intersectionRatio };
-            }
+          if (!id || !entry.isIntersecting) continue;
+          const top = entry.boundingClientRect.top;
+          if (!topmost || top < topmost.top) {
+            topmost = { id, top };
           }
         }
-        if (best) setActiveId(best.id);
+        if (topmost) setActiveId(topmost.id);
       },
       {
         root: container,
-        threshold: [0, 0.1, 0.25, 0.5],
-        rootMargin: "-10% 0px -60% 0px",
+        threshold: 0,
+        rootMargin: "0px 0px -80% 0px",
       }
     );
 
-    // Beobachte alle Section-Elemente
-    const observe = () => {
+    // MutationObserver: neue Section-Elemente automatisch beobachten
+    const mutObs = new MutationObserver(() => {
       Object.values(sectionRefs.current).forEach((el) => {
         if (el) observer.observe(el);
       });
-    };
-    // Kurz warten bis Refs gesetzt sind
-    const t = setTimeout(observe, 100);
+    });
+    if (container) mutObs.observe(container, { childList: true, subtree: true });
+
+    // Initial beobachten
+    const t = setTimeout(() => {
+      Object.values(sectionRefs.current).forEach((el) => {
+        if (el) observer.observe(el);
+      });
+    }, 150);
+
     return () => {
       clearTimeout(t);
       observer.disconnect();
+      mutObs.disconnect();
     };
   }, []);
 
-  /* ── Programmatisches Scrollen beim Klick auf Sidebar-Item ── */
+  /* ── Programmatisches Scrollen beim Klick auf Sidebar-Item ──
+     Alle Sections sind sofort gemountet – direktes scrollTo ohne Umwege.
+  */
   const scrollToSection = useCallback((id: string) => {
     setMobileOpen(false);
     setActiveId(id);
 
-    // Section sofort mounten falls noch nicht geschehen
-    setForceMounted((prev) => {
-      if (prev.has(id)) return prev;
-      const next = new Set(prev);
-      next.add(id);
-      return next;
-    });
+    const el = sectionRefs.current[id];
+    const container = mainRef.current;
+    if (!el || !container) return;
 
     isScrollingTo.current = true;
-    scrollTargetId.current = id;
-
-    const doScroll = () => {
-      const el = sectionRefs.current[id];
-      const container = mainRef.current;
-      if (!el || !container) return;
-
-      const containerTop = container.getBoundingClientRect().top;
-      const elTop        = el.getBoundingClientRect().top;
-      const offset       = elTop - containerTop + container.scrollTop - 24;
-
-      container.scrollTo({ top: offset, behavior: "smooth" });
-      setTimeout(() => {
-        isScrollingTo.current = false;
-        scrollTargetId.current = null;
-      }, 900);
-    };
-
-    // Falls Section noch nicht gemountet: kurz warten bis React re-rendert
-    const el = sectionRefs.current[id];
-    if (!el || el.querySelector('[data-skeleton]')) {
-      setTimeout(doScroll, 80);
-    } else {
-      doScroll();
-    }
+    const elTop = el.getBoundingClientRect().top;
+    const containerTop = container.getBoundingClientRect().top;
+    const scrollOffset = container.scrollTop + elTop - containerTop;
+    container.scrollTo({ top: scrollOffset, behavior: "smooth" });
+    setTimeout(() => { isScrollingTo.current = false; }, 1000);
   }, []);
 
   /* ── Logo ── */
@@ -291,10 +242,10 @@ export default function Home() {
           <Terminal className="w-4 h-4 text-[#E4FF97]" />
         </div>
         <div>
-          <p className="font-display font-bold text-sm text-[#0A0A0A] leading-tight tracking-tight">
-            volt<span className="opacity-30"> ui</span>
+          <p className="font-display font-bold text-sm text-white leading-none tracking-tight">
+            volt<span className="text-white/30"> ui</span>
           </p>
-          <p className="text-[0.6rem] font-mono text-[#AAAAAA] leading-tight tracking-widest uppercase">Design Concept</p>
+          <p className="text-[0.6rem] font-mono text-white/40 leading-none tracking-widest uppercase mt-1">Design Concept</p>
         </div>
       </div>
       {showClose && (
@@ -363,11 +314,10 @@ export default function Home() {
         {/* Scrollbarer Inhalt – alle Sections untereinander */}
         <div ref={mainRef} className="flex-1 overflow-y-auto bg-background">
           {ALL_SECTIONS.map(({ id, Component }) => (
-            <LazySectionWrapper
+            <SectionWrapper
               key={id}
               id={id}
               sectionRefs={sectionRefs}
-              forceMount={forceMounted.has(id)}
             >
               {id === "home"
                 ? <HeroSection onNavigate={scrollToSection} />
@@ -375,7 +325,7 @@ export default function Home() {
                   ? <Suspense fallback={<SectionSkeleton />}><Component /></Suspense>
                   : <Component />
               }
-            </LazySectionWrapper>
+            </SectionWrapper>
           ))}
         </div>
       </div>
