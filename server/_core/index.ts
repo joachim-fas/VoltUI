@@ -7,7 +7,7 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import { handleZipDownload } from "../themeTransformRouter";
+import { handleZipDownload, handleLocalRepoUpload } from "../themeTransformRouter";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -38,6 +38,8 @@ async function startServer() {
   registerOAuthRoutes(app);
   // ZIP-Download für Theme Transform
   app.get("/api/theme-transform/download/:cacheKey", handleZipDownload);
+  // Lokaler Repo-Upload (Multipart)
+  app.post("/api/theme-transform/upload-local", handleLocalRepoUpload);
 
   // tRPC API
   app.use(

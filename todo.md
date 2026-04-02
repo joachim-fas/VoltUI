@@ -81,3 +81,15 @@
 - [x] TokenManager: heller Hintergrund mit bg-card und bg-secondary
 - [x] LogTerminal: bg-secondary statt schwarz
 - [x] DiffViewer: helle Cards mit bg-card und bg-secondary
+
+## v2.6 Theme Agent Kontrast-Fix und lokale Repo-Unterstützung
+- [x] Kontrast-Fix: Lime-Gelb Icons (#E4FF97) auf hellem Hintergrund durch dunkle Icons ersetzen
+- [x] Feature-Cards Icons: text-foreground statt text-[#E4FF97]
+- [x] Token-Manager Icons: text-foreground statt text-[#E4FF97]
+- [x] Input-Icons: text-muted-foreground statt text-[#E4FF97]/60
+- [x] Backend: Express-Handler für ZIP-Upload (lokales Repo)
+- [x] Backend: transformLocalRepo Funktion (ZIP entpacken, analysieren, transformieren)
+- [x] Frontend: Tab-Umschalter "GitHub URL" vs. "Lokales Repo"
+- [x] Frontend: File-Upload-Komponente für ZIP-Dateien mit Drag & Drop UI
+- [x] Frontend: handleLocalTransform Funktion für lokalen Upload
+- [x] Hero-Text aktualisiert (GitHub + lokale Repos)

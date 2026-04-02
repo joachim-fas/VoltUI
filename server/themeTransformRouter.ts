@@ -123,3 +123,60 @@ export function handleZipDownload(req: any, res: any) {
   res.setHeader("Content-Length", cached.zipBuffer.length);
   res.send(cached.zipBuffer);
 }
+
+/**
+ * Express-Handler für lokalen Repo-Upload (Multipart).
+ * Wird in server/_core/index.ts registriert.
+ */
+export async function handleLocalRepoUpload(req: any, res: any) {
+  const multer = (await import("multer")).default;
+  const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 50 * 1024 * 1024 } });
+
+  upload.single("repo")(req, res, async (err: any) => {
+    if (err) {
+      return res.status(400).json({ error: `Upload fehlgeschlagen: ${err.message}` });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: "Keine Datei hochgeladen" });
+    }
+
+    const zipBuffer = req.file.buffer;
+    const repoName = req.body.repoName || req.file.originalname.replace(/\.zip$/i, "");
+
+    try {
+      const { transformLocalRepo, generateZip } = await import("./themeTransformer");
+      const result = await transformLocalRepo(zipBuffer, repoName);
+
+      // ZIP generieren und cachen
+      const zipResultBuffer = await generateZip(result.transformedFiles);
+      const cacheKey = `local-${repoName}-${Date.now()}`;
+
+      transformCache.set(cacheKey, {
+        result,
+        zipBuffer: zipResultBuffer,
+        createdAt: Date.now(),
+      });
+
+      return res.json({
+        success: true,
+        cacheKey,
+        repoName: result.repoName,
+        owner: result.owner,
+        stack: result.stack,
+        filesScanned: result.filesScanned,
+        filesTransformed: result.filesTransformed,
+        log: result.log,
+        previewFiles: result.transformedFiles.slice(0, 5).map(f => ({
+          path: f.path,
+          originalContent: f.originalContent.slice(0, 2000),
+          transformedContent: f.transformedContent.slice(0, 2000),
+          changes: f.changes,
+        })),
+        totalFiles: result.transformedFiles.length,
+      });
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message || "Transformation fehlgeschlagen" });
+    }
+  });
+}

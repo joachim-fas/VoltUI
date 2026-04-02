@@ -581,3 +581,118 @@ export async function transformRepo(
     log,
   };
 }
+
+// ─── Lokale Repo-Transformation (ZIP-Upload) ──────────────────────────────────
+
+export interface LocalRepoFile {
+  path: string;
+  content: Buffer;
+}
+
+/**
+ * Transformiert ein lokal hochgeladenes Repository (als ZIP-Buffer).
+ * Extrahiert Dateien, erkennt den Stack und transformiert UI-Komponenten.
+ */
+export async function transformLocalRepo(
+  zipBuffer: Buffer,
+  repoName: string,
+  onProgress?: (step: string) => void
+): Promise<TransformResult> {
+  const AdmZip = (await import("adm-zip")).default;
+  const log: string[] = [];
+  const progress = (msg: string) => {
+    log.push(msg);
+    onProgress?.(msg);
+  };
+
+  progress(`[1/5] Extrahiere ZIP-Archiv: ${repoName}`);
+
+  // ZIP entpacken
+  const zip = new AdmZip(zipBuffer);
+  const entries = zip.getEntries();
+
+  // Alle Pfade sammeln (für Stack-Erkennung)
+  const allPaths = entries
+    .filter(e => !e.isDirectory)
+    .map(e => {
+      // Entferne führendes Verzeichnis (z.B. "myrepo-main/src/..." → "src/...")
+      const parts = e.entryName.split("/");
+      return parts.length > 1 ? parts.slice(1).join("/") : e.entryName;
+    });
+
+  progress(`✓ ${allPaths.length} Dateien im Archiv gefunden`);
+
+  // Stack erkennen
+  const stack = detectStack(allPaths);
+  progress(`✓ Tech-Stack erkannt: ${stack}`);
+
+  // Design-relevante Dateien filtern und laden
+  const loadedFiles: RepoFile[] = [];
+
+  for (const entry of entries) {
+    if (entry.isDirectory) continue;
+
+    // Pfad normalisieren (führendes Verzeichnis entfernen)
+    const parts = entry.entryName.split("/");
+    const normalizedPath = parts.length > 1 ? parts.slice(1).join("/") : entry.entryName;
+
+    if (!normalizedPath || !isDesignRelevant(normalizedPath)) continue;
+    if (entry.header.size > 100_000) continue; // Zu große Dateien überspringen
+
+    try {
+      const content = entry.getData().toString("utf-8");
+      if (content.trim()) {
+        loadedFiles.push({ path: normalizedPath, content, size: entry.header.size });
+      }
+    } catch {
+      // Binärdateien oder Encoding-Fehler ignorieren
+    }
+  }
+
+  progress(`✓ ${loadedFiles.length} design-relevante Dateien geladen`);
+
+  // 5. Transformation via LLM (gleiche Logik wie bei GitHub)
+  progress(`[3/5] Transformiere UI-Komponenten zu Volt UI...`);
+
+  const uiFiles = loadedFiles.filter(f =>
+    f.content.includes("<") &&
+    (f.path.endsWith(".tsx") || f.path.endsWith(".jsx") || f.path.endsWith(".html")) &&
+    f.content.length > 100
+  );
+
+  const cssFiles = loadedFiles.filter(f =>
+    f.path.endsWith(".css") || f.path.endsWith(".scss") || f.path.endsWith(".sass")
+  );
+
+  progress(`  → ${uiFiles.length} UI-Dateien, ${cssFiles.length} CSS-Dateien`);
+
+  const transformedFiles: TransformedFile[] = [];
+
+  for (const file of uiFiles.slice(0, 10)) {
+    progress(`  Transformiere: ${file.path}`);
+    const result = await transformFileWithLLM(file, stack, log);
+    transformedFiles.push(result);
+  }
+
+  for (const file of cssFiles) {
+    transformedFiles.push({
+      path: file.path,
+      originalContent: file.content,
+      transformedContent: `/* Original CSS – wird durch volt-ui.css Tokens ergänzt */\n\n${file.content}`,
+      changes: ["Volt UI CSS-Variablen als Referenz hinzugefügt"],
+    });
+  }
+
+  progress(`[4/5] Generiere Download-Paket...`);
+  progress(`✓ Transformation abgeschlossen`);
+
+  return {
+    repoName,
+    owner: "lokal",
+    stack,
+    filesScanned: loadedFiles.length,
+    filesTransformed: transformedFiles.filter(f => f.changes.length > 0).length,
+    transformedFiles,
+    log,
+  };
+}
