@@ -38,15 +38,15 @@ const PATTERNS = [
     description: "Gleichmäßiges Punktraster – für strukturierte Layouts",
     cssClass: "pattern-dots",
     bg: "#FFFFFF",
-    code: `.pattern-dots {\n  background-image: radial-gradient(circle, #0A0A0A 1px, transparent 1px);\n  background-size: 20px 20px;\n}`,
+    code: `.pattern-dots {\n  background-image: radial-gradient(rgba(0, 0, 0, 0.12) 0.75px, transparent 0.75px);\n  background-size: 24px 24px;\n}`,
     preview: (
       <div className="w-full h-full rounded-xl overflow-hidden" style={{
-        backgroundImage: "radial-gradient(circle, #0A0A0A 1px, transparent 1px)",
-        backgroundSize: "20px 20px",
+        backgroundImage: "radial-gradient(rgba(0, 0, 0, 0.12) 0.75px, transparent 0.75px)",
+        backgroundSize: "24px 24px",
         backgroundColor: "#FFFFFF",
       }}>
         <div className="w-full h-full flex items-center justify-center">
-          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">dot · grid · 20px</span>
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">dot · grid · 24px</span>
         </div>
       </div>
     ),
@@ -112,12 +112,12 @@ const PATTERNS = [
     description: "Punktraster auf Lime – für Hero-Bereiche",
     cssClass: "pattern-dots-lime",
     bg: "#E4FF97",
-    code: `.pattern-dots-lime {\n  background-color: #E4FF97;\n  background-image: radial-gradient(circle, rgba(0,0,0,0.15) 1px, transparent 1px);\n  background-size: 20px 20px;\n}`,
+    code: `.pattern-dots-lime {\n  background-color: #E4FF97;\n  background-image: radial-gradient(rgba(0, 0, 0, 0.14) 0.75px, transparent 0.75px);\n  background-size: 24px 24px;\n}`,
     preview: (
       <div className="w-full h-full rounded-xl overflow-hidden" style={{
         backgroundColor: "#E4FF97",
-        backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.15) 1px, transparent 1px)",
-        backgroundSize: "20px 20px",
+        backgroundImage: "radial-gradient(rgba(0, 0, 0, 0.14) 0.75px, transparent 0.75px)",
+        backgroundSize: "24px 24px",
       }}>
         <div className="w-full h-full flex items-center justify-center">
           <span className="font-mono text-xs text-foreground bg-[#E4FF97]/80 px-2 py-1 rounded">lime · dots · hero</span>
