@@ -107,6 +107,44 @@ const PATTERNS = [
     ),
   },
   {
+    id: "dots-fine",
+    name: "Dot Grid Fein",
+    description: "Feines Punktraster (0.5px, 16px) – für dichte Texturen und Formularhintergründe",
+    cssClass: "pattern-dots-fine",
+    bg: "#FFFFFF",
+    code: `.pattern-dots-fine {\n  background-image: radial-gradient(rgba(0, 0, 0, 0.15) 0.5px, transparent 0.5px);\n  background-size: 16px 16px;\n}`,
+    preview: (
+      <div className="w-full h-full rounded-xl overflow-hidden" style={{
+        backgroundImage: "radial-gradient(rgba(0, 0, 0, 0.15) 0.5px, transparent 0.5px)",
+        backgroundSize: "16px 16px",
+        backgroundColor: "#FFFFFF",
+      }}>
+        <div className="w-full h-full flex items-center justify-center">
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">dot · grid · fine · 16px</span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "dots-coarse",
+    name: "Dot Grid Grob",
+    description: "Grobes Punktraster (1.5px, 36px) – für großflächige Layouts und Hero-Bereiche",
+    cssClass: "pattern-dots-coarse",
+    bg: "#FFFFFF",
+    code: `.pattern-dots-coarse {\n  background-image: radial-gradient(rgba(0, 0, 0, 0.10) 1.5px, transparent 1.5px);\n  background-size: 36px 36px;\n}`,
+    preview: (
+      <div className="w-full h-full rounded-xl overflow-hidden" style={{
+        backgroundImage: "radial-gradient(rgba(0, 0, 0, 0.10) 1.5px, transparent 1.5px)",
+        backgroundSize: "36px 36px",
+        backgroundColor: "#FFFFFF",
+      }}>
+        <div className="w-full h-full flex items-center justify-center">
+          <span className="font-mono text-xs text-muted-foreground bg-card/80 px-2 py-1 rounded">dot · grid · coarse · 36px</span>
+        </div>
+      </div>
+    ),
+  },
+  {
     id: "dots-lime",
     name: "Lime Dot Grid",
     description: "Punktraster auf Lime – für Hero-Bereiche",

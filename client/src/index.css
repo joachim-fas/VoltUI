@@ -390,6 +390,27 @@
   background-image: radial-gradient(rgba(255, 255, 255, 0.12) 0.75px, transparent 0.75px);
   background-size: 24px 24px;
 }
+
+/* Dot Grid – Fein: 0.5px Punkte, 16px Abstand */
+.pattern-dots-fine {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.15) 0.5px, transparent 0.5px);
+  background-size: 16px 16px;
+}
+.dark .pattern-dots-fine {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 0.5px, transparent 0.5px);
+  background-size: 16px 16px;
+}
+
+/* Dot Grid – Grob: 1.5px Punkte, 36px Abstand */
+.pattern-dots-coarse {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.10) 1.5px, transparent 1.5px);
+  background-size: 36px 36px;
+}
+.dark .pattern-dots-coarse {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.10) 1.5px, transparent 1.5px);
+  background-size: 36px 36px;
+}
+
 .pattern-lines {
   background-image: repeating-linear-gradient(
     45deg, transparent, transparent 8px,
