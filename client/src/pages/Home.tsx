@@ -31,6 +31,7 @@ const UIIconsSection = lazy(() => import("./sections/UIIconsSection"));
 const QuellenMethodenSection = lazy(() => import("./sections/QuellenMethodenSection"));
 const SkeuomorphicSection = lazy(() => import("./sections/SkeuomorphicSection"));
 import { ExportSection }              from "./sections/ExportSection";
+import { TerminalSection }            from "./sections/TerminalSection";
 import {
   Home as HomeIcon, Palette, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Menu, X,
@@ -38,7 +39,7 @@ import {
   BookOpen, Network, Bell, Download,
   Wallpaper, Stamp, RectangleHorizontal,
   Eye, Boxes, CircleDot, Terminal, Sparkles,
-  Radar, Shapes, Box, Layers3,
+  Radar, Shapes, Box, Layers3, TerminalSquare,
 } from "lucide-react";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
@@ -54,6 +55,7 @@ const ALL_SECTIONS = [
   { id: "feedback",    Component: FeedbackSection },
   { id: "data",        Component: DataSection },
   { id: "navigation",  Component: NavigationSection },
+  { id: "terminal",    Component: TerminalSection },
   { id: "op",          Component: OperatingPrincipleSection },
   { id: "brand",       Component: BrandArchitectureSection },
   { id: "brandstory",  Component: BrandStorySection },
@@ -94,6 +96,7 @@ const sidebarSections = [
       { id: "feedback",    label: "Feedback & Overlay",   description: "Toast, Modal, Tooltip, Tabs",           icon: <Bell className="w-4 h-4" /> },
       { id: "data",        label: "Data & Charts",        description: "Diagramm-Typen & Tabellen",          icon: <BarChart2 className="w-4 h-4" /> },
       { id: "navigation",  label: "Navigation",           description: "Navbar, Breadcrumb, Tabs",              icon: <Menu className="w-4 h-4" /> },
+      { id: "terminal",    label: "Terminal",              description: "Command-Line Interface Komponente",      icon: <TerminalSquare className="w-4 h-4" /> },
     ],
   },
   {
