@@ -9,6 +9,7 @@ import { VoltAlert } from "@/components/volt/VoltAlert";
 import { VoltAvatar, VoltAvatarGroup } from "@/components/volt/VoltAvatar";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import { VoltCodeBlock } from "@/components/volt/VoltCodeBlock";
 
 export const CardsSection: React.FC = () => {
   const [alerts, setAlerts] = useState({
@@ -171,6 +172,99 @@ export const CardsSection: React.FC = () => {
             </VoltCardContent>
           </VoltCard>
         </div>
+        <VoltCodeBlock
+          language="tsx"
+          label="VoltCard · Varianten"
+          code={`// Kopiere VoltCard.tsx, VoltButton.tsx, VoltBadge.tsx in dein Projekt (aus /components/volt/)
+
+import React from "react";
+import {
+  VoltCard,
+  VoltCardHeader,
+  VoltCardTitle,
+  VoltCardDescription,
+  VoltCardContent,
+  VoltCardFooter,
+} from "./VoltCard";
+import { VoltButton } from "./VoltButton";
+import { VoltBadge } from "./VoltBadge";
+import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+
+export function CardDemo() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Standard */}
+      <VoltCard variant="default">
+        <VoltCardHeader>
+          <VoltBadge variant="muted" size="sm">Default</VoltBadge>
+          <VoltCardTitle>Standard Card</VoltCardTitle>
+          <VoltCardDescription>Mit subtiler Volt-Textur und weichem Schatten.</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardFooter>
+          <VoltButton variant="outline" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
+            Mehr erfahren
+          </VoltButton>
+        </VoltCardFooter>
+      </VoltCard>
+
+      {/* Glass */}
+      <VoltCard variant="glass">
+        <VoltCardHeader>
+          <VoltBadge variant="glass" size="sm">Glass</VoltBadge>
+          <Sparkles className="w-4 h-4 text-foreground" />
+          <VoltCardTitle>Glass Card</VoltCardTitle>
+          <VoltCardDescription>Backdrop-Blur mit Glasmorphismus-Effekt.</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardFooter>
+          <VoltButton variant="outline" size="sm">Entdecken</VoltButton>
+        </VoltCardFooter>
+      </VoltCard>
+
+      {/* Gradient (Neon-Yellow) */}
+      <VoltCard variant="gradient">
+        <VoltCardHeader>
+          <VoltBadge variant="glass" size="sm">Gradient</VoltBadge>
+          <TrendingUp className="w-4 h-4 text-foreground" />
+          <VoltCardTitle>Lime Card</VoltCardTitle>
+          <VoltCardDescription className="text-[#000000]/70">Für hervorgehobene Inhalte.</VoltCardDescription>
+        </VoltCardHeader>
+        <VoltCardFooter>
+          <VoltButton variant="solid" size="sm">Jetzt starten</VoltButton>
+        </VoltCardFooter>
+      </VoltCard>
+
+      {/* Elevated */}
+      <VoltCard variant="elevated">
+        <VoltCardHeader>
+          <VoltBadge variant="muted" size="sm">Elevated</VoltBadge>
+          <VoltCardTitle>Elevated Card</VoltCardTitle>
+          <VoltCardDescription>Stärkerer Schatten für visuelle Hierarchie.</VoltCardDescription>
+        </VoltCardHeader>
+      </VoltCard>
+
+      {/* Outlined */}
+      <VoltCard variant="outlined">
+        <VoltCardHeader>
+          <VoltBadge variant="muted" size="sm">Outlined</VoltBadge>
+          <VoltCardTitle>Outlined Card</VoltCardTitle>
+          <VoltCardDescription>Transparenter Hintergrund mit Rahmen.</VoltCardDescription>
+        </VoltCardHeader>
+      </VoltCard>
+
+      {/* Subtle */}
+      <VoltCard variant="subtle">
+        <VoltCardHeader>
+          <VoltBadge variant="muted" size="sm">Subtle</VoltBadge>
+          <VoltCardTitle>Subtle Card</VoltCardTitle>
+          <VoltCardDescription>Sehr zurückhaltend, für sekundäre Flächen.</VoltCardDescription>
+        </VoltCardHeader>
+      </VoltCard>
+    </div>
+  );
+}
+
+// Varianten: default · glass · gradient · elevated · outlined · subtle · interactive`}
+        />
       </div>
 
       {/* Badges */}
@@ -212,6 +306,33 @@ export const CardsSection: React.FC = () => {
             </div>
           </VoltCardContent>
         </VoltCard>
+        <VoltCodeBlock
+          language="tsx"
+          label="VoltBadge · Varianten"
+          code={`// Kopiere VoltBadge.tsx in dein Projekt (aus /components/volt/)
+import { VoltBadge } from "./VoltBadge";
+
+{/* Farb-Varianten */}
+<VoltBadge variant="default">Lime</VoltBadge>
+<VoltBadge variant="solid">Solid</VoltBadge>
+<VoltBadge variant="outline">Outline</VoltBadge>
+<VoltBadge variant="muted">Muted</VoltBadge>
+<VoltBadge variant="glass">Glass</VoltBadge>
+<VoltBadge variant="positive">Positiv</VoltBadge>
+<VoltBadge variant="negative">Negativ</VoltBadge>
+<VoltBadge variant="neutral">Neutral</VoltBadge>
+
+{/* Größen: sm · md · lg */}
+<VoltBadge variant="default" size="sm">Small</VoltBadge>
+<VoltBadge variant="default" size="md">Medium</VoltBadge>
+<VoltBadge variant="default" size="lg">Large</VoltBadge>
+
+{/* Mit Status-Punkt (dot) */}
+<VoltBadge variant="positive" dot dotColor="#1A9E5A">Online</VoltBadge>
+<VoltBadge variant="neutral"  dot dotColor="#E8B800">Beschäftigt</VoltBadge>
+<VoltBadge variant="muted"    dot dotColor="#6B6B6B">Abwesend</VoltBadge>
+<VoltBadge variant="default"  dot>Neu</VoltBadge>`}
+        />
       </div>
 
       {/* Alerts */}
@@ -270,6 +391,72 @@ export const CardsSection: React.FC = () => {
             </div>
           )}
         </div>
+        <VoltCodeBlock
+          language="tsx"
+          label="VoltAlert · Varianten"
+          code={`// Kopiere VoltAlert.tsx in dein Projekt (aus /components/volt/)
+// Installation: pnpm add lucide-react
+
+import React, { useState } from "react";
+import { VoltAlert } from "./VoltAlert";
+
+export function AlertDemo() {
+  const [alerts, setAlerts] = useState({
+    info: true, success: true, warning: true, error: true,
+  });
+
+  return (
+    <div className="space-y-3">
+      {alerts.info && (
+        <VoltAlert
+          variant="info"
+          title="Information"
+          dismissible
+          onDismiss={() => setAlerts((a) => ({ ...a, info: false }))}
+        >
+          Volt UI ist vollständig in CSS und React implementiert.
+        </VoltAlert>
+      )}
+
+      {alerts.success && (
+        <VoltAlert
+          variant="success"
+          title="Erfolgreich gespeichert"
+          dismissible
+          onDismiss={() => setAlerts((a) => ({ ...a, success: false }))}
+        >
+          Alle Änderungen wurden erfolgreich gespeichert.
+        </VoltAlert>
+      )}
+
+      {alerts.warning && (
+        <VoltAlert
+          variant="warning"
+          title="Achtung"
+          dismissible
+          onDismiss={() => setAlerts((a) => ({ ...a, warning: false }))}
+        >
+          Diese Aktion kann nicht rückgängig gemacht werden.
+        </VoltAlert>
+      )}
+
+      {alerts.error && (
+        <VoltAlert
+          variant="error"
+          title="Fehler aufgetreten"
+          dismissible
+          onDismiss={() => setAlerts((a) => ({ ...a, error: false }))}
+        >
+          Verbindung zum Server konnte nicht hergestellt werden.
+        </VoltAlert>
+      )}
+    </div>
+  );
+}
+
+// Varianten: info · success · warning · error
+// dismissible + onDismiss: Schließen-Button einblenden`}
+        />
       </div>
 
       {/* Avatare */}
@@ -322,6 +509,45 @@ export const CardsSection: React.FC = () => {
             </div>
           </VoltCardContent>
         </VoltCard>
+        <VoltCodeBlock
+          language="tsx"
+          label="VoltAvatar · Varianten"
+          code={`// Kopiere VoltAvatar.tsx in dein Projekt (aus /components/volt/)
+import { VoltAvatar, VoltAvatarGroup } from "./VoltAvatar";
+
+{/* Mit Foto (Unsplash-URL oder eigene URL) */}
+<VoltAvatar
+  name="Anna Müller"
+  size="md"   // xs · sm · md · lg · xl
+  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&fit=crop&crop=face"
+/>
+
+{/* Gradient-Fallback (kein Foto – Initialen + deterministischer Gradient) */}
+<VoltAvatar name="Max Schmidt" size="lg" />
+
+{/* Mit Online-Status und Ring */}
+<VoltAvatar
+  name="Lisa Koch"
+  size="md"
+  online   // Grüner Status-Punkt
+  ring     // Farbiger Ring
+  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80&fit=crop&crop=face"
+/>
+
+{/* Avatar-Gruppe mit Überlappung */}
+<VoltAvatarGroup
+  size="md"
+  max={5}   // Maximale Anzahl sichtbarer Avatare
+  avatars={[
+    { name: "Anna Müller",  src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&fit=crop&crop=face" },
+    { name: "Max Schmidt",  src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&fit=crop&crop=face" },
+    { name: "Lisa Koch",    src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80&fit=crop&crop=face" },
+    { name: "Tom Braun",    src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80&fit=crop&crop=face" },
+    { name: "Sara Weber",   src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=80&fit=crop&crop=face" },
+    { name: "Jan Fischer" },  // Kein Foto – Gradient-Fallback
+  ]}
+/>`}
+        />
       </div>
     </div>
   );

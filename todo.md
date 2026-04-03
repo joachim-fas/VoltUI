@@ -200,3 +200,16 @@
 
 ## v3.12 Alle quantifizierten Aufzählungen entfernen
 - [x] Alle Zahlen-Badges, Zähler, "X Icons", "X Komponenten" etc. aus dem gesamten Projekt entfernen
+
+## v3.13 Code-Kopieren-Funktion für alle Komponenten
+- [ ] Wiederverwendbare VoltCodeBlock-Komponente mit Syntax-Highlighting und Copy-Button erstellen
+- [ ] Code-Snippets in ButtonsSection einbauen
+- [ ] Code-Snippets in CardsSection einbauen
+- [ ] Code-Snippets in FormsSection einbauen
+- [ ] Code-Snippets in FeedbackSection einbauen
+- [ ] Code-Snippets in DataSection einbauen
+- [ ] Code-Snippets in NavigationSection einbauen
+
+## v3.14 Code-Snippets eigenständig machen
+- [ ] JSX-Kommentar-Fehler in NavigationSection beheben
+- [ ] Alle Code-Snippets vollständig überarbeiten: eigenständig, alle Imports, vollständige Props
