@@ -88,39 +88,10 @@ export function TerminalSection() {
           </VoltCardContent>
         </VoltCard>
         <VoltCodeBlock
-          language="tsx"
-          label="VoltCommandBarCentered · Verwendung"
           code={`// Kopiere VoltCommandBar.tsx in dein Projekt (aus /components/volt/)
 import { VoltCommandBarCentered } from "./VoltCommandBar";
 import { Plus, Mic, Code2, FileText, Globe, Sparkles } from "lucide-react";
-
-export function AIStartPage() {
-  const [value, setValue] = useState("");
-
-  return (
-    <VoltCommandBarCentered
-      title="Was möchtest du heute erstellen?"
-      variant="default"      // default · dark · ghost
-      size="md"              // sm · md · lg
-      placeholder="Frag mich etwas…"
-      value={value}
-      onChange={setValue}
-      onSubmit={(v) => console.log("Eingabe:", v)}
-      leftActions={[
-        { icon: <Plus />, label: "Anhang" },
-      ]}
-      rightActions={[
-        { icon: <Mic />, label: "Sprache" },
-      ]}
-      suggestions={[
-        { label: "Zusammenfassen", icon: <FileText /> },
-        { label: "Code schreiben", icon: <Code2 /> },
-        { label: "Übersetzen",     icon: <Globe /> },
-        { label: "Ideen",          icon: <Sparkles /> },
-      ]}
-    />
-  );
-}`}
+export function AIStartPage() {`}
         />
       </div>
 
@@ -241,41 +212,9 @@ export function AIStartPage() {
       <div>
         <h3 className="font-display font-bold text-xl text-foreground mb-4">Vollständige Konfiguration</h3>
         <VoltCodeBlock
-          language="tsx"
-          label="VoltCommandBar · Alle Props"
           code={`import { VoltCommandBar, type CommandBarAction, type CommandBarSuggestion } from "./VoltCommandBar";
 import { Plus, Mic, Paperclip, Globe, Code2, FileText, Sparkles } from "lucide-react";
-
-const leftActions: CommandBarAction[] = [
-  { icon: <Plus />,       label: "Anhang hinzufügen", onClick: () => {} },
-  { icon: <Paperclip />,  label: "Datei",              onClick: () => {} },
-];
-
-const rightActions: CommandBarAction[] = [
-  { icon: <Globe />, label: "Websuche", active: true }, // active → Lime-Highlight
-  { icon: <Mic />,   label: "Spracheingabe" },
-];
-
-const suggestions: CommandBarSuggestion[] = [
-  { label: "Zusammenfassen", icon: <FileText />,  onClick: () => {} },
-  { label: "Code schreiben", icon: <Code2 />,     onClick: () => {} },
-  { label: "Ideen",          icon: <Sparkles />,  onClick: () => {} },
-];
-
-<VoltCommandBar
-  variant="default"      // default · dark · ghost
-  size="md"              // sm · md · lg
-  placeholder="Frag mich etwas…"
-  defaultValue=""        // oder value + onChange für kontrollierten Modus
-  onSubmit={(v) => console.log(v)}
-  leftActions={leftActions}
-  rightActions={rightActions}
-  suggestions={suggestions}
-  maxRows={6}            // maximale Zeilen für Auto-Resize
-  disabled={false}
-  loading={false}
-  hideSubmit={false}     // Submit-Button ausblenden
-/>`}
+const leftActions: CommandBarAction[] = [`}
         />
       </div>
     </div>

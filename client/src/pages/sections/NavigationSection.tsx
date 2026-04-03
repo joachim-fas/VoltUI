@@ -161,52 +161,10 @@ export const NavigationSection: React.FC = () => {
           </div>
         </VoltCardContent>
         <VoltCodeBlock
-          language="tsx"
-          label="VoltNavbar · Verwendung"
           code={`// Installation: pnpm add framer-motion lucide-react
-// Kopiere VoltNavbar.tsx, VoltButton.tsx, VoltBadge.tsx in dein Projekt
-
 import React, { useState } from "react";
 import { VoltNavbar } from "./VoltNavbar";
-import { VoltButton } from "./VoltButton";
-import { VoltBadge } from "./VoltBadge";
-
-export function NavbarDemo() {
-  const [activeItem, setActiveItem] = useState("Komponenten");
-
-  const navItems = ["\u00dcbersicht", "Komponenten", "Tokens", "Dokumentation"].map(
-    (label) => ({
-      label,
-      active: label === activeItem,
-      onClick: () => setActiveItem(label),
-    })
-  );
-
-  return (
-    <VoltNavbar
-      variant="glass"   // glass · solid · transparent
-      sticky={true}    // Klebt am oberen Rand beim Scrollen
-      logo={
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#E4FF97] flex items-center justify-center">
-            <span className="text-foreground font-bold text-xs">V</span>
-          </div>
-          <span className="font-bold text-base">Volt UI</span>
-        </div>
-      }
-      items={navItems}
-      rightSlot={
-        <div className="flex items-center gap-2">
-          <VoltBadge variant="default" size="sm">v1.0</VoltBadge>
-          <VoltButton variant="primary" size="sm">Starten</VoltButton>
-        </div>
-      }
-    />
-  );
-}
-
-// items-Shape: { label: string; active?: boolean; href?: string; badge?: number; onClick?: () => void }
-// Varianten: glass · solid · transparent`}
+import { VoltButton } from "./VoltButton";`}
         />
       </VoltCard>
 
@@ -222,42 +180,10 @@ export function NavbarDemo() {
           </div>
         </VoltCardContent>
         <VoltCodeBlock
-          language="tsx"
-          label="Breadcrumb · Beispiel"
           code={`// Breadcrumb – eigenständige Komponente ohne externe Abhängigkeiten
-// Installation: pnpm add lucide-react
-
 import React from "react";
 import { ChevronRight, Home } from "lucide-react";
-
-interface BreadcrumbProps {
-  items: string[];  // Erstes Element = Home-Icon, übrige = Labels
-}
-
-export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => (
-  <nav aria-label="Breadcrumb" className="flex items-center gap-1.5">
-    {items.map((item, i) => (
-      <React.Fragment key={i}>
-        {i > 0 && (
-          <ChevronRight className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
-        )}
-        <span
-          className={
-            i === items.length - 1
-              ? "text-sm font-semibold text-foreground"
-              : "text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
-          }
-        >
-          {i === 0 ? <Home className="w-3.5 h-3.5 inline" /> : item}
-        </span>
-      </React.Fragment>
-    ))}
-  </nav>
-);
-
-// Verwendung:
-<Breadcrumb items={["", "Volt UI", "Komponenten", "Buttons"]} />
-<Breadcrumb items={["", "Volt UI", "Komponenten", "Buttons", "Primary"]} />`}
+export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => (`}
         />
       </VoltCard>
 
@@ -271,66 +197,10 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => (
           <Pagination total={7} current={page} onChange={setPage} />
         </VoltCardContent>
         <VoltCodeBlock
-          language="tsx"
-          label="Pagination · Beispiel"
           code={`// Pagination – eigenständige Komponente ohne externe Abhängigkeiten
-// Installation: pnpm add lucide-react
-
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-interface PaginationProps {
-  total: number;
-  current: number;
-  onChange: (page: number) => void;
-}
-
-export const Pagination: React.FC<PaginationProps> = ({ total, current, onChange }) => {
-  const pages = Array.from({ length: total }, (_, i) => i + 1);
-
-  return (
-    <div className="flex items-center gap-1">
-      <button
-        onClick={() => onChange(Math.max(1, current - 1))}
-        disabled={current === 1}
-        className="w-8 h-8 flex items-center justify-center rounded-lg
-          text-muted-foreground hover:text-foreground hover:bg-muted
-          disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-      >
-        <ChevronLeft className="w-4 h-4" />
-      </button>
-
-      {pages.map((p) => (
-        <button
-          key={p}
-          onClick={() => onChange(p)}
-          className={[
-            "w-8 h-8 flex items-center justify-center rounded-lg text-sm font-semibold transition-all",
-            p === current
-              ? "bg-[#0A0A0A] text-white"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted",
-          ].join(" ")}
-        >
-          {p}
-        </button>
-      ))}
-
-      <button
-        onClick={() => onChange(Math.min(total, current + 1))}
-        disabled={current === total}
-        className="w-8 h-8 flex items-center justify-center rounded-lg
-          text-muted-foreground hover:text-foreground hover:bg-muted
-          disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-      >
-        <ChevronRight className="w-4 h-4" />
-      </button>
-    </div>
-  );
-};
-
-// Verwendung:
-const [page, setPage] = useState(1);
-<Pagination total={7} current={page} onChange={setPage} />`}
+export const Pagination: React.FC<PaginationProps> = ({ total, current, onChange }) => {`}
         />
       </VoltCard>
 
@@ -365,81 +235,10 @@ const [page, setPage] = useState(1);
           </div>
         </VoltCardContent>
         <VoltCodeBlock
-          language="tsx"
-          label="Stepper · Beispiel"
           code={`// Stepper – eigenständige Komponente ohne externe Abhängigkeiten
-// Installation: pnpm add lucide-react
-// Kopiere VoltButton.tsx für die Navigation
-
 import React, { useState } from "react";
 import { Check, Circle, ChevronLeft, ChevronRight } from "lucide-react";
-import { VoltButton } from "./VoltButton";
-
-const STEPS = ["Konto", "Profil", "Einstellungen", "Fertig"];
-
-export function StepperDemo() {
-  const [step, setStep] = useState(0);
-
-  return (
-    <div className="space-y-6">
-      {/* Schritt-Anzeige */}
-      <div className="flex items-center w-full">
-        {STEPS.map((label, i) => {
-          const done   = i < step;
-          const active = i === step;
-          return (
-            <React.Fragment key={i}>
-              <div className="flex flex-col items-center gap-1.5">
-                <div className={[
-                  "w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300",
-                  done   ? "bg-[#0A0A0A] text-white"                       : "",
-                  active ? "bg-[#E4FF97] text-foreground scale-110"         : "",
-                  !done && !active ? "bg-muted text-muted-foreground border border-border" : "",
-                ].join(" ")}>
-                  {done   ? <Check className="w-4 h-4" /> :
-                   active ? <Circle className="w-2.5 h-2.5 fill-current" /> :
-                   i + 1}
-                </div>
-                <span className={[
-                  "text-xs font-semibold whitespace-nowrap",
-                  active ? "text-foreground font-bold" :
-                  done   ? "text-foreground" : "text-muted-foreground",
-                ].join(" ")}>{label}</span>
-              </div>
-              {i < STEPS.length - 1 && (
-                <div className={[
-                  "flex-1 h-0.5 mx-2 mb-5 rounded-full transition-all duration-500",
-                  i < step ? "bg-[#0A0A0A]" : "bg-border",
-                ].join(" ")} />
-              )}
-            </React.Fragment>
-          );
-        })}
-      </div>
-
-      {/* Navigation */}
-      <div className="flex justify-between">
-        <VoltButton
-          variant="outline" size="sm"
-          disabled={step === 0}
-          onClick={() => setStep((s) => Math.max(0, s - 1))}
-          leftIcon={<ChevronLeft className="w-4 h-4" />}
-        >
-          Zurück
-        </VoltButton>
-        <VoltButton
-          variant="primary" size="sm"
-          onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))}
-          rightIcon={step < STEPS.length - 1
-            ? <ChevronRight className="w-4 h-4" />
-            : <Check className="w-4 h-4" />}
-        >
-          {step === STEPS.length - 1 ? "Abschließen" : "Weiter"}
-        </VoltButton>
-      </div>
-    </div>
-  );
-}`}
+import { VoltButton } from "./VoltButton";`}
         />
       </VoltCard>
     </div>

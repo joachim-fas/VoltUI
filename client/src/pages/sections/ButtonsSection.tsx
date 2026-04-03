@@ -34,29 +34,17 @@ export const ButtonsSection: React.FC = () => {
           <VoltCardDescription>primary · solid · outline · ghost · glass · secondary · destructive</VoltCardDescription>
         </VoltCardHeader>
         <VoltCardContent>
-          <div className="rounded-xl border border-border overflow-hidden">
-            <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-              <span className="text-xs font-mono text-muted-foreground ml-2">Vorschau</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 p-6 bg-atmospheric volt-texture">
-              <VoltButton variant="primary">Primary</VoltButton>
-              <VoltButton variant="solid">Solid</VoltButton>
-              <VoltButton variant="outline">Outline</VoltButton>
-              <VoltButton variant="ghost">Ghost</VoltButton>
-              <VoltButton variant="glass">Glass</VoltButton>
-              <VoltButton variant="secondary">Secondary</VoltButton>
-              <VoltButton variant="destructive">Destructive</VoltButton>
-            </div>
+          <div className="flex flex-wrap items-center gap-3 p-6 rounded-xl bg-atmospheric volt-texture border border-border">
+            <VoltButton variant="primary">Primary</VoltButton>
+            <VoltButton variant="solid">Solid</VoltButton>
+            <VoltButton variant="outline">Outline</VoltButton>
+            <VoltButton variant="ghost">Ghost</VoltButton>
+            <VoltButton variant="glass">Glass</VoltButton>
+            <VoltButton variant="secondary">Secondary</VoltButton>
+            <VoltButton variant="destructive">Destructive</VoltButton>
           </div>
           <VoltCodeBlock
-            language="tsx"
-            label="VoltButton · Varianten"
-            code={`import { VoltButton } from "@/components/volt/VoltButton";
-
-<VoltButton variant="primary">Primary</VoltButton>
+            code={`<VoltButton variant="primary">Primary</VoltButton>
 <VoltButton variant="solid">Solid</VoltButton>
 <VoltButton variant="outline">Outline</VoltButton>
 <VoltButton variant="ghost">Ghost</VoltButton>
@@ -74,29 +62,19 @@ export const ButtonsSection: React.FC = () => {
           <VoltCardDescription>sm · md · lg · xl · icon</VoltCardDescription>
         </VoltCardHeader>
         <VoltCardContent>
-          <div className="rounded-xl border border-border overflow-hidden">
-            <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-              <span className="text-xs font-mono text-muted-foreground ml-2">Vorschau</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 p-6">
-              <VoltButton size="sm">Small</VoltButton>
-              <VoltButton size="md">Medium</VoltButton>
-              <VoltButton size="lg">Large</VoltButton>
-              <VoltButton size="xl">Extra Large</VoltButton>
-              <VoltButton size="icon"><Plus className="w-4 h-4" /></VoltButton>
-            </div>
+          <div className="flex flex-wrap items-center gap-3 p-6 rounded-xl border border-border">
+            <VoltButton size="sm">Small</VoltButton>
+            <VoltButton size="md">Medium</VoltButton>
+            <VoltButton size="lg">Large</VoltButton>
+            <VoltButton size="xl">Extra Large</VoltButton>
+            <VoltButton size="icon"><Plus className="w-4 h-4" /></VoltButton>
           </div>
           <VoltCodeBlock
-            language="tsx"
-            label="VoltButton · Größen"
             code={`<VoltButton size="sm">Small</VoltButton>
 <VoltButton size="md">Medium</VoltButton>
 <VoltButton size="lg">Large</VoltButton>
 <VoltButton size="xl">Extra Large</VoltButton>
-<VoltButton size="icon"><Plus className="w-4 h-4" /></VoltButton>`}
+<VoltButton size="icon"><Plus /></VoltButton>`}
           />
         </VoltCardContent>
       </VoltCard>
@@ -108,44 +86,20 @@ export const ButtonsSection: React.FC = () => {
           <VoltCardDescription>leftIcon · rightIcon · icon-only</VoltCardDescription>
         </VoltCardHeader>
         <VoltCardContent>
-          <div className="rounded-xl border border-border overflow-hidden">
-            <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-              <span className="text-xs font-mono text-muted-foreground ml-2">Vorschau</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 p-6">
-              <VoltButton variant="primary" leftIcon={<Plus className="w-4 h-4" />}>Hinzufügen</VoltButton>
-              <VoltButton variant="solid" rightIcon={<ArrowRight className="w-4 h-4" />}>Weiter</VoltButton>
-              <VoltButton variant="outline" leftIcon={<Download className="w-4 h-4" />}>Download</VoltButton>
-              <VoltButton variant="destructive" leftIcon={<Trash2 className="w-4 h-4" />}>Löschen</VoltButton>
-              <VoltButton variant="secondary" leftIcon={<Send className="w-4 h-4" />}>Senden</VoltButton>
-              <VoltButton variant="ghost" size="icon"><Star className="w-4 h-4" /></VoltButton>
-              <VoltButton variant="outline" size="icon"><Heart className="w-4 h-4" /></VoltButton>
-              <VoltButton variant="primary" size="icon"><Zap className="w-4 h-4" /></VoltButton>
-            </div>
+          <div className="flex flex-wrap items-center gap-3 p-6 rounded-xl border border-border">
+            <VoltButton variant="primary" leftIcon={<Plus className="w-4 h-4" />}>Hinzufügen</VoltButton>
+            <VoltButton variant="solid" rightIcon={<ArrowRight className="w-4 h-4" />}>Weiter</VoltButton>
+            <VoltButton variant="outline" leftIcon={<Download className="w-4 h-4" />}>Download</VoltButton>
+            <VoltButton variant="destructive" leftIcon={<Trash2 className="w-4 h-4" />}>Löschen</VoltButton>
+            <VoltButton variant="secondary" leftIcon={<Send className="w-4 h-4" />}>Senden</VoltButton>
+            <VoltButton variant="ghost" size="icon"><Star className="w-4 h-4" /></VoltButton>
+            <VoltButton variant="outline" size="icon"><Heart className="w-4 h-4" /></VoltButton>
+            <VoltButton variant="primary" size="icon"><Zap className="w-4 h-4" /></VoltButton>
           </div>
           <VoltCodeBlock
-            language="tsx"
-            label="VoltButton · Icons"
-            code={`import { Plus, ArrowRight, Download, Trash2 } from "lucide-react";
-
-<VoltButton variant="primary" leftIcon={<Plus className="w-4 h-4" />}>
-  Hinzufügen
-</VoltButton>
-<VoltButton variant="solid" rightIcon={<ArrowRight className="w-4 h-4" />}>
-  Weiter
-</VoltButton>
-<VoltButton variant="outline" leftIcon={<Download className="w-4 h-4" />}>
-  Download
-</VoltButton>
-<VoltButton variant="destructive" leftIcon={<Trash2 className="w-4 h-4" />}>
-  Löschen
-</VoltButton>
-<VoltButton variant="ghost" size="icon">
-  <Star className="w-4 h-4" />
-</VoltButton>`}
+            code={`<VoltButton variant="primary" leftIcon={<Plus />}>Hinzufügen</VoltButton>
+<VoltButton variant="solid" rightIcon={<ArrowRight />}>Weiter</VoltButton>
+<VoltButton variant="ghost" size="icon"><Star /></VoltButton>`}
           />
         </VoltCardContent>
       </VoltCard>
@@ -157,49 +111,28 @@ export const ButtonsSection: React.FC = () => {
           <VoltCardDescription>loading · disabled – klicke einen Button um den Loading-Zustand zu sehen</VoltCardDescription>
         </VoltCardHeader>
         <VoltCardContent>
-          <div className="rounded-xl border border-border overflow-hidden">
-            <div className="flex items-center gap-1.5 px-4 py-2.5 bg-muted/50 border-b border-border">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-              <span className="text-xs font-mono text-muted-foreground ml-2">Vorschau</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 p-6">
-              <VoltButton
-                variant="primary"
-                loading={loading === "a"}
-                onClick={() => simulateLoad("a")}
-              >
-                Speichern
-              </VoltButton>
-              <VoltButton
-                variant="solid"
-                loading={loading === "b"}
-                onClick={() => simulateLoad("b")}
-                rightIcon={<ArrowRight className="w-4 h-4" />}
-              >
-                Absenden
-              </VoltButton>
-              <VoltButton variant="primary" disabled>Deaktiviert</VoltButton>
-              <VoltButton variant="outline" disabled>Deaktiviert</VoltButton>
-            </div>
+          <div className="flex flex-wrap items-center gap-3 p-6 rounded-xl border border-border">
+            <VoltButton
+              variant="primary"
+              loading={loading === "a"}
+              onClick={() => simulateLoad("a")}
+            >
+              Speichern
+            </VoltButton>
+            <VoltButton
+              variant="solid"
+              loading={loading === "b"}
+              onClick={() => simulateLoad("b")}
+              rightIcon={<ArrowRight className="w-4 h-4" />}
+            >
+              Absenden
+            </VoltButton>
+            <VoltButton variant="primary" disabled>Deaktiviert</VoltButton>
+            <VoltButton variant="outline" disabled>Deaktiviert</VoltButton>
           </div>
           <VoltCodeBlock
-            language="tsx"
-            label="VoltButton · Zustände"
-            code={`const [loading, setLoading] = useState(false);
-
-<VoltButton
-  variant="primary"
-  loading={loading}
-  onClick={() => setLoading(true)}
->
-  Speichern
-</VoltButton>
-
-<VoltButton variant="primary" disabled>
-  Deaktiviert
-</VoltButton>`}
+            code={`<VoltButton variant="primary" loading={loading} onClick={...}>Speichern</VoltButton>
+<VoltButton variant="primary" disabled>Deaktiviert</VoltButton>`}
           />
         </VoltCardContent>
       </VoltCard>

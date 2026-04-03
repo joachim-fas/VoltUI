@@ -36,8 +36,6 @@ const tabContent = {
   ),
   code: (
     <VoltCodeBlock
-      language="css"
-      label="Volt-Textur"
       code={`.volt-texture::after {
   background-image: url("data:image/svg+xml,…");
   opacity: 0.06;
@@ -129,78 +127,10 @@ export const FeedbackSection: React.FC = () => {
           </div>
         </VoltCardContent>
         <VoltCodeBlock
-          language="tsx"
-          label="VoltTabs · Varianten"
           code={`// Installation: pnpm add framer-motion lucide-react
-// Kopiere VoltTabs.tsx in dein Projekt (aus /components/volt/)
-
 import React from "react";
 import { VoltTabs } from "./VoltTabs";
-import { Palette, Code2, Layers, Zap } from "lucide-react";
-
-export function TabsDemo() {
-  return (
-    <div className="space-y-8">
-      {/* Pills-Variante (Standard) */}
-      <VoltTabs
-        variant="pills"   // pills · underline · boxed · glass
-        defaultTab="design"
-        tabs={[
-          {
-            id: "design",
-            label: "Design",
-            icon: <Palette className="w-4 h-4" />,
-            content: <p className="text-sm text-muted-foreground">Design-Inhalt hier</p>,
-          },
-          {
-            id: "code",
-            label: "Code",
-            icon: <Code2 className="w-4 h-4" />,
-            content: <pre className="text-xs font-mono">const x = 42;</pre>,
-          },
-          {
-            id: "tokens",
-            label: "Tokens",
-            icon: <Layers className="w-4 h-4" />,
-            content: <p className="text-sm">Design Tokens</p>,
-            badge: 4,  // Numerisches Badge
-          },
-          {
-            id: "preview",
-            label: "Vorschau",
-            icon: <Zap className="w-4 h-4" />,
-            content: <div className="p-4 bg-muted rounded-lg">Live-Vorschau</div>,
-          },
-        ]}
-      />
-
-      {/* Underline-Variante */}
-      <VoltTabs
-        variant="underline"
-        defaultTab="a"
-        tabs={[
-          { id: "a", label: "Übersicht" },
-          { id: "b", label: "Komponenten", badge: 12 },
-          { id: "c", label: "Dokumentation" },
-        ]}
-      />
-
-      {/* Boxed-Variante (Toggle-Stil) */}
-      <VoltTabs
-        variant="boxed"
-        defaultTab="monthly"
-        tabs={[
-          { id: "monthly", label: "Monatlich" },
-          { id: "yearly",  label: "Jährlich" },
-          { id: "once",    label: "Einmalig" },
-        ]}
-      />
-    </div>
-  );
-}
-
-// Kontrollierter Modus:
-// <VoltTabs activeTab={tab} onTabChange={setTab} tabs={[...]} />`}
+import { Palette, Code2, Layers, Zap } from "lucide-react";`}
         />
       </VoltCard>
 
@@ -237,8 +167,8 @@ export function TabsDemo() {
             }
           >
             <div className="space-y-4">
-              <VoltInput label="Projektname" placeholder="Mein neues Projekt" />
-              <VoltInput label="Beschreibung" placeholder="Kurze Beschreibung…" />
+              <VoltInput placeholder="Mein neues Projekt" />
+              <VoltInput placeholder="Kurze Beschreibung…" />
             </div>
           </VoltModal>
 
@@ -260,81 +190,10 @@ export function TabsDemo() {
           />
         </VoltCardContent>
         <VoltCodeBlock
-          language="tsx"
-          label="VoltModal · Verwendung"
           code={`// Installation: pnpm add framer-motion lucide-react
-// Kopiere VoltModal.tsx, VoltButton.tsx, VoltInput.tsx in dein Projekt
-
 import React, { useState } from "react";
 import { VoltModal } from "./VoltModal";
-import { VoltButton } from "./VoltButton";
-import { VoltInput } from "./VoltInput";
-import { ArrowRight, Trash2 } from "lucide-react";
-
-export function ModalDemo() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [confirmOpen, setConfirmOpen] = useState(false);
-
-  return (
-    <div className="flex gap-3">
-      <VoltButton variant="primary" onClick={() => setModalOpen(true)}>
-        Modal öffnen
-      </VoltButton>
-      <VoltButton variant="destructive" onClick={() => setConfirmOpen(true)}>
-        Bestätigung
-      </VoltButton>
-
-      {/* Standard-Modal mit Formular */}
-      <VoltModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title="Neues Projekt erstellen"
-        description="Fülle die folgenden Felder aus, um ein neues Projekt anzulegen."
-        size="md"   // sm · md · lg · xl · full
-        footer={
-          <>
-            <VoltButton variant="ghost" onClick={() => setModalOpen(false)}>Abbrechen</VoltButton>
-            <VoltButton
-              variant="gradient"
-              onClick={() => setModalOpen(false)}
-              rightIcon={<ArrowRight className="w-4 h-4" />}
-            >
-              Erstellen
-            </VoltButton>
-          </>
-        }
-      >
-        <div className="space-y-4">
-          <VoltInput label="Projektname" placeholder="Mein neues Projekt" />
-          <VoltInput label="Beschreibung" placeholder="Kurze Beschreibung…" />
-        </div>
-      </VoltModal>
-
-      {/* Bestätigungs-Dialog (kein children) */}
-      <VoltModal
-        open={confirmOpen}
-        onClose={() => setConfirmOpen(false)}
-        title="Projekt löschen?"
-        description="Diese Aktion kann nicht rückgängig gemacht werden."
-        size="sm"
-        footer={
-          <>
-            <VoltButton variant="ghost" onClick={() => setConfirmOpen(false)}>Abbrechen</VoltButton>
-            <VoltButton
-              variant="destructive"
-              onClick={() => setConfirmOpen(false)}
-              leftIcon={<Trash2 className="w-4 h-4" />}
-            >
-              Endgültig löschen
-            </VoltButton>
-          </>
-        }
-      />
-    </div>
-  );
-}
-
-// Escape-Taste und Backdrop-Klick schließen das Modal automatisch.`}
+import { VoltButton } from "./VoltButton";`}
         />
       </VoltCard>
 
@@ -377,80 +236,10 @@ export function ModalDemo() {
           </div>
         </VoltCardContent>
         <VoltCodeBlock
-          language="tsx"
-          label="VoltToast · Verwendung"
           code={`// Installation: pnpm add framer-motion lucide-react
-// Kopiere VoltToast.tsx in dein Projekt (aus /components/volt/)
-
 import React from "react";
 import { VoltToastContainer, useVoltToast } from "./VoltToast";
-import { VoltButton } from "./VoltButton";
-import { Info, CheckCircle2, AlertTriangle, AlertCircle } from "lucide-react";
-
-export function ToastDemo() {
-  const { toasts, add, dismiss } = useVoltToast();
-
-  return (
-    <div>
-      {/* Container einmalig im Layout einbinden */}
-      <VoltToastContainer
-        toasts={toasts}
-        onDismiss={dismiss}
-        position="bottom-right"  // top-right · top-left · bottom-right · bottom-left
-      />
-
-      <div className="flex flex-wrap gap-3">
-        <VoltButton
-          variant="primary"
-          leftIcon={<Info className="w-4 h-4" />}
-          onClick={() => add({
-            variant: "info",     // info · success · warning · error
-            title: "Information",
-            description: "Volt UI wurde erfolgreich geladen.",
-          })}
-        >
-          Info
-        </VoltButton>
-
-        <VoltButton
-          variant="secondary"
-          leftIcon={<CheckCircle2 className="w-4 h-4" />}
-          onClick={() => add({
-            variant: "success",
-            title: "Gespeichert!",
-            description: "Alle Änderungen wurden erfolgreich gespeichert.",
-          })}
-        >
-          Erfolg
-        </VoltButton>
-
-        <VoltButton
-          variant="outline"
-          leftIcon={<AlertTriangle className="w-4 h-4" />}
-          onClick={() => add({
-            variant: "warning",
-            title: "Achtung",
-            description: "Bitte überprüfe deine Eingaben vor dem Absenden.",
-          })}
-        >
-          Warnung
-        </VoltButton>
-
-        <VoltButton
-          variant="destructive"
-          leftIcon={<AlertCircle className="w-4 h-4" />}
-          onClick={() => add({
-            variant: "error",
-            title: "Fehler",
-            description: "Verbindung zum Server unterbrochen.",
-          })}
-        >
-          Fehler
-        </VoltButton>
-      </div>
-    </div>
-  );
-}`}
+import { VoltButton } from "./VoltButton";`}
         />
       </VoltCard>
 
@@ -480,48 +269,10 @@ export function ToastDemo() {
           </div>
         </VoltCardContent>
         <VoltCodeBlock
-          language="tsx"
-          label="VoltTooltip · Verwendung"
           code={`// Installation: pnpm add framer-motion
-// Kopiere VoltToast.tsx in dein Projekt – VoltTooltip ist darin enthalten
-
 import React from "react";
 import { VoltTooltip } from "./VoltToast";
-import { VoltButton } from "./VoltButton";
-
-export function TooltipDemo() {
-  return (
-    <div className="flex flex-wrap gap-4 py-4 justify-center">
-      {/* Alle vier Richtungen */}
-      <VoltTooltip content="Oben angezeigt" side="top">
-        <VoltButton variant="outline" size="sm">Oben</VoltButton>
-      </VoltTooltip>
-
-      <VoltTooltip content="Unten angezeigt" side="bottom">
-        <VoltButton variant="outline" size="sm">Unten</VoltButton>
-      </VoltTooltip>
-
-      <VoltTooltip content="Links angezeigt" side="left">
-        <VoltButton variant="outline" size="sm">Links</VoltButton>
-      </VoltTooltip>
-
-      <VoltTooltip content="Rechts angezeigt" side="right">
-        <VoltButton variant="outline" size="sm">Rechts</VoltButton>
-      </VoltTooltip>
-
-      {/* Rich Content (JSX im Tooltip) */}
-      <VoltTooltip
-        content={<span>Mit <strong>HTML</strong> Inhalt</span>}
-        side="top"
-        delay={300}  // Verzögerung in ms (Standard: 400)
-      >
-        <VoltButton variant="gradient" size="sm">Rich Tooltip</VoltButton>
-      </VoltTooltip>
-    </div>
-  );
-}
-
-// Props: content (string | ReactNode) · side (top · bottom · left · right) · delay (ms)`}
+import { VoltButton } from "./VoltButton";`}
         />
       </VoltCard>
     </div>
