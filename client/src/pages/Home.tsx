@@ -32,6 +32,9 @@ const QuellenMethodenSection = lazy(() => import("./sections/QuellenMethodenSect
 const SkeuomorphicSection = lazy(() => import("./sections/SkeuomorphicSection"));
 import { ExportSection }              from "./sections/ExportSection";
 import { TerminalSection }            from "./sections/TerminalSection";
+import { TrendOverviewSection }       from "./sections/TrendOverviewSection";
+import { NetworkViewSection }         from "./sections/NetworkViewSection";
+import { SourcesTableSection }        from "./sections/SourcesTableSection";
 import {
   Home as HomeIcon, Palette, LayoutGrid,
   FormInput, MessageSquare, BarChart2, Menu, X,
@@ -68,6 +71,9 @@ const ALL_SECTIONS = [
   { id: "uiicons",         Component: UIIconsSection },
   { id: "quellenmethoden", Component: QuellenMethodenSection },
   { id: "skeuomorphic",    Component: SkeuomorphicSection },
+  { id: "trendoverview",  Component: TrendOverviewSection },
+  { id: "networkview",    Component: NetworkViewSection },
+  { id: "sourcestable",   Component: SourcesTableSection },
   { id: "export",      Component: ExportSection },
 ] as const;
 
@@ -115,7 +121,10 @@ const sidebarSections = [
       { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" /> },
       { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <CircleDot className="w-4 h-4" /> },
       { id: "radar",       label: "Quadranten-Radar",     description: "Radar + Ranked List für Intelligence",   icon: <Radar className="w-4 h-4" /> },
-      { id: "nodecanvas",  label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <Network className="w-4 h-4" /> },
+      { id: "nodecanvas",   label: "Node Canvas",          description: "Node-basiertes Workflow-System",        icon: <Network className="w-4 h-4" /> },
+      { id: "trendoverview", label: "Trend-Übersicht",       description: "Trend-Grid, Detail-Panel & Intelligence Feed", icon: <BarChart2 className="w-4 h-4" /> },
+      { id: "networkview",   label: "Netzwerk-View",         description: "Kausal-Graph mit farbcodierten Kanten",        icon: <Network className="w-4 h-4" /> },
+      { id: "sourcestable",  label: "Quellen-Tabelle",       description: "Filter-Pills, Suchfeld & Status-Badges",       icon: <Layers3 className="w-4 h-4" /> },
     ],
   },
   {
