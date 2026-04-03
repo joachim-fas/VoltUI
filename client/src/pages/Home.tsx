@@ -96,7 +96,7 @@ const sidebarSections = [
       { id: "feedback",    label: "Feedback & Overlay",   description: "Toast, Modal, Tooltip, Tabs",           icon: <Bell className="w-4 h-4" /> },
       { id: "data",        label: "Data & Charts",        description: "Diagramm-Typen & Tabellen",          icon: <BarChart2 className="w-4 h-4" /> },
       { id: "navigation",  label: "Navigation",           description: "Navbar, Breadcrumb, Tabs",              icon: <Menu className="w-4 h-4" /> },
-      { id: "terminal",    label: "Terminal",              description: "Command-Line Interface Komponente",      icon: <TerminalSquare className="w-4 h-4" /> },
+      { id: "terminal",    label: "Command Bar",           description: "AI-Eingabefeld & Command-Line",           icon: <TerminalSquare className="w-4 h-4" /> },
     ],
   },
   {
