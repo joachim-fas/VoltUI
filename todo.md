@@ -130,9 +130,9 @@
 - [x] Smooth Fade-in wenn iframe geladen ist (opacity 0 → 1, 0.3s ease)
 - [x] Ladezustand zurücksetzen bei Datei- und Breakpoint-Wechsel
 
-## v3.2 Grain-Dateien bereinigen
-- [x] Alle GRAIN_*.md und GRAIN_*.pdf Dateien entfernt
-- [x] QA_REPORT.md, QA_AUDIT.md, DESIGN_AUDIT.md, GRAIN_FLUX_AUDIT.md entfernt
+## v3.2 Altdateien bereinigen
+- [x] Alle alten *.md und *.pdf Dateien entfernt
+- [x] QA_REPORT.md, QA_AUDIT.md, DESIGN_AUDIT.md, FLUX_AUDIT.md entfernt
 - [x] check-icons.mjs und check-icons.cjs entfernt (Build-Artefakte)
 - [x] Bereinigten Stand committen und in GitHub pushen
 
