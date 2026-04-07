@@ -42,10 +42,11 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
   const activeRef = useRef<HTMLButtonElement>(null);
   const asideRef  = useRef<HTMLElement>(null);
 
-  // Nur Standard-Sections (keine V2) für den Fortschrittsbalken zählen
+  // Nur scrollbare Items (keine V2-Sections, keine href-Links) für den Fortschrittsbalken zählen
   const standardItems = sections
     .filter(s => !s.title.toLowerCase().startsWith("v2"))
-    .flatMap(s => s.items);
+    .flatMap(s => s.items)
+    .filter(item => !item.href);
   const activeIndex = standardItems.findIndex(i => i.id === activeId);
   const progress    = standardItems.length > 1
     ? Math.round((Math.max(0, activeIndex) / (standardItems.length - 1)) * 100)

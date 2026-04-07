@@ -230,3 +230,7 @@
 - [x] Sidebar: Showcase-Eintrag in Kategorie "Start" hinzugefügt
 - [x] Link navigiert zu /showcase (kein Scroll, sondern Route-Wechsel via href)
 - [x] Visuell als externer Link erkennbar (ExternalLink-Icon aus VoltSidebar)
+
+## v6.8 Fortschrittsbalken href-Items ignorieren
+- [x] VoltSidebar: standardItems filtert Items mit href aus der Zählung heraus
+- [x] Fortschrittsbalken und Zähler zeigen nur scrollbare Sektionen
