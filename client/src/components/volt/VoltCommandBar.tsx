@@ -215,10 +215,10 @@ export const VoltCommandBar: React.FC<VoltCommandBarProps> = ({
         vc.field,
       )}>
         {/* Hauptzeile: linke Aktionen + Textarea + rechte Aktionen */}
-        <div className={cn("flex items-end", sc.padding, sc.gap)}>
+        <div className={cn("flex items-center", sc.padding, sc.gap)}>
           {/* Linke Aktionen */}
           {leftActions && leftActions.length > 0 && (
-            <div className={cn("flex items-center flex-shrink-0 mb-0.5", sc.gap)}>
+            <div className={cn("flex items-center flex-shrink-0", sc.gap)}>
               {leftActions.map((action, i) => (
                 <button
                   key={i}
@@ -259,7 +259,7 @@ export const VoltCommandBar: React.FC<VoltCommandBarProps> = ({
           />
 
           {/* Rechte Aktionen + Submit */}
-          <div className={cn("flex items-center flex-shrink-0 mb-0.5", sc.gap)}>
+          <div className={cn("flex items-center flex-shrink-0", sc.gap)}>
             {rightActions?.map((action, i) => (
               <button
                 key={i}
