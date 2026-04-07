@@ -3,710 +3,747 @@
  * Route: /showcase
  *
  * Gestaltungskonzept:
- * – Alle Illustrationen: #0A0A0A Schwarz + #E4FF97 Neon-Gelb + #1A1A1A / #2A2A2A Graustufen
+ * – Hintergrund: #0A0A0A (Volt Schwarz)
+ * – Akzent: #E4FF97 (Neon Yellow)
+ * – Pastell-Palette: Rose Quartz, Peach Cream, Mint Green, Soft Orchid,
+ *                    Baby Blue, Butter Yellow, Powder Orange, Aqua Mist
+ * – Signalfarben: Smaragd (#1A9E5A), Koralle (#E8402A), Slate (#6B7A9A)
  * – Raster-Muster als atmosphärische Textur
- * – Terminal-Ästhetik: Monospace-Fragmente, >_ Prompt, Cursor-Blöcke
- * – Einheitliche dunkle Palette, kein Bunt
+ * – Terminal-Ästhetik: >_ Prompt, Cursor-Blöcke, Mono-Fragmente
+ *
+ * FIX: SVG-Container mit preserveAspectRatio="xMidYMid meet" + padding
+ *      verhindert Anschnitt oben.
  */
 import { Link } from "wouter";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { ArrowRight, Terminal, ArrowLeft, Layers } from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────────
+   Volt-Farbpalette (hardcoded für SVG – CSS-Variablen greifen nicht)
+───────────────────────────────────────────────────────────────── */
+const C = {
+  bg:          "#0A0A0A",
+  bg1:         "#111111",
+  bg2:         "#141414",
+  bg3:         "#1A1A1A",
+  border:      "#1E1E1E",
+  border2:     "#2A2A2A",
+  muted:       "#333333",
+  muted2:      "#444444",
+  neon:        "#E4FF97",   // Neon Yellow
+  neonDeep:    "#C8F060",
+  white:       "#F5F5F5",
+  // Pastell
+  rose:        "#FFD6E0",
+  peach:       "#FFECD2",
+  mint:        "#C3F4D3",
+  orchid:      "#FDE2FF",
+  blue:        "#D4E8FF",
+  butter:      "#FFF5BA",
+  orange:      "#FFE0CC",
+  aqua:        "#D6F5F5",
+  // Signal
+  positive:    "#1A9E5A",
+  negative:    "#E8402A",
+  neutral:     "#6B7A9A",
+};
+
+/* ─────────────────────────────────────────────────────────────────
    Gemeinsame SVG-Bausteine
 ───────────────────────────────────────────────────────────────── */
-
-/** Subtiles Punkt-Raster – wird in jede Illustration eingebettet */
 function DotGrid({ id }: { id: string }) {
   return (
     <defs>
-      <pattern id={id} width="16" height="16" patternUnits="userSpaceOnUse">
-        <circle cx="8" cy="8" r="0.9" fill="#E4FF97" fillOpacity="0.12" />
+      <pattern id={id} width="18" height="18" patternUnits="userSpaceOnUse">
+        <circle cx="9" cy="9" r="1" fill={C.neon} fillOpacity="0.08" />
       </pattern>
     </defs>
   );
 }
 
+/* Wrapper: füllt den Container vollständig, kein Anschnitt */
+function IllustrationWrapper({ children, viewBox = "0 0 480 200" }: {
+  children: React.ReactNode;
+  viewBox?: string;
+}) {
+  return (
+    <svg
+      viewBox={viewBox}
+      preserveAspectRatio="xMidYMid meet"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ display: "block", width: "100%", height: "100%" }}
+    >
+      {children}
+    </svg>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────────────
    1 · SaaS Landing Page
-   Zeigt: Navbar-Leiste, großer Hero-Headline-Block, zwei CTA-Buttons,
-   Feature-Karten-Reihe, alles im Volt-Stil
+   Farben: Neon-Gelb Hero-Banner, Baby Blue Feature-Karten,
+           Butter Yellow sekundäre Elemente
 ───────────────────────────────────────────────────────────────── */
 function IllustrationLanding() {
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-landing" />
-      <rect width="400" height="160" fill="url(#dg-landing)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-l" />
+      <rect width="480" height="200" fill="url(#dg-l)" />
 
       {/* Navbar */}
-      <rect x="0" y="0" width="400" height="28" fill="#111111" />
-      <line x1="0" y1="28" x2="400" y2="28" stroke="#1E1E1E" strokeWidth="1" />
-      {/* Logo-Block */}
-      <rect x="16" y="9" width="10" height="10" rx="2" fill="#E4FF97" />
-      <rect x="30" y="11" width="32" height="6" rx="2" fill="#E4FF97" fillOpacity="0.7" />
-      {/* Nav-Links */}
-      <rect x="160" y="11" width="24" height="6" rx="2" fill="#444444" />
-      <rect x="192" y="11" width="28" height="6" rx="2" fill="#444444" />
-      <rect x="228" y="11" width="20" height="6" rx="2" fill="#444444" />
-      {/* CTA-Button Navbar */}
-      <rect x="356" y="8" width="28" height="12" rx="3" fill="#E4FF97" />
+      <rect x="0" y="0" width="480" height="32" fill={C.bg1} />
+      <line x1="0" y1="32" x2="480" y2="32" stroke={C.border} strokeWidth="1" />
+      <rect x="18" y="10" width="12" height="12" rx="3" fill={C.neon} />
+      <rect x="34" y="12" width="36" height="8" rx="3" fill={C.neon} fillOpacity="0.6" />
+      <rect x="190" y="13" width="28" height="6" rx="2" fill={C.muted2} />
+      <rect x="226" y="13" width="32" height="6" rx="2" fill={C.muted2} />
+      <rect x="266" y="13" width="24" height="6" rx="2" fill={C.muted2} />
+      <rect x="424" y="9" width="38" height="14" rx="4" fill={C.neon} />
+      <rect x="432" y="13" width="22" height="6" rx="2" fill={C.bg} />
 
-      {/* Hero-Headline */}
-      <rect x="60" y="44" width="280" height="18" rx="3" fill="#E4FF97" fillOpacity="0.9" />
-      <rect x="90" y="68" width="220" height="10" rx="3" fill="#2A2A2A" />
-      <rect x="110" y="82" width="180" height="8" rx="2" fill="#1E1E1E" />
+      {/* Hero-Banner */}
+      <rect x="18" y="46" width="444" height="72" rx="10" fill={C.neon} fillOpacity="0.12" stroke={C.neon} strokeWidth="1" strokeOpacity="0.3" />
+      <rect x="100" y="58" width="280" height="20" rx="4" fill={C.neon} fillOpacity="0.85" />
+      <rect x="130" y="84" width="220" height="10" rx="3" fill={C.border2} />
+      <rect x="152" y="98" width="176" height="8" rx="2" fill={C.border} />
 
       {/* CTA-Buttons */}
-      <rect x="104" y="100" width="80" height="22" rx="4" fill="#E4FF97" />
-      <rect x="104" y="100" width="80" height="22" rx="4" fill="#E4FF97" />
-      <rect x="196" y="100" width="80" height="22" rx="4" fill="none" stroke="#2A2A2A" strokeWidth="1.5" />
-      {/* Button-Labels */}
-      <rect x="116" y="108" width="56" height="6" rx="2" fill="#0A0A0A" />
-      <rect x="208" y="108" width="56" height="6" rx="2" fill="#444444" />
+      <rect x="130" y="128" width="90" height="26" rx="5" fill={C.neon} />
+      <rect x="138" y="135" width="74" height="12" rx="3" fill={C.bg} />
+      <rect x="230" y="128" width="90" height="26" rx="5" fill="none" stroke={C.border2} strokeWidth="1.5" />
+      <rect x="238" y="135" width="74" height="12" rx="3" fill={C.muted} />
 
       {/* Feature-Karten */}
-      {[0, 1, 2].map((i) => (
+      {[
+        { x: 18,  color: C.blue,   label: C.blue },
+        { x: 178, color: C.mint,   label: C.mint },
+        { x: 338, color: C.butter, label: C.butter },
+      ].map((k, i) => (
         <g key={i}>
-          <rect x={16 + i * 124} y="134" width="112" height="20" rx="4" fill="#141414" stroke="#1E1E1E" strokeWidth="1" />
-          <rect x={24 + i * 124} y="140" width="8" height="8" rx="2" fill="#E4FF97" fillOpacity="0.6" />
-          <rect x={36 + i * 124} y="142" width="60" height="4" rx="2" fill="#333333" />
+          <rect x={k.x} y="166" width="140" height="26" rx="6" fill={C.bg2} stroke={C.border} strokeWidth="1" />
+          <rect x={k.x + 10} y="173" width="10" height="10" rx="3" fill={k.color} fillOpacity="0.7" />
+          <rect x={k.x + 26} y="175" width="80" height="6" rx="2" fill={k.label} fillOpacity="0.3" />
         </g>
       ))}
-    </svg>
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    2 · Analytics Dashboard
-   Zeigt: Dunkle Sidebar, KPI-Karten mit Neon-Werten,
-   Linien-Chart mit Neon-Kurve, Balken-Chart
+   Farben: Neon-Gelb Kurve, Pastell-Balken (Butter, Mint, Blue, Rose),
+           Smaragd positive KPI, Koralle negative KPI
 ───────────────────────────────────────────────────────────────── */
 function IllustrationDashboard() {
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-dash" />
-      <rect width="400" height="160" fill="url(#dg-dash)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-d" />
+      <rect width="480" height="200" fill="url(#dg-d)" />
 
       {/* Sidebar */}
-      <rect x="0" y="0" width="68" height="160" fill="#111111" />
-      <line x1="68" y1="0" x2="68" y2="160" stroke="#1E1E1E" strokeWidth="1" />
-      {/* Sidebar Logo */}
-      <rect x="10" y="12" width="10" height="10" rx="2" fill="#E4FF97" />
-      <rect x="24" y="14" width="30" height="6" rx="2" fill="#E4FF97" fillOpacity="0.6" />
-      {/* Sidebar Nav-Items */}
-      {[0, 1, 2, 3, 4].map((i) => (
+      <rect x="0" y="0" width="80" height="200" fill={C.bg1} />
+      <line x1="80" y1="0" x2="80" y2="200" stroke={C.border} strokeWidth="1" />
+      <rect x="12" y="14" width="12" height="12" rx="3" fill={C.neon} />
+      <rect x="28" y="16" width="36" height="8" rx="3" fill={C.neon} fillOpacity="0.5" />
+      {[0,1,2,3,4].map((i) => (
         <g key={i}>
-          <rect x="10" y={36 + i * 18} width="48" height="12" rx="3"
-            fill={i === 0 ? "#E4FF97" : "transparent"}
-            fillOpacity={i === 0 ? 0.12 : 0}
-          />
-          <rect x="14" y={39 + i * 18} width="6" height="6" rx="1"
-            fill={i === 0 ? "#E4FF97" : "#2A2A2A"}
-          />
-          <rect x="24" y={41 + i * 18} width="28" height="3" rx="1"
-            fill={i === 0 ? "#E4FF97" : "#2A2A2A"}
-            fillOpacity={i === 0 ? 0.8 : 1}
-          />
+          <rect x="10" y={42+i*22} width="60" height="14" rx="4"
+            fill={i===0 ? C.neon : "transparent"} fillOpacity={i===0 ? 0.12 : 0} />
+          <rect x="14" y={45+i*22} width="8" height="8" rx="2"
+            fill={i===0 ? C.neon : C.border2} />
+          <rect x="26" y={47+i*22} width={i===0 ? 36 : 28} height="4" rx="2"
+            fill={i===0 ? C.neon : C.border2} fillOpacity={i===0 ? 0.7 : 1} />
         </g>
       ))}
 
       {/* KPI-Karten */}
       {[
-        { x: 80, val: "#E4FF97", w: 52 },
-        { x: 160, val: "#FFFFFF", w: 44 },
-        { x: 240, val: "#FFFFFF", w: 48 },
-        { x: 320, val: "#FFFFFF", w: 40 },
+        { x: 92,  val: C.neon,     badge: C.positive, badgeW: 28 },
+        { x: 212, val: C.white,    badge: C.negative,  badgeW: 24 },
+        { x: 332, val: C.blue,     badge: C.neutral,   badgeW: 26 },
       ].map((k, i) => (
         <g key={i}>
-          <rect x={k.x} y="10" width="72" height="34" rx="5" fill="#141414" stroke="#1E1E1E" strokeWidth="1" />
-          <rect x={k.x + 8} y="17" width="36" height="4" rx="2" fill="#333333" />
-          <rect x={k.x + 8} y="26" width={k.w} height="10" rx="2" fill={k.val} fillOpacity="0.85" />
+          <rect x={k.x} y="10" width="108" height="42" rx="6" fill={C.bg2} stroke={C.border} strokeWidth="1" />
+          <rect x={k.x+10} y="18" width="48" height="5" rx="2" fill={C.muted} />
+          <rect x={k.x+10} y="28" width="64" height="14" rx="3" fill={k.val} fillOpacity="0.8" />
+          {/* Trend-Badge */}
+          <rect x={k.x+78} y="18" width={k.badgeW} height="10" rx="5" fill={k.badge} fillOpacity="0.2" />
+          <rect x={k.x+82} y="21" width={k.badgeW-8} height="4" rx="2" fill={k.badge} fillOpacity="0.7" />
         </g>
       ))}
 
       {/* Linien-Chart */}
-      <rect x="80" y="52" width="192" height="100" rx="6" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
-      {/* Raster-Linien */}
-      {[0, 1, 2, 3].map((i) => (
-        <line key={i} x1="88" y1={68 + i * 22} x2="264" y2={68 + i * 22} stroke="#1E1E1E" strokeWidth="0.5" />
+      <rect x="92" y="62" width="236" height="128" rx="8" fill={C.bg1} stroke={C.border} strokeWidth="1" />
+      {[0,1,2,3].map(i => (
+        <line key={i} x1="100" y1={80+i*28} x2="320" y2={80+i*28} stroke={C.border} strokeWidth="0.5" />
       ))}
       {/* Neon-Kurve */}
       <polyline
-        points="88,130 108,112 128,120 148,96 168,104 188,82 208,90 228,70 248,78 264,60"
-        stroke="#E4FF97" strokeWidth="2.5" fill="none" strokeLinejoin="round" strokeLinecap="round"
+        points="100,168 126,148 152,156 178,126 204,136 230,108 256,118 282,90 308,100 320,78"
+        stroke={C.neon} strokeWidth="2.5" fill="none" strokeLinejoin="round" strokeLinecap="round"
       />
-      {/* Fläche unter Kurve */}
       <polygon
-        points="88,130 108,112 128,120 148,96 168,104 188,82 208,90 228,70 248,78 264,60 264,148 88,148"
-        fill="#E4FF97" fillOpacity="0.06"
+        points="100,168 126,148 152,156 178,126 204,136 230,108 256,118 282,90 308,100 320,78 320,186 100,186"
+        fill={C.neon} fillOpacity="0.05"
       />
-      {/* Datenpunkte */}
-      {[[88,130],[148,96],[208,90],[264,60]].map(([cx,cy], i) => (
-        <circle key={i} cx={cx} cy={cy} r="3" fill="#E4FF97" />
+      {[[100,168],[178,126],[256,118],[320,78]].map(([cx,cy],i) => (
+        <circle key={i} cx={cx} cy={cy} r="3.5" fill={C.neon} />
       ))}
 
-      {/* Balken-Chart */}
-      <rect x="280" y="52" width="112" height="100" rx="6" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
+      {/* Balken-Chart – Pastell-Farben */}
+      <rect x="338" y="62" width="130" height="128" rx="8" fill={C.bg1} stroke={C.border} strokeWidth="1" />
       {[
-        { x: 290, h: 38, o: 0.5 },
-        { x: 306, h: 52, o: 0.7 },
-        { x: 322, h: 28, o: 0.5 },
-        { x: 338, h: 62, o: 1 },
-        { x: 354, h: 44, o: 0.7 },
-        { x: 370, h: 32, o: 0.5 },
+        { x: 348, h: 46, c: C.butter },
+        { x: 366, h: 64, c: C.mint },
+        { x: 384, h: 34, c: C.blue },
+        { x: 402, h: 76, c: C.neon },
+        { x: 420, h: 52, c: C.rose },
+        { x: 438, h: 40, c: C.aqua },
       ].map((b, i) => (
-        <rect key={i} x={b.x} y={148 - b.h} width="12" height={b.h} rx="2" fill="#E4FF97" fillOpacity={b.o} />
+        <rect key={i} x={b.x} y={186-b.h} width="14" height={b.h} rx="3" fill={b.c} fillOpacity="0.8" />
       ))}
-    </svg>
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    3 · Pricing Page
-   Zeigt: 3 Karten, mittlere hervorgehoben mit Neon-Gelb-Rand,
-   Preis-Typografie, Feature-Zeilen, CTA-Buttons
+   Farben: Butter Yellow Free, Neon-Gelb Pro (highlight), Aqua Enterprise
 ───────────────────────────────────────────────────────────────── */
 function IllustrationPricing() {
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-pricing" />
-      <rect width="400" height="160" fill="url(#dg-pricing)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-p" />
+      <rect width="480" height="200" fill="url(#dg-p)" />
 
       {/* Toggle */}
-      <rect x="152" y="8" width="96" height="16" rx="8" fill="#141414" stroke="#1E1E1E" strokeWidth="1" />
-      <rect x="152" y="8" width="48" height="16" rx="8" fill="#E4FF97" fillOpacity="0.15" />
-      <rect x="156" y="11" width="36" height="10" rx="5" fill="#E4FF97" fillOpacity="0.3" />
-      <rect x="200" y="11" width="40" height="10" rx="5" fill="transparent" />
+      <rect x="180" y="8" width="120" height="20" rx="10" fill={C.bg2} stroke={C.border} strokeWidth="1" />
+      <rect x="180" y="8" width="60" height="20" rx="10" fill={C.neon} fillOpacity="0.15" />
+      <rect x="184" y="11" width="48" height="14" rx="7" fill={C.neon} fillOpacity="0.25" />
 
-      {/* Karte 1 – Free */}
-      <rect x="12" y="32" width="112" height="120" rx="7" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
-      <rect x="22" y="44" width="40" height="5" rx="2" fill="#333333" />
-      <rect x="22" y="56" width="56" height="14" rx="3" fill="#2A2A2A" />
-      {[0,1,2].map(i => (
-        <g key={i}>
-          <circle cx="26" cy={80 + i * 12} r="2.5" fill="#1E1E1E" stroke="#2A2A2A" strokeWidth="1" />
-          <rect x="32" y={77 + i * 12} width="64" height="4" rx="2" fill="#1E1E1E" />
-        </g>
-      ))}
-      <rect x="22" y="120" width="92" height="18" rx="4" fill="#1A1A1A" stroke="#2A2A2A" strokeWidth="1" />
-      <rect x="38" y="126" width="60" height="6" rx="2" fill="#333333" />
-
-      {/* Karte 2 – Pro (hervorgehoben) */}
-      <rect x="144" y="24" width="112" height="128" rx="7" fill="#141414" stroke="#E4FF97" strokeWidth="1.5" />
-      {/* "Beliebt"-Badge */}
-      <rect x="168" y="16" width="64" height="14" rx="7" fill="#E4FF97" />
-      <rect x="176" y="20" width="48" height="6" rx="2" fill="#0A0A0A" />
-      <rect x="154" y="36" width="40" height="5" rx="2" fill="#555555" />
-      <rect x="154" y="48" width="56" height="14" rx="3" fill="#E4FF97" fillOpacity="0.9" />
+      {/* Karte 1 – Free (Butter Yellow) */}
+      <rect x="14" y="38" width="138" height="152" rx="8" fill={C.bg1} stroke={C.border} strokeWidth="1" />
+      <rect x="24" y="50" width="50" height="6" rx="3" fill={C.muted} />
+      <rect x="24" y="62" width="70" height="18" rx="4" fill={C.butter} fillOpacity="0.7" />
       {[0,1,2,3].map(i => (
         <g key={i}>
-          {/* Checkmark-Kreis */}
-          <circle cx="158" cy={72 + i * 12} r="3" fill="#E4FF97" fillOpacity="0.2" />
-          <path d={`M${156} ${72 + i * 12} L${158} ${74 + i * 12} L${162} ${70 + i * 12}`}
-            stroke="#E4FF97" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-          <rect x="166" y={69 + i * 12} width="68" height="4" rx="2" fill="#2A2A2A" />
+          <circle cx="28" cy={92+i*14} r="3.5" fill={C.butter} fillOpacity="0.4" stroke={C.butter} strokeWidth="1" strokeOpacity="0.5" />
+          <rect x="36" y={89+i*14} width="88" height="5" rx="2" fill={C.border2} />
         </g>
       ))}
-      <rect x="154" y="122" width="92" height="18" rx="4" fill="#E4FF97" />
-      <rect x="170" y="128" width="60" height="6" rx="2" fill="#0A0A0A" />
+      <rect x="24" y="152" width="118" height="24" rx="5" fill={C.bg3} stroke={C.border2} strokeWidth="1" />
+      <rect x="44" y="160" width="78" height="8" rx="3" fill={C.muted} />
 
-      {/* Karte 3 – Enterprise */}
-      <rect x="276" y="32" width="112" height="120" rx="7" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
-      <rect x="286" y="44" width="40" height="5" rx="2" fill="#333333" />
-      <rect x="286" y="56" width="56" height="14" rx="3" fill="#2A2A2A" />
-      {[0,1,2].map(i => (
+      {/* Karte 2 – Pro (Neon-Gelb, hervorgehoben) */}
+      <rect x="171" y="28" width="138" height="162" rx="8" fill={C.bg2} stroke={C.neon} strokeWidth="1.5" />
+      {/* "Beliebt"-Badge */}
+      <rect x="200" y="18" width="80" height="18" rx="9" fill={C.neon} />
+      <rect x="210" y="23" width="60" height="8" rx="3" fill={C.bg} />
+      <rect x="181" y="40" width="50" height="6" rx="3" fill={C.muted2} />
+      <rect x="181" y="52" width="70" height="18" rx="4" fill={C.neon} fillOpacity="0.9" />
+      {[0,1,2,3,4].map(i => (
         <g key={i}>
-          <circle cx="290" cy={80 + i * 12} r="2.5" fill="#1E1E1E" stroke="#2A2A2A" strokeWidth="1" />
-          <rect x="296" y={77 + i * 12} width="64" height="4" rx="2" fill="#1E1E1E" />
+          <circle cx="185" cy={82+i*14} r="3.5" fill={C.neon} fillOpacity="0.25" />
+          <path d={`M${183} ${82+i*14} L${185} ${84+i*14} L${189} ${80+i*14}`}
+            stroke={C.neon} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="194" y={79+i*14} width="88" height="5" rx="2" fill={C.border2} />
         </g>
       ))}
-      <rect x="286" y="120" width="92" height="18" rx="4" fill="#1A1A1A" stroke="#2A2A2A" strokeWidth="1" />
-      <rect x="302" y="126" width="60" height="6" rx="2" fill="#333333" />
-    </svg>
+      <rect x="181" y="158" width="118" height="24" rx="5" fill={C.neon} />
+      <rect x="201" y="166" width="78" height="8" rx="3" fill={C.bg} />
+
+      {/* Karte 3 – Enterprise (Aqua Mist) */}
+      <rect x="328" y="38" width="138" height="152" rx="8" fill={C.bg1} stroke={C.border} strokeWidth="1" />
+      <rect x="338" y="50" width="60" height="6" rx="3" fill={C.muted} />
+      <rect x="338" y="62" width="70" height="18" rx="4" fill={C.aqua} fillOpacity="0.6" />
+      {[0,1,2,3].map(i => (
+        <g key={i}>
+          <circle cx="342" cy={92+i*14} r="3.5" fill={C.aqua} fillOpacity="0.4" stroke={C.aqua} strokeWidth="1" strokeOpacity="0.5" />
+          <rect x="350" y={89+i*14} width="88" height="5" rx="2" fill={C.border2} />
+        </g>
+      ))}
+      <rect x="338" y="152" width="118" height="24" rx="5" fill={C.bg3} stroke={C.aqua} strokeWidth="1" strokeOpacity="0.4" />
+      <rect x="358" y="160" width="78" height="8" rx="3" fill={C.aqua} fillOpacity="0.4" />
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    4 · Login & Auth
-   Zeigt: Zentriertes Formular-Fenster, Logo, Inputs, Button
+   Farben: Neon-Gelb Logo + CTA, Rose Quartz Fehler-Hinweis,
+           Mint Green Erfolgs-Indikator
 ───────────────────────────────────────────────────────────────── */
 function IllustrationAuth() {
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-auth" />
-      <rect width="400" height="160" fill="url(#dg-auth)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-a" />
+      <rect width="480" height="200" fill="url(#dg-a)" />
 
       {/* Hintergrund-Glow */}
-      <circle cx="200" cy="80" r="90" fill="#E4FF97" fillOpacity="0.03" />
+      <circle cx="240" cy="100" r="110" fill={C.neon} fillOpacity="0.03" />
+      <circle cx="240" cy="100" r="70"  fill={C.orchid} fillOpacity="0.04" />
 
       {/* Auth-Karte */}
-      <rect x="108" y="10" width="184" height="140" rx="10" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
+      <rect x="120" y="12" width="240" height="176" rx="12" fill={C.bg1} stroke={C.border} strokeWidth="1" />
 
       {/* Logo */}
-      <rect x="191" y="22" width="18" height="18" rx="4" fill="#E4FF97" />
-      <text x="200" y="34" textAnchor="middle" fontSize="9" fill="#0A0A0A" fontFamily="monospace" fontWeight="bold">&gt;_</text>
+      <rect x="228" y="24" width="24" height="24" rx="6" fill={C.neon} />
+      <text x="240" y="40" textAnchor="middle" fontSize="11" fill={C.bg} fontFamily="monospace" fontWeight="bold">&gt;_</text>
 
       {/* Titel */}
-      <rect x="136" y="48" width="128" height="9" rx="3" fill="#E4FF97" fillOpacity="0.8" />
-      <rect x="152" y="62" width="96" height="6" rx="2" fill="#2A2A2A" />
+      <rect x="150" y="56" width="180" height="12" rx="4" fill={C.neon} fillOpacity="0.75" />
+      <rect x="170" y="74" width="140" height="8" rx="3" fill={C.border2} />
 
       {/* Input E-Mail */}
-      <rect x="120" y="76" width="160" height="16" rx="4" fill="#0D0D0D" stroke="#2A2A2A" strokeWidth="1" />
-      <rect x="128" y="81" width="56" height="5" rx="2" fill="#333333" />
+      <rect x="136" y="90" width="208" height="22" rx="5" fill="#0D0D0D" stroke={C.border2} strokeWidth="1" />
+      <rect x="146" y="97" width="70" height="7" rx="2" fill={C.muted} />
 
       {/* Input Passwort */}
-      <rect x="120" y="98" width="160" height="16" rx="4" fill="#0D0D0D" stroke="#2A2A2A" strokeWidth="1" />
-      <rect x="128" y="103" width="44" height="5" rx="2" fill="#333333" />
-      {/* Passwort-Punkte */}
+      <rect x="136" y="120" width="208" height="22" rx="5" fill="#0D0D0D" stroke={C.border2} strokeWidth="1" />
+      <rect x="146" y="127" width="56" height="7" rx="2" fill={C.muted} />
       {[0,1,2,3,4].map(i => (
-        <circle key={i} cx={256 + i * 6} cy={106} r="2" fill="#2A2A2A" />
+        <circle key={i} cx={312+i*7} cy={131} r="2.5" fill={C.border2} />
       ))}
 
+      {/* Passwort-Stärke (Mint Green) */}
+      <rect x="136" y="148" width="208" height="4" rx="2" fill={C.border} />
+      <rect x="136" y="148" width="130" height="4" rx="2" fill={C.mint} fillOpacity="0.7" />
+
       {/* CTA-Button */}
-      <rect x="120" y="122" width="160" height="20" rx="5" fill="#E4FF97" />
-      <rect x="152" y="129" width="96" height="6" rx="2" fill="#0A0A0A" />
-    </svg>
+      <rect x="136" y="158" width="208" height="24" rx="6" fill={C.neon} />
+      <rect x="170" y="166" width="140" height="8" rx="3" fill={C.bg} />
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    5 · Empty States
-   Zeigt: Terminal-Fenster mit leerem Zustand, >_ Prompt, Cursor
+   Farben: Terminal-Fenster, Orchid Inbox-Illustration,
+           Neon-Gelb Cursor + Prompt
 ───────────────────────────────────────────────────────────────── */
 function IllustrationEmptyStates() {
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-empty" />
-      <rect width="400" height="160" fill="url(#dg-empty)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-e" />
+      <rect width="480" height="200" fill="url(#dg-e)" />
 
       {/* Terminal-Fenster */}
-      <rect x="60" y="12" width="280" height="136" rx="10" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
+      <rect x="60" y="14" width="360" height="172" rx="12" fill={C.bg1} stroke={C.border} strokeWidth="1" />
       {/* Titelleiste */}
-      <rect x="60" y="12" width="280" height="28" rx="10" fill="#141414" />
-      <rect x="60" y="30" width="280" height="10" fill="#141414" />
-      <line x1="60" y1="40" x2="340" y2="40" stroke="#1E1E1E" strokeWidth="1" />
-      {/* Window Controls */}
-      <circle cx="78" cy="26" r="4" fill="#FF5F57" fillOpacity="0.8" />
-      <circle cx="94" cy="26" r="4" fill="#FEBC2E" fillOpacity="0.8" />
-      <circle cx="110" cy="26" r="4" fill="#28C840" fillOpacity="0.8" />
-      {/* Titel */}
-      <rect x="160" y="23" width="80" height="6" rx="3" fill="#1E1E1E" />
+      <rect x="60" y="14" width="360" height="32" rx="12" fill={C.bg2} />
+      <rect x="60" y="34" width="360" height="12" fill={C.bg2} />
+      <line x1="60" y1="46" x2="420" y2="46" stroke={C.border} strokeWidth="1" />
+      <circle cx="82"  cy="30" r="5" fill="#FF5F57" fillOpacity="0.85" />
+      <circle cx="100" cy="30" r="5" fill="#FEBC2E" fillOpacity="0.85" />
+      <circle cx="118" cy="30" r="5" fill="#28C840" fillOpacity="0.85" />
+      <rect x="196" y="27" width="88" height="7" rx="3" fill={C.border} />
 
-      {/* Leerer Zustand: zentriertes Icon + Text */}
-      {/* Gestrichelter Rahmen */}
-      <rect x="140" y="58" width="120" height="60" rx="8" fill="none" stroke="#1E1E1E" strokeWidth="1.5" strokeDasharray="6 4" />
-      {/* Inbox-Symbol */}
-      <rect x="168" y="70" width="64" height="36" rx="4" fill="none" stroke="#2A2A2A" strokeWidth="1.5" />
-      <path d="M168 82 L200 94 L232 82" stroke="#E4FF97" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+      {/* Leerer Zustand – gestrichelter Rahmen */}
+      <rect x="140" y="62" width="200" height="100" rx="10" fill="none" stroke={C.border2} strokeWidth="1.5" strokeDasharray="8 5" />
+
+      {/* Inbox-Illustration (Orchid) */}
+      <rect x="188" y="82" width="104" height="60" rx="6" fill="none" stroke={C.orchid} strokeWidth="1.5" strokeOpacity="0.6" />
+      <path d="M188 100 L240 118 L292 100" stroke={C.orchid} strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+      {/* Brief-Linien */}
+      <rect x="204" y="88" width="72" height="6" rx="2" fill={C.orchid} fillOpacity="0.25" />
+      <rect x="210" y="98" width="60" height="5" rx="2" fill={C.orchid} fillOpacity="0.15" />
 
       {/* Prompt-Zeile */}
-      <text x="80" y="136" fontSize="9" fill="#E4FF97" fillOpacity="0.6" fontFamily="monospace">&gt;_</text>
-      <rect x="96" y="129" width="48" height="6" rx="2" fill="#1E1E1E" />
-      {/* Cursor */}
-      <rect x="148" y="129" width="6" height="8" rx="1" fill="#E4FF97" fillOpacity="0.8" />
-    </svg>
+      <text x="78" y="178" fontSize="10" fill={C.neon} fillOpacity="0.55" fontFamily="monospace">&gt;_</text>
+      <rect x="96" y="170" width="60" height="8" rx="3" fill={C.border} />
+      <rect x="160" y="170" width="8" height="10" rx="1.5" fill={C.neon} fillOpacity="0.85" />
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    6 · Settings Page
-   Zeigt: Linke Nav-Leiste, rechts Profil + Toggle-Zeilen
+   Farben: Neon-Gelb aktive Nav + aktive Toggles,
+           Baby Blue Avatar-Ring, Peach Cream sekundäre Elemente
 ───────────────────────────────────────────────────────────────── */
 function IllustrationSettings() {
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-settings" />
-      <rect width="400" height="160" fill="url(#dg-settings)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-s" />
+      <rect width="480" height="200" fill="url(#dg-s)" />
 
       {/* Linke Nav */}
-      <rect x="12" y="12" width="100" height="136" rx="7" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
-      <rect x="20" y="22" width="48" height="7" rx="3" fill="#E4FF97" fillOpacity="0.7" />
-      {/* Nav-Items */}
+      <rect x="14" y="14" width="120" height="172" rx="8" fill={C.bg1} stroke={C.border} strokeWidth="1" />
+      <rect x="24" y="26" width="60" height="8" rx="3" fill={C.neon} fillOpacity="0.65" />
       {[
-        { label: 52, active: true },
-        { label: 44, active: false },
-        { label: 56, active: false },
-        { label: 40, active: false },
-        { label: 48, active: false },
+        { w: 64, active: true,  color: C.neon },
+        { w: 56, active: false, color: C.border2 },
+        { w: 72, active: false, color: C.border2 },
+        { w: 52, active: false, color: C.border2 },
+        { w: 60, active: false, color: C.border2 },
       ].map((item, i) => (
         <g key={i}>
-          <rect x="16" y={38 + i * 20} width="92" height="14" rx="4"
-            fill={item.active ? "#E4FF97" : "transparent"}
-            fillOpacity={item.active ? 0.1 : 0}
-          />
-          <rect x="20" y={41 + i * 20} width="6" height="6" rx="1"
-            fill={item.active ? "#E4FF97" : "#2A2A2A"}
-            fillOpacity={item.active ? 0.8 : 1}
-          />
-          <rect x="30" y={43 + i * 20} width={item.label} height="4" rx="2"
-            fill={item.active ? "#E4FF97" : "#2A2A2A"}
-            fillOpacity={item.active ? 0.7 : 1}
-          />
+          <rect x="18" y={44+i*24} width="112" height="16" rx="4"
+            fill={item.active ? C.neon : "transparent"} fillOpacity={item.active ? 0.1 : 0} />
+          <rect x="22" y={47+i*24} width="8" height="8" rx="2"
+            fill={item.active ? C.neon : C.border2} fillOpacity={item.active ? 0.8 : 1} />
+          <rect x="34" y={49+i*24} width={item.w} height="5" rx="2"
+            fill={item.color} fillOpacity={item.active ? 0.7 : 1} />
         </g>
       ))}
 
       {/* Rechter Inhaltsbereich */}
-      <rect x="124" y="12" width="264" height="136" rx="7" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
+      <rect x="148" y="14" width="318" height="172" rx="8" fill={C.bg1} stroke={C.border} strokeWidth="1" />
 
       {/* Profil-Zeile */}
-      <circle cx="152" cy="40" r="18" fill="#1A1A1A" stroke="#2A2A2A" strokeWidth="1" />
-      {/* Avatar-Silhouette */}
-      <circle cx="152" cy="34" r="7" fill="#2A2A2A" />
-      <ellipse cx="152" cy="52" rx="10" ry="5" fill="#2A2A2A" />
-      <rect x="178" y="30" width="72" height="8" rx="3" fill="#E4FF97" fillOpacity="0.7" />
-      <rect x="178" y="44" width="52" height="5" rx="2" fill="#333333" />
+      <circle cx="180" cy="50" r="24" fill={C.bg3} stroke={C.blue} strokeWidth="1.5" strokeOpacity="0.6" />
+      <circle cx="180" cy="42" r="10" fill={C.border2} />
+      <ellipse cx="180" cy="66" rx="14" ry="7" fill={C.border2} />
+      <rect x="214" y="36" width="88" height="10" rx="4" fill={C.neon} fillOpacity="0.65" />
+      <rect x="214" y="52" width="64" height="7" rx="3" fill={C.muted} />
       {/* Edit-Button */}
-      <rect x="340" y="30" width="36" height="18" rx="4" fill="#1A1A1A" stroke="#2A2A2A" strokeWidth="1" />
-      <rect x="348" y="36" width="20" height="4" rx="2" fill="#333333" />
+      <rect x="408" y="36" width="48" height="22" rx="5" fill={C.bg3} stroke={C.border2} strokeWidth="1" />
+      <rect x="418" y="43" width="28" height="6" rx="2" fill={C.muted} />
 
       {/* Trennlinie */}
-      <line x1="134" y1="68" x2="378" y2="68" stroke="#1E1E1E" strokeWidth="1" />
+      <line x1="158" y1="84" x2="456" y2="84" stroke={C.border} strokeWidth="1" />
 
       {/* Toggle-Zeilen */}
-      {[0, 1, 2, 3].map((i) => (
+      {[
+        { on: true,  color: C.neon,   labelW: 160 },
+        { on: false, color: C.border2, labelW: 140 },
+        { on: true,  color: C.mint,   labelW: 180 },
+        { on: false, color: C.border2, labelW: 120 },
+      ].map((row, i) => (
         <g key={i}>
-          <rect x="134" y={78 + i * 18} width="140" height="5" rx="2" fill="#2A2A2A" />
-          {/* Toggle */}
-          <rect x="340" y={76 + i * 18} width="28" height="10" rx="5"
-            fill={i === 0 || i === 2 ? "#E4FF97" : "#1A1A1A"}
-            stroke={i === 0 || i === 2 ? "none" : "#2A2A2A"}
+          <rect x="158" y={96+i*22} width={row.labelW} height="7" rx="3" fill={C.border2} />
+          {/* Toggle-Track */}
+          <rect x="410" y={94+i*22} width="36" height="14" rx="7"
+            fill={row.on ? row.color : C.bg3}
+            stroke={row.on ? "none" : C.border2}
             strokeWidth="1"
+            fillOpacity={row.on ? 0.85 : 1}
           />
+          {/* Toggle-Knopf */}
           <circle
-            cx={i === 0 || i === 2 ? 362 : 346}
-            cy={81 + i * 18}
-            r="4"
-            fill={i === 0 || i === 2 ? "#0A0A0A" : "#333333"}
+            cx={row.on ? 440 : 420}
+            cy={101+i*22}
+            r="5"
+            fill={row.on ? C.bg : C.muted}
           />
         </g>
       ))}
-    </svg>
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    7 · Onboarding Flow
-   Zeigt: Schritt-Indikatoren, Wizard-Karte mit Neon-Akzent
+   Farben: Smaragd erledigte Schritte, Neon-Gelb aktiver Schritt,
+           Peach Cream Wizard-Karte, Butter Yellow Input-Highlight
 ───────────────────────────────────────────────────────────────── */
 function IllustrationOnboarding() {
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-onboarding" />
-      <rect width="400" height="160" fill="url(#dg-onboarding)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-o" />
+      <rect width="480" height="200" fill="url(#dg-o)" />
 
       {/* Schritt-Indikatoren */}
-      {[0, 1, 2, 3, 4].map((i) => (
+      {[0,1,2,3,4].map((i) => (
         <g key={i}>
-          <circle
-            cx={60 + i * 70} cy={20} r={10}
-            fill={i < 2 ? "#E4FF97" : i === 2 ? "#E4FF97" : "#111111"}
-            fillOpacity={i < 2 ? 0.9 : i === 2 ? 1 : 1}
-            stroke={i >= 3 ? "#2A2A2A" : "none"}
+          <circle cx={60+i*90} cy={24} r={13}
+            fill={i<2 ? C.positive : i===2 ? C.neon : C.bg2}
+            stroke={i>=3 ? C.border2 : "none"}
             strokeWidth="1.5"
           />
-          {/* Checkmarks für erledigte Schritte */}
-          {i < 2 && (
-            <path
-              d={`M${55 + i * 70} ${20} L${58 + i * 70} ${23} L${65 + i * 70} ${17}`}
-              stroke="#0A0A0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-            />
+          {i<2 && (
+            <path d={`M${53+i*90} ${24} L${58+i*90} ${29} L${67+i*90} ${19}`}
+              stroke={C.white} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           )}
-          {/* Aktive Schritt-Nummer */}
-          {i === 2 && (
-            <text x={60 + i * 70} y={24} textAnchor="middle" fontSize="9" fill="#0A0A0A" fontFamily="monospace" fontWeight="bold">3</text>
+          {i===2 && (
+            <text x={60+i*90} y={28} textAnchor="middle" fontSize="10" fill={C.bg} fontFamily="monospace" fontWeight="bold">3</text>
           )}
-          {/* Zukünftige Schritt-Nummern */}
-          {i >= 3 && (
-            <text x={60 + i * 70} y={24} textAnchor="middle" fontSize="9" fill="#333333" fontFamily="monospace">{i + 1}</text>
+          {i>=3 && (
+            <text x={60+i*90} y={28} textAnchor="middle" fontSize="10" fill={C.muted} fontFamily="monospace">{i+1}</text>
           )}
-          {/* Verbindungslinien */}
-          {i < 4 && (
-            <line
-              x1={70 + i * 70} y1={20} x2={120 + i * 70} y2={20}
-              stroke={i < 2 ? "#E4FF97" : "#1E1E1E"}
-              strokeWidth={i < 2 ? 2 : 1}
-              strokeOpacity={i < 2 ? 0.6 : 1}
-              strokeDasharray={i >= 2 ? "4 3" : "0"}
+          {i<4 && (
+            <line x1={73+i*90} y1={24} x2={137+i*90} y2={24}
+              stroke={i<2 ? C.positive : C.border2}
+              strokeWidth={i<2 ? 2 : 1}
+              strokeOpacity={i<2 ? 0.5 : 1}
+              strokeDasharray={i>=2 ? "5 4" : "0"}
             />
           )}
         </g>
       ))}
 
       {/* Wizard-Karte */}
-      <rect x="48" y="40" width="304" height="112" rx="10" fill="#111111" stroke="#E4FF97" strokeWidth="1" strokeOpacity="0.3" />
+      <rect x="60" y="50" width="360" height="140" rx="12" fill={C.bg1} stroke={C.neon} strokeWidth="1" strokeOpacity="0.25" />
 
-      {/* Workspace-Icon */}
-      <rect x="172" y="54" width="56" height="40" rx="6" fill="#141414" stroke="#1E1E1E" strokeWidth="1" />
-      <rect x="180" y="62" width="40" height="5" rx="2" fill="#E4FF97" fillOpacity="0.5" />
-      <rect x="180" y="72" width="30" height="4" rx="2" fill="#2A2A2A" />
-      <rect x="180" y="80" width="36" height="4" rx="2" fill="#2A2A2A" />
+      {/* Workspace-Illustration */}
+      <rect x="190" y="66" width="100" height="56" rx="8" fill={C.bg2} stroke={C.border2} strokeWidth="1" />
+      <rect x="200" y="76" width="80" height="8" rx="3" fill={C.neon} fillOpacity="0.45" />
+      <rect x="200" y="90" width="60" height="6" rx="2" fill={C.border2} />
+      <rect x="200" y="102" width="72" height="6" rx="2" fill={C.border2} />
 
       {/* Input-Feld */}
-      <rect x="64" y="102" width="272" height="16" rx="4" fill="#0D0D0D" stroke="#2A2A2A" strokeWidth="1" />
-      <rect x="72" y="107" width="80" height="5" rx="2" fill="#2A2A2A" />
-      {/* Cursor im Input */}
-      <rect x="156" y="107" width="5" height="7" rx="1" fill="#E4FF97" fillOpacity="0.7" />
+      <rect x="76" y="130" width="328" height="22" rx="5" fill="#0D0D0D" stroke={C.neon} strokeWidth="1" strokeOpacity="0.3" />
+      <rect x="86" y="137" width="100" height="7" rx="3" fill={C.border2} />
+      <rect x="190" y="137" width="7" height="10" rx="1.5" fill={C.neon} fillOpacity="0.7" />
 
       {/* Weiter-Button */}
-      <rect x="256" y="126" width="88" height="18" rx="5" fill="#E4FF97" />
-      <rect x="268" y="132" width="64" height="6" rx="2" fill="#0A0A0A" />
+      <rect x="308" y="160" width="104" height="22" rx="6" fill={C.neon} />
+      <rect x="322" y="167" width="76" height="8" rx="3" fill={C.bg} />
       {/* Zurück-Link */}
-      <rect x="64" y="130" width="48" height="6" rx="2" fill="#2A2A2A" />
-    </svg>
+      <rect x="76" y="164" width="60" height="8" rx="3" fill={C.border2} />
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    8 · Notification Center
-   Zeigt: Kritischer Alert-Banner, Benachrichtigungsliste mit
-   Ungelesen-Indikatoren in Neon-Gelb
+   Farben: Koralle Alert-Banner, Neon-Gelb ungelesene Punkte,
+           Pastell-Avatare (Rose, Blue, Mint, Orchid, Peach)
 ───────────────────────────────────────────────────────────────── */
 function IllustrationNotifications() {
+  const avatarColors = [C.rose, C.blue, C.mint, C.orchid, C.peach];
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-notif" />
-      <rect width="400" height="160" fill="url(#dg-notif)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-n" />
+      <rect width="480" height="200" fill="url(#dg-n)" />
 
       {/* Kritischer Alert-Banner */}
-      <rect x="12" y="8" width="376" height="24" rx="6" fill="#1A0A0A" stroke="#FF5540" strokeWidth="1" strokeOpacity="0.6" />
-      <circle cx="26" cy="20" r="5" fill="#FF5540" fillOpacity="0.8" />
-      <text x="22" y="23" fontSize="7" fill="#FF5540" fontFamily="monospace" fontWeight="bold">!</text>
-      <rect x="38" y="15" width="120" height="5" rx="2" fill="#FF5540" fillOpacity="0.5" />
-      <rect x="38" y="22" width="80" height="4" rx="2" fill="#FF5540" fillOpacity="0.25" />
-      {/* Schließen-X */}
-      <line x1="374" y1="14" x2="380" y2="26" stroke="#FF5540" strokeWidth="1.2" strokeOpacity="0.5" />
-      <line x1="380" y1="14" x2="374" y2="26" stroke="#FF5540" strokeWidth="1.2" strokeOpacity="0.5" />
+      <rect x="14" y="10" width="452" height="28" rx="7" fill="#1A0A0A" stroke={C.negative} strokeWidth="1" strokeOpacity="0.6" />
+      <circle cx="30" cy="24" r="6" fill={C.negative} fillOpacity="0.8" />
+      <text x="26" y="28" fontSize="8" fill={C.negative} fontFamily="monospace" fontWeight="bold">!</text>
+      <rect x="44" y="18" width="140" height="6" rx="3" fill={C.negative} fillOpacity="0.5" />
+      <rect x="44" y="27" width="100" height="5" rx="2" fill={C.negative} fillOpacity="0.25" />
+      <line x1="450" y1="16" x2="458" y2="30" stroke={C.negative} strokeWidth="1.2" strokeOpacity="0.5" />
+      <line x1="458" y1="16" x2="450" y2="30" stroke={C.negative} strokeWidth="1.2" strokeOpacity="0.5" />
 
       {/* Benachrichtigungs-Zeilen */}
       {[
-        { y: 40, unread: true,  avatarFill: "#E4FF97", textW: 160, subW: 120 },
-        { y: 62, unread: true,  avatarFill: "#E4FF97", textW: 140, subW: 100 },
-        { y: 84, unread: false, avatarFill: "#2A2A2A", textW: 120, subW: 90 },
-        { y: 106, unread: false, avatarFill: "#2A2A2A", textW: 150, subW: 110 },
-        { y: 128, unread: false, avatarFill: "#2A2A2A", textW: 130, subW: 95 },
+        { y: 46,  unread: true,  textW: 200, subW: 150 },
+        { y: 72,  unread: true,  textW: 180, subW: 130 },
+        { y: 98,  unread: false, textW: 160, subW: 120 },
+        { y: 124, unread: false, textW: 190, subW: 140 },
+        { y: 150, unread: false, textW: 170, subW: 125 },
       ].map((item, i) => (
         <g key={i}>
-          <rect x="12" y={item.y} width="376" height="20" rx="5"
-            fill={item.unread ? "#141414" : "#0D0D0D"}
-            stroke={item.unread ? "#1E1E1E" : "transparent"}
+          <rect x="14" y={item.y} width="452" height="24" rx="6"
+            fill={item.unread ? C.bg2 : C.bg1}
+            stroke={item.unread ? C.border : "transparent"}
             strokeWidth="1"
           />
-          {/* Ungelesen-Punkt */}
-          {item.unread && <circle cx="20" cy={item.y + 10} r="3" fill="#E4FF97" />}
+          {item.unread && <circle cx="24" cy={item.y+12} r="4" fill={C.neon} />}
           {/* Avatar */}
-          <circle cx="38" cy={item.y + 10} r="7"
-            fill={item.avatarFill}
-            fillOpacity={item.unread ? 0.2 : 0.08}
-            stroke={item.avatarFill}
+          <circle cx="44" cy={item.y+12} r="9"
+            fill={avatarColors[i]}
+            fillOpacity={item.unread ? 0.25 : 0.1}
+            stroke={avatarColors[i]}
             strokeWidth="1"
-            strokeOpacity={item.unread ? 0.4 : 0.15}
+            strokeOpacity={item.unread ? 0.5 : 0.2}
           />
           {/* Text */}
-          <rect x="52" y={item.y + 5} width={item.textW} height="5" rx="2"
-            fill={item.unread ? "#E4FF97" : "#2A2A2A"}
+          <rect x="60" y={item.y+6} width={item.textW} height="6" rx="3"
+            fill={item.unread ? C.neon : C.border2}
             fillOpacity={item.unread ? 0.5 : 1}
           />
-          <rect x="52" y={item.y + 13} width={item.subW} height="4" rx="2" fill="#1E1E1E" />
+          <rect x="60" y={item.y+15} width={item.subW} height="5" rx="2" fill={C.border} />
           {/* Zeitstempel */}
-          <rect x="352" y={item.y + 7} width="32" height="4" rx="2" fill="#1E1E1E" />
+          <rect x="424" y={item.y+9} width="36" height="5" rx="2" fill={C.border} />
         </g>
       ))}
-    </svg>
+
+      {/* Pagination-Dots */}
+      {[0,1,2].map(i => (
+        <circle key={i} cx={234+i*12} cy={188} r={i===0 ? 4 : 3}
+          fill={i===0 ? C.neon : C.border2} />
+      ))}
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    9 · Data Table View
-   Zeigt: Toolbar mit Suche, Tabellen-Header, Zeilen mit
-   Checkboxen, Status-Badges in Neon-Gelb
+   Farben: Neon-Gelb Checkboxen + CTA, Pastell-Status-Badges
+           (Mint=aktiv, Peach=ausstehend, Rose=inaktiv)
 ───────────────────────────────────────────────────────────────── */
 function IllustrationDataTable() {
+  const statusColors = [C.mint, C.peach, C.mint, C.rose, C.peach];
+  const statusLabels = [0.7, 0.5, 0.7, 0.6, 0.5];
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-table" />
-      <rect width="400" height="160" fill="url(#dg-table)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-t" />
+      <rect width="480" height="200" fill="url(#dg-t)" />
 
       {/* Toolbar */}
-      <rect x="12" y="8" width="376" height="26" rx="6" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
+      <rect x="14" y="10" width="452" height="30" rx="7" fill={C.bg1} stroke={C.border} strokeWidth="1" />
       {/* Suchfeld */}
-      <rect x="20" y="13" width="128" height="16" rx="4" fill="#0D0D0D" stroke="#1E1E1E" strokeWidth="1" />
-      <circle cx="30" cy="21" r="4" fill="none" stroke="#333333" strokeWidth="1.2" />
-      <line x1="33" y1="24" x2="36" y2="27" stroke="#333333" strokeWidth="1.2" />
-      <rect x="40" y="18" width="64" height="4" rx="2" fill="#1E1E1E" />
+      <rect x="22" y="16" width="148" height="18" rx="5" fill="#0D0D0D" stroke={C.border} strokeWidth="1" />
+      <circle cx="34" cy="25" r="5" fill="none" stroke={C.muted} strokeWidth="1.2" />
+      <line x1="38" y1="29" x2="41" y2="32" stroke={C.muted} strokeWidth="1.2" />
+      <rect x="46" y="22" width="80" height="5" rx="2" fill={C.border} />
       {/* Filter-Chips */}
-      <rect x="156" y="13" width="48" height="16" rx="4" fill="#0D0D0D" stroke="#1E1E1E" strokeWidth="1" />
-      <rect x="212" y="13" width="48" height="16" rx="4" fill="#0D0D0D" stroke="#1E1E1E" strokeWidth="1" />
+      <rect x="178" y="16" width="56" height="18" rx="5" fill="#0D0D0D" stroke={C.border} strokeWidth="1" />
+      <rect x="242" y="16" width="56" height="18" rx="5" fill="#0D0D0D" stroke={C.border} strokeWidth="1" />
       {/* Aktion-Button */}
-      <rect x="344" y="13" width="36" height="16" rx="4" fill="#E4FF97" />
-      <rect x="352" y="18" width="20" height="5" rx="2" fill="#0A0A0A" />
+      <rect x="412" y="16" width="46" height="18" rx="5" fill={C.neon} />
+      <rect x="422" y="21" width="26" height="8" rx="3" fill={C.bg} />
 
       {/* Tabellen-Header */}
-      <rect x="12" y="40" width="376" height="18" rx="4" fill="#141414" />
-      <rect x="20" y="45" width="8" height="8" rx="2" fill="none" stroke="#333333" strokeWidth="1" />
-      <rect x="36" y="47" width="48" height="4" rx="2" fill="#333333" />
-      <rect x="112" y="47" width="64" height="4" rx="2" fill="#333333" />
-      <rect x="208" y="47" width="48" height="4" rx="2" fill="#333333" />
-      <rect x="284" y="47" width="40" height="4" rx="2" fill="#333333" />
-      <rect x="352" y="47" width="28" height="4" rx="2" fill="#333333" />
+      <rect x="14" y="46" width="452" height="20" rx="5" fill={C.bg2} />
+      <rect x="22" y="52" width="10" height="10" rx="2" fill="none" stroke={C.muted} strokeWidth="1" />
+      <rect x="40" y="54" width="56" height="5" rx="2" fill={C.muted} />
+      <rect x="128" y="54" width="76" height="5" rx="2" fill={C.muted} />
+      <rect x="244" y="54" width="56" height="5" rx="2" fill={C.muted} />
+      <rect x="340" y="54" width="48" height="5" rx="2" fill={C.muted} />
+      <rect x="428" y="54" width="32" height="5" rx="2" fill={C.muted} />
 
       {/* Tabellen-Zeilen */}
-      {[
-        { y: 62, sel: true },
-        { y: 82, sel: false },
-        { y: 102, sel: false },
-        { y: 122, sel: false },
-        { y: 142, sel: false },
-      ].map((row, i) => (
+      {[0,1,2,3,4].map((i) => (
         <g key={i}>
-          <rect x="12" y={row.y} width="376" height="18" rx="3"
-            fill={row.sel ? "#141414" : "transparent"}
+          <rect x="14" y={70+i*24} width="452" height="22" rx="4"
+            fill={i===0 ? C.bg2 : "transparent"}
           />
-          <line x1="12" y1={row.y + 18} x2="388" y2={row.y + 18} stroke="#1A1A1A" strokeWidth="0.5" />
+          <line x1="14" y1={92+i*24} x2="466" y2={92+i*24} stroke={C.border} strokeWidth="0.5" />
           {/* Checkbox */}
-          <rect x="20" y={row.y + 5} width="8" height="8" rx="2"
-            fill={row.sel ? "#E4FF97" : "none"}
-            stroke={row.sel ? "#E4FF97" : "#2A2A2A"}
+          <rect x="22" y={75+i*24} width="10" height="10" rx="2"
+            fill={i===0 ? C.neon : "none"}
+            stroke={i===0 ? C.neon : C.border2}
             strokeWidth="1"
           />
-          {row.sel && (
-            <path d={`M${22} ${row.y + 9} L${24} ${row.y + 12} L${28} ${row.y + 7}`}
-              stroke="#0A0A0A" strokeWidth="1.2" strokeLinecap="round" />
+          {i===0 && (
+            <path d={`M24 ${80+i*24} L27 ${83+i*24} L32 ${77+i*24}`}
+              stroke={C.bg} strokeWidth="1.5" strokeLinecap="round" />
           )}
           {/* Avatar */}
-          <circle cx="42" cy={row.y + 9} r="6" fill="#1A1A1A" stroke="#2A2A2A" strokeWidth="1" />
+          <circle cx="50" cy={81+i*24} r="8" fill={C.bg3} stroke={C.border2} strokeWidth="1" />
           {/* Name */}
-          <rect x="54" y={row.y + 5} width="44" height="4" rx="2" fill="#2A2A2A" />
-          <rect x="54" y={row.y + 12} width="32" height="3" rx="1.5" fill="#1A1A1A" />
+          <rect x="64" y={77+i*24} width="52" height="5" rx="2" fill={C.border2} />
+          <rect x="64" y={85+i*24} width="38" height="4" rx="2" fill={C.border} />
           {/* E-Mail */}
-          <rect x="112" y={row.y + 7} width="72" height="4" rx="2" fill="#1E1E1E" />
+          <rect x="128" y={79+i*24} width="88" height="5" rx="2" fill={C.border} />
           {/* Status-Badge */}
-          <rect x="208" y={row.y + 5} width="36" height="8" rx="4"
-            fill="#E4FF97"
-            fillOpacity={i % 3 === 0 ? 0.15 : i % 3 === 1 ? 0.08 : 0.12}
-          />
-          <rect x="214" y={row.y + 7} width="24" height="4" rx="2"
-            fill="#E4FF97"
-            fillOpacity={i % 3 === 0 ? 0.7 : i % 3 === 1 ? 0.3 : 0.5}
-          />
+          <rect x="244" y={76+i*24} width="44" height="10" rx="5"
+            fill={statusColors[i]} fillOpacity="0.15" />
+          <rect x="250" y={79+i*24} width="32" height="5" rx="2"
+            fill={statusColors[i]} fillOpacity={statusLabels[i]} />
           {/* Datum */}
-          <rect x="284" y={row.y + 7} width="48" height="4" rx="2" fill="#1E1E1E" />
-          {/* Drei-Punkte-Menü */}
-          {[0, 1, 2].map((d) => (
-            <circle key={d} cx={358 + d * 8} cy={row.y + 9} r="2" fill="#2A2A2A" />
+          <rect x="340" y={79+i*24} width="56" height="5" rx="2" fill={C.border} />
+          {/* Drei-Punkte */}
+          {[0,1,2].map(d => (
+            <circle key={d} cx={436+d*10} cy={81+i*24} r="2.5" fill={C.border2} />
           ))}
         </g>
       ))}
-    </svg>
+    </IllustrationWrapper>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
    10 · Terminal & CLI
-   Zeigt: Terminal-Fenster links mit Neon-Ausgaben,
-   Build-Pipeline rechts mit Status-Indikatoren
+   Farben: Neon-Gelb Commands, Smaragd Erfolgs-Output,
+           Koralle Fehler-Zeile, Aqua Mist Log-Zeilen,
+           Butter Yellow Build-Pipeline Labels
 ───────────────────────────────────────────────────────────────── */
 function IllustrationTerminal() {
   return (
-    <svg viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect width="400" height="160" fill="#0A0A0A" />
-      <DotGrid id="dg-terminal" />
-      <rect width="400" height="160" fill="url(#dg-terminal)" />
+    <IllustrationWrapper viewBox="0 0 480 200">
+      <rect width="480" height="200" fill={C.bg} />
+      <DotGrid id="dg-term" />
+      <rect width="480" height="200" fill="url(#dg-term)" />
 
       {/* Terminal-Fenster */}
-      <rect x="12" y="8" width="236" height="144" rx="8" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
+      <rect x="14" y="10" width="280" height="180" rx="10" fill={C.bg1} stroke={C.border} strokeWidth="1" />
       {/* Titelleiste */}
-      <rect x="12" y="8" width="236" height="26" rx="8" fill="#141414" />
-      <rect x="12" y="24" width="236" height="10" fill="#141414" />
-      <line x1="12" y1="34" x2="248" y2="34" stroke="#1E1E1E" strokeWidth="1" />
-      <circle cx="28" cy="21" r="4" fill="#FF5F57" fillOpacity="0.8" />
-      <circle cx="44" cy="21" r="4" fill="#FEBC2E" fillOpacity="0.8" />
-      <circle cx="60" cy="21" r="4" fill="#28C840" fillOpacity="0.8" />
-      <rect x="96" y="18" width="80" height="6" rx="3" fill="#1E1E1E" />
+      <rect x="14" y="10" width="280" height="30" rx="10" fill={C.bg2} />
+      <rect x="14" y="30" width="280" height="10" fill={C.bg2} />
+      <line x1="14" y1="40" x2="294" y2="40" stroke={C.border} strokeWidth="1" />
+      <circle cx="32"  cy="25" r="5" fill="#FF5F57" fillOpacity="0.85" />
+      <circle cx="50"  cy="25" r="5" fill="#FEBC2E" fillOpacity="0.85" />
+      <circle cx="68"  cy="25" r="5" fill="#28C840" fillOpacity="0.85" />
+      <rect x="116" y="22" width="90" height="7" rx="3" fill={C.border} />
 
       {/* Terminal-Zeilen */}
       {[
-        { y: 42, isCmd: true,  color: "#E4FF97", w: 120, op: 0.7 },
-        { y: 54, isCmd: false, color: "#E4FF97", w: 90,  op: 0.5 },
-        { y: 66, isCmd: false, color: "#6BFF9E", w: 140, op: 0.7 },
-        { y: 78, isCmd: true,  color: "#E4FF97", w: 100, op: 0.7 },
-        { y: 90, isCmd: false, color: "#E4FF97", w: 160, op: 0.4 },
-        { y: 102, isCmd: false, color: "#6BFF9E", w: 110, op: 0.7 },
-        { y: 114, isCmd: false, color: "#6BFF9E", w: 130, op: 0.7 },
-        { y: 126, isCmd: false, color: "#FF5540", w: 80,  op: 0.6 },
-        { y: 138, isCmd: true,  color: "#E4FF97", w: 0,   op: 0.7, cursor: true },
+        { y: 48,  isCmd: true,  color: C.neon,     w: 140, op: 0.75 },
+        { y: 62,  isCmd: false, color: C.neon,     w: 110, op: 0.45 },
+        { y: 76,  isCmd: false, color: C.positive, w: 160, op: 0.8 },
+        { y: 90,  isCmd: true,  color: C.neon,     w: 120, op: 0.75 },
+        { y: 104, isCmd: false, color: C.aqua,     w: 180, op: 0.7 },
+        { y: 118, isCmd: false, color: C.aqua,     w: 150, op: 0.6 },
+        { y: 132, isCmd: false, color: C.positive, w: 130, op: 0.8 },
+        { y: 146, isCmd: false, color: C.negative, w: 96,  op: 0.7 },
+        { y: 160, isCmd: true,  color: C.neon,     w: 0,   op: 0.75, cursor: true },
       ].map((line, i) => (
         <g key={i}>
           {line.isCmd && (
-            <text x="20" y={line.y + 8} fontSize="8" fill="#E4FF97" fillOpacity="0.5" fontFamily="monospace">&gt;_</text>
+            <text x="22" y={line.y+10} fontSize="9" fill={C.neon} fillOpacity="0.5" fontFamily="monospace">&gt;_</text>
           )}
           {line.w > 0 && (
             <rect
-              x={line.isCmd ? 36 : 20}
+              x={line.isCmd ? 42 : 22}
               y={line.y}
               width={line.w}
-              height="6"
-              rx="2"
+              height="8"
+              rx="2.5"
               fill={line.color}
               fillOpacity={line.op}
             />
           )}
           {line.cursor && (
-            <rect x="36" y={line.y} width="6" height="10" rx="1" fill="#E4FF97" fillOpacity="0.9" />
+            <rect x="42" y={line.y} width="8" height="12" rx="2" fill={C.neon} fillOpacity="0.9" />
           )}
         </g>
       ))}
 
       {/* Pipeline-Panel */}
-      <rect x="260" y="8" width="128" height="144" rx="8" fill="#111111" stroke="#1E1E1E" strokeWidth="1" />
-      <rect x="270" y="18" width="72" height="7" rx="3" fill="#E4FF97" fillOpacity="0.7" />
-      <rect x="270" y="30" width="48" height="5" rx="2" fill="#2A2A2A" />
+      <rect x="306" y="10" width="160" height="180" rx="10" fill={C.bg1} stroke={C.border} strokeWidth="1" />
+      <rect x="318" y="22" width="90" height="9" rx="4" fill={C.neon} fillOpacity="0.65" />
+      <rect x="318" y="36" width="60" height="6" rx="3" fill={C.border2} />
 
       {/* Pipeline-Schritte */}
       {[
-        { y: 44, done: true,    running: false },
-        { y: 62, done: true,    running: false },
-        { y: 80, done: true,    running: false },
-        { y: 98, done: false,   running: true },
-        { y: 116, done: false,  running: false },
-        { y: 134, done: false,  running: false },
+        { y: 52,  done: true,  running: false, color: C.positive, labelW: 96 },
+        { y: 76,  done: true,  running: false, color: C.positive, labelW: 88 },
+        { y: 100, done: true,  running: false, color: C.positive, labelW: 104 },
+        { y: 124, done: false, running: true,  color: C.neon,     labelW: 116 },
+        { y: 148, done: false, running: false, color: C.butter,   labelW: 80 },
+        { y: 172, done: false, running: false, color: C.butter,   labelW: 92 },
       ].map((step, i) => (
         <g key={i}>
-          {/* Status-Kreis */}
-          <circle cx="274" cy={step.y + 5} r="5"
-            fill={step.done ? "#E4FF97" : step.running ? "#E4FF97" : "#141414"}
-            fillOpacity={step.running ? 0.3 : 1}
-            stroke={step.done ? "none" : step.running ? "#E4FF97" : "#2A2A2A"}
+          <circle cx="320" cy={step.y+7} r="7"
+            fill={step.done ? step.color : step.running ? step.color : C.bg2}
+            fillOpacity={step.running ? 0.25 : 1}
+            stroke={step.done || step.running ? "none" : C.border2}
             strokeWidth="1.5"
           />
           {step.done && (
-            <path d={`M${271} ${step.y + 5} L${273} ${step.y + 7} L${277} ${step.y + 3}`}
-              stroke="#0A0A0A" strokeWidth="1.2" strokeLinecap="round" />
+            <path d={`M${317} ${step.y+7} L${319} ${step.y+9} L${323} ${step.y+5}`}
+              stroke={C.bg} strokeWidth="1.5" strokeLinecap="round" />
           )}
-          {/* Label */}
-          <rect x="284" y={step.y + 2} width={step.done ? 80 : step.running ? 96 : 72} height="5" rx="2"
-            fill={step.done ? "#C8C8C8" : step.running ? "#E4FF97" : "#2A2A2A"}
-            fillOpacity={step.done ? 0.5 : step.running ? 0.8 : 1}
+          {step.running && (
+            <circle cx="320" cy={step.y+7} r="4" fill={step.color} fillOpacity="0.8" />
+          )}
+          <rect x="334" y={step.y+4} width={step.labelW} height="6" rx="3"
+            fill={step.done ? C.white : step.running ? step.color : step.color}
+            fillOpacity={step.done ? 0.45 : step.running ? 0.8 : 0.3}
           />
-          {/* Verbindungslinie */}
           {i < 5 && (
-            <line x1="274" y1={step.y + 10} x2="274" y2={step.y + 18}
-              stroke={step.done ? "#E4FF97" : "#1E1E1E"}
+            <line x1="320" y1={step.y+14} x2="320" y2={step.y+22}
+              stroke={step.done ? step.color : C.border}
               strokeWidth="1"
               strokeOpacity={step.done ? 0.4 : 1}
             />
           )}
         </g>
       ))}
-    </svg>
+    </IllustrationWrapper>
   );
 }
 
@@ -857,11 +894,11 @@ export default function ShowcaseIndex() {
           {templates.map((t) => (
             <Link key={t.href} href={t.href}>
               <div className="group border border-border rounded-2xl overflow-hidden hover:border-foreground/40 hover:shadow-xl transition-all duration-200 cursor-pointer bg-card">
-                {/* SVG-Illustration */}
-                <div className="h-40 overflow-hidden relative rounded-t-2xl">
+                {/* SVG-Illustration – aspect-ratio 12:5 verhindert Anschnitt */}
+                <div className="w-full overflow-hidden rounded-t-2xl" style={{ aspectRatio: "12/5" }}>
                   <t.Illustration />
                   {/* Hover-Overlay */}
-                  <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-200" />
+                  <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-200 pointer-events-none" />
                 </div>
 
                 {/* Info */}
