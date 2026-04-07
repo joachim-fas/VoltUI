@@ -8,10 +8,20 @@ import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltCard } from "@/components/volt/VoltCard";
 import { VoltAvatar } from "@/components/volt/VoltAvatar";
+import { VoltNavbar, VoltNavItem } from "@/components/volt/VoltNavbar";
+import { VoltInput } from "@/components/volt/VoltInput";
+import { VoltTerminalStatic, TerminalLine } from "@/components/volt/VoltTerminal";
 import {
   Zap, BarChart2, Shield, Globe, ArrowRight,
-  Star, Terminal, Layers, Cpu,
+  Star, Terminal, Layers, Cpu, Mail,
 } from "lucide-react";
+
+const NAV_ITEMS: VoltNavItem[] = [
+  { label: "Features", href: "#features" },
+  { label: "Preise", href: "#pricing" },
+  { label: "Docs", href: "#docs" },
+  { label: "Blog", href: "#blog" },
+];
 
 const FEATURES = [
   {
@@ -74,17 +84,53 @@ const STATS = [
   { value: "500+", label: "Kunden weltweit" },
 ];
 
+const TERMINAL_LINES: TerminalLine[] = [
+  { text: "$ volt init my-project", type: "command" },
+  { text: "✓ Projekt initialisiert", type: "success" },
+  { text: "$ volt ingest --source postgres://...", type: "command" },
+  { text: "→ Verbinde mit Datenquelle...", type: "output" },
+  { text: "✓ 1.2M Datensätze importiert (3.4s)", type: "success" },
+  { text: "$ volt dashboard --live", type: "command" },
+  { text: "✓ Dashboard läuft auf http://localhost:3000", type: "success" },
+];
+
 export default function LandingTemplate() {
-  const [annual, setAnnual] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const Logo = (
+    <div className="flex items-center gap-2">
+      <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center">
+        <Terminal className="w-3.5 h-3.5 text-primary" />
+      </div>
+      <span className="font-display font-bold text-sm tracking-tight">volt ui</span>
+    </div>
+  );
+
+  const RightSlot = (
+    <div className="flex items-center gap-2">
+      <VoltButton variant="ghost" size="sm">Anmelden</VoltButton>
+      <VoltButton variant="primary" size="sm" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
+        Kostenlos starten
+      </VoltButton>
+    </div>
+  );
 
   return (
     <TemplateShell title="Landing Page" category="Marketing">
 
-      {/* Hero */}
+      {/* ── Seiten-Navbar ── */}
+      <VoltNavbar
+        logo={Logo}
+        items={NAV_ITEMS}
+        rightSlot={RightSlot}
+        variant="glass"
+        sticky
+      />
+
+      {/* ── Hero ── */}
       <section className="relative overflow-hidden pt-24 pb-20 px-6">
-        {/* Background decoration */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#E4FF97]/20 rounded-full blur-3xl" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-3xl" />
         </div>
         <div className="max-w-4xl mx-auto text-center">
           <VoltBadge variant="default" size="sm" className="mb-6 inline-flex">
@@ -92,21 +138,27 @@ export default function LandingTemplate() {
           </VoltBadge>
           <h1 className="font-display font-bold text-5xl md:text-7xl tracking-tight leading-[1.05] mb-6">
             Daten-Infrastruktur,<br />
-            <span className="text-[#E4FF97] bg-foreground px-3 py-1 rounded-lg inline-block mt-2">die mitdenkt.</span>
+            <span className="text-primary-foreground bg-foreground px-3 py-1 rounded-lg inline-block mt-2">die mitdenkt.</span>
           </h1>
           <p className="text-muted-foreground text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
             Volt ist die Echtzeit-Datenplattform für moderne Teams. Ingest, Transform, Visualize –
             alles in einem Stack, ohne Ops-Overhead.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <VoltButton variant="primary" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
+
+          {/* E-Mail-Capture */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto mb-4">
+            <VoltInput
+              placeholder="name@firma.de"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              leftElement={<Mail className="w-4 h-4" />}
+              className="flex-1"
+            />
+            <VoltButton variant="primary" size="md" rightIcon={<ArrowRight className="w-4 h-4" />}>
               Kostenlos starten
             </VoltButton>
-            <VoltButton variant="outline" size="lg">
-              Demo ansehen
-            </VoltButton>
           </div>
-          <p className="text-muted-foreground text-sm mt-4">Keine Kreditkarte. 14 Tage kostenlos.</p>
+          <p className="text-muted-foreground text-sm">Keine Kreditkarte. 14 Tage kostenlos.</p>
         </div>
 
         {/* Stats */}
@@ -120,8 +172,24 @@ export default function LandingTemplate() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 px-6 bg-muted/30">
+      {/* ── Terminal Demo ── */}
+      <section className="py-16 px-6 bg-muted/20">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <VoltBadge variant="outline" size="sm" className="mb-4">CLI</VoltBadge>
+            <h2 className="font-display font-bold text-2xl md:text-3xl tracking-tight">
+              Setup in unter 60 Sekunden
+            </h2>
+          </div>
+          <VoltTerminalStatic
+            lines={TERMINAL_LINES}
+            title="volt cli"
+          />
+        </div>
+      </section>
+
+      {/* ── Features ── */}
+      <section id="features" className="py-20 px-6 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <VoltBadge variant="outline" size="sm" className="mb-4">Features</VoltBadge>
@@ -135,7 +203,7 @@ export default function LandingTemplate() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {FEATURES.map((f) => (
               <VoltCard key={f.title} variant="default" className="p-6">
-                <div className="w-10 h-10 rounded-xl bg-[#E4FF97] flex items-center justify-center mb-4 text-black">
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center mb-4 text-primary-foreground">
                   {f.icon}
                 </div>
                 <h3 className="font-display font-bold text-base mb-2">{f.title}</h3>
@@ -146,7 +214,7 @@ export default function LandingTemplate() {
         </div>
       </section>
 
-      {/* Social Proof */}
+      {/* ── Testimonials ── */}
       <section className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
@@ -160,7 +228,7 @@ export default function LandingTemplate() {
               <VoltCard key={t.name} variant="elevated" className="p-6">
                 <div className="flex gap-0.5 mb-4">
                   {Array.from({ length: t.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#E4FF97] text-[#E4FF97]" />
+                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
                   ))}
                 </div>
                 <p className="text-sm leading-relaxed mb-5 text-foreground/80">"{t.text}"</p>
@@ -177,11 +245,11 @@ export default function LandingTemplate() {
         </div>
       </section>
 
-      {/* CTA Banner */}
+      {/* ── CTA Banner ── */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="bg-foreground text-background rounded-3xl p-12 text-center relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#E4FF97]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
             <VoltBadge variant="default" size="sm" className="mb-6 inline-flex">
               <Zap className="w-3 h-3" /> Jetzt starten
             </VoltBadge>
@@ -203,15 +271,24 @@ export default function LandingTemplate() {
         </div>
       </section>
 
+      {/* ── Footer ── */}
       <footer className="border-t border-border py-10 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
-              <Terminal className="w-3 h-3 text-[#E4FF97]" />
+              <Terminal className="w-3 h-3 text-primary" />
             </div>
             <span className="font-display font-bold text-sm">volt ui</span>
           </div>
-          <p className="text-muted-foreground text-sm font-mono text-xs">© 2026 Volt UI · Design Concept</p>
+          <nav className="flex flex-wrap gap-6 text-sm text-muted-foreground">
+            <a href="#" className="hover:text-foreground transition-colors">Produkt</a>
+            <a href="#" className="hover:text-foreground transition-colors">Preise</a>
+            <a href="#" className="hover:text-foreground transition-colors">Docs</a>
+            <a href="#" className="hover:text-foreground transition-colors">Blog</a>
+            <a href="#" className="hover:text-foreground transition-colors">Datenschutz</a>
+            <a href="#" className="hover:text-foreground transition-colors">Impressum</a>
+          </nav>
+          <p className="text-muted-foreground font-mono text-xs">© 2026 Volt UI · Design Concept</p>
         </div>
       </footer>
     </TemplateShell>

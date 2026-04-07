@@ -8,7 +8,10 @@ import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltCard } from "@/components/volt/VoltCard";
 import { VoltToggle } from "@/components/volt/VoltToggle";
-import { Check, X, Zap, ArrowRight, HelpCircle } from "lucide-react";
+import { VoltNavbar, VoltNavItem } from "@/components/volt/VoltNavbar";
+import { VoltTable, VoltTableColumn } from "@/components/volt/VoltTable";
+import { VoltToastContainer, useVoltToast } from "@/components/volt/VoltToast";
+import { Check, X, Zap, ArrowRight, HelpCircle, Terminal } from "lucide-react";
 
 interface PlanFeature {
   label: string;
@@ -66,19 +69,68 @@ const PLANS = [
   },
 ];
 
+const FAQ = [
+  {
+    q: "Kann ich jederzeit kündigen?",
+    a: "Ja. Kein Vertrag, keine Mindestlaufzeit. Du kannst monatlich kündigen.",
+  },
+  {
+    q: "Gibt es eine Testphase?",
+    a: "Der Starter-Plan ist dauerhaft kostenlos. Pro und Enterprise haben eine 14-tägige Testphase.",
+  },
+  {
+    q: "Was passiert wenn ich mein Limit überschreite?",
+    a: "Wir benachrichtigen dich bei 80 % Auslastung. Danach kannst du upgraden oder das Limit wird gedrosselt.",
+  },
+];
+
+const NAV_ITEMS: VoltNavItem[] = [
+  { label: "Produkt", href: "#" },
+  { label: "Preise", href: "#", active: true },
+  { label: "Docs", href: "#" },
+  { label: "Blog", href: "#" },
+];
+
 function FeatureValue({ val }: { val: boolean | string }) {
-  if (val === true) return <Check className="w-4 h-4 text-[var(--signal-positive)] mx-auto" />;
+  if (val === true) return <Check className="w-4 h-4 text-green-600 mx-auto" />;
   if (val === false) return <X className="w-4 h-4 text-muted-foreground/40 mx-auto" />;
   return <span className="text-sm font-medium">{val}</span>;
 }
 
 export default function PricingTemplate() {
   const [annual, setAnnual] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { toasts, add, dismiss } = useVoltToast();
+
+  const Logo = (
+    <div className="flex items-center gap-2">
+      <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center">
+        <Terminal className="w-3.5 h-3.5 text-primary" />
+      </div>
+      <span className="font-display font-bold text-sm tracking-tight">volt ui</span>
+    </div>
+  );
+
+  const RightSlot = (
+    <div className="flex items-center gap-2">
+      <VoltButton variant="ghost" size="sm">Anmelden</VoltButton>
+      <VoltButton variant="primary" size="sm" onClick={() => add({ title: "Konto erstellen", description: "Weiterleitung zur Registrierung …", variant: "info" })}>Kostenlos starten</VoltButton>
+    </div>
+  );
 
   return (
     <TemplateShell title="Pricing Page" category="Marketing">
 
-      {/* Hero */}
+      {/* ── Seiten-Navbar ── */}
+      <VoltNavbar
+        logo={Logo}
+        items={NAV_ITEMS}
+        rightSlot={RightSlot}
+        variant="glass"
+        sticky
+      />
+
+      {/* ── Hero ── */}
       <section className="max-w-4xl mx-auto px-6 pt-20 pb-12 text-center">
         <VoltBadge variant="default" size="sm" className="mb-5 inline-flex">
           <Zap className="w-3 h-3" /> Transparente Preise
@@ -89,9 +141,12 @@ export default function PricingTemplate() {
         <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-8">
           Kein versteckter Overhead. Kein Lock-in. Starte kostenlos und upgrade wenn du bereit bist.
         </p>
-        {/* Toggle */}
+
+        {/* Billing Toggle */}
         <div className="inline-flex items-center gap-3 bg-muted rounded-full px-4 py-2">
-          <span className={`text-sm font-medium transition-colors ${!annual ? "text-foreground" : "text-muted-foreground"}`}>Monatlich</span>
+          <span className={`text-sm font-medium transition-colors ${!annual ? "text-foreground" : "text-muted-foreground"}`}>
+            Monatlich
+          </span>
           <VoltToggle
             checked={annual}
             onChange={(e) => setAnnual(e.target.checked)}
@@ -105,7 +160,7 @@ export default function PricingTemplate() {
         </div>
       </section>
 
-      {/* Pricing Cards */}
+      {/* ── Pricing Cards ── */}
       <section className="max-w-5xl mx-auto px-6 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PLANS.map((plan) => {
@@ -120,11 +175,11 @@ export default function PricingTemplate() {
                 }`}
               >
                 {plan.highlight && (
-                  <div className="bg-foreground text-[#E4FF97] text-xs font-bold text-center py-2 tracking-widest uppercase">
+                  <div className="bg-foreground text-primary text-xs font-bold text-center py-2 tracking-widest uppercase">
                     {plan.badge}
                   </div>
                 )}
-                <div className={`p-6 ${plan.highlight ? "bg-card" : "bg-card"}`}>
+                <div className="p-6 bg-card">
                   <h3 className="font-display font-bold text-lg mb-1">{plan.name}</h3>
                   <p className="text-muted-foreground text-sm mb-5">{plan.desc}</p>
                   <div className="mb-6">
@@ -157,7 +212,7 @@ export default function PricingTemplate() {
         </div>
       </section>
 
-      {/* Feature Comparison Table */}
+      {/* ── Feature Comparison Table ── */}
       <section className="max-w-5xl mx-auto px-6 pb-20">
         <h2 className="font-display font-bold text-2xl tracking-tight mb-6 text-center">
           Vollständiger Vergleich
@@ -168,7 +223,12 @@ export default function PricingTemplate() {
               <tr className="border-b border-border bg-muted/40">
                 <th className="text-left px-5 py-3 font-semibold text-muted-foreground">Feature</th>
                 {PLANS.map((p) => (
-                  <th key={p.id} className={`text-center px-4 py-3 font-display font-bold ${p.highlight ? "text-foreground" : "text-muted-foreground"}`}>
+                  <th
+                    key={p.id}
+                    className={`text-center px-4 py-3 font-display font-bold ${
+                      p.highlight ? "text-foreground" : "text-muted-foreground"
+                    }`}
+                  >
                     {p.name}
                   </th>
                 ))}
@@ -176,13 +236,18 @@ export default function PricingTemplate() {
             </thead>
             <tbody>
               {FEATURES.map((f, i) => (
-                <tr key={f.label} className={`border-b border-border last:border-0 ${i % 2 === 0 ? "" : "bg-muted/20"}`}>
-                  <td className="px-5 py-3 text-foreground/80 flex items-center gap-1.5">
-                    {f.label}
-                    <HelpCircle className="w-3 h-3 text-muted-foreground/40 flex-shrink-0" />
+                <tr
+                  key={f.label}
+                  className={`border-b border-border last:border-0 ${i % 2 === 0 ? "" : "bg-muted/20"}`}
+                >
+                  <td className="px-5 py-3 text-foreground/80">
+                    <span className="flex items-center gap-1.5">
+                      {f.label}
+                      <HelpCircle className="w-3 h-3 text-muted-foreground/40 flex-shrink-0" />
+                    </span>
                   </td>
                   <td className="px-4 py-3 text-center"><FeatureValue val={f.starter} /></td>
-                  <td className="px-4 py-3 text-center bg-[#E4FF97]/5"><FeatureValue val={f.pro} /></td>
+                  <td className="px-4 py-3 text-center bg-primary/5"><FeatureValue val={f.pro} /></td>
                   <td className="px-4 py-3 text-center"><FeatureValue val={f.enterprise} /></td>
                 </tr>
               ))}
@@ -191,11 +256,49 @@ export default function PricingTemplate() {
         </VoltCard>
       </section>
 
+      {/* ── FAQ ── */}
+      <section className="max-w-3xl mx-auto px-6 pb-20">
+        <h2 className="font-display font-bold text-2xl tracking-tight mb-8 text-center">
+          Häufige Fragen
+        </h2>
+        <div className="space-y-3">
+          {FAQ.map((item, i) => (
+            <VoltCard
+              key={i}
+              variant="default"
+              className="p-0 overflow-hidden cursor-pointer"
+              onClick={() => setOpenFaq(openFaq === i ? null : i)}
+            >
+              <div className="flex items-center justify-between px-5 py-4">
+                <span className="font-semibold text-sm">{item.q}</span>
+                <span className={`text-muted-foreground transition-transform ${openFaq === i ? "rotate-180" : ""}`}>
+                  ▾
+                </span>
+              </div>
+              {openFaq === i && (
+                <div className="px-5 pb-4 text-sm text-muted-foreground border-t border-border pt-3">
+                  {item.a}
+                </div>
+              )}
+            </VoltCard>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
       <footer className="border-t border-border py-8 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
+              <Terminal className="w-3 h-3 text-primary" />
+            </div>
+            <span className="font-display font-bold text-sm">volt ui</span>
+          </div>
           <p className="text-muted-foreground text-sm font-mono">Alle Preise in EUR, zzgl. MwSt.</p>
         </div>
       </footer>
+      {/* Toast Container */}
+      <VoltToastContainer toasts={toasts} onDismiss={dismiss} position="bottom-center" />
     </TemplateShell>
   );
 }

@@ -290,3 +290,15 @@
 - [x] AuthTemplate: TemplateShell eingebunden, eigener Header entfernt
 - [x] EmptyStatesTemplate: TemplateShell eingebunden, eigener Header entfernt
 - [x] ShowcaseIndex: Volt-Header mit Zurück-Link, aufgewertete Template-Karten
+
+## v7.3 Template-Auffälligkeiten beheben
+- [ ] VoltNavbar in alle 5 Templates einbauen
+- [ ] Hardcodierte Farben (#E4FF97) durch CSS-Variablen ersetzen
+- [ ] VoltModal in Dashboard und Auth einbauen
+- [ ] VoltProgress in Auth (Passwort-Stärke) und Dashboard einbauen
+- [ ] VoltToast nach Aktionen in Landing und Auth einbauen
+- [ ] VoltTerminal in Landing Page einbauen
+- [ ] VoltTable in Pricing Page (Vergleichstabelle)
+- [ ] VoltTrendCard und VoltRankedList in Dashboard
+- [ ] Footer in Landing Page und Pricing Page
+- [ ] Leerraum in Auth-Template reduzieren

@@ -3,7 +3,7 @@
  * Route: /showcase/auth
  * Drei Screens: Sign-in, Sign-up, Forgot Password
  */
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { TemplateShell } from "./TemplateShell";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltInput } from "@/components/volt/VoltInput";
@@ -11,6 +11,8 @@ import { VoltCard } from "@/components/volt/VoltCard";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltAlert } from "@/components/volt/VoltAlert";
 import { VoltTabs } from "@/components/volt/VoltTabs";
+import { VoltProgress } from "@/components/volt/VoltProgress";
+import { VoltToastContainer, useVoltToast } from "@/components/volt/VoltToast";
 import {
   Terminal, Mail, Lock, User, Eye, EyeOff,
   ArrowRight, Github, Chrome, KeyRound, CheckCircle2,
@@ -18,7 +20,23 @@ import {
 
 type Screen = "signin" | "signup" | "forgot";
 
-function SignInForm({ onForgot }: { onForgot: () => void }) {
+/* ── Passwort-Stärke-Berechnung ── */
+function calcStrength(pw: string): { value: number; label: string; variant: "negative" | "neutral" | "positive" | "lime" } {
+  if (!pw) return { value: 0, label: "Kein Passwort", variant: "neutral" };
+  let score = 0;
+  if (pw.length >= 8)  score++;
+  if (pw.length >= 12) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  if (score <= 1) return { value: 20, label: "Sehr schwach", variant: "negative" };
+  if (score === 2) return { value: 40, label: "Schwach",      variant: "negative" };
+  if (score === 3) return { value: 60, label: "Mittel",       variant: "neutral" };
+  if (score === 4) return { value: 80, label: "Stark",        variant: "positive" };
+  return { value: 100, label: "Sehr stark", variant: "lime" };
+}
+
+function SignInForm({ onForgot, onSuccess }: { onForgot: () => void; onSuccess: () => void }) {
   const [showPw, setShowPw] = useState(false);
   return (
     <div className="space-y-4">
@@ -58,15 +76,24 @@ function SignInForm({ onForgot }: { onForgot: () => void }) {
           Passwort vergessen?
         </button>
       </div>
-      <VoltButton variant="primary" size="md" className="w-full" rightIcon={<ArrowRight className="w-4 h-4" />}>
+      <VoltButton
+        variant="primary"
+        size="md"
+        className="w-full"
+        rightIcon={<ArrowRight className="w-4 h-4" />}
+        onClick={onSuccess}
+      >
         Anmelden
       </VoltButton>
     </div>
   );
 }
 
-function SignUpForm() {
+function SignUpForm({ onSuccess }: { onSuccess: () => void }) {
   const [showPw, setShowPw] = useState(false);
+  const [pw, setPw] = useState("");
+  const strength = useMemo(() => calcStrength(pw), [pw]);
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3">
@@ -89,23 +116,36 @@ function SignUpForm() {
         leftElement={<Mail className="w-4 h-4 text-muted-foreground" />}
         variant="boxed"
       />
-      <VoltInput
-        label="Passwort"
-        type={showPw ? "text" : "password"}
-        placeholder="Mindestens 8 Zeichen"
-        leftElement={<Lock className="w-4 h-4 text-muted-foreground" />}
-        hint="Mindestens 8 Zeichen, 1 Großbuchstabe, 1 Zahl"
-        rightElement={
-          <button
-            type="button"
-            onClick={() => setShowPw(!showPw)}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          </button>
-        }
-        variant="boxed"
-      />
+      <div className="space-y-2">
+        <VoltInput
+          label="Passwort"
+          type={showPw ? "text" : "password"}
+          placeholder="Mindestens 8 Zeichen"
+          value={pw}
+          onChange={(e) => setPw(e.target.value)}
+          leftElement={<Lock className="w-4 h-4 text-muted-foreground" />}
+          rightElement={
+            <button
+              type="button"
+              onClick={() => setShowPw(!showPw)}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          }
+          variant="boxed"
+        />
+        {pw && (
+          <VoltProgress
+            value={strength.value}
+            variant={strength.variant}
+            size="xs"
+            label={strength.label}
+            showValue={false}
+            animated
+          />
+        )}
+      </div>
       <label className="flex items-start gap-2 cursor-pointer text-sm text-muted-foreground">
         <input type="checkbox" className="rounded border-border mt-0.5 flex-shrink-0" />
         <span>
@@ -116,21 +156,27 @@ function SignUpForm() {
           {" "}zu.
         </span>
       </label>
-      <VoltButton variant="primary" size="md" className="w-full" rightIcon={<ArrowRight className="w-4 h-4" />}>
+      <VoltButton
+        variant="primary"
+        size="md"
+        className="w-full"
+        rightIcon={<ArrowRight className="w-4 h-4" />}
+        onClick={onSuccess}
+      >
         Konto erstellen
       </VoltButton>
     </div>
   );
 }
 
-function ForgotForm({ onBack }: { onBack: () => void }) {
+function ForgotForm({ onBack, onSuccess }: { onBack: () => void; onSuccess: () => void }) {
   const [sent, setSent] = useState(false);
   return (
     <div className="space-y-4">
       {sent ? (
         <div className="text-center py-6">
-          <div className="w-14 h-14 bg-[#E4FF97] rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle2 className="w-7 h-7 text-black" />
+          <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+            <CheckCircle2 className="w-7 h-7 text-primary-foreground" />
           </div>
           <h3 className="font-display font-bold text-base mb-2">E-Mail gesendet</h3>
           <p className="text-muted-foreground text-sm mb-6">
@@ -158,7 +204,7 @@ function ForgotForm({ onBack }: { onBack: () => void }) {
             size="md"
             className="w-full"
             rightIcon={<KeyRound className="w-4 h-4" />}
-            onClick={() => setSent(true)}
+            onClick={() => { setSent(true); onSuccess(); }}
           >
             Link anfordern
           </VoltButton>
@@ -177,6 +223,16 @@ function ForgotForm({ onBack }: { onBack: () => void }) {
 
 export default function AuthTemplate() {
   const [screen, setScreen] = useState<Screen>("signin");
+  const { toasts, add, dismiss } = useVoltToast();
+
+  const handleSuccess = () => {
+    const messages: Record<Screen, string> = {
+      signin:  "Erfolgreich angemeldet!",
+      signup:  "Konto wurde erstellt.",
+      forgot:  "Reset-Link wurde gesendet.",
+    };
+    add({ title: messages[screen], variant: "success" });
+  };
 
   const title = screen === "forgot" ? "Passwort zurücksetzen" : "Willkommen zurück";
   const subtitle =
@@ -190,93 +246,107 @@ export default function AuthTemplate() {
     <TemplateShell title="Auth / Login" category="App-Screens">
       <div className="min-h-screen bg-muted/30 flex flex-col">
 
-      {/* Screen Switcher (nur für Template-Demo) */}
-      <div className="flex justify-center pt-6 pb-2">
-        <div className="inline-flex items-center gap-1 bg-background border border-border rounded-full px-2 py-1.5 text-xs">
-          <span className="text-muted-foreground mr-1 pl-1">Demo:</span>
-          {(["signin", "signup", "forgot"] as Screen[]).map((s) => (
-            <button
-              key={s}
-              onClick={() => setScreen(s)}
-              className={`px-3 py-1 rounded-full font-medium transition-all ${
-                screen === s ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {s === "signin" ? "Sign-in" : s === "signup" ? "Sign-up" : "Forgot"}
-            </button>
-          ))}
+        {/* Screen Switcher (nur für Template-Demo) */}
+        <div className="flex justify-center pt-6 pb-2">
+          <div className="inline-flex items-center gap-1 bg-background border border-border rounded-full px-2 py-1.5 text-xs">
+            <span className="text-muted-foreground mr-1 pl-1">Demo:</span>
+            {(["signin", "signup", "forgot"] as Screen[]).map((s) => (
+              <button
+                key={s}
+                onClick={() => setScreen(s)}
+                className={`px-3 py-1 rounded-full font-medium transition-all ${
+                  screen === s ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {s === "signin" ? "Sign-in" : s === "signup" ? "Sign-up" : "Forgot"}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Auth Card */}
+        <main className="flex-1 flex items-center justify-center px-4 py-8">
+          <div className="w-full max-w-md">
+            <VoltCard variant="elevated" className="p-8">
+              {/* Logo */}
+              <div className="flex justify-center mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-foreground flex items-center justify-center">
+                  <Terminal className="w-6 h-6 text-primary" />
+                </div>
+              </div>
+
+              {/* Title */}
+              <div className="text-center mb-6">
+                <h1 className="font-display font-bold text-xl mb-1">{title}</h1>
+                <p className="text-muted-foreground text-sm">{subtitle}</p>
+              </div>
+
+              {/* Social Login */}
+              {screen !== "forgot" && (
+                <>
+                  <div className="grid grid-cols-2 gap-3 mb-5">
+                    <VoltButton variant="outline" size="sm" leftIcon={<Github className="w-4 h-4" />}>
+                      GitHub
+                    </VoltButton>
+                    <VoltButton variant="outline" size="sm" leftIcon={<Chrome className="w-4 h-4" />}>
+                      Google
+                    </VoltButton>
+                  </div>
+                  <div className="relative mb-5">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-border" />
+                    </div>
+                    <div className="relative flex justify-center text-xs">
+                      <span className="bg-card px-3 text-muted-foreground">oder mit E-Mail</span>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Tab Navigation (Sign-in / Sign-up) */}
+              {screen !== "forgot" && (
+                <div className="mb-5">
+                  <VoltTabs
+                    variant="boxed"
+                    activeTab={screen}
+                    onTabChange={(id) => setScreen(id as Screen)}
+                    tabs={[
+                      { id: "signin", label: "Anmelden" },
+                      { id: "signup", label: "Registrieren" },
+                    ]}
+                  />
+                </div>
+              )}
+
+              {/* Form */}
+              {screen === "signin" && (
+                <SignInForm onForgot={() => setScreen("forgot")} onSuccess={handleSuccess} />
+              )}
+              {screen === "signup" && <SignUpForm onSuccess={handleSuccess} />}
+              {screen === "forgot" && (
+                <ForgotForm onBack={() => setScreen("signin")} onSuccess={handleSuccess} />
+              )}
+
+              {/* Status Badge */}
+              <div className="flex justify-center mt-5">
+                <VoltBadge variant="outline" size="sm">
+                  Demo-Modus – keine echten Daten
+                </VoltBadge>
+              </div>
+            </VoltCard>
+
+            {/* Footer Note */}
+            <p className="text-center text-xs text-muted-foreground mt-4">
+              Durch die Nutzung stimmst du unseren{" "}
+              <span className="underline underline-offset-2 cursor-pointer">Nutzungsbedingungen</span>
+              {" "}zu.
+            </p>
+          </div>
+        </main>
       </div>
 
-      {/* Auth Card */}
-      <main className="flex-1 flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md">
-          <VoltCard variant="elevated" className="p-8">
-            {/* Logo */}
-            <div className="flex justify-center mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-foreground flex items-center justify-center">
-                <Terminal className="w-6 h-6 text-[#E4FF97]" />
-              </div>
-            </div>
-
-            {/* Title */}
-            <div className="text-center mb-6">
-              <h1 className="font-display font-bold text-xl mb-1">{title}</h1>
-              <p className="text-muted-foreground text-sm">{subtitle}</p>
-            </div>
-
-            {/* Social Login */}
-            {screen !== "forgot" && (
-              <>
-                <div className="grid grid-cols-2 gap-3 mb-5">
-                  <VoltButton variant="outline" size="sm" leftIcon={<Github className="w-4 h-4" />}>
-                    GitHub
-                  </VoltButton>
-                  <VoltButton variant="outline" size="sm" leftIcon={<Chrome className="w-4 h-4" />}>
-                    Google
-                  </VoltButton>
-                </div>
-                <div className="relative mb-5">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-border" />
-                  </div>
-                  <div className="relative flex justify-center text-xs">
-                    <span className="bg-card px-3 text-muted-foreground">oder mit E-Mail</span>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {/* Tab Navigation (Sign-in / Sign-up) */}
-            {screen !== "forgot" && (
-              <div className="mb-5">
-                <VoltTabs
-                  variant="boxed"
-                  activeTab={screen}
-                  onTabChange={(id) => setScreen(id as Screen)}
-                  tabs={[
-                    { id: "signin", label: "Anmelden" },
-                    { id: "signup", label: "Registrieren" },
-                  ]}
-                />
-              </div>
-            )}
-
-            {/* Form */}
-            {screen === "signin" && <SignInForm onForgot={() => setScreen("forgot")} />}
-            {screen === "signup" && <SignUpForm />}
-            {screen === "forgot" && <ForgotForm onBack={() => setScreen("signin")} />}
-          </VoltCard>
-
-      {/* Footer Note */}
-          <p className="text-center text-xs text-muted-foreground mt-4">
-            Durch die Nutzung stimmst du unseren{" "}
-            <span className="underline underline-offset-2 cursor-pointer">Nutzungsbedingungen</span>
-            {" "}zu.
-          </p>
-        </div>
-      </main>
-      </div>
+      {/* Toast Container */}
+      <VoltToastContainer toasts={toasts} onDismiss={dismiss} position="bottom-center" />
     </TemplateShell>
   );
 }

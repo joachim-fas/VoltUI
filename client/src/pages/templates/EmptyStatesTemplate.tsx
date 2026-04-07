@@ -8,10 +8,12 @@ import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltCard } from "@/components/volt/VoltCard";
 import { VoltAlert } from "@/components/volt/VoltAlert";
+import { VoltProgress } from "@/components/volt/VoltProgress";
+import { VoltTerminalStatic } from "@/components/volt/VoltTerminal";
 import {
   Inbox, Search, AlertTriangle, WifiOff, Lock, FolderOpen,
   ShoppingCart, Plus, RefreshCw, ArrowRight,
-  Zap, UploadCloud,
+  Zap, UploadCloud, Terminal,
 } from "lucide-react";
 
 interface EmptyState {
@@ -98,8 +100,8 @@ function EmptyOffline() {
 function EmptyPermission() {
   return (
     <div className="flex flex-col items-center justify-center py-10 px-6 text-center">
-      <div className="w-16 h-16 bg-[#E4FF97] rounded-2xl flex items-center justify-center mb-4">
-        <Lock className="w-8 h-8 text-black" />
+      <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+        <Lock className="w-8 h-8 text-primary-foreground" />
       </div>
       <h3 className="font-display font-bold text-base mb-1.5">Zugriff verweigert</h3>
       <p className="text-muted-foreground text-sm max-w-xs mb-5">
@@ -152,16 +154,45 @@ function EmptyCart() {
   );
 }
 
+function EmptyCLI() {
+  return (
+    <div className="p-4">
+      <VoltTerminalStatic
+        lines={[
+          { type: "command", text: "volt init my-project" },
+          { type: "output",  text: "Initializing project …" },
+          { type: "output",  text: "No configuration found." },
+          { type: "error",   text: "Error: config.yml missing" },
+          { type: "command", text: "volt config --init" },
+        ]}
+        title="Terminal"
+        className="text-xs"
+      />
+      <div className="mt-4 text-center">
+        <p className="text-muted-foreground text-xs mb-3">
+          Keine Konfiguration gefunden.
+        </p>
+        <VoltButton variant="solid" size="sm" leftIcon={<Terminal className="w-3.5 h-3.5" />}>
+          Konfiguration erstellen
+        </VoltButton>
+      </div>
+    </div>
+  );
+}
+
 function EmptyOnboarding() {
   return (
     <div className="flex flex-col items-center justify-center py-10 px-6 text-center">
       <div className="w-16 h-16 bg-foreground rounded-2xl flex items-center justify-center mb-4">
-        <Zap className="w-8 h-8 text-[#E4FF97]" />
+        <Zap className="w-8 h-8 text-primary" />
       </div>
       <h3 className="font-display font-bold text-base mb-1.5">Bereit loszulegen?</h3>
       <p className="text-muted-foreground text-sm max-w-xs mb-5">
         Du hast noch keine Projekte erstellt. Starte dein erstes Projekt in weniger als 2 Minuten.
       </p>
+      <div className="w-full mb-4">
+        <VoltProgress value={0} label="Fortschritt" showValue size="sm" />
+      </div>
       <VoltButton variant="primary" size="sm" leftIcon={<Plus className="w-3.5 h-3.5" />} rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
         Erstes Projekt erstellen
       </VoltButton>
@@ -178,6 +209,7 @@ const STATES: EmptyState[] = [
   { id: "folder",      label: "Leerer Ordner",        component: <EmptyFolder /> },
   { id: "cart",        label: "Leerer Warenkorb",     component: <EmptyCart /> },
   { id: "onboarding",  label: "Onboarding",           component: <EmptyOnboarding /> },
+  { id: "cli",         label: "CLI / Terminal",        component: <EmptyCLI /> },
 ];
 
 export default function EmptyStatesTemplate() {
