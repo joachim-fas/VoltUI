@@ -225,3 +225,8 @@
 - [x] Route /showcase in App.tsx registriert
 - [x] ZIP-Download-Funktion in ExportSection (jszip) implementiert
 - [x] ZIP-Button im Download-Banner der ExportSection hinzugefügt
+
+## v6.7 Showcase-Link in Hauptnavigation
+- [x] Sidebar: Showcase-Eintrag in Kategorie "Start" hinzugefügt
+- [x] Link navigiert zu /showcase (kein Scroll, sondern Route-Wechsel via href)
+- [x] Visuell als externer Link erkennbar (ExternalLink-Icon aus VoltSidebar)
