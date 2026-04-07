@@ -4,9 +4,9 @@
  * Farbsystem: #E4FF97 + #000000 + 8 Pastell-Töne
  */
 
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { Copy, Check } from "lucide-react";
+import { VoltCodeBlock } from "@/components/volt/VoltCodeBlock";
 
 /* ── Volt SVG als Data-URI ── */
 const VOLT_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`;
@@ -326,18 +326,7 @@ const ATMOSPHERIC = [
 ];
 
 /* ── Copy-Button ── */
-function CopyButton({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      onClick={() => { navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono border border-border bg-card hover:bg-secondary text-muted-foreground hover:text-foreground transition-all"
-    >
-      {copied ? <Check className="w-3 h-3 text-[#1A9E5A]" /> : <Copy className="w-3 h-3" />}
-      {copied ? "Kopiert" : "CSS kopieren"}
-    </button>
-  );
-}
+
 
 /* ── Haupt-Komponente ── */
 export const BackgroundsSection: React.FC = () => {
@@ -385,7 +374,7 @@ export const BackgroundsSection: React.FC = () => {
                   <code className="whitespace-pre">{p.code.split('\n')[0]}</code>
                 </div>
                 <div className="mt-2">
-                  <CopyButton code={p.code} />
+                  <VoltCodeBlock code={p.code} label="CSS" className="mt-0" />
                 </div>
               </div>
             </motion.div>
@@ -412,7 +401,7 @@ export const BackgroundsSection: React.FC = () => {
               <div className="p-3 border-t border-border">
                 <p className="font-display font-bold text-sm text-foreground mb-0.5">{g.name}</p>
                 <p className="text-[10px] text-muted-foreground mb-2">{g.description}</p>
-                <CopyButton code={g.code} />
+                <VoltCodeBlock code={g.code} label="CSS" className="mt-0" />
               </div>
             </motion.div>
           ))}
@@ -456,7 +445,7 @@ export const BackgroundsSection: React.FC = () => {
                 <div className="bg-secondary rounded-lg p-2 font-mono text-[10px] text-muted-foreground leading-relaxed mb-2 overflow-x-auto">
                   <code className="whitespace-pre">{a.code}</code>
                 </div>
-                <CopyButton code={a.code} />
+                <VoltCodeBlock code={a.code} label="CSS" className="mt-0" />
               </div>
             </motion.div>
           ))}

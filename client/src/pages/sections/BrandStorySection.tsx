@@ -7,7 +7,8 @@
 import React, { useState } from "react";
 import { VoltCursor } from "@/components/volt/VoltCursor";
 import { cn } from "@/lib/utils";
-import { Copy, Check, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import { VoltCodeBlock } from "@/components/volt/VoltCodeBlock";
 
 /* ══════════════════════════════════════════════
    DATEN
@@ -129,22 +130,7 @@ const DIFFERENTIATORS = [
   { title: "Make value visible",          desc: "Jede Automatisierung erzeugt sichtbare Outputs. Sonst zaehlt sie nicht.", icon: ">" },
 ];
 
-/* ══════════════════════════════════════════════
-   COPY-BUTTON
-══════════════════════════════════════════════ */
 
-const CopyButton: React.FC<{ text: string }> = ({ text }) => {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
-      className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground hover:text-foreground transition-colors"
-    >
-      {copied ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-      {copied ? "kopiert" : "kopieren"}
-    </button>
-  );
-};
 
 /* ══════════════════════════════════════════════
    HAUPT-KOMPONENTE
@@ -202,7 +188,7 @@ export const BrandStorySection: React.FC = () => {
               <VoltCursor size="sm" color="lime" animated />
               <p className="font-mono text-xs text-[#E4FF97]">free-agents.io</p>
             </div>
-            <CopyButton text={CORE_STORY.lines.join("\n")} />
+            <VoltCodeBlock code={CORE_STORY.lines.join("\n")} label="Text" className="mt-0" />
           </div>
         </div>
       </div>
@@ -328,21 +314,21 @@ export const BrandStorySection: React.FC = () => {
           <div className="rounded-2xl border border-[#0A0A0A] bg-[#E4FF97] p-5">
             <div className="flex items-center justify-between mb-1">
               <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">One-liner</span>
-              <CopyButton text={MESSAGING.oneliner} />
+              <VoltCodeBlock code={MESSAGING.oneliner} label="Text" className="mt-0" />
             </div>
             <p className="font-display font-bold text-xl text-foreground">{MESSAGING.oneliner}</p>
           </div>
           <div className="rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center justify-between mb-1">
               <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Core Claim</span>
-              <CopyButton text={MESSAGING.claim} />
+              <VoltCodeBlock code={MESSAGING.claim} label="Text" className="mt-0" />
             </div>
             <p className="font-display font-bold text-lg text-foreground">{MESSAGING.claim}</p>
           </div>
           <div className="rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center justify-between mb-2">
               <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Erklaerung</span>
-              <CopyButton text={MESSAGING.explanation} />
+              <VoltCodeBlock code={MESSAGING.explanation} label="Text" className="mt-0" />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">{MESSAGING.explanation}</p>
           </div>

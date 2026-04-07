@@ -10,10 +10,11 @@ import { VoltCursor } from "@/components/volt/VoltCursor";
 import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { cn } from "@/lib/utils";
+import { VoltCodeBlock } from "@/components/volt/VoltCodeBlock";
 import {
   ArrowRight, Layers, Cpu, FileText, BarChart2,
   Users, Shield, BookOpen, CheckCircle2, AlertCircle,
-  Copy, ChevronDown, ChevronUp, Zap, Target, RefreshCw,
+  ChevronDown, ChevronUp, Zap, Target, RefreshCw,
   GitBranch, Package, Settings, TrendingUp, MessageSquare,
   Search, Lightbulb, ShoppingCart, Code2, Megaphone, Wrench,
   DollarSign, Briefcase
@@ -297,20 +298,6 @@ const WorkflowStep: React.FC<{
     </div>
   );
 };
-
-const CopyButton: React.FC<{ text: string }> = ({ text }) => {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 1800); }}
-      className="flex items-center gap-1.5 text-[10px] font-mono px-2.5 py-1 rounded border border-border text-muted-foreground hover:border-foreground hover:text-foreground transition-all"
-    >
-      <Copy size={10} />
-      {copied ? "✓ kopiert" : "kopieren"}
-    </button>
-  );
-};
-
 /* ══════════════════════════════════════════════
    HAUPT-KOMPONENTE
 ══════════════════════════════════════════════ */
@@ -683,12 +670,12 @@ export default function OperatingPrincipleSection() {
 
       {/* ── TEMPLATE ── */}
       <div>
-        <SectionLabel><Copy size={12} /> Template (copy/paste)</SectionLabel>
+        <SectionLabel>Template (copy/paste)</SectionLabel>
         <VoltCard>
           <VoltCardHeader>
             <div className="flex items-center justify-between">
               <VoltCardTitle>Standard-Template</VoltCardTitle>
-              <CopyButton text={TEMPLATE_TEXT} />
+              <VoltCodeBlock code={TEMPLATE_TEXT} label="Template" className="mt-0" />
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Fuer jeden Workflow, jedes Projekt, jede Uebergabe - einmal ausfuellen, immer verwenden.

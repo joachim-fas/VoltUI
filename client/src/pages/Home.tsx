@@ -168,7 +168,7 @@ function SectionWrapper({
       ref={(el) => {
         sectionRefs.current[id] = el;
       }}
-      className="border-b border-border last:border-b-0"
+      className="border-b border-border last:border-b-0 overflow-x-hidden"
     >
       <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 md:py-14">
         {children}
@@ -342,7 +342,7 @@ export default function Home() {
         </header>
 
         {/* Scrollbarer Inhalt – alle Sections untereinander */}
-        <div ref={mainRef} className="flex-1 overflow-y-auto bg-background">
+        <div ref={mainRef} className="flex-1 overflow-y-auto overflow-x-clip bg-background" style={{ overscrollBehaviorX: "none", touchAction: "pan-y" }}>
           {ALL_SECTIONS.map(({ id, Component }) => (
             <SectionWrapper
               key={id}

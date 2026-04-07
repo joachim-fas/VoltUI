@@ -213,3 +213,9 @@
 ## v3.14 Code-Snippets eigenständig machen
 - [ ] JSX-Kommentar-Fehler in NavigationSection beheben
 - [ ] Alle Code-Snippets vollständig überarbeiten: eigenständig, alle Imports, vollständige Props
+
+## v6.5 Horizontales Scrollen auf Mobile unterbinden
+- [ ] Global overflow-x: hidden auf html/body setzen
+- [ ] Sections mit fixen Breiten und breiten Grids auf Mobile anpassen
+- [ ] FoundationsSection Farb-Grid responsive machen
+- [ ] Alle Sections auf max-w-full und w-full prüfen

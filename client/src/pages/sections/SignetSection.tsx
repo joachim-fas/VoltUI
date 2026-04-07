@@ -6,6 +6,7 @@
 
 import React, { useState, useCallback } from "react";
 import { Download } from "lucide-react";
+import { VoltCodeBlock } from "@/components/volt/VoltCodeBlock";
 import { motion } from "framer-motion";
 import { VoltCursor } from "@/components/volt/VoltCursor";
 import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
@@ -90,37 +91,9 @@ function DownloadSection() {
   );
 }
 
-/* ── Hilfsfunktion: Code-Kopieren ── */
-const CopyButton: React.FC<{ code: string }> = ({ code }) => {
-  const [copied, setCopied] = useState(false);
-  const copy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1800);
-  };
-  return (
-    <button
-      onClick={copy}
-      className="text-[10px] font-mono px-2.5 py-1 rounded border border-border text-muted-foreground hover:border-[#0A0A0A] hover:text-foreground transition-all"
-    >
-      {copied ? "✓ kopiert" : "kopieren"}
-    </button>
-  );
-};
-
-/* ── Inline-Code-Block ── */
+/* ── Inline-Code-Block (nutzt VoltCodeBlock für einheitliches Design) ── */
 const CodeBlock: React.FC<{ code: string; label?: string }> = ({ code, label }) => (
-  <div className="rounded-xl border border-border overflow-hidden">
-    {label && (
-      <div className="px-4 py-2 bg-secondary border-b border-border flex items-center justify-between">
-        <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{label}</span>
-        <CopyButton code={code} />
-      </div>
-    )}
-    <pre className="px-4 py-3 text-[11px] font-mono text-foreground leading-relaxed overflow-x-auto bg-card">
-      {code}
-    </pre>
-  </div>
+  <VoltCodeBlock code={code} label={label} />
 );
 
 /* ── Regel-Karte ── */

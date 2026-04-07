@@ -249,14 +249,26 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    max-width: 100%;
+    overscroll-behavior-x: none;
   }
 
+  /* Verhindert ungewolltes horizontales Scrollen in Scroll-Containern */
+  .overflow-x-auto,
+  [style*="overflow-x: auto"],
+  [style*="overflowX: auto"] {
+    overscroll-behavior-x: contain;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-ui);
     font-size: 15px;
     line-height: 1.6;
     letter-spacing: -0.01em;
+    overflow-x: hidden;
+    max-width: 100%;
+    overscroll-behavior-x: none;
   }
 
   h1, h2, h3, h4, h5, h6 {

@@ -8,7 +8,8 @@
 import React, { useState, useEffect } from "react";
 import { VoltCursor } from "@/components/volt/VoltCursor";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ArrowLeftRight, User, Cpu, ChevronRight, Copy, Check } from "lucide-react";
+import { ArrowRight, ArrowLeftRight, User, Cpu, ChevronRight } from "lucide-react";
+import { VoltCodeBlock } from "@/components/volt/VoltCodeBlock";
 
 /* ══════════════════════════════════════════════
    DATEN
@@ -188,24 +189,7 @@ const TerminalDemo: React.FC = () => {
   );
 };
 
-/* ══════════════════════════════════════════════
-   COPY-BUTTON
-══════════════════════════════════════════════ */
 
-const CopyButton: React.FC<{ text: string }> = ({ text }) => {
-  const [copied, setCopied] = useState(false);
-  const copy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-  return (
-    <button onClick={copy} className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground hover:text-foreground transition-colors">
-      {copied ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-      {copied ? "kopiert" : "kopieren"}
-    </button>
-  );
-};
 
 /* ══════════════════════════════════════════════
    HAUPT-KOMPONENTE
@@ -388,7 +372,7 @@ export const DialogSection: React.FC = () => {
                 >
                   {item.label}
                 </span>
-                <CopyButton text={item.label} />
+                <VoltCodeBlock code={item.label} label="Text" className="mt-0" />
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
             </div>
@@ -461,7 +445,7 @@ export const DialogSection: React.FC = () => {
         <div className="rounded-2xl border border-border bg-card overflow-hidden">
           <div className="flex items-center justify-between px-5 py-3 border-b border-border bg-[#F7F7F7]">
             <span className="font-mono text-xs text-muted-foreground">dialog-template.md</span>
-            <CopyButton text={`input:\n- Kontext:\n- Rohmaterial:\n- Constraints:\n- Format:\n\ntransform:\n- Schritte:\n- Guardrails:\n- Owner:\n\noutput:\n- Artefakt:\n- DoD:\n- Annahmen:\n- Offene Punkte:\n\nhand-off:\n- Wie weiter ohne mich?\n- Next Action:\n- Deadline:`} />
+            <VoltCodeBlock code={`input:\n- Kontext:\n- Rohmaterial:\n- Constraints:\n- Format:\n\ntransform:\n- Schritte:\n- Guardrails:\n- Owner:\n\noutput:\n- Artefakt:\n- DoD:\n- Annahmen:\n- Offene Punkte:\n\nhand-off:\n- Wie weiter ohne mich?\n- Next Action:\n- Deadline:`} label="Template" className="mt-0" />
           </div>
           <div className="p-5 font-mono text-xs space-y-4">
             {[

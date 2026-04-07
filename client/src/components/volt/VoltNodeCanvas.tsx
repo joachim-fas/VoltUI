@@ -824,7 +824,7 @@ const VoltNodeCanvas: React.FC<VoltNodeCanvasProps> = ({
     <div
       ref={containerRef}
       className={cn("relative overflow-hidden rounded-xl select-none", className)}
-      style={{ height, background: bg, border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.14)"}` }}
+      style={{ height, background: bg, border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.14)"}`, contain: "paint" as const }}
       onMouseDown={onMouseDown}
       onClick={() => { setSelectedId(null); onNodeSelect?.(null); }}
     >

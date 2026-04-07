@@ -582,7 +582,7 @@ const NodeCanvasSection: React.FC = () => {
         </div>
 
         {/* Galerie-Canvas */}
-        <div style={{ overflowX: "auto", borderRadius: 12 }}>
+        <div style={{ overflowX: "auto", borderRadius: 12, overscrollBehaviorX: "contain" }}>
         <VoltNodeCanvas
           nodes={galleryNodes}
           height={340}
