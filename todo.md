@@ -239,3 +239,7 @@
 - [x] Alle Copy-Buttons: schwarzes Pill + Lime-Text entfernt (VoltCodeBlock.tsx)
 - [x] Ersatz: kleines transparentes Icon-Only (Copy-Icon, muted, hover sichtbar)
 - [x] Buttons bleiben im normalen Dokumentenfluss, kein absolutes Positioning
+
+## v6.10 Showcase-Eintrag nie als aktiv hervorheben
+- [x] VoltSidebar renderStandardSection: isActive ignoriert Items mit href (nie Lime-Highlight)
+- [x] ExternalLink-Indikator auch in renderStandardSection für href-Items

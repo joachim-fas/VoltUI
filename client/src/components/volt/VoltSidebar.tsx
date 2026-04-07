@@ -107,12 +107,20 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
         </div>
         <ul className="space-y-0.5">
           {section.items.map((item) => {
-            const isActive = item.id === activeId;
+            // href-Items (z.B. Showcase) sind nie "aktiv" – sie verlinken auf andere Routen
+            const isActive = !item.href && item.id === activeId;
+            const handleItemClick = () => {
+              if (item.href) {
+                window.location.href = item.href;
+              } else {
+                onSelect?.(item.id);
+              }
+            };
             return (
               <li key={item.id}>
                 <button
                   ref={isActive ? activeRef : undefined}
-                  onClick={() => onSelect?.(item.id)}
+                  onClick={handleItemClick}
                   className="w-full flex items-start gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all duration-150 group"
                   style={
                     isActive
@@ -153,6 +161,9 @@ export const VoltSidebar: React.FC<VoltSidebarProps> = ({
                       </p>
                     )}
                   </div>
+                  {item.href && (
+                    <ExternalLink className="w-3 h-3 flex-shrink-0 opacity-30 group-hover:opacity-60 transition-opacity" />
+                  )}
                 </button>
               </li>
             );
