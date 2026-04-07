@@ -553,7 +553,7 @@ export default function OperatingPrincipleSection() {
             <div className="space-y-3">
               {E2E_PRINCIPLES.map((p, i) => (
                 <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
-                  <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 leading-[1.4rem] mt-px">{String(i+1).padStart(2,"00")}</span>
+                  <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 leading-[1.4rem] mt-px">{String(i+1).padStart(2,"0")}</span>
                   <div>
                     <p className="text-xs font-ui font-semibold text-foreground mb-0.5">{p.title}</p>
                     <p className="text-[11px] text-muted-foreground leading-relaxed">{p.desc}</p>
