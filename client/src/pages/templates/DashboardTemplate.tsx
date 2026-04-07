@@ -112,7 +112,6 @@ export default function DashboardTemplate() {
 
   return (
     <TemplateShell title="Analytics Dashboard" category="Dashboard">
-      <>
       <div className="flex h-[calc(100vh-56px)] overflow-hidden bg-background">
 
         {/* ── Sidebar ── */}
@@ -298,7 +297,6 @@ export default function DashboardTemplate() {
           />
         </div>
       </VoltModal>
-      </>
     </TemplateShell>
   );
 }

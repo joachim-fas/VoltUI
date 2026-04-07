@@ -8,6 +8,7 @@ import { VoltBadge } from "@/components/volt/VoltBadge";
 import {
   LayoutDashboard, Globe, CreditCard, LogIn, Inbox,
   ArrowRight, Terminal, ArrowLeft, Layers,
+  Settings, Rocket, Bell, Table2,
 } from "lucide-react";
 
 interface TemplateCard {
@@ -73,6 +74,56 @@ const templates: TemplateCard[] = [
     badgeVariant: "positive",
     previewClass: "bg-[#DCFCE7]",
     iconClass: "bg-[#16A34A] text-white",
+  },
+  {
+    title: "Settings Page",
+    description: "Profil, Benachrichtigungen, Erscheinungsbild, Sicherheit & Gefahrenzone – vollständige Einstellungsseite.",
+    href: "/showcase/settings",
+    icon: <Settings className="w-7 h-7" />,
+    badge: "App",
+    badgeVariant: "muted",
+    previewClass: "bg-[#F1F5F9]",
+    iconClass: "bg-[#334155] text-white",
+  },
+  {
+    title: "Onboarding Flow",
+    description: "5-stufiger Setup-Wizard: Willkommen, Profil, Workspace, Integrationen, Fertig.",
+    href: "/showcase/onboarding",
+    icon: <Rocket className="w-7 h-7" />,
+    badge: "App",
+    badgeVariant: "positive",
+    previewClass: "bg-[#E4FF97]",
+    iconClass: "bg-[#0A0A0A] text-[#E4FF97]",
+  },
+  {
+    title: "Notification Center",
+    description: "Benachrichtigungszentrum mit Kategorien, Prioritäten, Bulk-Aktionen und kritischen Alerts.",
+    href: "/showcase/notifications",
+    icon: <Bell className="w-7 h-7" />,
+    badge: "App",
+    badgeVariant: "blue",
+    previewClass: "bg-[#EFF6FF]",
+    iconClass: "bg-[#2563EB] text-white",
+  },
+  {
+    title: "Data Table View",
+    description: "Nutzerverwaltung mit Suche, Filtern, Sortierung, Selektion und Pagination.",
+    href: "/showcase/data-table",
+    icon: <Table2 className="w-7 h-7" />,
+    badge: "App",
+    badgeVariant: "solid",
+    previewClass: "bg-[#0A0A0A]",
+    iconClass: "bg-[#E4FF97] text-[#0A0A0A]",
+  },
+  {
+    title: "Terminal & CLI",
+    description: "Interaktives Terminal, Build-Pipeline, Log-Viewer und Quick Commands – Dev-Tool-Template.",
+    href: "/showcase/terminal",
+    icon: <Terminal className="w-7 h-7" />,
+    badge: "Dev",
+    badgeVariant: "default",
+    previewClass: "bg-[#0D0D0D]",
+    iconClass: "bg-[#1E1E1E] text-[#E4FF97]",
   },
 ];
 
