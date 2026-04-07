@@ -5,8 +5,9 @@
  */
 
 import React, { useState } from "react";
-import { Check, Copy, Download, Terminal, Code2, FileCode, Globe, Cpu, ArrowRight, ShoppingBag, Braces, Palette } from "lucide-react";
+import { Check, Copy, Download, Terminal, Code2, FileCode, Globe, Cpu, ArrowRight, ShoppingBag, Braces, Palette, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
+import JSZip from "jszip";
 
 /* ── Copy-Button ── */
 const CopyButton: React.FC<{ text: string }> = ({ text }) => {
@@ -889,10 +890,20 @@ export type VoltSpacing = typeof voltTokens.spacing;`,
   },
 };
 
+/* ── Volt-Komponenten-Dateien für ZIP ── */
+const VOLT_COMPONENT_FILES = [
+  "VoltAlert", "VoltAvatar", "VoltBadge", "VoltButton", "VoltCard",
+  "VoltChart", "VoltCodeBlock", "VoltCommandBar", "VoltInput", "VoltModal",
+  "VoltNavbar", "VoltProgress", "VoltRankedList", "VoltSidebar", "VoltStat",
+  "VoltTable", "VoltTabs", "VoltTerminal", "VoltToggle", "VoltTrendCard",
+];
+
 /* ── Hauptkomponente ── */
 export const ExportSection: React.FC = () => {
   const [activePlatform, setActivePlatform] = useState("html");
   const [copiedDownload, setCopiedDownload] = useState(false);
+  const [zipLoading, setZipLoading] = useState(false);
+  const [zipDone, setZipDone] = useState(false);
 
   const current = SNIPPETS[activePlatform];
 
@@ -903,6 +914,67 @@ export const ExportSection: React.FC = () => {
     link.click();
     setCopiedDownload(true);
     setTimeout(() => setCopiedDownload(false), 2000);
+  };
+
+  const handleDownloadZip = async () => {
+    setZipLoading(true);
+    try {
+      const zip = new JSZip();
+      const voltFolder = zip.folder("volt")!;
+
+      // CSS-Datei hinzufügen
+      const cssRes = await fetch("/volt-ui.css");
+      const cssText = await cssRes.text();
+      zip.file("volt-ui.css", cssText);
+
+      // Alle Komponenten-Dateien laden
+      await Promise.allSettled(
+        VOLT_COMPONENT_FILES.map(async (name) => {
+          const res = await fetch(`/volt-components/${name}.tsx`);
+          if (!res.ok) throw new Error(`${name} nicht gefunden`);
+          const text = await res.text();
+          voltFolder.file(`${name}.tsx`, text);
+        })
+      );
+
+      // README hinzufügen
+      const componentList = VOLT_COMPONENT_FILES.map(n => `- ${n}`).join("\n");
+      const readme = [
+        "# Volt UI - Komponenten-Bundle",
+        "",
+        "Dieses Bundle enthaelt alle Volt UI Komponenten.",
+        "",
+        "## Verwendung",
+        "",
+        "1. Kopiere den volt/ Ordner nach src/components/volt/",
+        "2. Importiere volt-ui.css in deiner index.css",
+        "3. Importiere Komponenten: import { VoltButton } from '@/components/volt/VoltButton'",
+        "",
+        "## Enthaltene Komponenten",
+        "",
+        componentList,
+        "",
+        "## Dokumentation",
+        "",
+        "Siehe COMPONENTS.md im GitHub-Repository: https://github.com/joachim-fas/VoltUI",
+      ].join("\n");
+      zip.file("README.md", readme);
+
+      const blob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "volt-ui-bundle.zip";
+      link.click();
+      URL.revokeObjectURL(url);
+
+      setZipDone(true);
+      setTimeout(() => setZipDone(false), 3000);
+    } catch (err) {
+      console.error("ZIP-Fehler:", err);
+    } finally {
+      setZipLoading(false);
+    }
   };
 
   return (
@@ -949,15 +1021,29 @@ export const ExportSection: React.FC = () => {
             ))}
           </div>
         </div>
-        <button
-          onClick={handleDownloadCSS}
-          className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#E4FF97] text-foreground font-display font-bold text-sm hover:bg-[#D8F080] transition-colors shrink-0"
-        >
-          {copiedDownload
-            ? <><Check className="w-4 h-4" /> Heruntergeladen</>
-            : <><Download className="w-4 h-4" /> volt-ui.css herunterladen</>
-          }
-        </button>
+        <div className="flex flex-col gap-3 shrink-0">
+          <button
+            onClick={handleDownloadCSS}
+            className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#E4FF97] text-foreground font-display font-bold text-sm hover:bg-[#D8F080] transition-colors"
+          >
+            {copiedDownload
+              ? <><Check className="w-4 h-4" /> Heruntergeladen</>
+              : <><Download className="w-4 h-4" /> volt-ui.css herunterladen</>
+            }
+          </button>
+          <button
+            onClick={handleDownloadZip}
+            disabled={zipLoading}
+            className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-white/10 text-white font-display font-bold text-sm hover:bg-white/20 transition-colors border border-white/20 disabled:opacity-50"
+          >
+            {zipDone
+              ? <><Check className="w-4 h-4 text-[#E4FF97]" /> Bundle heruntergeladen</>
+              : zipLoading
+              ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Wird erstellt…</>
+              : <><Package className="w-4 h-4" /> Komponenten-Bundle (.zip)</>
+            }
+          </button>
+        </div>
       </div>
 
       {/* ── Plattform-Tabs ── */}

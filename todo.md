@@ -219,3 +219,9 @@
 - [ ] Sections mit fixen Breiten und breiten Grids auf Mobile anpassen
 - [ ] FoundationsSection Farb-Grid responsive machen
 - [ ] Alle Sections auf max-w-full und w-full prüfen
+
+## v6.6 Showcase-Seite und ZIP-Export
+- [x] Showcase-Seite (/showcase) mit allen Volt-Komponenten und Varianten erstellt
+- [x] Route /showcase in App.tsx registriert
+- [x] ZIP-Download-Funktion in ExportSection (jszip) implementiert
+- [x] ZIP-Button im Download-Banner der ExportSection hinzugefügt
