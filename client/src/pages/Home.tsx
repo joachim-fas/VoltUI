@@ -42,7 +42,7 @@ import {
   BookOpen, Network, Bell, Download,
   Wallpaper, Stamp, RectangleHorizontal,
   Eye, Boxes, CircleDot, Terminal, Sparkles,
-  Radar, Shapes, Box, Layers3, TerminalSquare,
+  Radar, Shapes, Box, Layers3, TerminalSquare, PanelTop,
 } from "lucide-react";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
@@ -118,6 +118,7 @@ const sidebarSections = [
   {
     title: "Templates & Visualisierung",
     items: [
+      { id: "__templates", label: "Templates",             description: "5 fertige Seiten-Templates",            icon: <PanelTop className="w-4 h-4" />, href: "/showcase" },
       { id: "dashboard",   label: "Dashboard",            description: "KPIs, Analytics, Bestellungen",         icon: <LayoutDashboard className="w-4 h-4" /> },
       { id: "bubblemap",   label: "Bubble Map",           description: "Force-Layout Bubble Visualisierung",    icon: <CircleDot className="w-4 h-4" /> },
       { id: "radar",       label: "Quadranten-Radar",     description: "Radar + Ranked List für Intelligence",   icon: <Radar className="w-4 h-4" /> },

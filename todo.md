@@ -267,3 +267,7 @@
 - [x] EmptyStatesTemplate: Empty States /showcase/empty-states
 - [x] App.tsx: alle 6 Routen registriert
 - [x] ExportSection: korruptes UTF-8 in Zeile 940 behoben
+
+## v7.1 Template-Showcase erreichbar machen
+- [x] Sidebar: Eintrag "Templates" in Kategorie "Templates & Visualisierung" als href-Link zu /showcase
+- [x] HeroSection: Templates-CTA-Button in Hero-Buttons-Gruppe eingebaut

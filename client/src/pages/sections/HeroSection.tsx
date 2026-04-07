@@ -10,7 +10,7 @@ import { VoltCursor } from "@/components/volt/VoltCursor";
 import { motion } from "framer-motion";
 import {
   ArrowRight, Code2, Palette, Zap, Layers, Package,
-  BarChart2, Cpu, Workflow, Fingerprint,
+  BarChart2, Cpu, Workflow, Fingerprint, PanelTop,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -106,6 +106,11 @@ export const HeroSection: React.FC<{ onNavigate: (id: string) => void }> = ({ on
             <VoltButton variant="outline" size="lg" onClick={() => onNavigate("dashboard")}
               className="border-[#0A0A0A]/30 text-[#0A0A0A] hover:bg-[#0A0A0A]/8">
               Dashboard ansehen
+            </VoltButton>
+            <VoltButton variant="ghost" size="lg" rightIcon={<PanelTop className="w-4 h-4" />}
+              className="text-[#0A0A0A]/60 hover:text-[#0A0A0A] hover:bg-[#0A0A0A]/8"
+              onClick={() => { window.location.href = "/showcase"; }}>
+              Templates
             </VoltButton>
           </motion.div>
         </motion.div>
