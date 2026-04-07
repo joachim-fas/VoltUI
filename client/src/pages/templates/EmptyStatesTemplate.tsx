@@ -3,16 +3,15 @@
  * Route: /showcase/empty-states
  * Sammlung von 8 leeren Zuständen
  */
-import { useState } from "react";
-import { Link } from "wouter";
+import { TemplateShell } from "./TemplateShell";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltCard } from "@/components/volt/VoltCard";
 import { VoltAlert } from "@/components/volt/VoltAlert";
 import {
   Inbox, Search, AlertTriangle, WifiOff, Lock, FolderOpen,
-  ShoppingCart, Users, Plus, RefreshCw, ArrowRight,
-  Terminal, FileQuestion, Zap, UploadCloud, MessageSquare,
+  ShoppingCart, Plus, RefreshCw, ArrowRight,
+  Zap, UploadCloud,
 } from "lucide-react";
 
 interface EmptyState {
@@ -183,23 +182,7 @@ const STATES: EmptyState[] = [
 
 export default function EmptyStatesTemplate() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-background sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-lg bg-foreground flex items-center justify-center">
-              <Terminal className="w-3.5 h-3.5 text-[#E4FF97]" />
-            </div>
-            <span className="font-display font-bold text-sm tracking-tight">volt ui</span>
-            <span className="text-muted-foreground text-sm">/</span>
-            <span className="text-muted-foreground text-sm">Empty States</span>
-          </div>
-          <Link href="/showcase" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            ← Showcase
-          </Link>
-        </div>
-      </header>
+    <TemplateShell title="Empty States" category="UI Patterns">
 
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-6 pt-12 pb-8">
@@ -234,6 +217,6 @@ export default function EmptyStatesTemplate() {
           </VoltAlert>
         </div>
       </section>
-    </div>
+    </TemplateShell>
   );
 }

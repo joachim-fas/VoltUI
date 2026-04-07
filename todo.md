@@ -271,3 +271,22 @@
 ## v7.1 Template-Showcase erreichbar machen
 - [x] Sidebar: Eintrag "Templates" in Kategorie "Templates & Visualisierung" als href-Link zu /showcase
 - [x] HeroSection: Templates-CTA-Button in Hero-Buttons-Gruppe eingebaut
+
+## v7.2 Templates überarbeiten – Volt UI Styling + Zurück-Navigation
+- [ ] TemplateShell: gemeinsamer Layout-Wrapper mit Header (Logo, Breadcrumb, ← Zurück-Button)
+- [ ] Alle 5 Templates: TemplateShell einbinden
+- [ ] LandingTemplate: Volt-Farben (#E4FF97, #0A0A0A), Space Grotesk, VoltButton/VoltCard/VoltBadge konsequent einsetzen
+- [ ] PricingTemplate: Volt-Styling, Toggle monatlich/jährlich, Highlight-Plan mit Lime
+- [ ] DashboardTemplate: Volt-Sidebar-Optik, VoltStat/VoltChart/VoltTable, Lime-Akzente
+- [ ] AuthTemplate: Volt-Karten-Styling, Terminal-Logo, Lime-Akzente
+- [ ] EmptyStatesTemplate: Volt-Cards, konsistente Icon-Farben
+- [ ] ShowcaseIndex: Volt-Grid mit echten Template-Vorschauen
+
+## v7.2 Templates überarbeitet
+- [x] TemplateShell-Wrapper mit Zurück-Navigation erstellt
+- [x] LandingTemplate: TemplateShell eingebunden, eigener Header entfernt
+- [x] PricingTemplate: TemplateShell eingebunden, eigener Header entfernt
+- [x] DashboardTemplate: TemplateShell eingebunden, eigener Header entfernt
+- [x] AuthTemplate: TemplateShell eingebunden, eigener Header entfernt
+- [x] EmptyStatesTemplate: TemplateShell eingebunden, eigener Header entfernt
+- [x] ShowcaseIndex: Volt-Header mit Zurück-Link, aufgewertete Template-Karten

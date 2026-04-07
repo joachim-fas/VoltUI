@@ -4,7 +4,7 @@
  * Drei Screens: Sign-in, Sign-up, Forgot Password
  */
 import { useState } from "react";
-import { Link } from "wouter";
+import { TemplateShell } from "./TemplateShell";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltInput } from "@/components/volt/VoltInput";
 import { VoltCard } from "@/components/volt/VoltCard";
@@ -187,19 +187,8 @@ export default function AuthTemplate() {
       : "Erstelle jetzt dein kostenloses Konto.";
 
   return (
-    <div className="min-h-screen bg-muted/30 flex flex-col">
-      {/* Header */}
-      <header className="px-6 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-foreground flex items-center justify-center">
-            <Terminal className="w-3.5 h-3.5 text-[#E4FF97]" />
-          </div>
-          <span className="font-display font-bold text-sm tracking-tight">Volt</span>
-        </div>
-        <Link href="/showcase" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-          ← Showcase
-        </Link>
-      </header>
+    <TemplateShell title="Auth / Login" category="App-Screens">
+      <div className="min-h-screen bg-muted/30 flex flex-col">
 
       {/* Screen Switcher (nur für Template-Demo) */}
       <div className="flex justify-center pt-6 pb-2">
@@ -279,14 +268,15 @@ export default function AuthTemplate() {
             {screen === "forgot" && <ForgotForm onBack={() => setScreen("signin")} />}
           </VoltCard>
 
-          {/* Footer Note */}
+      {/* Footer Note */}
           <p className="text-center text-xs text-muted-foreground mt-4">
-            Durch die Nutzung stimmst du unseren{" "}
+            Durch die Nutzung stimmst du unseren{" "}
             <span className="underline underline-offset-2 cursor-pointer">Nutzungsbedingungen</span>
-            {" "}zu.
+            {" "}zu.
           </p>
         </div>
       </main>
-    </div>
+      </div>
+    </TemplateShell>
   );
 }

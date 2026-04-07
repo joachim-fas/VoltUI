@@ -3,13 +3,12 @@
  * Route: /showcase/pricing
  */
 import { useState } from "react";
-import { Link } from "wouter";
+import { TemplateShell } from "./TemplateShell";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltCard } from "@/components/volt/VoltCard";
 import { VoltToggle } from "@/components/volt/VoltToggle";
-import { VoltNavbar } from "@/components/volt/VoltNavbar";
-import { Check, X, Zap, Terminal, ArrowRight, HelpCircle } from "lucide-react";
+import { Check, X, Zap, ArrowRight, HelpCircle } from "lucide-react";
 
 interface PlanFeature {
   label: string;
@@ -77,31 +76,7 @@ export default function PricingTemplate() {
   const [annual, setAnnual] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Navbar */}
-      <VoltNavbar
-        variant="glass"
-        sticky
-        logo={
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-foreground flex items-center justify-center">
-              <Terminal className="w-3.5 h-3.5 text-[#E4FF97]" />
-            </div>
-            <span className="font-display font-bold text-sm tracking-tight">Volt</span>
-          </div>
-        }
-        items={[
-          { label: "Produkt", href: "#" },
-          { label: "Preise", href: "#" },
-          { label: "Docs", href: "#" },
-        ]}
-        rightSlot={
-          <div className="flex items-center gap-2">
-            <VoltButton variant="ghost" size="sm">Anmelden</VoltButton>
-            <VoltButton variant="primary" size="sm">Kostenlos starten</VoltButton>
-          </div>
-        }
-      />
+    <TemplateShell title="Pricing Page" category="Marketing">
 
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-6 pt-20 pb-12 text-center">
@@ -216,15 +191,11 @@ export default function PricingTemplate() {
         </VoltCard>
       </section>
 
-      {/* Footer */}
       <footer className="border-t border-border py-8 px-6">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <p className="text-muted-foreground text-sm">Alle Preise in EUR, zzgl. MwSt.</p>
-          <Link href="/showcase" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            ← Zurück zum Showcase
-          </Link>
+        <div className="max-w-5xl mx-auto">
+          <p className="text-muted-foreground text-sm font-mono">Alle Preise in EUR, zzgl. MwSt.</p>
         </div>
       </footer>
-    </div>
+    </TemplateShell>
   );
 }

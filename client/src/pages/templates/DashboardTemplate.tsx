@@ -4,6 +4,7 @@
  */
 import { useState } from "react";
 import { Link } from "wouter";
+import { ArrowLeft } from "lucide-react";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltStat } from "@/components/volt/VoltStat";
@@ -165,8 +166,9 @@ export default function DashboardTemplate() {
             <button className="w-9 h-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
               <Settings className="w-4 h-4" />
             </button>
-            <Link href="/showcase" className="text-xs text-muted-foreground hover:text-foreground ml-2 transition-colors">
-              ← Showcase
+            <Link href="/showcase" className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground ml-2 transition-colors group">
+              <ArrowLeft className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
+              Templates
             </Link>
           </div>
         </header>

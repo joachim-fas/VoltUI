@@ -3,16 +3,14 @@
  * Route: /showcase/landing
  */
 import { useState } from "react";
-import { Link } from "wouter";
+import { TemplateShell } from "./TemplateShell";
 import { VoltButton } from "@/components/volt/VoltButton";
 import { VoltBadge } from "@/components/volt/VoltBadge";
-import { VoltNavbar } from "@/components/volt/VoltNavbar";
 import { VoltCard } from "@/components/volt/VoltCard";
 import { VoltAvatar } from "@/components/volt/VoltAvatar";
 import {
-  Zap, BarChart2, Shield, Globe, ArrowRight, Check,
-  Star, Terminal, ChevronRight, Layers, Cpu, Lock,
-  TrendingUp, Users, Activity,
+  Zap, BarChart2, Shield, Globe, ArrowRight,
+  Star, Terminal, Layers, Cpu,
 } from "lucide-react";
 
 const FEATURES = [
@@ -80,32 +78,7 @@ export default function LandingTemplate() {
   const [annual, setAnnual] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Navbar */}
-      <VoltNavbar
-        variant="glass"
-        sticky
-        logo={
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-foreground flex items-center justify-center">
-              <Terminal className="w-3.5 h-3.5 text-[#E4FF97]" />
-            </div>
-            <span className="font-display font-bold text-sm tracking-tight">Volt</span>
-          </div>
-        }
-        items={[
-          { label: "Produkt", href: "#" },
-          { label: "Preise", href: "#pricing" },
-          { label: "Docs", href: "#" },
-          { label: "Blog", href: "#" },
-        ]}
-        rightSlot={
-          <div className="flex items-center gap-2">
-            <VoltButton variant="ghost" size="sm">Anmelden</VoltButton>
-            <VoltButton variant="primary" size="sm">Kostenlos starten</VoltButton>
-          </div>
-        }
-      />
+    <TemplateShell title="Landing Page" category="Marketing">
 
       {/* Hero */}
       <section className="relative overflow-hidden pt-24 pb-20 px-6">
@@ -230,21 +203,17 @@ export default function LandingTemplate() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="border-t border-border py-10 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center">
               <Terminal className="w-3 h-3 text-[#E4FF97]" />
             </div>
-            <span className="font-display font-bold text-sm">Volt</span>
+            <span className="font-display font-bold text-sm">volt ui</span>
           </div>
-          <p className="text-muted-foreground text-sm">© 2026 Volt Technologies GmbH. Alle Rechte vorbehalten.</p>
-          <Link href="/showcase" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            ← Zurück zum Showcase
-          </Link>
+          <p className="text-muted-foreground text-sm font-mono text-xs">© 2026 Volt UI · Design Concept</p>
         </div>
       </footer>
-    </div>
+    </TemplateShell>
   );
 }
