@@ -42,7 +42,7 @@ import {
   BookOpen, Network, Bell, Download,
   Wallpaper, Stamp, RectangleHorizontal,
   Eye, Boxes, CircleDot, Terminal, Sparkles,
-  Radar, Shapes, Box, Layers3, TerminalSquare, LayoutTemplate,
+  Radar, Shapes, Box, Layers3, TerminalSquare,
 } from "lucide-react";
 
 /* ── Alle Sections in der gewünschten Reihenfolge ── */
@@ -82,7 +82,6 @@ const sidebarSections = [
     title: "Start",
     items: [
       { id: "home",        label: "Übersicht",            description: "Alle Komponenten auf einen Blick",      icon: <HomeIcon className="w-4 h-4" /> },
-      { id: "showcase",    label: "Showcase",             description: "Vollständige Komponenten-Referenz",         icon: <LayoutTemplate className="w-4 h-4" />, href: "/showcase" },
     ],
   },
   {

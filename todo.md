@@ -243,3 +243,7 @@
 ## v6.10 Showcase-Eintrag nie als aktiv hervorheben
 - [x] VoltSidebar renderStandardSection: isActive ignoriert Items mit href (nie Lime-Highlight)
 - [x] ExternalLink-Indikator auch in renderStandardSection für href-Items
+
+## v6.11 Showcase-Eintrag aus Sidebar entfernen
+- [x] Showcase-Item aus sidebarSections in Home.tsx entfernt
+- [x] LayoutTemplate-Import bereinigt
