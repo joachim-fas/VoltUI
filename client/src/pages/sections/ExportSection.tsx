@@ -937,7 +937,7 @@ export const ExportSection: React.FC = () => {
         })
       );
 
-      // README hinzufügen
+      // README hinzufuegen
       const componentList = VOLT_COMPONENT_FILES.map(n => `- ${n}`).join("\n");
       const readme = [
         "# Volt UI - Komponenten-Bundle",

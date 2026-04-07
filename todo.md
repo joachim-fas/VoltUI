@@ -247,3 +247,23 @@
 ## v6.11 Showcase-Eintrag aus Sidebar entfernen
 - [x] Showcase-Item aus sidebarSections in Home.tsx entfernt
 - [x] LayoutTemplate-Import bereinigt
+
+## v7.0 Template-Showcase
+- [ ] Showcase-Index-Seite /showcase mit Template-Übersicht
+- [ ] SaaS Landing Page /showcase/landing
+- [ ] Analytics Dashboard /showcase/dashboard
+- [ ] Pricing Page /showcase/pricing
+- [ ] Login / Auth /showcase/auth
+- [ ] Empty States /showcase/empty-states
+- [ ] Routing in App.tsx registrieren
+- [ ] Sidebar-Eintrag "Templates" in Home.tsx (Kategorie Templates & Visualisierung)
+
+## v7.0 Template-Showcase (5 Templates)
+- [x] ShowcaseIndex: Übersichtsseite /showcase mit Template-Grid
+- [x] LandingTemplate: SaaS Landing Page /showcase/landing
+- [x] DashboardTemplate: Analytics Dashboard /showcase/dashboard
+- [x] PricingTemplate: Pricing Page /showcase/pricing
+- [x] AuthTemplate: Login & Auth /showcase/auth
+- [x] EmptyStatesTemplate: Empty States /showcase/empty-states
+- [x] App.tsx: alle 6 Routen registriert
+- [x] ExportSection: korruptes UTF-8 in Zeile 940 behoben
