@@ -234,3 +234,8 @@
 ## v6.8 Fortschrittsbalken href-Items ignorieren
 - [x] VoltSidebar: standardItems filtert Items mit href aus der Zählung heraus
 - [x] Fortschrittsbalken und Zähler zeigen nur scrollbare Sektionen
+
+## v6.9 CSS-Copy-Buttons dezent gestalten
+- [x] Alle Copy-Buttons: schwarzes Pill + Lime-Text entfernt (VoltCodeBlock.tsx)
+- [x] Ersatz: kleines transparentes Icon-Only (Copy-Icon, muted, hover sichtbar)
+- [x] Buttons bleiben im normalen Dokumentenfluss, kein absolutes Positioning

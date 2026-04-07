@@ -1,8 +1,9 @@
 /**
- * VoltCodeBlock – Kompakter Copy-Chip im Volt-Stil
+ * VoltCodeBlock – Dezenter Copy-Button im Volt-Stil
  *
- * Kein sichtbarer Code – ein kleiner, prägnanter Chip mit
- * Komponenten-Name und Copy-Button. Direkt unter dem Demo-Inhalt.
+ * Kleines, transparentes Icon-Only-Element. Kein schwarzes Pill,
+ * kein Lime-Text. Nur ein Copy-Icon das beim Hover sichtbar wird.
+ * Passt sich dem umgebenden Hintergrund an.
  */
 
 import React, { useState } from "react";
@@ -43,24 +44,24 @@ export const VoltCodeBlock: React.FC<VoltCodeBlockProps> = ({
     <button
       onClick={handleCopy}
       className={cn(
-        "group inline-flex items-center gap-2 mt-4",
-        "px-3 py-1.5 rounded-lg",
-        "bg-[#0A0A0A] text-[#E4FF97]",
-        "font-mono text-[11px] tracking-wide",
-        "hover:bg-[#1a1a1a] transition-colors duration-150",
-        "border border-[#2a2a2a]",
+        "group inline-flex items-center gap-1.5 mt-3",
+        "px-2 py-1 rounded-md",
+        "text-muted-foreground hover:text-foreground",
+        "hover:bg-muted/60",
+        "transition-all duration-150",
+        "text-[11px] font-mono",
         className
       )}
       title={copied ? "Kopiert!" : `${label} kopieren`}
     >
-      <span className="opacity-50 select-none">&gt;_</span>
-      <span>{label}</span>
-      <span className="w-px h-3 bg-[#E4FF97]/20 mx-0.5" />
       {copied ? (
-        <Check className="w-3 h-3 text-[#E4FF97]" />
+        <Check className="w-3 h-3 text-foreground" />
       ) : (
-        <Copy className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+        <Copy className="w-3 h-3 opacity-40 group-hover:opacity-80 transition-opacity" />
       )}
+      <span className="opacity-50 group-hover:opacity-70 transition-opacity select-none">
+        {copied ? "Kopiert" : label}
+      </span>
     </button>
   );
 };
