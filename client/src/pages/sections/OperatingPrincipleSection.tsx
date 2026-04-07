@@ -373,7 +373,7 @@ export default function OperatingPrincipleSection() {
                 "Du musst nur sagen, was wichtig ist und was am Ende stehen soll.",
               ].map((t, i) => (
                 <div key={i} className="flex items-start gap-2">
-                  <span className="text-[#E4FF97] mt-0.5 shrink-0">›</span>
+                  <span className="text-[#E4FF97] shrink-0 leading-5 mt-px">›</span>
                   <p className="text-sm text-white/80">{t}</p>
                 </div>
               ))}
@@ -386,8 +386,8 @@ export default function OperatingPrincipleSection() {
               { icon: <ArrowRight size={14} />, label: "Klare naechste Schritte", sub: "Mit Owner und Datum" },
               { icon: <BookOpen size={14} />, label: "Transparenz", sub: "Annahmen + offene Punkte sichtbar" },
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-card">
-                <span className="text-foreground mt-0.5">{item.icon}</span>
+              <div key={i} className="flex items-center gap-3 p-3 rounded-xl border border-border bg-card">
+                <span className="text-foreground shrink-0">{item.icon}</span>
                 <div>
                   <p className="text-xs font-ui font-semibold text-foreground">{item.label}</p>
                   <p className="text-[10px] text-muted-foreground">{item.sub}</p>
@@ -552,8 +552,8 @@ export default function OperatingPrincipleSection() {
             </p>
             <div className="space-y-3">
               {E2E_PRINCIPLES.map((p, i) => (
-                <div key={i} className="flex gap-3 p-3 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
-                  <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-0.5">{String(i+1).padStart(2,"0")}</span>
+                <div key={i} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
+                  <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 leading-[1.4rem] mt-px">{String(i+1).padStart(2,"00")}</span>
                   <div>
                     <p className="text-xs font-ui font-semibold text-foreground mb-0.5">{p.title}</p>
                     <p className="text-[11px] text-muted-foreground leading-relaxed">{p.desc}</p>
@@ -570,7 +570,7 @@ export default function OperatingPrincipleSection() {
               </div>
               {E2E_CRITERIA.map((c, i) => (
                 <div key={i} className="flex gap-3 px-4 py-3 border-b border-border last:border-0 bg-card">
-                  <CheckCircle2 size={14} className="text-[#1A9E5A] shrink-0 mt-0.5" />
+                  <CheckCircle2 size={14} className="text-[#1A9E5A] shrink-0 mt-px" />
                   <p className="text-xs text-foreground leading-relaxed">{c}</p>
                 </div>
               ))}
@@ -632,8 +632,8 @@ export default function OperatingPrincipleSection() {
         <SectionLabel><Shield size={12} /> Design-Regeln (Guardrails)</SectionLabel>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {GUARDRAILS.map((g, i) => (
-            <div key={i} className="flex gap-3 p-4 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
-              <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-0.5">{g.n}</span>
+            <div key={i} className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card hover:border-foreground transition-colors">
+              <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 leading-[1.4rem] mt-px">{g.n}</span>
               <div>
                 <p className="text-xs font-ui font-semibold text-foreground mb-0.5">{g.title}</p>
                 <p className="text-[11px] text-muted-foreground leading-relaxed">{g.desc}</p>

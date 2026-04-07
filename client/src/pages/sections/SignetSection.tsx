@@ -107,7 +107,7 @@ const RuleCard: React.FC<{
   <div className="border border-border rounded-2xl overflow-hidden">
     <div className="px-5 py-4 bg-card">
       <div className="flex items-start gap-3 mb-2">
-        <span className="font-mono text-[10px] text-muted-foreground/50 mt-0.5 shrink-0">{number}</span>
+        <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 leading-[1.4rem] mt-px">{number}</span>
         <div>
           <p className="font-display font-bold text-sm text-foreground mb-1">{title}</p>
           <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>

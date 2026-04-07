@@ -361,8 +361,8 @@ export const BrandArchitectureSection: React.FC = () => {
         <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">Design-Prinzipien der Brand Architecture</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {DESIGN_PRINCIPLES.map((p, i) => (
-            <div key={i} className="flex gap-4 p-5 rounded-2xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
-              <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-0.5">{String(i+1).padStart(2,"0")}</span>
+            <div key={i} className="flex items-start gap-4 p-5 rounded-2xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
+              <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 leading-[1.4rem] mt-px">{String(i+1).padStart(2,"0")}</span>
               <div>
                 <p className="font-display font-bold text-sm text-foreground mb-1">{p.title}</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">{p.desc}</p>

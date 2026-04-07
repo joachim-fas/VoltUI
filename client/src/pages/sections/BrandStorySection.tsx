@@ -174,7 +174,7 @@ export const BrandStorySection: React.FC = () => {
           <div className="p-8 space-y-0">
             {CORE_STORY.lines.map((line, i) => (
               <div key={i} className="flex items-start gap-4 py-4 border-b border-border last:border-0">
-                <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 mt-1.5 w-16">
+                <span className="font-mono text-[10px] text-muted-foreground/50 shrink-0 w-16 leading-[1.75rem] mt-px">
                   {CORE_STORY.annotations[i]}
                 </span>
                 <p className="font-display font-bold text-xl text-foreground leading-snug flex-1">
@@ -352,7 +352,7 @@ export const BrandStorySection: React.FC = () => {
         <div className="space-y-2">
           {DIFFERENTIATORS.map((d, i) => (
             <div key={i} className="flex items-start gap-4 p-4 rounded-xl border border-border bg-card hover:border-[#0A0A0A] transition-colors">
-              <span className="font-mono font-bold text-[#E4FF97] bg-[#0A0A0A] w-6 h-6 rounded flex items-center justify-center text-sm shrink-0 mt-0.5">&gt;</span>
+              <span className="font-mono font-bold text-[#E4FF97] bg-[#0A0A0A] w-6 h-6 rounded flex items-center justify-center text-sm shrink-0 mt-px">&gt;</span>
               <div>
                 <p className="font-ui font-semibold text-sm text-foreground mb-0.5">{d.title}</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">{d.desc}</p>
