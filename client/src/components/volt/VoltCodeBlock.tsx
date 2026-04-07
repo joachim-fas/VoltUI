@@ -1,9 +1,8 @@
 /**
- * VoltCodeBlock – Kompakter Copy-Button als Karten-Footer
+ * VoltCodeBlock – Kompakter Copy-Chip im Volt-Stil
  *
- * Zwei Verwendungsmodi:
- *   footer  – Trennlinie oben + Padding, ideal direkt nach </VoltCardContent> innerhalb von <VoltCard>
- *   inline  – Kein Rahmen, nur der Button, für eingebettete Kontexte
+ * Kein sichtbarer Code – ein kleiner, prägnanter Chip mit
+ * Komponenten-Name und Copy-Button. Direkt unter dem Demo-Inhalt.
  */
 
 import React, { useState } from "react";
@@ -13,16 +12,14 @@ import { cn } from "@/lib/utils";
 interface VoltCodeBlockProps {
   code: string;
   language?: "tsx" | "css" | "bash" | "ts";
+  /** Komponenten-Name oder Klassen-Name, z.B. "VoltButton" oder ".pattern-dots" */
   label?: string;
-  /** footer: Trennlinie + Padding (Standard, für direkt in VoltCard) | inline: nur Button */
-  mode?: "footer" | "inline";
   className?: string;
 }
 
 export const VoltCodeBlock: React.FC<VoltCodeBlockProps> = ({
   code,
-  label,
-  mode = "footer",
+  label = "CSS",
   className = "",
 }) => {
   const [copied, setCopied] = useState(false);
@@ -42,58 +39,29 @@ export const VoltCodeBlock: React.FC<VoltCodeBlockProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (mode === "inline") {
-    return (
-      <button
-        onClick={handleCopy}
-        title={copied ? "Kopiert!" : label ?? "CSS kopieren"}
-        className={cn(
-          "flex items-center gap-1.5 text-[11px] font-mono text-[#888888] hover:text-[#0A0A0A] transition-colors",
-          className
-        )}
-      >
-        {copied ? (
-          <>
-            <Check className="w-3.5 h-3.5 text-[#22c55e]" />
-            <span className="text-[#22c55e]">Kopiert</span>
-          </>
-        ) : (
-          <>
-            <Copy className="w-3.5 h-3.5" />
-            <span>{label ?? "CSS kopieren"}</span>
-          </>
-        )}
-      </button>
-    );
-  }
-
-  /* mode === "footer" */
   return (
-    <div className={cn(
-      "border-t border-border/60 px-5 py-3 flex items-center justify-between",
-      className
-    )}>
-      <span className="text-[11px] font-mono text-muted-foreground/60">
-        {label ?? "CSS"}
-      </span>
-      <button
-        onClick={handleCopy}
-        title={copied ? "Kopiert!" : "In Zwischenablage kopieren"}
-        className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground hover:text-foreground transition-colors"
-      >
-        {copied ? (
-          <>
-            <Check className="w-3.5 h-3.5 text-[#22c55e]" />
-            <span className="text-[#22c55e]">Kopiert</span>
-          </>
-        ) : (
-          <>
-            <Copy className="w-3.5 h-3.5" />
-            <span>Kopieren</span>
-          </>
-        )}
-      </button>
-    </div>
+    <button
+      onClick={handleCopy}
+      className={cn(
+        "group inline-flex items-center gap-2 mt-4",
+        "px-3 py-1.5 rounded-lg",
+        "bg-[#0A0A0A] text-[#E4FF97]",
+        "font-mono text-[11px] tracking-wide",
+        "hover:bg-[#1a1a1a] transition-colors duration-150",
+        "border border-[#2a2a2a]",
+        className
+      )}
+      title={copied ? "Kopiert!" : `${label} kopieren`}
+    >
+      <span className="opacity-50 select-none">&gt;_</span>
+      <span>{label}</span>
+      <span className="w-px h-3 bg-[#E4FF97]/20 mx-0.5" />
+      {copied ? (
+        <Check className="w-3 h-3 text-[#E4FF97]" />
+      ) : (
+        <Copy className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+      )}
+    </button>
   );
 };
 
