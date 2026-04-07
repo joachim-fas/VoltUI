@@ -1,0 +1,487 @@
+/**
+ * Volt UI – Design Tokens & Utility Classes
+ * ==========================================
+ * Importiere diese Datei einmalig in deinem Projekt:
+ *   import "./volt-ui.css";
+ *
+ * Voraussetzungen:
+ *   - Tailwind CSS v4
+ *   - Google Fonts: Space Grotesk, DM Sans, JetBrains Mono
+ *     (in index.html oder via @import)
+ *
+ * Hauptfarben:  #E4FF97 Neon Yellow + #000000 Black
+ * Schriften:    Space Grotesk · DM Sans · JetBrains Mono
+ */
+
+/* ═══════════════════════════════════════════════════════
+   DESIGN TOKENS – Light Mode (Standard)
+═══════════════════════════════════════════════════════ */
+:root {
+  /* ── Schriften ── */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-ui:      "DM Sans", system-ui, sans-serif;
+  --font-body:    "DM Sans", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", "Fira Code", monospace;
+
+  /* ── Border Radius ── */
+  --radius: 0.5rem;
+
+  /* ── Primärfarben ── */
+  --neon-yellow: #E4FF97;   /* Neon Yellow – Primär-Akzent */
+  --black:       #000000;   /* Black – Fundament */
+
+  /* Aliase */
+  --lime:        #E4FF97;
+  --lime-deep:   #C8F060;
+  --lime-darker: #9DC800;
+  --lime-fg:     #000000;   /* Text auf Lime-Hintergrund */
+  --ink:         #000000;
+  --ink-soft:    #1A1A1A;
+  --ink-muted:   #3A3A3A;
+
+  /* ── Pastell-Palette (8 Farben) ── */
+  --pastel-rose:    #FFD6E0;   /* Rose Quartz   */
+  --pastel-peach:   #FFECD2;   /* Peach Cream   */
+  --pastel-mint:    #C3F4D3;   /* Mint Green    */
+  --pastel-orchid:  #FDE2FF;   /* Soft Orchid   */
+  --pastel-blue:    #D4E8FF;   /* Baby Blue     */
+  --pastel-butter:  #FFF5BA;   /* Butter Yellow */
+  --pastel-orange:  #FFE0CC;   /* Powder Orange */
+  --pastel-aqua:    #D6F5F5;   /* Aqua Mist     */
+
+  /* ── Signalfarben ── */
+  --signal-positive:        #1A9E5A;
+  --signal-positive-light:  #E8F8EF;
+  --signal-positive-border: #7DD4A8;
+  --signal-positive-text:   #0F6038;
+
+  --signal-negative:        #E8402A;
+  --signal-negative-light:  #FDEEE9;
+  --signal-negative-border: #F4A090;
+  --signal-negative-text:   #A01A08;
+
+  --signal-neutral:         #6B7A9A;
+  --signal-neutral-light:   #F0F2F7;
+  --signal-neutral-border:  #B0BACC;
+  --signal-neutral-text:    #3A4560;
+
+  /* ── Kern-UI-Tokens (shadcn/Tailwind-kompatibel) ── */
+  --background:            #FFFFFF;
+  --foreground:            #000000;
+  --card:                  #FFFFFF;
+  --card-foreground:       #000000;
+  --popover:               #FFFFFF;
+  --popover-foreground:    #000000;
+  --primary:               #0A0A0A;
+  --primary-foreground:    #FFFFFF;
+  --secondary:             #F4F4F4;
+  --secondary-foreground:  #000000;
+  --muted:                 #F7F7F7;
+  --muted-foreground:      #6B6B6B;
+  --accent:                #E4FF97;
+  --accent-foreground:     #000000;
+  --destructive:           #E8402A;
+  --destructive-foreground:#FFFFFF;
+  --border:                #E8E8E8;
+  --input:                 #E8E8E8;
+  --ring:                  #000000;
+
+  /* ── Chart-Farben (Pastell-Reihenfolge) ── */
+  --chart-1: #FFD6E0;
+  --chart-2: #FFECD2;
+  --chart-3: #C3F4D3;
+  --chart-4: #FDE2FF;
+  --chart-5: #D4E8FF;
+  --chart-6: #FFF5BA;
+  --chart-7: #FFE0CC;
+  --chart-8: #D6F5F5;
+
+  /* ── Sidebar ── */
+  --sidebar:                    #FAFAFA;
+  --sidebar-foreground:         #000000;
+  --sidebar-primary:            #0A0A0A;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent:             #F5F5F5;
+  --sidebar-accent-foreground:  #000000;
+  --sidebar-border:             #E8E8E8;
+  --sidebar-ring:               #0A0A0A;
+
+  /* ── Gradient ── */
+  --theme-gradient: linear-gradient(135deg, #E4FF97 0%, #C8F060 60%, #A8D840 100%);
+}
+
+/* ═══════════════════════════════════════════════════════
+   DARK MODE
+═══════════════════════════════════════════════════════ */
+.dark {
+  --background:            #000000;
+  --foreground:            #F5F5F5;
+  --card:                  #111111;
+  --card-foreground:       #F5F5F5;
+  --popover:               #1A1A1A;
+  --popover-foreground:    #F5F5F5;
+  --primary:               #E4FF97;
+  --primary-foreground:    #000000;
+  --secondary:             #1A1A1A;
+  --secondary-foreground:  #F5F5F5;
+  --muted:                 #1A1A1A;
+  --muted-foreground:      #888888;
+  --accent:                #E4FF97;
+  --accent-foreground:     #000000;
+  --destructive:           #FF5540;
+  --destructive-foreground:#000000;
+  --border:                #2A2A2A;
+  --input:                 #2A2A2A;
+  --ring:                  #E4FF97;
+
+  /* Signalfarben Dark */
+  --signal-positive:        #2ECC7A;
+  --signal-positive-light:  #0A2018;
+  --signal-positive-border: #1A6040;
+  --signal-positive-text:   #5EEAA0;
+  --signal-negative:        #FF6050;
+  --signal-negative-light:  #200A08;
+  --signal-negative-border: #802010;
+  --signal-negative-text:   #FF9080;
+  --signal-neutral:         #8899BB;
+  --signal-neutral-light:   #141820;
+  --signal-neutral-border:  #3A4560;
+  --signal-neutral-text:    #AABBDD;
+
+  /* Chart Dark */
+  --chart-1: #E4FF97;
+  --chart-2: #F5F5F5;
+  --chart-3: #2ECC7A;
+  --chart-4: #FF6050;
+  --chart-5: #8899BB;
+  --chart-6: #D4B8FF;
+  --chart-7: #FFD4A8;
+  --chart-8: #B8E0FF;
+
+  /* Sidebar Dark */
+  --sidebar:                    #000000;
+  --sidebar-foreground:         #F5F5F5;
+  --sidebar-primary:            #E4FF97;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent:             #1A1A1A;
+  --sidebar-accent-foreground:  #F5F5F5;
+  --sidebar-border:             #2A2A2A;
+  --sidebar-ring:               #E4FF97;
+  --theme-gradient: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #3A3A3A 100%);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TAILWIND v4 THEME MAPPING
+   (nur nötig wenn Tailwind v4 verwendet wird)
+═══════════════════════════════════════════════════════ */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background:                var(--background);
+  --color-foreground:                var(--foreground);
+  --color-card:                      var(--card);
+  --color-card-foreground:           var(--card-foreground);
+  --color-popover:                   var(--popover);
+  --color-popover-foreground:        var(--popover-foreground);
+  --color-primary:                   var(--primary);
+  --color-primary-foreground:        var(--primary-foreground);
+  --color-secondary:                 var(--secondary);
+  --color-secondary-foreground:      var(--secondary-foreground);
+  --color-muted:                     var(--muted);
+  --color-muted-foreground:          var(--muted-foreground);
+  --color-accent:                    var(--accent);
+  --color-accent-foreground:         var(--accent-foreground);
+  --color-destructive:               var(--destructive);
+  --color-destructive-foreground:    var(--destructive-foreground);
+  --color-border:                    var(--border);
+  --color-input:                     var(--input);
+  --color-ring:                      var(--ring);
+  --color-chart-1:                   var(--chart-1);
+  --color-chart-2:                   var(--chart-2);
+  --color-chart-3:                   var(--chart-3);
+  --color-chart-4:                   var(--chart-4);
+  --color-chart-5:                   var(--chart-5);
+  --color-chart-6:                   var(--chart-6);
+  --color-chart-7:                   var(--chart-7);
+  --color-chart-8:                   var(--chart-8);
+  --color-sidebar:                   var(--sidebar);
+  --color-sidebar-foreground:        var(--sidebar-foreground);
+  --color-sidebar-primary:           var(--sidebar-primary);
+  --color-sidebar-primary-foreground:var(--sidebar-primary-foreground);
+  --color-sidebar-accent:            var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border:            var(--sidebar-border);
+  --color-sidebar-ring:              var(--sidebar-ring);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TYPOGRAFIE-KLASSEN
+═══════════════════════════════════════════════════════ */
+.font-display { font-family: var(--font-display); }
+.font-ui      { font-family: var(--font-ui); }
+.font-body    { font-family: var(--font-body); }
+.font-mono    { font-family: var(--font-mono); }
+
+.text-display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+.text-display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.text-display-md {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.text-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.text-numeric {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLASSMORPHISMUS
+═══════════════════════════════════════════════════════ */
+.glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.glass-strong {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.glass-dark {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.dark .glass {
+  background: rgba(20, 20, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ═══════════════════════════════════════════════════════
+   NOISE-TEXTUR (subtiles Overlay)
+═══════════════════════════════════════════════════════ */
+.volt-texture {
+  position: relative;
+}
+.volt-texture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HINTERGRUND-PATTERNS
+═══════════════════════════════════════════════════════ */
+.pattern-grid {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.pattern-dots {
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.pattern-dots-fine {
+  background-image: radial-gradient(circle, var(--border) 0.5px, transparent 0.5px);
+  background-size: 12px 12px;
+}
+.pattern-dots-coarse {
+  background-image: radial-gradient(circle, var(--border) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+}
+.pattern-lines {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8px,
+    var(--border) 8px,
+    var(--border) 9px
+  );
+}
+.pattern-cross {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: center center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SIGNAL-FARB-KLASSEN (Utility)
+═══════════════════════════════════════════════════════ */
+.text-positive  { color: var(--signal-positive-text); }
+.text-negative  { color: var(--signal-negative-text); }
+.text-neutral   { color: var(--signal-neutral-text); }
+
+.bg-positive    { background-color: var(--signal-positive-light); }
+.bg-negative    { background-color: var(--signal-negative-light); }
+.bg-neutral     { background-color: var(--signal-neutral-light); }
+
+.border-positive { border-color: var(--signal-positive-border); }
+.border-negative { border-color: var(--signal-negative-border); }
+.border-neutral  { border-color: var(--signal-neutral-border); }
+
+/* ═══════════════════════════════════════════════════════
+   VOLT-KARTEN-VARIANTEN (CSS-only, ohne React)
+═══════════════════════════════════════════════════════ */
+.volt-card {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  color: var(--card-foreground);
+  padding: 1.5rem;
+}
+.volt-card-elevated {
+  border-radius: var(--radius);
+  background-color: var(--card);
+  color: var(--card-foreground);
+  padding: 1.5rem;
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.06),
+    0 4px 16px rgba(0,0,0,0.08),
+    0 8px 32px rgba(0,0,0,0.04);
+}
+.volt-card-lime {
+  border-radius: var(--radius);
+  background-color: var(--neon-yellow);
+  color: var(--black);
+  padding: 1.5rem;
+}
+.volt-card-solid {
+  border-radius: var(--radius);
+  background-color: var(--black);
+  color: #F5F5F5;
+  padding: 1.5rem;
+}
+.volt-card-glass {
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.volt-card-glass { @extend .glass; }
+
+/* ═══════════════════════════════════════════════════════
+   VOLT-BUTTON-VARIANTEN (CSS-only, ohne React)
+═══════════════════════════════════════════════════════ */
+.volt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+.volt-btn:active { transform: scale(0.97); }
+.volt-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.volt-btn-primary {
+  background-color: var(--neon-yellow);
+  color: var(--black);
+}
+.volt-btn-primary:hover { background-color: var(--lime-deep); }
+
+.volt-btn-solid {
+  background-color: var(--black);
+  color: #FFFFFF;
+}
+.volt-btn-solid:hover { background-color: var(--ink-soft); }
+
+.volt-btn-outline {
+  background-color: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+.volt-btn-outline:hover { border-color: var(--foreground); }
+
+.volt-btn-ghost {
+  background-color: transparent;
+  color: var(--muted-foreground);
+}
+.volt-btn-ghost:hover {
+  background-color: var(--secondary);
+  color: var(--foreground);
+}
+
+.volt-btn-destructive {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+}
+
+/* Größen */
+.volt-btn-sm  { font-size: 0.75rem; padding: 0.375rem 0.75rem; }
+.volt-btn-lg  { font-size: 1rem;    padding: 0.75rem 1.5rem; }
+.volt-btn-xl  { font-size: 1.125rem; padding: 1rem 2rem; }
+.volt-btn-icon { padding: 0.5rem; width: 2.25rem; height: 2.25rem; }
+
+/* ═══════════════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════════════ */
+@keyframes volt-breathe {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+@keyframes volt-pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.5; }
+}
+@keyframes volt-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes volt-slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-breathe        { animation: volt-breathe 3s ease-in-out infinite; }
+.animate-volt-fade-in   { animation: volt-fade-in 0.4s ease-out both; }
+.animate-volt-slide-in  { animation: volt-slide-in-right 0.3s ease-out both; }
