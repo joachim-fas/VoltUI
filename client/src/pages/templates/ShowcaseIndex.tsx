@@ -799,7 +799,7 @@ export default function ShowcaseIndex() {
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-12">
         <div className="flex items-center gap-2 mb-4">
           <VoltBadge variant="default" size="sm">Seiten-Templates</VoltBadge>
-          <span className="text-muted-foreground text-sm font-mono">{templates.length} verfügbar</span>
+
         </div>
         <h1 className="font-display font-bold text-4xl md:text-5xl tracking-tight mb-4">
           Template Showcase
@@ -815,14 +815,15 @@ export default function ShowcaseIndex() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {templates.map((t) => (
             <Link key={t.href} href={t.href}>
-              <div className="group border-2 border-black rounded-none overflow-hidden hover:shadow-[6px_6px_0px_#0A0A0A] transition-all duration-150 cursor-pointer bg-card">
+              <div className="group border border-border rounded-2xl overflow-hidden hover:border-foreground/40 hover:shadow-xl transition-all duration-200 cursor-pointer bg-card">
                 {/* SVG-Illustration */}
-                <div className="w-full overflow-hidden" style={{ aspectRatio: "12/5" }}>
+                <div className="h-40 overflow-hidden relative">
                   <t.Illustration />
+                  <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-200" />
                 </div>
 
                 {/* Info */}
-                <div className="p-5 border-t-2 border-black">
+                <div className="p-5">
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <h3 className="font-display font-bold text-base leading-tight">{t.title}</h3>
                     <VoltBadge variant={t.badgeVariant ?? "outline"} size="sm" className="flex-shrink-0">
@@ -841,9 +842,9 @@ export default function ShowcaseIndex() {
         </div>
 
         {/* Footer */}
-        <div className="mt-12 pt-8 border-t-2 border-black flex items-center justify-between">
+        <div className="mt-12 pt-8 border-t border-border flex items-center justify-between">
           <p className="text-muted-foreground text-sm font-mono">
-            volt ui · Template Showcase · {templates.length} Templates
+            volt ui · Template Showcase
           </p>
           <Link
             href="/"
