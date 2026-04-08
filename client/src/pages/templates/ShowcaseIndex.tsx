@@ -100,7 +100,7 @@ function BG({ bg, children, dark = false }: {
   return (
     <svg
       viewBox="0 0 480 200"
-      preserveAspectRatio="xMidYMid meet"
+      preserveAspectRatio="xMidYMid slice"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: "block", width: "100%", height: "100%" }}
@@ -817,8 +817,10 @@ export default function ShowcaseIndex() {
             <Link key={t.href} href={t.href}>
               <div className="group border border-border rounded-2xl overflow-hidden hover:border-foreground/40 hover:shadow-xl transition-all duration-200 cursor-pointer bg-card">
                 {/* SVG-Illustration */}
-                <div className="h-40 overflow-hidden relative">
-                  <t.Illustration />
+                <div className="h-40 overflow-hidden relative flex">
+                  <div className="w-full h-full flex-shrink-0">
+                    <t.Illustration />
+                  </div>
                   <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-200" />
                 </div>
 
