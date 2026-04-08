@@ -460,6 +460,59 @@ function IllustrationTerminal() {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   11 · Strategic Intelligence  — Lavender
+   Motiv: Query-Feld + 3 Partei-Karten mit Balken + Argumentationsblock
+───────────────────────────────────────────────────────────────── */
+function IllustrationStrategicIntelligence() {
+  const parties = [
+    { x: 16,  color: C.roseDark,     w: 40 },
+    { x: 176, color: C.sageDark,     w: 80 },
+    { x: 336, color: C.blueDark,     w: 55 },
+  ];
+  return (
+    <BG bg={C.lavender}>
+      {/* Navbar */}
+      <rect x={0} y={0} width={480} height={28} fill={C.black} />
+      <rect x={12} y={10} width={8} height={8} fill={C.lavenderDark} rx={1} />
+      <rect x={26} y={11} width={60} height={6} fill="rgba(255,255,255,0.4)" rx={2} />
+      <rect x={380} y={9} width={40} height={10} fill={C.lavenderDark} opacity={0.7} rx={2} />
+      <rect x={426} y={9} width={40} height={10} fill="rgba(255,255,255,0.15)" rx={2} />
+
+      {/* Query-Feld */}
+      <rect x={16} y={38} width={448} height={22} fill="rgba(255,255,255,0.7)" stroke={C.black} strokeWidth={1.5} rx={3} />
+      <rect x={26} y={44} width={120} height={6} fill={C.black} opacity={0.2} rx={2} />
+      <rect x={440} y={41} width={16} height={16} fill={C.black} rx={2} />
+
+      {/* Filter-Pills */}
+      {[0, 1, 2, 3].map(i => (
+        <rect key={i} x={16 + i * 68} y={68} width={58} height={12}
+          fill={i === 0 ? C.black : "rgba(0,0,0,0.08)"}
+          stroke={C.black} strokeWidth={i === 0 ? 0 : 1} rx={6}
+          opacity={i === 0 ? 1 : 0.6} />
+      ))}
+
+      {/* Partei-Karten */}
+      {parties.map((p, i) => (
+        <g key={i}>
+          <rect x={p.x} y={90} width={144} height={80}
+            fill="rgba(255,255,255,0.65)" stroke={C.black} strokeWidth={1.5} rx={3} />
+          {/* Partei-Kürzel */}
+          <rect x={p.x + 10} y={100} width={32} height={10} fill={p.color} stroke={C.black} strokeWidth={1} rx={1} />
+          {/* Prozentwert */}
+          <rect x={p.x + 10} y={116} width={50} height={14} fill={C.black} opacity={0.7} rx={1} />
+          {/* Balken */}
+          <rect x={p.x + 10} y={136} width={124} height={4} fill="rgba(0,0,0,0.1)" rx={2} />
+          <rect x={p.x + 10} y={136} width={p.w} height={4} fill={p.color} stroke={C.black} strokeWidth={0.5} rx={2} />
+          {/* Bullet-Zeilen */}
+          <rect x={p.x + 10} y={148} width={90} height={5} fill="rgba(0,0,0,0.15)" rx={2} />
+          <rect x={p.x + 10} y={158} width={70} height={5} fill="rgba(0,0,0,0.1)" rx={2} />
+        </g>
+      ))}
+    </BG>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Template-Daten
 ───────────────────────────────────────────────────────────────── */
 interface TemplateCard {
@@ -551,6 +604,14 @@ const templates: TemplateCard[] = [
     badge: "Dev",
     badgeVariant: "neutral",
     Illustration: IllustrationTerminal,
+  },
+  {
+    title: "Strategic Intelligence",
+    description: "KI-gestützte Analyse-Oberfläche: Query-Input, Partei-Karten, Argumentations-Ketten, Koalitionsoptionen und Quellenverzeichnis.",
+    href: "/showcase/strategic-intelligence",
+    badge: "App",
+    badgeVariant: "outline",
+    Illustration: IllustrationStrategicIntelligence,
   },
 ];
 
