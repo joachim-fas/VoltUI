@@ -1,22 +1,14 @@
 /**
  * Strategic Intelligence System – Volt UI Template
  *
- * KI-gestützte politische Analyse-Oberfläche.
- * Zeigt: Query-Input, Quellen-Filter, Partei-Analyse-Karten,
- * Argumentations-Ketten, Strategische Einschätzungen, Quellenverzeichnis
- * und Export-Panel mit Claude-Code-Snippets.
+ * Layout nach Referenz:
+ * - Navbar: Logo + Tabs (Fragen / Verstehen / Workspace) + Settings
+ * - Workspace-Header: Breadcrumb + Status-Badge + View-Switcher (Board/CLI/Nodes/Kanban)
+ * - Thema-Header: Badges + Titel + Beschreibung + Konfidenz/Signale-Metriken
+ * - Zweispaltig: Hauptinhalt (Szenarien, Dimensionen, Synthese) | Sidebar (Quellen, Fragen)
  *
- * Volt-UI-Komponenten: VoltNavbar, VoltCommandBar, VoltCard, VoltBadge,
- * VoltStat, VoltProgress, VoltCodeBlock, VoltAlert, VoltTabs
- *
- * ─────────────────────────────────────────────────────────────────────────
  * CLAUDE CODE INTEGRATION
- * ─────────────────────────────────────────────────────────────────────────
- * Dieses Template ist direkt für Claude Code vorbereitet.
- * Alle Komponenten-Importe, Typen und Strukturen sind dokumentiert.
- * Kopiere den gewünschten Abschnitt und übergib ihn direkt an Claude Code.
- *
- * Prompt-Vorlage für Claude Code:
+ * Prompt-Vorlage:
  * "Erweitere dieses Volt-UI-Template um [Feature]. Verwende ausschließlich
  *  Komponenten aus @/components/volt/. Halte dich an die bestehende
  *  Typografie (font-display, font-body, font-mono) und das Farbsystem
@@ -24,820 +16,435 @@
  */
 
 import React, { useState } from "react";
-import { TemplateShell } from "./TemplateShell";
-import { VoltNavbar } from "@/components/volt/VoltNavbar";
-import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
+import { Link } from "wouter";
 import { VoltBadge } from "@/components/volt/VoltBadge";
 import { VoltProgress } from "@/components/volt/VoltProgress";
-import { VoltAlert } from "@/components/volt/VoltAlert";
-import { VoltCodeBlock } from "@/components/volt/VoltCodeBlock";
-import { VoltCommandBar } from "@/components/volt/VoltCommandBar";
-import { VoltTabs } from "@/components/volt/VoltTabs";
 import {
-  Brain,
-  Sparkles,
-  Globe,
-  FileText,
-  Database,
+  ArrowLeft,
+  Settings,
+  LayoutGrid,
+  Terminal,
+  Network,
+  Columns,
   ChevronRight,
   TrendingUp,
   TrendingDown,
   Minus,
-  Download,
-  Share2,
-  BookOpen,
-  AlertTriangle,
-  CheckCircle2,
-  Clock,
-  Filter,
-  BarChart3,
-  Users,
   Zap,
-  ArrowRight,
-  Star,
   ExternalLink,
+  BookOpen,
+  MessageSquare,
 } from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────────────────
-   DATEN-TYPEN
+   TYPEN
    ───────────────────────────────────────────────────────────────────────── */
 
-interface Party {
+interface Scenario {
   id: string;
-  name: string;
-  shortName: string;
-  color: string;          // Pastell-Hintergrundfarbe
-  accentColor: string;    // Akzentfarbe für Borders / Badges
-  textColor: string;      // Textfarbe auf farbigem Hintergrund
-  position: number;       // Prozentwert der Zustimmung/Relevanz
-  trend: "up" | "down" | "neutral";
-  trendValue: number;
-  stance: "supportive" | "critical" | "neutral" | "ambivalent";
-  stanceLabel: string;
-  keyArguments: string[];
-  sources: number;
-}
-
-interface ArgumentBlock {
-  id: string;
-  type: "finding" | "context" | "risk" | "opportunity";
+  type: "optimistic" | "base" | "pessimistic";
   title: string;
-  content: string;
-  confidence: number;
-  sources: string[];
-  tags: string[];
-}
-
-interface CoalitionOption {
-  parties: string[];
+  description: string;
   probability: number;
-  stability: "high" | "medium" | "low";
-  label: string;
+  tags: string[];
+  accentColor: string;
 }
 
-interface Source {
-  id: string;
-  title: string;
-  outlet: string;
-  date: string;
-  relevance: number;
-  type: "news" | "study" | "official" | "speech";
-  url: string;
+interface Dimension {
+  label: string;
+  value: number;
+  delta: number;
+  color: string;
+}
+
+interface Signal {
+  source: string;
+  age: string;
+  headline: string;
+}
+
+interface FollowUpQuestion {
+  text: string;
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
    MOCK-DATEN
    ───────────────────────────────────────────────────────────────────────── */
 
-const QUERY = "Wie sieht die Zukunft der Sozialdemokratie in Österreich aus?";
-
-const PARTIES: Party[] = [
+const SCENARIOS: Scenario[] = [
   {
-    id: "spoe",
-    name: "Sozialdemokratische Partei Österreichs",
-    shortName: "SPÖ",
-    color: "#FFE4E4",
-    accentColor: "#E8402A",
-    textColor: "#8B1A00",
-    position: 15,
-    trend: "down",
-    trendValue: -3,
-    stance: "supportive",
-    stanceLabel: "Selbstpositionierung",
-    keyArguments: [
-      "Soziale Transformation als Kernthema der nächsten Legislaturperiode",
-      "Digitale Arbeitswelt erfordert neue Schutzkonzepte",
-      "Wohnungspolitik als Mobilisierungsthema",
-    ],
-    sources: 12,
+    id: "opt",
+    type: "optimistic",
+    title: "Optimistisch: Grüner Technologiesprung Europa",
+    description:
+      "Massive Investitionen und beschleunigte Genehmigungsverfahren führen zu einer Übererfüllung der EU-Klimaziele. Europa wird Exporteur von Green-Tech.",
+    probability: 29,
+    tags: ["VERTIEFEN", "WAS WENN"],
+    accentColor: "#6EDFA0",
   },
   {
-    id: "oevp",
-    name: "Österreichische Volkspartei",
-    shortName: "ÖVP",
-    color: "#E8F4E8",
-    accentColor: "#1A9E5A",
-    textColor: "#0F6038",
-    position: 40,
-    trend: "up",
-    trendValue: 5,
-    stance: "critical",
-    stanceLabel: "Demokratische Absorption",
-    keyArguments: [
-      "Wirtschaftskompetenz als Gegennarrative zur sozialen Frage",
-      "Mittelstand-Fokus verdrängt klassische Arbeitnehmerpolitik",
-      "Koalitionsoptionen bestimmen Positionierungsspielraum",
-    ],
-    sources: 18,
+    id: "base",
+    type: "base",
+    title: "Basisfall: Inkrementelle Transition mit Reibung",
+    description:
+      "Stetiger Ausbau, aber gebremst durch Fachkräftemangel, Netzengpässe und bürokratische Hürden. IRA-Konkurrenz hält an.",
+    probability: 60,
+    tags: ["STRATEGIE"],
+    accentColor: "#7BBCF5",
   },
   {
-    id: "fpoe",
-    name: "Freiheitliche Partei Österreichs",
-    shortName: "FPÖ",
-    color: "#E4EDFF",
-    accentColor: "#2563EB",
-    textColor: "#1E3A8A",
-    position: 20,
-    trend: "up",
-    trendValue: 8,
-    stance: "critical",
-    stanceLabel: "Struktureller Konkurrent",
-    keyArguments: [
-      "Übernahme sozialer Themen aus populistischer Perspektive",
-      "Arbeitermilieu als umkämpftes Wählerreservoir",
-      "Systemkritik als Differenzierungsmerkmal",
-    ],
-    sources: 9,
+    id: "pes",
+    type: "pessimistic",
+    title: "Pessimistisch: Backlash und Investitionsstopp",
+    description:
+      "Politische Richtungswechsel, anhaltende Inflation und Lieferketten-Schocks verlangsamen die Transition signifikant.",
+    probability: 20,
+    tags: [],
+    accentColor: "#F5829A",
   },
 ];
 
-const ARGUMENTS: ArgumentBlock[] = [
-  {
-    id: "a1",
-    type: "finding",
-    title: "Strukturelle Erosion der Stammwählerschaft",
-    content:
-      "Die SPÖ verliert seit den 1980er Jahren kontinuierlich Anteile in der industriellen Arbeiterschaft. Deindustrialisierung und der Aufstieg des Dienstleistungssektors haben die klassische Wählerbasis fragmentiert. Gleichzeitig gelingt es der Partei nicht, neue urbane Mittelschichten dauerhaft zu binden.",
-    confidence: 88,
-    sources: ["APA, 2024", "Politikwissenschaft Wien, 2023"],
-    tags: ["Wählerstruktur", "Deindustrialisierung", "Urbanisierung"],
-  },
-  {
-    id: "a2",
-    type: "context",
-    title: "Europäischer Vergleich: Sozialdemokratische Erneuerung",
-    content:
-      "In Dänemark und Portugal zeigen sozialdemokratische Parteien, dass Erneuerung durch programmatische Klarheit und Regierungskompetenz möglich ist. Gemeinsam ist beiden: eine klare Positionierung in der Wohnungs- und Klimapolitik sowie die Überwindung interner Flügelkämpfe.",
-    confidence: 72,
-    sources: ["Eurobarometer 2024", "FEPS Policy Paper"],
-    tags: ["Europa", "Vergleich", "Erneuerung"],
-  },
-  {
-    id: "a3",
-    type: "risk",
-    title: "Populistische Vereinnahmung sozialer Themen",
-    content:
-      "Die FPÖ positioniert sich zunehmend als Vertreterin der 'kleinen Leute' und besetzt damit traditionell sozialdemokratisches Terrain. Ohne klare Abgrenzung und eigene Glaubwürdigkeit droht weiterer Wählerverlust im Arbeitermilieu.",
-    confidence: 81,
-    sources: ["SORA Wahlanalyse 2024", "DerStandard, März 2024"],
-    tags: ["FPÖ", "Populismus", "Arbeitermilieu"],
-  },
-  {
-    id: "a4",
-    type: "opportunity",
-    title: "Wohnungskrise als Mobilisierungsthema",
-    content:
-      "Die Wohnungskrise trifft überproportional junge Stadtbewohner – eine Gruppe, die für die SPÖ erreichbar ist. Konkrete Mietpreisbremsen und Gemeindebau-Expansion könnten als Alleinstellungsmerkmal dienen und die Partei aus dem Oppositionsmodus herausführen.",
-    confidence: 65,
-    sources: ["Statistik Austria 2024", "Momentum Institut"],
-    tags: ["Wohnen", "Jugend", "Stadtpolitik"],
-  },
+const DIMENSIONS: Dimension[] = [
+  { label: "Technologie & Innovation", value: 82, delta: 5,  color: "#7BBCF5" },
+  { label: "Markt & Investitionen",    value: 68, delta: -2, color: "#F5D860" },
+  { label: "Geopolitik & Versorgung",  value: 45, delta: 0,  color: "#F5829A" },
+  { label: "Regulierung & Politik",    value: 90, delta: 12, color: "#6EDFA0" },
 ];
 
-const COALITIONS: CoalitionOption[] = [
-  { parties: ["SPÖ", "ÖVP"], probability: 38, stability: "medium", label: "Große Koalition" },
-  { parties: ["SPÖ", "Grüne", "NEOS"], probability: 22, stability: "low", label: "Ampel-Variante" },
-  { parties: ["ÖVP", "FPÖ"], probability: 30, stability: "high", label: "Rechts-Mitte" },
-  { parties: ["SPÖ", "FPÖ"], probability: 10, stability: "low", label: "Rot-Blau" },
+const SIGNALS: Signal[] = [
+  { source: "Reuters",    age: "Heute, 14:28",  headline: "EU kündigt neue Förderrichtlinien für Batterie-Recycling an." },
+  { source: "AgendaTen",  age: "Gestern",        headline: "Signifikanter Anstieg von Publikationen zu Perowskit-Solarzellen (+45% YoY)." },
+  { source: "Hacker News",age: "Vor 2 Tagen",    headline: "Diskussion über Open-Source Grid-Management Software trendet." },
+  { source: "Bloomberg",  age: "Vor 3 Tagen",    headline: "Kupferpreise erreichen 6-Monats-Hoch aufgrund erwarteter Nachfrage." },
 ];
 
-const SOURCES: Source[] = [
-  { id: "s1", title: "Wahlanalyse Nationalratswahl 2024", outlet: "SORA Institut", date: "Okt 2024", relevance: 95, type: "study", url: "#" },
-  { id: "s2", title: "SPÖ Parteitag: Programmatische Erneuerung", outlet: "APA", date: "Sep 2024", relevance: 88, type: "news", url: "#" },
-  { id: "s3", title: "Soziale Ungleichheit in Österreich", outlet: "Statistik Austria", date: "2024", relevance: 82, type: "official", url: "#" },
-  { id: "s4", title: "Europäische Sozialdemokratie im Wandel", outlet: "FEPS", date: "2023", relevance: 79, type: "study", url: "#" },
-  { id: "s5", title: "Wohnungspolitik als Wahlkampfthema", outlet: "Momentum Institut", date: "Aug 2024", relevance: 74, type: "study", url: "#" },
+const FOLLOW_UP: FollowUpQuestion[] = [
+  { text: "Welche Startups dominieren den Bereich \"Long-Duration Energy Storage\"?" },
+  { text: "Wie wirkt sich der EU Carbon Border Adjustment Mechanism (CBAM) aus?" },
 ];
+
+const SYNTHESIS = {
+  interpretation: [
+    "Fokusverschiebung von reiner Erzeugung hin zu Speicherung und Netzintegration.",
+    "Europa positioniert sich als regulatorischer Vorreiter, riskiert aber Wettbewerbsnachteile.",
+    "Kritische Rohstoffabhängigkeiten bleiben strukturelles Risiko für die gesamte Wertschöpfungskette.",
+  ],
+  actions: [
+    "Monitoring: Quartalsweise Überprüfung der EU-Netzausbau-Meilensteine.",
+    "Deep-Dive: Analyse der Top-Investoren im Bereich Grid-Software und Demand-Response.",
+    "Szenario-Update: Trigger-Ereignisse für Szenario-Wechsel definieren.",
+  ],
+};
 
 /* ─────────────────────────────────────────────────────────────────────────
    HILFSFUNKTIONEN
    ───────────────────────────────────────────────────────────────────────── */
 
-const typeConfig = {
-  finding: { label: "Befund", color: "bg-[#E4EDFF] text-[#1E3A8A] border-[#BFDBFE]", icon: <BarChart3 className="w-3.5 h-3.5" /> },
-  context: { label: "Kontext", color: "bg-[#F5F0FF] text-[#5B21B6] border-[#DDD6FE]", icon: <BookOpen className="w-3.5 h-3.5" /> },
-  risk:    { label: "Risiko",  color: "bg-[#FFF0F0] text-[#991B1B] border-[#FECACA]", icon: <AlertTriangle className="w-3.5 h-3.5" /> },
-  opportunity: { label: "Chance", color: "bg-[#F0FFF4] text-[#065F46] border-[#A7F3D0]", icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
-};
-
-const sourceTypeConfig = {
-  news:     { label: "Presse",    color: "muted" as const },
-  study:    { label: "Studie",    color: "neutral" as const },
-  official: { label: "Amtlich",  color: "positive" as const },
-  speech:   { label: "Rede",     color: "outline" as const },
-};
-
-const stabilityConfig = {
-  high:   { label: "Stabil",    color: "positive" as const },
-  medium: { label: "Mittel",    color: "neutral" as const },
-  low:    { label: "Fragil",    color: "negative" as const },
-};
-
-/* ─────────────────────────────────────────────────────────────────────────
-   PARTEI-KARTE
-   ───────────────────────────────────────────────────────────────────────── */
-
-const PartyCard: React.FC<{ party: Party }> = ({ party }) => {
-  const TrendIcon = party.trend === "up" ? TrendingUp : party.trend === "down" ? TrendingDown : Minus;
-  const trendColor = party.trend === "up" ? "text-[#1A9E5A]" : party.trend === "down" ? "text-[#E8402A]" : "text-muted-foreground";
-
+function DeltaBadge({ delta }: { delta: number }) {
+  if (delta === 0) return <span className="text-xs font-mono text-muted-foreground ml-1">–</span>;
+  const pos = delta > 0;
   return (
-    <VoltCard variant="default" className="overflow-hidden">
-      {/* Farbiger Header-Streifen */}
-      <div
-        className="px-5 pt-5 pb-4"
-        style={{ backgroundColor: party.color }}
-      >
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span
-                className="font-display font-black text-2xl"
-                style={{ color: party.accentColor }}
-              >
-                {party.shortName}
-              </span>
-              <VoltBadge
-                variant="outline"
-                size="sm"
-                style={{ borderColor: party.accentColor, color: party.textColor }}
-              >
-                {party.stanceLabel}
-              </VoltBadge>
-            </div>
-            <p className="text-xs text-muted-foreground font-body leading-tight max-w-[180px]">
-              {party.name}
-            </p>
-          </div>
-          <div className="text-right flex-shrink-0">
-            <div className="flex items-baseline gap-1 justify-end">
-              <span className="font-display font-black text-3xl" style={{ color: party.accentColor }}>
-                {party.position}
-              </span>
-              <span className="text-sm font-body font-semibold" style={{ color: party.textColor }}>%</span>
-            </div>
-            <div className={`flex items-center gap-1 justify-end mt-0.5 ${trendColor}`}>
-              <TrendIcon className="w-3 h-3" />
-              <span className="text-xs font-semibold font-body">
-                {party.trend === "up" ? "+" : ""}{party.trendValue}%
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Relevanz-Balken */}
-        <div className="mt-3">
-          <VoltProgress
-            value={party.position}
-            max={100}
-            size="sm"
-            showValue={false}
-          />
-        </div>
-      </div>
-
-      {/* Argumente */}
-      <VoltCardContent className="pt-4">
-        <p className="section-label mb-3">Kernpositionen</p>
-        <ul className="space-y-2">
-          {party.keyArguments.map((arg, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm font-body text-foreground/80">
-              <ChevronRight
-                className="w-3.5 h-3.5 mt-0.5 flex-shrink-0"
-                style={{ color: party.accentColor }}
-              />
-              <span>{arg}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
-          <span className="text-xs text-muted-foreground font-body">
-            {party.sources} Quellen ausgewertet
-          </span>
-          <VoltBadge variant="muted" size="sm">
-            <Database className="w-3 h-3 mr-1" />
-            Analyse
-          </VoltBadge>
-        </div>
-      </VoltCardContent>
-    </VoltCard>
+    <span className={`text-xs font-mono ml-1 ${pos ? "text-emerald-600" : "text-rose-500"}`}>
+      {pos ? "+" : ""}{delta}%
+    </span>
   );
-};
+}
 
 /* ─────────────────────────────────────────────────────────────────────────
-   ARGUMENT-BLOCK
-   ───────────────────────────────────────────────────────────────────────── */
-
-const ArgumentCard: React.FC<{ block: ArgumentBlock; index: number }> = ({ block, index }) => {
-  const cfg = typeConfig[block.type];
-
-  return (
-    <div className="flex gap-4">
-      {/* Nummerierung */}
-      <div className="flex-shrink-0 w-7 h-7 rounded-full bg-foreground text-background flex items-center justify-center font-mono text-xs font-bold mt-0.5">
-        {String(index + 1).padStart(2, "0")}
-      </div>
-
-      <VoltCard variant="default" className="flex-1">
-        <VoltCardContent className="pt-5">
-          {/* Header */}
-          <div className="flex items-start gap-3 mb-3">
-            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${cfg.color}`}>
-              {cfg.icon}
-              {cfg.label}
-            </span>
-            <div className="flex-1 min-w-0">
-              <h4 className="font-display font-bold text-base text-foreground leading-tight">
-                {block.title}
-              </h4>
-            </div>
-            <div className="flex-shrink-0 text-right">
-              <span className="text-xs text-muted-foreground font-body">Konfidenz</span>
-              <div className="font-mono font-bold text-sm text-foreground">{block.confidence}%</div>
-            </div>
-          </div>
-
-          {/* Inhalt */}
-          <p className="text-sm font-body text-foreground/80 leading-relaxed mb-4">
-            {block.content}
-          </p>
-
-          {/* Konfidenz-Balken */}
-          <VoltProgress value={block.confidence} max={100} size="sm" showValue={false} className="mb-4" />
-
-          {/* Footer: Quellen + Tags */}
-          <div className="flex flex-wrap items-center gap-2">
-            {block.sources.map((src, i) => (
-              <span key={i} className="inline-flex items-center gap-1 text-xs text-muted-foreground font-body">
-                <ExternalLink className="w-3 h-3" />
-                {src}
-              </span>
-            ))}
-            <span className="text-muted-foreground/40 mx-1">·</span>
-            {block.tags.map((tag, i) => (
-              <VoltBadge key={i} variant="muted" size="sm">{tag}</VoltBadge>
-            ))}
-          </div>
-        </VoltCardContent>
-      </VoltCard>
-    </div>
-  );
-};
-
-/* ─────────────────────────────────────────────────────────────────────────
-   KOALITIONS-KARTE
-   ───────────────────────────────────────────────────────────────────────── */
-
-const CoalitionCard: React.FC<{ option: CoalitionOption }> = ({ option }) => {
-  const stab = stabilityConfig[option.stability];
-
-  return (
-    <VoltCard variant="default">
-      <VoltCardContent className="pt-5">
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <div>
-            <p className="font-display font-bold text-base text-foreground">{option.label}</p>
-            <p className="text-xs text-muted-foreground font-body mt-0.5">
-              {option.parties.join(" · ")}
-            </p>
-          </div>
-          <div className="text-right flex-shrink-0">
-            <span className="font-display font-black text-2xl text-foreground">{option.probability}%</span>
-            <div className="mt-1">
-              <VoltBadge variant={stab.color} size="sm">{stab.label}</VoltBadge>
-            </div>
-          </div>
-        </div>
-        <VoltProgress value={option.probability} max={100} size="sm" showValue={false} />
-        </VoltCardContent>
-    </VoltCard>
-  );
-};
-
-/* ─────────────────────────────────────────────────────────────────────────
-   QUELLEN-ZEILE
-   ───────────────────────────────────────────────────────────────────────── */
-
-const SourceRow: React.FC<{ source: Source }> = ({ source }) => {
-  const cfg = sourceTypeConfig[source.type];
-
-  return (
-    <div className="flex items-center gap-4 py-3 border-b border-border last:border-0">
-      <VoltBadge variant={cfg.color} size="sm" className="flex-shrink-0 w-16 justify-center">
-        {cfg.label}
-      </VoltBadge>
-      <div className="flex-1 min-w-0">
-        <p className="text-sm font-body font-semibold text-foreground truncate">{source.title}</p>
-        <p className="text-xs text-muted-foreground font-body">{source.outlet}</p>
-      </div>
-      <div className="flex items-center gap-3 flex-shrink-0">
-        <div className="flex items-center gap-1 text-xs text-muted-foreground font-body">
-          <Clock className="w-3 h-3" />
-          {source.date}
-        </div>
-        <div className="flex items-center gap-1">
-          <Star className="w-3 h-3 text-[#E4FF97] fill-[#E4FF97]" />
-          <span className="text-xs font-mono font-bold text-foreground">{source.relevance}</span>
-        </div>
-        <a href={source.url} className="text-muted-foreground hover:text-foreground transition-colors">
-          <ExternalLink className="w-3.5 h-3.5" />
-        </a>
-      </div>
-    </div>
-  );
-};
-
-/* ─────────────────────────────────────────────────────────────────────────
-   HAUPTKOMPONENTE
+   HAUPT-KOMPONENTE
    ───────────────────────────────────────────────────────────────────────── */
 
 export default function StrategicIntelligenceTemplate() {
-  const [activeTab, setActiveTab] = useState("analyse");
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [query, setQuery] = useState(QUERY);
+  const [activeTab, setActiveTab] = useState<"fragen" | "verstehen" | "workspace">("workspace");
+  const [activeView, setActiveView] = useState<"board" | "cli" | "nodes" | "kanban">("board");
 
-  const filters = [
-    { id: "all",        label: "Überblick" },
-    { id: "structural", label: "Strukturell" },
-    { id: "specific",   label: "Speziell" },
-    { id: "refs",       label: "Referenzpunkte" },
-  ];
+  const views = [
+    { id: "board",  label: "Board",  Icon: LayoutGrid },
+    { id: "cli",    label: "CLI",    Icon: Terminal },
+    { id: "nodes",  label: "Nodes",  Icon: Network },
+    { id: "kanban", label: "Kanban", Icon: Columns },
+  ] as const;
 
   return (
-    <TemplateShell
-      title="Strategic Intelligence System"
-      category="App"
-    >
+    <div className="min-h-screen bg-background flex flex-col">
+
       {/* ── Navbar ── */}
-      <VoltNavbar
-        variant="solid"
-        logo={
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-foreground flex items-center justify-center">
-              <Brain className="w-4 h-4 text-background" />
-            </div>
-            <div>
-              <span className="font-display font-bold text-sm text-foreground leading-none block">
-                Strategic Intelligence
-              </span>
-              <span className="font-mono text-[0.6rem] text-muted-foreground leading-none tracking-widest uppercase">
-                System
-              </span>
-            </div>
-          </div>
-        }
-        items={[
-          { label: "Versuchen", active: true },
-          { label: "Archiv" },
-          { label: "Einstellungen" },
-        ]}
-        rightSlot={
-          <div className="flex items-center gap-2">
-            <VoltBadge variant="default" size="sm">
-              <Sparkles className="w-3 h-3 mr-1" />
-              Standard
-            </VoltBadge>
-            <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-bold font-mono text-foreground">
-              JF
-            </div>
-          </div>
-        }
-      />
-
-      {/* ── Query-Bereich ── */}
-      <div className="border-b border-border bg-muted/30">
-        <div className="max-w-4xl mx-auto px-6 py-6">
-          <VoltCommandBar
-            value={query}
-            onChange={setQuery}
-            placeholder="Stelle eine strategische Frage…"
-            variant="default"
-            size="md"
-            leftActions={[
-              { icon: <Globe className="w-4 h-4" />, label: "Quellen", active: true },
-              { icon: <FileText className="w-4 h-4" />, label: "Dokumente" },
-              { icon: <Database className="w-4 h-4" />, label: "Datenbank" },
-            ]}
-            suggestions={filters.map(f => ({
-              label: f.label,
-              onClick: () => setActiveFilter(f.id),
-            }))}
-          />
-        </div>
-      </div>
-
-      {/* ── Ergebnis-Header ── */}
-      <div className="max-w-4xl mx-auto px-6 pt-8 pb-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-2">
-              <VoltBadge variant="muted" size="sm">
-                <Filter className="w-3 h-3 mr-1" />
-                Politische Analyse
-              </VoltBadge>
-              <VoltBadge variant="positive" size="sm">
-                <CheckCircle2 className="w-3 h-3 mr-1" />
-                Hohe Konfidenz
-              </VoltBadge>
-            </div>
-            <h1 className="font-display font-bold text-xl text-foreground leading-snug">
-              {query}
-            </h1>
-          </div>
+      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm">
+        <div className="flex items-center h-12 px-4 gap-6">
+          {/* Logo */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-body font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
-              <Share2 className="w-4 h-4" />
-              Teilen
+            <span className="font-mono text-sm font-bold text-primary">&gt;_</span>
+            <span className="font-display font-bold text-sm tracking-tight">SIS</span>
+          </div>
+
+          {/* Tabs */}
+          <nav className="flex items-center gap-1">
+            {(["fragen", "verstehen", "workspace"] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-3 py-1.5 text-sm rounded-md transition-colors capitalize ${
+                  activeTab === tab
+                    ? "bg-foreground text-background font-semibold"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </nav>
+
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Settings */}
+          <button className="w-8 h-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+            <Settings className="w-4 h-4" />
+          </button>
+        </div>
+      </header>
+
+      {/* ── Workspace-Header ── */}
+      <div className="border-b border-border px-6 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold">Workspace</span>
+          <VoltBadge variant="positive" size="sm">Aktiv</VoltBadge>
+        </div>
+        {/* View-Switcher */}
+        <div className="flex items-center gap-1">
+          {views.map(({ id, label, Icon }) => (
+            <button
+              key={id}
+              onClick={() => setActiveView(id)}
+              className={`flex items-center gap-1.5 px-2.5 py-1 text-xs rounded transition-colors ${
+                activeView === id
+                  ? "bg-foreground text-background font-semibold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              }`}
+            >
+              <Icon className="w-3 h-3" />
+              {label}
             </button>
-            <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-body font-semibold bg-foreground text-background hover:bg-foreground/90 transition-colors">
-              <Download className="w-4 h-4" />
-              Export
-            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Hauptbereich ── */}
+      <div className="flex-1 overflow-auto">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+
+          {/* ── Thema-Header ── */}
+          <div className="mb-8">
+            <div className="flex items-start justify-between gap-6">
+              <div className="flex-1 min-w-0">
+                {/* Kategorie-Badges */}
+                <div className="flex items-center gap-2 mb-3">
+                  <VoltBadge variant="muted" size="sm">Deep-Dive</VoltBadge>
+                  <VoltBadge variant="positive" size="sm">Adopt</VoltBadge>
+                </div>
+                <h1 className="font-display font-bold text-3xl md:text-4xl tracking-tight mb-3">
+                  Renewable Energy &amp; Green Tech
+                </h1>
+                <p className="text-muted-foreground leading-relaxed max-w-2xl">
+                  Der Übergang zu erneuerbaren Energien beschleunigt sich global, getrieben durch sinkende Kosten für
+                  Solar/Wind, geopolitische Autarkiebestrebungen (z.B. REPowerEU) und regulatorischen Druck. Engpässe
+                  bestehen weiterhin bei Netzinfrastruktur, Energiespeicherung und kritischen Rohstoffen.
+                </p>
+              </div>
+
+              {/* Metriken */}
+              <div className="flex items-start gap-6 flex-shrink-0">
+                <div className="text-right">
+                  <div className="font-display font-bold text-4xl tracking-tight">74%</div>
+                  <div className="text-xs font-mono text-muted-foreground uppercase tracking-widest mt-0.5">Konfidenz</div>
+                </div>
+                <div className="text-right">
+                  <div className="font-display font-bold text-4xl tracking-tight">1.2k</div>
+                  <div className="text-xs font-mono text-muted-foreground uppercase tracking-widest mt-0.5">Signale</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Zweispaltiges Layout ── */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8">
+
+            {/* ── Linke Spalte: Hauptinhalt ── */}
+            <div className="space-y-8">
+
+              {/* Zukunftsszenarien */}
+              <section>
+                <div className="flex items-center gap-2 mb-4">
+                  <Zap className="w-4 h-4 text-primary" />
+                  <h2 className="font-display font-semibold text-sm uppercase tracking-widest text-muted-foreground">
+                    Zukunftsszenarien (2030)
+                  </h2>
+                </div>
+                <div className="space-y-3">
+                  {SCENARIOS.map((s) => (
+                    <div
+                      key={s.id}
+                      className="border border-border rounded-lg p-4 hover:border-foreground/30 transition-colors"
+                      style={{ borderLeftColor: s.accentColor, borderLeftWidth: 3 }}
+                    >
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <h3
+                          className="font-display font-semibold text-sm leading-snug"
+                          style={{ color: s.accentColor }}
+                        >
+                          {s.title}
+                        </h3>
+                        <span className="font-mono text-sm font-bold flex-shrink-0 text-muted-foreground">
+                          {s.probability}%
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                        {s.description}
+                      </p>
+                      {s.tags.length > 0 && (
+                        <div className="flex items-center gap-2">
+                          {s.tags.map((tag) => (
+                            <button
+                              key={tag}
+                              className="px-2 py-0.5 text-xs font-mono font-semibold border border-border rounded hover:bg-secondary transition-colors"
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Dimensions-Grid */}
+              <section>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {DIMENSIONS.map((d) => (
+                    <div key={d.label} className="border border-border rounded-lg p-4">
+                      <div className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-2">
+                        {d.label}
+                      </div>
+                      <div className="flex items-baseline gap-1 mb-3">
+                        <span className="font-display font-bold text-3xl">{d.value}%</span>
+                        <DeltaBadge delta={d.delta} />
+                      </div>
+                      <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-500"
+                          style={{ width: `${d.value}%`, backgroundColor: d.color }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Synthese & Handlungsempfehlungen */}
+              <section>
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <h2 className="font-display font-semibold text-sm uppercase tracking-widest text-muted-foreground">
+                    Synthese &amp; Handlungsempfehlungen
+                  </h2>
+                </div>
+                <div className="border border-border rounded-lg p-5 space-y-5">
+                  <div>
+                    <div className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">
+                      Strategische Interpretation
+                    </div>
+                    <ul className="space-y-2">
+                      {SYNTHESIS.interpretation.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <ChevronRight className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-primary" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="border-t border-border pt-4">
+                    <div className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">
+                      Empfohlene Aktionen
+                    </div>
+                    <ul className="space-y-2">
+                      {SYNTHESIS.actions.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm">
+                          <span className="font-mono text-xs text-primary mt-0.5 flex-shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+
+            {/* ── Rechte Sidebar ── */}
+            <aside className="space-y-6">
+
+              {/* Quellen & Signale */}
+              <section>
+                <div className="flex items-center gap-2 mb-3">
+                  <Zap className="w-3.5 h-3.5 text-primary" />
+                  <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-muted-foreground">
+                    Quellen &amp; Signale
+                  </h3>
+                </div>
+                <div className="space-y-0 border border-border rounded-lg overflow-hidden">
+                  {SIGNALS.map((s, i) => (
+                    <div
+                      key={i}
+                      className="px-3 py-3 border-b border-border last:border-b-0 hover:bg-secondary/50 transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-mono text-muted-foreground">{s.age}</span>
+                        <span className="text-xs font-mono font-semibold text-primary">{s.source}</span>
+                      </div>
+                      <p className="text-xs text-foreground leading-snug">{s.headline}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Weiterführende Fragen */}
+              <section>
+                <div className="flex items-center gap-2 mb-3">
+                  <MessageSquare className="w-3.5 h-3.5 text-primary" />
+                  <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-muted-foreground">
+                    Weiterführende Fragen
+                  </h3>
+                </div>
+                <div className="space-y-2">
+                  {FOLLOW_UP.map((q, i) => (
+                    <button
+                      key={i}
+                      className="w-full text-left px-3 py-2.5 text-xs text-muted-foreground border border-border rounded-lg hover:border-foreground/40 hover:text-foreground transition-colors leading-snug"
+                    >
+                      {q.text}
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+            </aside>
           </div>
         </div>
       </div>
 
-      {/* ── Tabs ── */}
-      <div className="max-w-4xl mx-auto px-6 pb-6">
-        <VoltTabs
-          variant="underline"
-          tabs={[
-            { id: "analyse",    label: "Analyse",         icon: <Brain className="w-4 h-4" /> },
-            { id: "parteien",   label: "Parteien",        icon: <Users className="w-4 h-4" /> },
-            { id: "koalition",  label: "Koalitionsoptionen", icon: <BarChart3 className="w-4 h-4" /> },
-            { id: "quellen",    label: "Quellen",         icon: <BookOpen className="w-4 h-4" /> },
-            { id: "export",     label: "Code & Export",   icon: <Zap className="w-4 h-4" /> },
-          ]}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
+      {/* ── Footer-Nav ── */}
+      <div className="border-t border-border px-6 py-3 flex items-center justify-between">
+        <Link
+          href="/showcase"
+          className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Zurück zum Showcase
+        </Link>
+        <span className="text-xs font-mono text-muted-foreground">volt ui · Strategic Intelligence</span>
       </div>
 
-      {/* ── Inhalt ── */}
-      <div className="max-w-4xl mx-auto px-6 pb-16 space-y-8">
-
-        {/* ── TAB: ANALYSE ── */}
-        {activeTab === "analyse" && (
-          <>
-            {/* Partei-Karten (kompakt) */}
-            <section>
-              <h2 className="font-display font-bold text-base text-foreground mb-4">
-                Parteipositionen im Überblick
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {PARTIES.map(p => (
-                  <PartyCard key={p.id} party={p} />
-                ))}
-              </div>
-            </section>
-
-            {/* Argumentations-Ketten */}
-            <section>
-              <h2 className="font-display font-bold text-base text-foreground mb-4">
-                Analytische Befunde
-              </h2>
-              <div className="space-y-4">
-                {ARGUMENTS.map((block, i) => (
-                  <ArgumentCard key={block.id} block={block} index={i} />
-                ))}
-              </div>
-            </section>
-
-            {/* Strategische Einschätzung */}
-            <VoltAlert
-              variant="info"
-              title="Strategische Einschätzung"
-            >
-              Die SPÖ steht vor einem strukturellen Dilemma: Ohne programmatische Erneuerung und Führungsklarheit droht weiterer Bedeutungsverlust. Die Wohnungskrise bietet ein konkretes Mobilisierungsthema, das jedoch konsequent besetzt werden muss – bevor die FPÖ dieses Terrain vollständig übernimmt.
-            </VoltAlert>
-          </>
-        )}
-
-        {/* ── TAB: PARTEIEN ── */}
-        {activeTab === "parteien" && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {PARTIES.map(p => (
-              <PartyCard key={p.id} party={p} />
-            ))}
-          </div>
-        )}
-
-        {/* ── TAB: KOALITION ── */}
-        {activeTab === "koalition" && (
-          <section>
-            <h2 className="font-display font-bold text-base text-foreground mb-4">
-              Koalitionsoptionen nach Wahrscheinlichkeit
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {COALITIONS.sort((a, b) => b.probability - a.probability).map((opt, i) => (
-                <CoalitionCard key={i} option={opt} />
-              ))}
-            </div>
-            <VoltAlert
-              variant="warning"
-              title="Hinweis zur Methodik"
-              className="mt-6"
-            >
-              Wahrscheinlichkeiten basieren auf Umfragedaten, historischen Koalitionsmustern und aktuellen Parteiaussagen. Sie sind keine Prognosen, sondern Einschätzungen zum Analysezeitpunkt.
-            </VoltAlert>
-          </section>
-        )}
-
-        {/* ── TAB: QUELLEN ── */}
-        {activeTab === "quellen" && (
-          <section>
-            <h2 className="font-display font-bold text-base text-foreground mb-4">
-              Ausgewertete Quellen
-            </h2>
-            <VoltCard variant="default">
-              <VoltCardContent className="pt-5">
-                {SOURCES.map(src => (
-                  <SourceRow key={src.id} source={src} />
-                ))}
-              </VoltCardContent>
-            </VoltCard>
-          </section>
-        )}
-
-        {/* ── TAB: CODE & EXPORT ── */}
-        {activeTab === "export" && (
-          <section className="space-y-6">
-            <h2 className="font-display font-bold text-base text-foreground mb-4">
-              Claude Code Integration
-            </h2>
-
-            <VoltAlert
-              variant="info"
-              title="Direkt an Claude Code übergeben"
-            >
-              Die folgenden Snippets sind für die direkte Übergabe an Claude Code optimiert. Kopiere den gewünschten Block und füge ihn als Kontext in deine Claude-Code-Session ein.
-            </VoltAlert>
-
-            {/* Komponenten-Import-Snippet */}
-            <VoltCard variant="default">
-              <VoltCardHeader>
-                <VoltCardTitle className="text-base">Komponenten-Imports</VoltCardTitle>
-                <p className="text-sm text-muted-foreground font-body">
-                  Alle Volt-UI-Komponenten die in diesem Template verwendet werden.
-                </p>
-              </VoltCardHeader>
-              <VoltCardContent className="pt-0">
-                <VoltCodeBlock
-                  language="tsx"
-                  label="imports.tsx"
-                  code={`import { VoltNavbar } from "@/components/volt/VoltNavbar";
-import { VoltCard, VoltCardContent, VoltCardHeader, VoltCardTitle } from "@/components/volt/VoltCard";
-import { VoltBadge } from "@/components/volt/VoltBadge";
-import { VoltProgress } from "@/components/volt/VoltProgress";
-import { VoltAlert } from "@/components/volt/VoltAlert";
-import { VoltCodeBlock } from "@/components/volt/VoltCodeBlock";
-import { VoltCommandBar } from "@/components/volt/VoltCommandBar";
-import { VoltTabs } from "@/components/volt/VoltTabs";`}
-                />
-              </VoltCardContent>
-            </VoltCard>
-
-            {/* Farbsystem-Snippet */}
-            <VoltCard variant="default">
-              <VoltCardHeader>
-                <VoltCardTitle className="text-base">Volt-UI Farbsystem</VoltCardTitle>
-                <p className="text-sm text-muted-foreground font-body">
-                  CSS-Variablen für konsistente Farbgebung – direkt in Tailwind verwendbar.
-                </p>
-              </VoltCardHeader>
-              <VoltCardContent className="pt-0">
-                <VoltCodeBlock
-                  language="css"
-                  label="colors.css"
-                  code={`/* Primär: Neon-Lime auf Schwarz */
---primary: #E4FF97;          /* Neon-Lime */
---primary-foreground: #0A0A0A;
-
-/* Pastell-Palette */
---pastel-mint:    #C8F5E0;
---pastel-butter:  #FFF3C4;
---pastel-blue:    #DBEAFE;
---pastel-orchid:  #EDE9FE;
---pastel-peach:   #FFE4CC;
---pastel-rose:    #FFE4E4;
-
-/* Signal-Farben */
---signal-positive-light: #E8F8EF;
---signal-positive-text:  #0F6038;
---signal-negative-light: #FDEEE9;
---signal-negative-text:  #A01A08;
---signal-neutral-light:  #F5F5F5;
---signal-neutral-text:   #3A3A3A;`}
-                />
-              </VoltCardContent>
-            </VoltCard>
-
-            {/* Claude-Code-Prompt */}
-            <VoltCard variant="default">
-              <VoltCardHeader>
-                <VoltCardTitle className="text-base">Claude Code Prompt-Vorlage</VoltCardTitle>
-                <p className="text-sm text-muted-foreground font-body">
-                  Kopiere diesen Prompt um das Template zu erweitern oder anzupassen.
-                </p>
-              </VoltCardHeader>
-              <VoltCardContent className="pt-0">
-                <VoltCodeBlock
-                  language="bash"
-                  label="prompt.txt"
-                  code={`Erweitere dieses Volt-UI-Template um [FEATURE].
-
-Kontext:
-- Framework: React 19 + TypeScript + Tailwind CSS 4
-- Komponenten: @/components/volt/* (VoltCard, VoltBadge, VoltProgress, etc.)
-- Typografie: font-display (Headlines), font-body (Fließtext), font-mono (Code/Zahlen)
-- Farbsystem: CSS-Variablen (--primary: #E4FF97, --signal-positive-*, --signal-negative-*)
-- Pastell-Palette: #C8F5E0 (Mint), #FFF3C4 (Butter), #DBEAFE (Blue), #EDE9FE (Orchid)
-
-Regeln:
-1. Keine neuen Abhängigkeiten einführen
-2. Ausschließlich Volt-UI-Komponenten verwenden
-3. CSS-Variablen statt hardcodierte Farben (außer Pastell-Hintergründe)
-4. Keine Quantifizierungen in UI-Texten
-5. Hover-Effekte nur bei interaktiven Elementen (variant="interactive")
-
-Gewünschte Erweiterung: [BESCHREIBUNG]`}
-                />
-              </VoltCardContent>
-            </VoltCard>
-
-            {/* Datenstruktur-Snippet */}
-            <VoltCard variant="default">
-              <VoltCardHeader>
-                <VoltCardTitle className="text-base">Datenstruktur</VoltCardTitle>
-                <p className="text-sm text-muted-foreground font-body">
-                  TypeScript-Interfaces für die Analyse-Daten – direkt erweiterbar.
-                </p>
-              </VoltCardHeader>
-              <VoltCardContent className="pt-0">
-                <VoltCodeBlock
-                  language="ts"
-                  label="types.ts"
-                  code={`interface Party {
-  id: string;
-  name: string;
-  shortName: string;
-  color: string;        // Pastell-Hintergrundfarbe (z.B. "#FFE4E4")
-  accentColor: string;  // Akzentfarbe für Borders / Badges
-  textColor: string;    // Textfarbe auf farbigem Hintergrund
-  position: number;     // Prozentwert der Relevanz/Zustimmung
-  trend: "up" | "down" | "neutral";
-  trendValue: number;
-  stance: "supportive" | "critical" | "neutral" | "ambivalent";
-  stanceLabel: string;
-  keyArguments: string[];
-  sources: number;
-}
-
-interface ArgumentBlock {
-  id: string;
-  type: "finding" | "context" | "risk" | "opportunity";
-  title: string;
-  content: string;
-  confidence: number;   // 0–100
-  sources: string[];
-  tags: string[];
-}
-
-interface Source {
-  id: string;
-  title: string;
-  outlet: string;
-  date: string;
-  relevance: number;    // 0–100
-  type: "news" | "study" | "official" | "speech";
-  url: string;
-}`}
-                />
-              </VoltCardContent>
-            </VoltCard>
-          </section>
-        )}
-      </div>
-    </TemplateShell>
+    </div>
   );
 }
