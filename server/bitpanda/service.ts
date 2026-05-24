@@ -8,9 +8,14 @@
 import { BITPANDA, ENDPOINTS } from "./config";
 import { bitpandaGet, bitpandaPost, bitpandaDelete } from "./client";
 import { evaluateOrder } from "./safety";
+import * as store from "./store";
 import type {
   Balance, Ticker, PlaceOrderInput, OrderResult, OrderPreview, OrderOutcome, OpenOrder,
 } from "./types";
+
+function safetyRuntime() {
+  return { paused: store.isPaused(), spentTodayEur: store.getSpentToday() };
+}
 
 export function getBalances(): Promise<Balance[]> {
   return bitpandaGet<Balance[]>(ENDPOINTS.balances, true);
@@ -99,7 +104,7 @@ export async function previewOrder(input: PlaceOrderInput): Promise<OrderPreview
     request: input,
     estimatedEur,
     dryRun: BITPANDA.dryRun,
-    check: evaluateOrder(input, estimatedEur),
+    check: evaluateOrder(input, estimatedEur, BITPANDA, safetyRuntime()),
   };
 }
 
@@ -134,6 +139,9 @@ export async function placeOrder(input: PlaceOrderInput): Promise<OrderOutcome> 
     amount: input.amount,
     ...(input.type === "LIMIT" ? { price: input.price } : {}),
   });
+
+  // Tagesausgaben für das Tageslimit mitzählen (nur echte Sends mit EUR-Wert).
+  if (preview.estimatedEur !== null) store.addSpend(preview.estimatedEur);
 
   return {
     ...preview,

@@ -94,6 +94,24 @@ export function evaluateRules(
   return matches;
 }
 
+/**
+ * Schickt eine Benachrichtigung an den optionalen Webhook. Reine Benachrichtigung –
+ * niemals eine Order. Fehler werden geschluckt, damit die Engine nie hängt.
+ */
+async function notifyWebhook(title: string, detail: string): Promise<void> {
+  const url = BITPANDA.alertWebhookUrl;
+  if (!url) return;
+  try {
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: `🔔 ${title}\n${detail}`, title, detail, source: "bitpanda-copilot" }),
+    });
+  } catch (e) {
+    console.warn("[bitpanda] Webhook-Benachrichtigung fehlgeschlagen:", (e as Error).message);
+  }
+}
+
 let evaluating = false;
 let timer: ReturnType<typeof setInterval> | null = null;
 
@@ -127,6 +145,7 @@ export async function evaluateOnce(): Promise<{ checked: number; triggered: numb
     for (const m of matches) {
       store.addAlert(m.alert);
       store.markTriggered(m.ruleId, now);
+      void notifyWebhook(m.alert.title, m.alert.detail);
     }
 
     return { checked: rules.length, triggered: matches.length };

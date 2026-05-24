@@ -31,10 +31,22 @@ export const bitpandaRouter = router({
     tradingEnabled: BITPANDA.tradingEnabled,
     dryRun: BITPANDA.dryRun,
     killSwitch: BITPANDA.killSwitch,
+    paused: store.isPaused(),
     maxOrderEur: BITPANDA.maxOrderEur,
+    dailyLimitEur: BITPANDA.dailyLimitEur,
+    spentTodayEur: store.getSpentToday(),
     quoteCurrency: BITPANDA.quoteCurrency,
     baseUrl: BITPANDA.baseUrl,
   })),
+
+  /** Not-Pause umschalten (Laufzeit, persistent) – hält alle Orders an. */
+  setPaused: publicProcedure
+    .input(z.object({ paused: z.boolean() }))
+    .mutation(({ input }) => {
+      store.setPaused(input.paused);
+      store.addJournal({ kind: "PAUSE", summary: input.paused ? "Not-Pause aktiviert" : "Not-Pause aufgehoben" });
+      return { paused: input.paused };
+    }),
 
   /** Kontostände (read-only, braucht API-Key). */
   balances: publicProcedure.query(() => service.getBalances()),

@@ -33,6 +33,8 @@ export const BITPANDA = {
 
   /** Guardrail: maximaler Gegenwert pro Order in EUR. */
   maxOrderEur: num(process.env.BITPANDA_MAX_ORDER_EUR, 100),
+  /** Guardrail: maximaler kumulierter Order-Gegenwert pro Tag in EUR. */
+  dailyLimitEur: num(process.env.BITPANDA_DAILY_LIMIT_EUR, 500),
   /** Standard-Quote-Währung für EUR-Schätzungen. */
   quoteCurrency: (process.env.BITPANDA_QUOTE_CURRENCY ?? "EUR").toUpperCase(),
 
@@ -40,6 +42,12 @@ export const BITPANDA = {
   alertPollSec: num(process.env.BITPANDA_ALERT_POLL_SEC, 60),
   /** Cooldown pro Regel in Minuten – verhindert wiederholtes Auslösen. */
   alertCooldownMin: num(process.env.BITPANDA_ALERT_COOLDOWN_MIN, 60),
+  /**
+   * Optionaler Webhook für ausgelöste Alerts (Slack/Discord/Telegram-Gateway/
+   * Zapier/eigener Endpoint). Leer = aus. Liefert nur Benachrichtigungen,
+   * löst NIE Trades aus.
+   */
+  alertWebhookUrl: process.env.BITPANDA_ALERT_WEBHOOK_URL ?? "",
 } as const;
 
 export function hasApiKey(): boolean {

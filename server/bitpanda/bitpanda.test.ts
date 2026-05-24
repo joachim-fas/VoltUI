@@ -4,7 +4,7 @@ import { evaluateRules } from "./alerts";
 import type { AlertRule } from "./store";
 import type { PlaceOrderInput } from "./types";
 
-const allowCfg: SafetyConfig = { killSwitch: false, tradingEnabled: true, dryRun: false, maxOrderEur: 100 };
+const allowCfg: SafetyConfig = { killSwitch: false, tradingEnabled: true, dryRun: false, maxOrderEur: 100, dailyLimitEur: 500 };
 
 const order = (over: Partial<PlaceOrderInput> = {}): PlaceOrderInput => ({
   instrument_code: "BTC_EUR", side: "BUY", type: "LIMIT", amount: "0.001", price: "60000", ...over,
@@ -54,6 +54,23 @@ describe("evaluateOrder (Guardrails)", () => {
   it("warnt, wenn der EUR-Gegenwert unbekannt ist", () => {
     const c = evaluateOrder(order(), null, allowCfg);
     expect(c.warnings.some((w) => w.includes("nicht geschätzt"))).toBe(true);
+  });
+
+  it("blockt bei aktiver Not-Pause", () => {
+    const c = evaluateOrder(order(), 60, allowCfg, { paused: true, spentTodayEur: 0 });
+    expect(c.allowed).toBe(false);
+    expect(c.blockers.some((b) => b.includes("Not-Pause"))).toBe(true);
+  });
+
+  it("blockt, wenn das Tageslimit überschritten würde", () => {
+    const c = evaluateOrder(order(), 60, allowCfg, { paused: false, spentTodayEur: 480 });
+    expect(c.allowed).toBe(false);
+    expect(c.blockers.some((b) => b.includes("Tageslimit"))).toBe(true);
+  });
+
+  it("erlaubt, wenn das Tageslimit noch nicht erreicht ist", () => {
+    const c = evaluateOrder(order(), 60, allowCfg, { paused: false, spentTodayEur: 100 });
+    expect(c.allowed).toBe(true);
   });
 });
 

@@ -13,18 +13,29 @@ export interface SafetyConfig {
   tradingEnabled: boolean;
   dryRun: boolean;
   maxOrderEur: number;
+  dailyLimitEur: number;
+}
+
+/** Laufzeit-Zustand, der nicht aus der Config kommt. */
+export interface SafetyRuntime {
+  paused: boolean;
+  spentTodayEur: number;
 }
 
 export function evaluateOrder(
   input: PlaceOrderInput,
   estimatedEur: number | null,
   cfg: SafetyConfig = BITPANDA,
+  runtime: SafetyRuntime = { paused: false, spentTodayEur: 0 },
 ): OrderCheck {
   const warnings: string[] = [];
   const blockers: string[] = [];
 
   if (cfg.killSwitch) {
     blockers.push("Kill-Switch aktiv – alle Orders sind gesperrt.");
+  }
+  if (runtime.paused) {
+    blockers.push("Not-Pause aktiv – Orders sind angehalten.");
   }
   if (!cfg.tradingEnabled) {
     blockers.push("Trading ist deaktiviert (BITPANDA_TRADING_ENABLED=false).");
@@ -38,6 +49,11 @@ export function evaluateOrder(
   if (estimatedEur !== null && estimatedEur > cfg.maxOrderEur) {
     blockers.push(
       `Order-Gegenwert ~ ${estimatedEur.toFixed(2)} € überschreitet das Limit von ${cfg.maxOrderEur} € (BITPANDA_MAX_ORDER_EUR).`,
+    );
+  }
+  if (estimatedEur !== null && runtime.spentTodayEur + estimatedEur > cfg.dailyLimitEur) {
+    blockers.push(
+      `Tageslimit überschritten: heute ~ ${runtime.spentTodayEur.toFixed(2)} € + ${estimatedEur.toFixed(2)} € > ${cfg.dailyLimitEur} € (BITPANDA_DAILY_LIMIT_EUR).`,
     );
   }
   if (estimatedEur === null) {

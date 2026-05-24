@@ -38,7 +38,7 @@ export interface TriggeredAlert {
   createdAt: number;
 }
 
-export type JournalKind = "ORDER" | "CANCEL" | "DISMISS";
+export type JournalKind = "ORDER" | "CANCEL" | "DISMISS" | "PAUSE";
 
 export interface JournalEntry {
   id: string;
@@ -52,6 +52,8 @@ interface StoreShape {
   rules: AlertRule[];
   alerts: TriggeredAlert[];
   journal: JournalEntry[];
+  spend: { date: string; eur: number } | null;
+  paused: boolean;
 }
 
 const FILE = process.env.BITPANDA_STORE_PATH || join(process.cwd(), "data", "bitpanda-store.json");
@@ -68,12 +70,14 @@ function read(): StoreShape {
       cache.rules ??= [];
       cache.alerts ??= [];
       cache.journal ??= [];
+      cache.spend ??= null;
+      cache.paused ??= false;
       return cache;
     }
   } catch (e) {
     console.warn("[bitpanda] Store-Lesefehler:", (e as Error).message);
   }
-  cache = { rules: [], alerts: [], journal: [] };
+  cache = { rules: [], alerts: [], journal: [], spend: null, paused: false };
   return cache;
 }
 
@@ -175,4 +179,34 @@ export function addJournal(input: Omit<JournalEntry, "id" | "at">): JournalEntry
   data.journal = [entry, ...data.journal].slice(0, MAX_JOURNAL);
   write(data);
   return entry;
+}
+
+/* ── Tagesausgaben (für das Tageslimit) ── */
+function todayKey(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+export function getSpentToday(): number {
+  const d = read();
+  return d.spend && d.spend.date === todayKey() ? d.spend.eur : 0;
+}
+
+export function addSpend(eur: number): void {
+  if (!Number.isFinite(eur) || eur <= 0) return;
+  const data = read();
+  const t = todayKey();
+  if (!data.spend || data.spend.date !== t) data.spend = { date: t, eur: 0 };
+  data.spend.eur += eur;
+  write(data);
+}
+
+/* ── Not-Pause (Laufzeit, persistent) ── */
+export function isPaused(): boolean {
+  return read().paused === true;
+}
+
+export function setPaused(paused: boolean): void {
+  const data = read();
+  data.paused = paused;
+  write(data);
 }

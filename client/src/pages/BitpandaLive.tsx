@@ -21,6 +21,7 @@ import {
   ArrowLeft, Terminal, ShieldCheck, ShieldAlert, KeyRound, Wallet,
   RefreshCw, AlertTriangle, CheckCircle2, Lock, Eye, Info,
   ListOrdered, XCircle, TrendingUp, Bell, Clock, Plus, Trash2, History,
+  Pause, Play, Zap,
 } from "lucide-react";
 
 type Side = "BUY" | "SELL";
@@ -61,6 +62,15 @@ export default function BitpandaLive() {
   const rulesQ = trpc.bitpanda.listRules.useQuery(undefined, { retry: false });
   const alertsQ = trpc.bitpanda.listAlerts.useQuery(undefined, { retry: false, refetchInterval: 15000 });
   const journalQ = trpc.bitpanda.listJournal.useQuery(undefined, { retry: false, refetchInterval: 20000 });
+
+  const pauseM = trpc.bitpanda.setPaused.useMutation({
+    onSuccess: (r) => {
+      add({ title: r.paused ? "Not-Pause aktiviert" : "Pause aufgehoben", variant: r.paused ? "warning" : "success" });
+      statusQ.refetch();
+      journalQ.refetch();
+    },
+  });
+  const [quickMode, setQuickMode] = useState(false);
 
   const [ruleType, setRuleType] = useState<"PRICE" | "ALLOCATION">("PRICE");
   const [ruleTarget, setRuleTarget] = useState("BTC_EUR");
@@ -127,14 +137,35 @@ export default function BitpandaLive() {
   const preview = previewM.data;
   const liveTrading = status?.tradingEnabled && !status?.dryRun;
 
+  const inputsIncomplete = () => !amount.trim() || (type === "LIMIT" && !price.trim());
+
   const runPreview = () => {
-    if (!amount.trim() || (type === "LIMIT" && !price.trim())) {
+    if (inputsIncomplete()) {
       add({ title: "Eingabe unvollständig", description: "Menge (und Preis bei Limit) angeben.", variant: "warning" });
       return;
     }
     previewM.mutate(orderPayload(), {
       onError: (e) => add({ title: "Vorschau fehlgeschlagen", description: e.message, variant: "error" }),
     });
+  };
+
+  // Schnellmodus: ein Klick = Vorschau + (falls erlaubt) sofort ausführen.
+  // Es bleibt ein bewusster menschlicher Klick – nur ohne Zwischendialog.
+  const quickSubmit = async () => {
+    if (inputsIncomplete()) {
+      add({ title: "Eingabe unvollständig", description: "Menge (und Preis bei Limit) angeben.", variant: "warning" });
+      return;
+    }
+    try {
+      const pv = await previewM.mutateAsync(orderPayload());
+      if (!pv.check.allowed) {
+        add({ title: "Order blockiert", description: pv.check.blockers.join(" "), variant: "warning" });
+        return;
+      }
+      placeM.mutate({ ...orderPayload(), confirm: true });
+    } catch (e) {
+      add({ title: "Vorschau fehlgeschlagen", description: (e as Error).message, variant: "error" });
+    }
   };
 
   return (
@@ -192,7 +223,20 @@ export default function BitpandaLive() {
                 <Eye className="w-3 h-3" /> Dry-Run: {status.dryRun ? "an" : "aus"}
               </VoltBadge>
               {status.killSwitch && <VoltBadge variant="negative" size="sm"><Lock className="w-3 h-3" /> Kill-Switch</VoltBadge>}
-              <VoltBadge variant="muted" size="sm">max {status.maxOrderEur} {status.quoteCurrency}</VoltBadge>
+              {status.paused && <VoltBadge variant="negative" size="sm"><Pause className="w-3 h-3" /> Pausiert</VoltBadge>}
+              <VoltBadge variant="muted" size="sm">
+                heute {status.spentTodayEur.toFixed(0)}/{status.dailyLimitEur} {status.quoteCurrency}
+              </VoltBadge>
+              <VoltBadge variant="muted" size="sm">max {status.maxOrderEur} {status.quoteCurrency}/Order</VoltBadge>
+              <VoltButton
+                variant={status.paused ? "primary" : "outline"}
+                size="sm"
+                loading={pauseM.isPending}
+                leftIcon={status.paused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
+                onClick={() => pauseM.mutate({ paused: !status.paused })}
+              >
+                {status.paused ? "Fortsetzen" : "Not-Pause"}
+              </VoltButton>
             </div>
           )}
         </div>
@@ -409,24 +453,48 @@ export default function BitpandaLive() {
                 </div>
               )}
 
+              {/* Schnellmodus */}
+              <button
+                onClick={() => setQuickMode((q) => !q)}
+                className="flex items-center justify-between w-full rounded-lg border border-border px-3 py-2 hover:bg-muted/50 transition-colors"
+              >
+                <span className="flex items-center gap-2 text-xs font-semibold">
+                  <Zap className="w-3.5 h-3.5" /> Schnellmodus (1-Klick)
+                </span>
+                <span className={`text-[0.7rem] font-semibold px-2 py-0.5 rounded-md ${quickMode ? "bg-[#E4FF97] text-[#0A0A0A]" : "bg-muted text-muted-foreground"}`}>
+                  {quickMode ? "AN" : "AUS"}
+                </span>
+              </button>
+
               {/* Actions */}
-              <div className="flex items-center gap-2">
+              {quickMode ? (
                 <VoltButton
-                  variant="outline" size="md" className="flex-1"
-                  loading={previewM.isPending}
-                  onClick={runPreview}
+                  variant="primary" size="md" className="w-full"
+                  loading={previewM.isPending || placeM.isPending}
+                  leftIcon={<Zap className="w-3.5 h-3.5" />}
+                  onClick={quickSubmit}
                 >
-                  Vorschau prüfen
+                  Prüfen & sofort ausführen
                 </VoltButton>
-                <VoltButton
-                  variant="primary" size="md" className="flex-1"
-                  disabled={!preview || !preview.check.allowed}
-                  leftIcon={<ShieldCheck className="w-3.5 h-3.5" />}
-                  onClick={() => setConfirmOpen(true)}
-                >
-                  Bestätigen
-                </VoltButton>
-              </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <VoltButton
+                    variant="outline" size="md" className="flex-1"
+                    loading={previewM.isPending}
+                    onClick={runPreview}
+                  >
+                    Vorschau prüfen
+                  </VoltButton>
+                  <VoltButton
+                    variant="primary" size="md" className="flex-1"
+                    disabled={!preview || !preview.check.allowed}
+                    leftIcon={<ShieldCheck className="w-3.5 h-3.5" />}
+                    onClick={() => setConfirmOpen(true)}
+                  >
+                    Bestätigen
+                  </VoltButton>
+                </div>
+              )}
             </div>
           </VoltCard>
         </div>
@@ -608,10 +676,10 @@ export default function BitpandaLive() {
               {journalQ.data?.map((j) => (
                 <div key={j.id} className="flex items-start gap-3 py-3">
                   <VoltBadge
-                    variant={j.kind === "ORDER" ? "positive" : j.kind === "CANCEL" ? "negative" : "muted"}
+                    variant={j.kind === "ORDER" ? "positive" : j.kind === "CANCEL" ? "negative" : j.kind === "PAUSE" ? "neutral" : "muted"}
                     size="sm"
                   >
-                    {j.kind === "ORDER" ? "Order" : j.kind === "CANCEL" ? "Storno" : "Verworfen"}
+                    {j.kind === "ORDER" ? "Order" : j.kind === "CANCEL" ? "Storno" : j.kind === "PAUSE" ? "System" : "Verworfen"}
                   </VoltBadge>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium leading-snug">{j.summary}</p>
