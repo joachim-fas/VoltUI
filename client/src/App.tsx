@@ -20,6 +20,7 @@ import DataTableTemplate from "./pages/templates/DataTableTemplate";
 import TerminalTemplate from "./pages/templates/TerminalTemplate";
 import BitpandaTemplate from "./pages/templates/BitpandaTemplate";
 import BitpandaLive from "./pages/BitpandaLive";
+import BitpandaSandbox from "./pages/BitpandaSandbox";
 
 function Router() {
   return (
@@ -39,6 +40,7 @@ function Router() {
       <Route path={"/showcase/terminal"} component={TerminalTemplate} />
       <Route path={"/showcase/bitpanda"} component={BitpandaTemplate} />
       <Route path={"/bitpanda"} component={BitpandaLive} />
+      <Route path={"/sandbox"} component={BitpandaSandbox} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -15,6 +15,7 @@ import { BITPANDA, hasApiKey } from "./config";
 import * as service from "./service";
 import * as store from "./store";
 import { evaluateOnce } from "./alerts";
+import { stepSandbox } from "./sandbox";
 
 const orderInput = z.object({
   instrument_code: z.string().min(3),
@@ -131,4 +132,29 @@ export const bitpandaRouter = router({
 
   /** Regeln sofort prüfen (zusätzlich zum Hintergrund-Polling). */
   evaluateNow: publicProcedure.mutation(() => evaluateOnce()),
+
+  /* ── Paper-Trading-Sandbox ("Gamble-Mode" mit Spielgeld) ── */
+  sandbox: router({
+    get: publicProcedure.query(() => store.getSandbox()),
+
+    configure: publicProcedure
+      .input(z.object({
+        instrument: z.string().min(3).optional(),
+        tradeEur: z.number().positive().optional(),
+        dipPct: z.number().positive().optional(),
+        takeProfitPct: z.number().positive().optional(),
+        stopLossPct: z.number().positive().optional(),
+        startCash: z.number().positive().optional(),
+      }))
+      .mutation(({ input }) => store.configureSandbox(input)),
+
+    toggle: publicProcedure
+      .input(z.object({ enabled: z.boolean() }))
+      .mutation(({ input }) => store.setSandboxEnabled(input.enabled)),
+
+    reset: publicProcedure.mutation(() => store.resetSandbox()),
+
+    /** Einen Schritt mit echtem Live-Kurs ausführen (virtuell). */
+    step: publicProcedure.mutation(() => stepSandbox()),
+  }),
 });

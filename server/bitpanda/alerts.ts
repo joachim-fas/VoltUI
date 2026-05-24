@@ -7,6 +7,7 @@
 
 import { BITPANDA } from "./config";
 import { getTicker, getBalances } from "./service";
+import { stepSandbox } from "./sandbox";
 import * as store from "./store";
 import type { AlertRule, Comparator, TriggeredAlert } from "./store";
 import type { Ticker } from "./types";
@@ -164,6 +165,7 @@ export function startAlertEngine(): void {
   console.log(`[bitpanda] Alert-Engine aktiv – prüft alle ${sec}s.`);
   timer = setInterval(() => {
     evaluateOnce().catch((e) => console.warn("[bitpanda] Alert-Auswertung fehlgeschlagen:", e.message));
+    stepSandbox().catch((e) => console.warn("[bitpanda] Sandbox-Schritt fehlgeschlagen:", e.message));
   }, sec * 1000);
   // Hält den Prozess nicht künstlich am Leben.
   if (typeof timer.unref === "function") timer.unref();

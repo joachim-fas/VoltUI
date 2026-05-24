@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { evaluateOrder, type SafetyConfig } from "./safety";
 import { evaluateRules } from "./alerts";
-import type { AlertRule } from "./store";
+import { stepStrategy } from "./sandbox";
+import type { AlertRule, SandboxState } from "./store";
 import type { PlaceOrderInput } from "./types";
 
 const allowCfg: SafetyConfig = { killSwitch: false, tradingEnabled: true, dryRun: false, maxOrderEur: 100, dailyLimitEur: 500 };
@@ -122,5 +123,56 @@ describe("evaluateRules (Alert-Auswertung)", () => {
   it("löst nicht aus, wenn der Zielwert fehlt", () => {
     const m = evaluateRules([rule({ target: "ETH_EUR" })], new Map([["BTC_EUR", 50000]]), null, now, cooldown);
     expect(m).toHaveLength(0);
+  });
+});
+
+const sandbox = (over: Partial<SandboxState> = {}): SandboxState => ({
+  enabled: true, startCash: 1000, cash: 1000,
+  position: { amount: 0, avgEntry: 0 },
+  referenceHigh: 0, lastPrice: null,
+  config: { instrument: "BTC_EUR", tradeEur: 50, dipPct: 3, takeProfitPct: 8, stopLossPct: 10 },
+  trades: [], startedAt: 0, ...over,
+});
+
+describe("stepStrategy (Paper-Trading-Sandbox)", () => {
+  it("kauft bei ausreichendem Dip unter dem nachlaufenden Hoch", () => {
+    const { state, trade } = stepStrategy(sandbox({ referenceHigh: 100 }), 96, 1);
+    expect(trade?.side).toBe("BUY");
+    expect(state.cash).toBeCloseTo(950);
+    expect(state.position.amount).toBeCloseTo(50 / 96);
+    expect(state.position.avgEntry).toBe(96);
+  });
+
+  it("kauft nicht bei zu kleinem Dip", () => {
+    const { trade } = stepStrategy(sandbox({ referenceHigh: 100 }), 99, 1);
+    expect(trade).toBeNull();
+  });
+
+  it("kauft nicht ohne ausreichendes Guthaben", () => {
+    const { trade } = stepStrategy(sandbox({ referenceHigh: 100, cash: 10 }), 96, 1);
+    expect(trade).toBeNull();
+  });
+
+  it("verkauft bei Take-Profit", () => {
+    const s = sandbox({ cash: 0, position: { amount: 1, avgEntry: 100 } });
+    const { state, trade } = stepStrategy(s, 110, 1);
+    expect(trade?.side).toBe("SELL");
+    expect(trade?.reason).toBe("Take-Profit");
+    expect(state.position.amount).toBe(0);
+    expect(state.cash).toBeCloseTo(110);
+  });
+
+  it("verkauft bei Stop-Loss", () => {
+    const s = sandbox({ cash: 0, position: { amount: 1, avgEntry: 100 } });
+    const { state, trade } = stepStrategy(s, 85, 1);
+    expect(trade?.side).toBe("SELL");
+    expect(trade?.reason).toBe("Stop-Loss");
+    expect(state.position.amount).toBe(0);
+  });
+
+  it("hält die Position im neutralen Bereich", () => {
+    const s = sandbox({ cash: 0, referenceHigh: 100, position: { amount: 1, avgEntry: 100 } });
+    const { trade } = stepStrategy(s, 100, 1);
+    expect(trade).toBeNull();
   });
 });
