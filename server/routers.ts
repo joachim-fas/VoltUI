@@ -6,6 +6,7 @@ import { themeRouter } from "./themeRouter";
 import { themeTransformRouter } from "./themeTransformRouter";
 import { tokenRouter } from "./tokenRouter";
 import { bitpandaRouter } from "./bitpanda/router";
+import { polymarketRouter } from "./polymarket/router";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -25,6 +26,7 @@ export const appRouter = router({
   themeTransform: themeTransformRouter,
   githubToken: tokenRouter,
   bitpanda: bitpandaRouter,
+  polymarket: polymarketRouter,
 });
 
 export type AppRouter = typeof appRouter;
