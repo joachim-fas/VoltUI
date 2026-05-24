@@ -130,8 +130,8 @@ describe("evaluateRules (Alert-Auswertung)", () => {
 const sandbox = (over: Partial<SandboxState> = {}): SandboxState => ({
   enabled: true, startCash: 1000, cash: 1000,
   position: { amount: 0, avgEntry: 0 },
-  referenceHigh: 0, lastPrice: null,
-  config: { instrument: "BTC_EUR", tradeEur: 50, dipPct: 3, takeProfitPct: 8, stopLossPct: 10 },
+  referenceHigh: 0, referenceLow: 0, lastPrice: null,
+  config: { instrument: "BTC_EUR", strategy: "DIP_BUY", tradeEur: 50, dipPct: 3, takeProfitPct: 8, stopLossPct: 10 },
   trades: [], startedAt: 0, ...over,
 });
 
@@ -176,10 +176,23 @@ describe("stepStrategy (Paper-Trading-Sandbox)", () => {
     const { trade } = stepStrategy(s, 100, 1);
     expect(trade).toBeNull();
   });
+
+  it("MOMENTUM kauft beim Anstieg über das nachlaufende Tief", () => {
+    const s = sandbox({ referenceLow: 100, config: { instrument: "BTC_EUR", strategy: "MOMENTUM", tradeEur: 50, dipPct: 3, takeProfitPct: 8, stopLossPct: 10 } });
+    const { trade } = stepStrategy(s, 103, 1);
+    expect(trade?.side).toBe("BUY");
+    expect(trade?.reason).toContain("Momentum");
+  });
+
+  it("MOMENTUM kauft nicht bei zu schwachem Anstieg", () => {
+    const s = sandbox({ referenceLow: 100, config: { instrument: "BTC_EUR", strategy: "MOMENTUM", tradeEur: 50, dipPct: 3, takeProfitPct: 8, stopLossPct: 10 } });
+    const { trade } = stepStrategy(s, 101, 1);
+    expect(trade).toBeNull();
+  });
 });
 
 const cfg = (over: Partial<SandboxConfig> = {}): SandboxConfig =>
-  ({ instrument: "BTC_EUR", tradeEur: 100, dipPct: 3, takeProfitPct: 8, stopLossPct: 10, ...over });
+  ({ instrument: "BTC_EUR", strategy: "DIP_BUY", tradeEur: 100, dipPct: 3, takeProfitPct: 8, stopLossPct: 10, ...over });
 
 describe("backtest (Effizienzgrenze)", () => {
   it("liefert 0 % Rendite und 0 Drawdown bei flachem Kurs", () => {

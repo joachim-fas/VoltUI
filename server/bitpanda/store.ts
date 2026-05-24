@@ -49,9 +49,13 @@ export interface JournalEntry {
 }
 
 /* ── Paper-Trading-Sandbox ("Gamble-Mode" mit Spielgeld) ── */
+export type StrategyKind = "DIP_BUY" | "MOMENTUM";
+
 export interface SandboxConfig {
   instrument: string;
+  strategy: StrategyKind;
   tradeEur: number;
+  /** Trigger-Schwelle in %: DIP_BUY = Fall unter Hoch · MOMENTUM = Anstieg über Tief. */
   dipPct: number;
   takeProfitPct: number;
   stopLossPct: number;
@@ -74,6 +78,7 @@ export interface SandboxState {
   cash: number;
   position: { amount: number; avgEntry: number };
   referenceHigh: number;
+  referenceLow: number;
   lastPrice: number | null;
   config: SandboxConfig;
   trades: SandboxTrade[];
@@ -86,8 +91,9 @@ const DEFAULT_SANDBOX = (): SandboxState => ({
   cash: 1000,
   position: { amount: 0, avgEntry: 0 },
   referenceHigh: 0,
+  referenceLow: 0,
   lastPrice: null,
-  config: { instrument: "BTC_EUR", tradeEur: 50, dipPct: 3, takeProfitPct: 8, stopLossPct: 10 },
+  config: { instrument: "BTC_EUR", strategy: "DIP_BUY", tradeEur: 50, dipPct: 3, takeProfitPct: 8, stopLossPct: 10 },
   trades: [],
   startedAt: Date.now(),
 });
@@ -272,10 +278,12 @@ export function configureSandbox(patch: Partial<SandboxConfig> & { startCash?: n
   const data = read();
   const sb = data.sandbox;
   const nextInstrument = (patch.instrument ?? sb.config.instrument).toUpperCase();
-  const instrumentChanged = nextInstrument !== sb.config.instrument;
+  const nextStrategy = patch.strategy ?? sb.config.strategy;
+  const resetNeeded = nextInstrument !== sb.config.instrument || nextStrategy !== sb.config.strategy;
 
   sb.config = {
     instrument: nextInstrument,
+    strategy: nextStrategy,
     tradeEur: patch.tradeEur ?? sb.config.tradeEur,
     dipPct: patch.dipPct ?? sb.config.dipPct,
     takeProfitPct: patch.takeProfitPct ?? sb.config.takeProfitPct,
@@ -287,12 +295,14 @@ export function configureSandbox(patch: Partial<SandboxConfig> & { startCash?: n
     sb.position = { amount: 0, avgEntry: 0 };
     sb.trades = [];
     sb.referenceHigh = 0;
+    sb.referenceLow = 0;
     sb.lastPrice = null;
     sb.startedAt = Date.now();
   }
-  if (instrumentChanged) {
+  if (resetNeeded) {
     sb.position = { amount: 0, avgEntry: 0 };
     sb.referenceHigh = 0;
+    sb.referenceLow = 0;
     sb.lastPrice = null;
   }
   write(data);

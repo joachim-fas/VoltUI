@@ -37,14 +37,18 @@ export function stepStrategy(state: SandboxState, price: number, now: number): S
     trades: state.trades,
   };
   const c = s.config;
-
-  if (!s.referenceHigh || s.referenceHigh <= 0) s.referenceHigh = price;
-  s.referenceHigh = Math.max(s.referenceHigh, price);
+  const strategy = c.strategy ?? "DIP_BUY";
   s.lastPrice = price;
+
+  // Nachlaufende Referenzen je Tick aktualisieren.
+  if (!s.referenceHigh || s.referenceHigh <= 0) s.referenceHigh = price;
+  if (!s.referenceLow || s.referenceLow <= 0) s.referenceLow = price;
+  s.referenceHigh = Math.max(s.referenceHigh, price);
+  s.referenceLow = Math.min(s.referenceLow, price);
 
   const hasPosition = s.position.amount > 0;
 
-  // 1) Verkauf prüfen (Take-Profit / Stop-Loss)
+  // 1) Verkauf prüfen (Take-Profit / Stop-Loss) – für beide Strategien gleich.
   if (hasPosition) {
     const takeProfit = s.position.avgEntry * (1 + c.takeProfitPct / 100);
     const stopLoss = s.position.avgEntry * (1 - c.stopLossPct / 100);
@@ -54,14 +58,20 @@ export function stepStrategy(state: SandboxState, price: number, now: number): S
       const trade = mkTrade("SELL", c.instrument, price, s.position.amount, eur, price >= takeProfit ? "Take-Profit" : "Stop-Loss", now);
       s.position = { amount: 0, avgEntry: 0 };
       s.referenceHigh = price;
+      s.referenceLow = price;
       s.trades = [trade, ...s.trades].slice(0, 200);
       return { state: s, trade };
     }
   }
 
-  // 2) Kauf prüfen (Dip unter nachlaufendes Hoch)
-  const buyTrigger = s.referenceHigh * (1 - c.dipPct / 100);
-  if (price <= buyTrigger && s.cash >= c.tradeEur) {
+  // 2) Kauf prüfen – je nach Strategie.
+  //    DIP_BUY: Fall um dipPct unter das nachlaufende Hoch (Mean-Reversion).
+  //    MOMENTUM: Anstieg um dipPct über das nachlaufende Tief (Trend).
+  const buyTrigger = strategy === "DIP_BUY"
+    ? price <= s.referenceHigh * (1 - c.dipPct / 100)
+    : price >= s.referenceLow * (1 + c.dipPct / 100);
+
+  if (buyTrigger && s.cash >= c.tradeEur) {
     const amount = c.tradeEur / price;
     const newAmount = s.position.amount + amount;
     s.position.avgEntry = hasPosition
@@ -70,7 +80,9 @@ export function stepStrategy(state: SandboxState, price: number, now: number): S
     s.position.amount = newAmount;
     s.cash -= c.tradeEur;
     s.referenceHigh = price;
-    const trade = mkTrade("BUY", c.instrument, price, amount, c.tradeEur, `Dip ≥ ${c.dipPct}%`, now);
+    s.referenceLow = price;
+    const reason = strategy === "DIP_BUY" ? `Dip ≥ ${c.dipPct}%` : `Momentum ≥ ${c.dipPct}%`;
+    const trade = mkTrade("BUY", c.instrument, price, amount, c.tradeEur, reason, now);
     s.trades = [trade, ...s.trades].slice(0, 200);
     return { state: s, trade };
   }

@@ -18,7 +18,7 @@ export interface BacktestMetrics {
 export function simulate(config: SandboxConfig, series: number[], startCash = 1000): BacktestMetrics {
   let state: SandboxState = {
     enabled: true, startCash, cash: startCash,
-    position: { amount: 0, avgEntry: 0 }, referenceHigh: 0, lastPrice: null,
+    position: { amount: 0, avgEntry: 0 }, referenceHigh: 0, referenceLow: 0, lastPrice: null,
     config, trades: [], startedAt: 0,
   };
   let peak = -Infinity;
@@ -93,10 +93,13 @@ export function sweep(grid: SandboxConfig[], paths: number[][]): SweepResult[] {
 /** Standard-Parameterraster für den Sweep. */
 export function defaultGrid(instrument = "BTC_EUR", tradeEur = 100): SandboxConfig[] {
   const grid: SandboxConfig[] = [];
-  for (const dipPct of [1, 2, 3, 5]) {
-    for (const takeProfitPct of [2, 4, 8, 15]) {
-      for (const stopLossPct of [5, 10, 20]) {
-        grid.push({ instrument, tradeEur, dipPct, takeProfitPct, stopLossPct });
+  const strategies: Array<SandboxConfig["strategy"]> = ["DIP_BUY", "MOMENTUM"];
+  for (const strategy of strategies) {
+    for (const dipPct of [1, 2, 3, 5]) {
+      for (const takeProfitPct of [2, 4, 8, 15]) {
+        for (const stopLossPct of [5, 10, 20]) {
+          grid.push({ instrument, strategy, tradeEur, dipPct, takeProfitPct, stopLossPct });
+        }
       }
     }
   }

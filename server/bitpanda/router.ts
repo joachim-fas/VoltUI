@@ -141,6 +141,7 @@ export const bitpandaRouter = router({
     configure: publicProcedure
       .input(z.object({
         instrument: z.string().min(3).optional(),
+        strategy: z.enum(["DIP_BUY", "MOMENTUM"]).optional(),
         tradeEur: z.number().positive().optional(),
         dipPct: z.number().positive().optional(),
         takeProfitPct: z.number().positive().optional(),

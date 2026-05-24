@@ -43,7 +43,7 @@ export default function BitpandaSandbox() {
     onError: (e) => add({ title: "Schritt fehlgeschlagen", description: e.message, variant: "error" }),
   });
 
-  const [form, setForm] = useState({ instrument: "BTC_EUR", tradeEur: "50", dipPct: "3", takeProfitPct: "8", stopLossPct: "10", startCash: "1000" });
+  const [form, setForm] = useState({ instrument: "BTC_EUR", strategy: "DIP_BUY" as "DIP_BUY" | "MOMENTUM", tradeEur: "50", dipPct: "3", takeProfitPct: "8", stopLossPct: "10", startCash: "1000" });
   const [initialized, setInitialized] = useState(false);
 
   const sb = sbQ.data;
@@ -51,6 +51,7 @@ export default function BitpandaSandbox() {
     if (sb && !initialized) {
       setForm({
         instrument: sb.config.instrument,
+        strategy: sb.config.strategy,
         tradeEur: String(sb.config.tradeEur),
         dipPct: String(sb.config.dipPct),
         takeProfitPct: String(sb.config.takeProfitPct),
@@ -70,6 +71,7 @@ export default function BitpandaSandbox() {
     const num = (v: string) => Number(v);
     configureM.mutate({
       instrument: form.instrument.trim().toUpperCase(),
+      strategy: form.strategy,
       tradeEur: num(form.tradeEur),
       dipPct: num(form.dipPct),
       takeProfitPct: num(form.takeProfitPct),
@@ -138,12 +140,25 @@ export default function BitpandaSandbox() {
           {/* Strategie & Steuerung */}
           <VoltCard variant="default" className="p-0 overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-              <h3 className="font-display font-bold text-sm">Strategie (Dip-Buy)</h3>
+              <h3 className="font-display font-bold text-sm">Strategie ({form.strategy === "DIP_BUY" ? "Dip-Buy" : "Momentum"})</h3>
               <VoltBadge variant={sb?.enabled ? "positive" : "muted"} size="sm" dot>
                 {sb?.enabled ? "läuft" : "gestoppt"}
               </VoltBadge>
             </div>
             <div className="p-4 space-y-3">
+              <div className="grid grid-cols-2 gap-2">
+                {(["DIP_BUY", "MOMENTUM"] as const).map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => setForm((f) => ({ ...f, strategy: st }))}
+                    className={`h-9 rounded-lg text-sm font-semibold transition-all border ${
+                      form.strategy === st ? "bg-foreground text-background border-transparent" : "bg-transparent text-muted-foreground border-border hover:text-foreground"
+                    }`}
+                  >
+                    {st === "DIP_BUY" ? "Dip-Buy" : "Momentum"}
+                  </button>
+                ))}
+              </div>
               <VoltInput label="Instrument" value={form.instrument} onChange={set("instrument")} />
               <div className="grid grid-cols-2 gap-3">
                 <VoltInput label="Einsatz / Kauf (€)" inputMode="decimal" value={form.tradeEur} onChange={set("tradeEur")} />
@@ -155,8 +170,11 @@ export default function BitpandaSandbox() {
                 <VoltInput label="SL %" inputMode="decimal" value={form.stopLossPct} onChange={set("stopLossPct")} />
               </div>
               <p className="text-[0.7rem] text-muted-foreground">
-                Kaufe {form.tradeEur} € bei −{form.dipPct} % unter dem Hoch · verkaufe bei +{form.takeProfitPct} % / −{form.stopLossPct} %.
-                Startkapital ändern setzt die Sandbox zurück.
+                {form.strategy === "DIP_BUY"
+                  ? `Kaufe ${form.tradeEur} € bei −${form.dipPct} % unter dem Hoch`
+                  : `Kaufe ${form.tradeEur} € bei +${form.dipPct} % über dem Tief`}
+                {" "}· verkaufe bei +{form.takeProfitPct} % / −{form.stopLossPct} %.
+                Strategie/Instrument/Startkapital ändern setzt die Sandbox zurück.
               </p>
               <VoltButton variant="outline" size="md" className="w-full" loading={configureM.isPending} onClick={saveConfig}>
                 Strategie speichern
