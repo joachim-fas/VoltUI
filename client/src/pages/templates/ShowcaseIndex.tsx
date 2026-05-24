@@ -461,6 +461,48 @@ function IllustrationTerminal() {
 
 
 /* ─────────────────────────────────────────────────────────────────
+   11 · Bitpanda Co-Pilot  — Bitpanda-Green
+   Motiv: Portfolio-Header + aufsteigender Chart + Entscheidungs-Alert
+───────────────────────────────────────────────────────────────── */
+function IllustrationBitpanda() {
+  const green = "#CDEFE0";
+  return (
+    <BG bg={green}>
+      {/* Portfolio-Header */}
+      <rect x={16} y={16} width={448} height={40} fill={C.black} rx={2} />
+      <rect x={28} y={26} width={70} height={8} fill={C.white} opacity={0.3} rx={2} />
+      <rect x={28} y={38} width={110} height={12} fill={C.neon} rx={2} />
+      {/* Bell mit Badge */}
+      <circle cx={436} cy={36} r={10} fill="none" stroke={C.white} strokeWidth={1.5} opacity={0.5} />
+      <circle cx={443} cy={29} r={5} fill="#E8402A" />
+
+      {/* Chart-Karte */}
+      <rect x={16} y={68} width={280} height={116} fill={C.white} opacity={0.85}
+        stroke={C.black} strokeWidth={1.5} rx={2} />
+      <polyline points="32,156 76,140 120,148 164,112 208,120 252,88 280,78"
+        stroke={C.black} strokeWidth={2.5} fill="none" strokeLinejoin="round" strokeLinecap="round" />
+      <polyline points="32,156 76,140 120,148 164,112 208,120 252,88 280,78"
+        stroke={C.mintDark} strokeWidth={1.5} fill="none" strokeLinejoin="round" strokeLinecap="round" />
+      {[[164,112],[252,88]].map(([cx,cy],i) => (
+        <circle key={i} cx={cx} cy={cy} r={4} fill={C.neon} stroke={C.black} strokeWidth={1.5} />
+      ))}
+
+      {/* Decision-Alert-Karte */}
+      <rect x={308} y={68} width={156} height={116} fill={C.white} opacity={0.85}
+        stroke={C.black} strokeWidth={1.5} rx={2} />
+      <rect x={308} y={68} width={4} height={116} fill="#E8402A" />
+      <circle cx={328} cy={88} r={4} fill="#E8402A" />
+      <rect x={340} y={84} width={100} height={8} fill={C.black} opacity={0.45} rx={2} />
+      <rect x={324} y={104} width={124} height={6} fill={C.black} opacity={0.18} rx={2} />
+      <rect x={324} y={116} width={96} height={6} fill={C.black} opacity={0.18} rx={2} />
+      {/* Entscheiden-Button (lime) + Später (outline) */}
+      <rect x={324} y={150} width={84} height={20} fill={C.neon} stroke={C.black} strokeWidth={1.5} rx={2} />
+      <rect x={416} y={150} width={36} height={20} fill="none" stroke={C.black} strokeWidth={1.5} rx={2} />
+    </BG>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Template-Daten
 ───────────────────────────────────────────────────────────────── */
 interface TemplateCard {
@@ -552,6 +594,14 @@ const templates: TemplateCard[] = [
     badge: "Dev",
     badgeVariant: "neutral",
     Illustration: IllustrationTerminal,
+  },
+  {
+    title: "Bitpanda Co-Pilot",
+    description: "Trading-Co-Pilot mit Portfolio-Übersicht, Entscheidungs-Alerts und KI-Vorschlägen – du bestätigst jeden Trade selbst.",
+    href: "/showcase/bitpanda",
+    badge: "Finance",
+    badgeVariant: "default",
+    Illustration: IllustrationBitpanda,
   },
 ];
 

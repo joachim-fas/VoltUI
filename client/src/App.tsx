@@ -18,6 +18,7 @@ import OnboardingTemplate from "./pages/templates/OnboardingTemplate";
 import NotificationTemplate from "./pages/templates/NotificationTemplate";
 import DataTableTemplate from "./pages/templates/DataTableTemplate";
 import TerminalTemplate from "./pages/templates/TerminalTemplate";
+import BitpandaTemplate from "./pages/templates/BitpandaTemplate";
 
 function Router() {
   return (
@@ -35,6 +36,7 @@ function Router() {
       <Route path={"/showcase/notifications"} component={NotificationTemplate} />
       <Route path={"/showcase/data-table"} component={DataTableTemplate} />
       <Route path={"/showcase/terminal"} component={TerminalTemplate} />
+      <Route path={"/showcase/bitpanda"} component={BitpandaTemplate} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
