@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { handleZipDownload, handleLocalRepoUpload, handlePreview } from "../themeTransformRouter";
+import { startAlertEngine } from "../bitpanda/alerts";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -68,6 +69,9 @@ async function startServer() {
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
+
+  // Bitpanda-Alert-Engine starten (prüft Regeln periodisch, handelt nie selbst).
+  startAlertEngine();
 }
 
 startServer().catch(console.error);

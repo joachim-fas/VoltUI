@@ -20,7 +20,7 @@ import { VoltToastContainer, useVoltToast } from "@/components/volt/VoltToast";
 import {
   ArrowLeft, Terminal, ShieldCheck, ShieldAlert, KeyRound, Wallet,
   RefreshCw, AlertTriangle, CheckCircle2, Lock, Eye, Info,
-  ListOrdered, XCircle, TrendingUp,
+  ListOrdered, XCircle, TrendingUp, Bell, Clock, Plus, Trash2,
 } from "lucide-react";
 
 type Side = "BUY" | "SELL";
@@ -55,6 +55,47 @@ export default function BitpandaLive() {
     },
     onError: (e) => add({ title: "Stornieren fehlgeschlagen", description: e.message, variant: "error" }),
   });
+
+  // ── Alert-Regeln & ausgelöste Alerts ──
+  const rulesQ = trpc.bitpanda.listRules.useQuery(undefined, { retry: false });
+  const alertsQ = trpc.bitpanda.listAlerts.useQuery(undefined, { retry: false, refetchInterval: 15000 });
+
+  const [ruleType, setRuleType] = useState<"PRICE" | "ALLOCATION">("PRICE");
+  const [ruleTarget, setRuleTarget] = useState("BTC_EUR");
+  const [ruleComparator, setRuleComparator] = useState<"ABOVE" | "BELOW">("BELOW");
+  const [ruleValue, setRuleValue] = useState("");
+
+  const createRuleM = trpc.bitpanda.createRule.useMutation({
+    onSuccess: () => { add({ title: "Regel angelegt", variant: "success" }); setRuleValue(""); rulesQ.refetch(); },
+    onError: (e) => add({ title: "Regel fehlgeschlagen", description: e.message, variant: "error" }),
+  });
+  const deleteRuleM = trpc.bitpanda.deleteRule.useMutation({ onSuccess: () => rulesQ.refetch() });
+  const toggleRuleM = trpc.bitpanda.toggleRule.useMutation({ onSuccess: () => rulesQ.refetch() });
+  const dismissAlertM = trpc.bitpanda.dismissAlert.useMutation({ onSuccess: () => alertsQ.refetch() });
+  const evaluateNowM = trpc.bitpanda.evaluateNow.useMutation({
+    onSuccess: (res) => {
+      add({ title: "Regeln geprüft", description: `${res.checked} geprüft · ${res.triggered} ausgelöst`, variant: res.triggered > 0 ? "warning" : "info" });
+      alertsQ.refetch();
+    },
+    onError: (e) => add({ title: "Prüfung fehlgeschlagen", description: e.message, variant: "error" }),
+  });
+
+  const addRule = () => {
+    const v = Number(ruleValue);
+    if (!ruleTarget.trim() || !Number.isFinite(v) || v <= 0) {
+      add({ title: "Eingabe prüfen", description: "Ziel und ein positiver Wert sind nötig.", variant: "warning" });
+      return;
+    }
+    createRuleM.mutate({ type: ruleType, target: ruleTarget.trim(), comparator: ruleComparator, value: v });
+  };
+
+  const alertToTicket = (a: { type: string; target: string; comparator: string }) => {
+    const instr = a.type === "PRICE" ? a.target : `${a.target}_${status?.quoteCurrency ?? "EUR"}`;
+    setInstrument(instr.toUpperCase());
+    setSide(a.comparator === "BELOW" ? "BUY" : "SELL");
+    previewM.reset();
+    add({ title: "Ins Ticket übernommen", description: instr.toUpperCase(), variant: "info" });
+  };
 
   const orderPayload = () => ({
     instrument_code: instrument.trim().toUpperCase(),
@@ -151,6 +192,61 @@ export default function BitpandaLive() {
             </div>
           )}
         </div>
+
+        {/* ── Ausgelöste Alerts (Entscheidungen) ── */}
+        <VoltCard variant="default" className="p-0 overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+            <div className="flex items-center gap-2.5">
+              <span className="relative w-8 h-8 rounded-xl bg-foreground flex items-center justify-center">
+                <Bell className="w-4 h-4 text-[#E4FF97]" />
+                {alertsQ.data && alertsQ.data.length > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-[#E8402A] text-white text-[0.6rem] font-bold flex items-center justify-center">
+                    {alertsQ.data.length}
+                  </span>
+                )}
+              </span>
+              <div>
+                <h3 className="font-display font-bold text-sm">Entscheidungs-Alerts</h3>
+                <p className="text-muted-foreground text-xs mt-0.5">Ausgelöste Regeln – du entscheidest</p>
+              </div>
+            </div>
+            <VoltButton
+              variant="outline" size="sm"
+              loading={evaluateNowM.isPending}
+              leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
+              onClick={() => evaluateNowM.mutate()}
+            >
+              Jetzt prüfen
+            </VoltButton>
+          </div>
+          <div className="divide-y divide-border">
+            {(!alertsQ.data || alertsQ.data.length === 0) && (
+              <div className="flex flex-col items-center justify-center text-center py-10 gap-2">
+                <CheckCircle2 className="w-8 h-8 text-[#1A9E5A]" />
+                <p className="text-sm font-semibold">Keine offenen Alerts</p>
+                <p className="text-xs text-muted-foreground">Sobald eine Regel auslöst, erscheint sie hier zur Entscheidung.</p>
+              </div>
+            )}
+            {alertsQ.data?.map((a) => (
+              <div key={a.id} className="flex flex-col sm:flex-row sm:items-center gap-3 px-5 py-4 border-l-4 border-l-amber-500">
+                <div className="flex items-start gap-3 flex-1 min-w-0">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold leading-snug">{a.title}</p>
+                    <p className="text-xs text-muted-foreground mt-1 leading-snug">{a.detail}</p>
+                    <span className="inline-flex items-center gap-1 text-[0.7rem] text-muted-foreground mt-1.5">
+                      <Clock className="w-3 h-3" /> {new Date(a.createdAt).toLocaleString("de-DE")}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <VoltButton variant="primary" size="sm" onClick={() => alertToTicket(a)}>Zum Ticket</VoltButton>
+                  <VoltButton variant="ghost" size="sm" onClick={() => dismissAlertM.mutate({ id: a.id })}>Erledigt</VoltButton>
+                </div>
+              </div>
+            ))}
+          </div>
+        </VoltCard>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
@@ -388,6 +484,104 @@ export default function BitpandaLive() {
                 ))}
               </div>
             )}
+          </div>
+        </VoltCard>
+
+        {/* ── Alert-Regeln ── */}
+        <VoltCard variant="default" className="p-0 overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
+            <h3 className="font-display font-bold text-sm">Alert-Regeln</h3>
+            <p className="text-muted-foreground text-xs mt-0.5">
+              Trigger definieren – das Tool prüft sie periodisch und benachrichtigt dich. Es handelt nie selbst.
+            </p>
+          </div>
+
+          {/* Create-Form */}
+          <div className="p-4 border-b border-border space-y-3">
+            <div className="grid grid-cols-2 gap-2">
+              {(["PRICE", "ALLOCATION"] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => { setRuleType(t); setRuleTarget(t === "PRICE" ? "BTC_EUR" : "SOL"); }}
+                  className={`h-9 rounded-lg text-sm font-semibold transition-all border ${
+                    ruleType === t ? "bg-foreground text-background border-transparent" : "bg-transparent text-muted-foreground border-border hover:text-foreground"
+                  }`}
+                >
+                  {t === "PRICE" ? "Preis" : "Allokation"}
+                </button>
+              ))}
+            </div>
+            <VoltInput
+              label={ruleType === "PRICE" ? "Instrument (z. B. BTC_EUR)" : "Währung (z. B. SOL)"}
+              value={ruleTarget}
+              onChange={(e) => setRuleTarget(e.target.value)}
+            />
+            <div className="grid grid-cols-2 gap-2">
+              {(["BELOW", "ABOVE"] as const).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setRuleComparator(c)}
+                  className={`h-9 rounded-lg text-sm font-semibold transition-all border ${
+                    ruleComparator === c ? "bg-foreground text-background border-transparent" : "bg-transparent text-muted-foreground border-border hover:text-foreground"
+                  }`}
+                >
+                  {c === "BELOW" ? "fällt unter" : "steigt über"}
+                </button>
+              ))}
+            </div>
+            <VoltInput
+              label={ruleType === "PRICE" ? "Schwelle (Kurs)" : "Schwelle (% Allokation)"}
+              placeholder={ruleType === "PRICE" ? "60000" : "12"}
+              inputMode="decimal"
+              value={ruleValue}
+              onChange={(e) => setRuleValue(e.target.value)}
+            />
+            <VoltButton
+              variant="primary" size="md" className="w-full"
+              loading={createRuleM.isPending}
+              leftIcon={<Plus className="w-3.5 h-3.5" />}
+              onClick={addRule}
+            >
+              Regel hinzufügen
+            </VoltButton>
+          </div>
+
+          {/* Rules-List */}
+          <div className="p-4">
+            {(!rulesQ.data || rulesQ.data.length === 0) && (
+              <p className="text-sm text-muted-foreground text-center py-6">Noch keine Regeln definiert.</p>
+            )}
+            <div className="divide-y divide-border">
+              {rulesQ.data?.map((r) => (
+                <div key={r.id} className="flex items-center justify-between gap-3 py-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <VoltBadge variant={r.type === "PRICE" ? "neutral" : "muted"} size="sm">
+                      {r.type === "PRICE" ? "Preis" : "Allokation"}
+                    </VoltBadge>
+                    <span className="text-sm font-mono truncate">
+                      {r.target} {r.comparator === "BELOW" ? "<" : ">"} {r.value}{r.type === "ALLOCATION" ? "%" : ""}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button
+                      onClick={() => toggleRuleM.mutate({ id: r.id, enabled: !r.enabled })}
+                      className={`text-xs font-semibold px-2.5 py-1 rounded-md border transition-colors ${
+                        r.enabled ? "border-[#1A9E5A]/40 text-[#1A9E5A]" : "border-border text-muted-foreground"
+                      }`}
+                    >
+                      {r.enabled ? "Aktiv" : "Pausiert"}
+                    </button>
+                    <button
+                      onClick={() => deleteRuleM.mutate({ id: r.id })}
+                      className="w-8 h-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-[#E8402A] hover:bg-muted transition-colors"
+                      aria-label="Regel löschen"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </VoltCard>
       </main>

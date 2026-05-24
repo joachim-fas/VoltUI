@@ -13,6 +13,8 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { BITPANDA, hasApiKey } from "./config";
 import * as service from "./service";
+import * as store from "./store";
+import { evaluateOnce } from "./alerts";
 
 const orderInput = z.object({
   instrument_code: z.string().min(3),
@@ -66,4 +68,37 @@ export const bitpandaRouter = router({
       void confirm;
       return service.placeOrder(order);
     }),
+
+  /* ── Alert-Regeln & ausgelöste Alerts ── */
+
+  listRules: publicProcedure.query(() => store.listRules()),
+
+  createRule: publicProcedure
+    .input(z.object({
+      type: z.enum(["PRICE", "ALLOCATION"]),
+      target: z.string().min(2),
+      comparator: z.enum(["ABOVE", "BELOW"]),
+      value: z.number().positive(),
+      note: z.string().optional(),
+    }))
+    .mutation(({ input }) => store.createRule({ ...input, target: input.target.toUpperCase() })),
+
+  deleteRule: publicProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(({ input }) => { store.deleteRule(input.id); return { ok: true }; }),
+
+  toggleRule: publicProcedure
+    .input(z.object({ id: z.string().min(1), enabled: z.boolean() }))
+    .mutation(({ input }) => store.toggleRule(input.id, input.enabled)),
+
+  listAlerts: publicProcedure.query(() => store.listAlerts()),
+
+  dismissAlert: publicProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(({ input }) => { store.dismissAlert(input.id); return { ok: true }; }),
+
+  clearAlerts: publicProcedure.mutation(() => { store.clearAlerts(); return { ok: true }; }),
+
+  /** Regeln sofort prüfen (zusätzlich zum Hintergrund-Polling). */
+  evaluateNow: publicProcedure.mutation(() => evaluateOnce()),
 });

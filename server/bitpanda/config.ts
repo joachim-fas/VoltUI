@@ -35,6 +35,11 @@ export const BITPANDA = {
   maxOrderEur: num(process.env.BITPANDA_MAX_ORDER_EUR, 100),
   /** Standard-Quote-Währung für EUR-Schätzungen. */
   quoteCurrency: (process.env.BITPANDA_QUOTE_CURRENCY ?? "EUR").toUpperCase(),
+
+  /** Alert-Engine: Poll-Intervall in Sekunden (0 = aus). */
+  alertPollSec: num(process.env.BITPANDA_ALERT_POLL_SEC, 60),
+  /** Cooldown pro Regel in Minuten – verhindert wiederholtes Auslösen. */
+  alertCooldownMin: num(process.env.BITPANDA_ALERT_COOLDOWN_MIN, 60),
 } as const;
 
 export function hasApiKey(): boolean {
