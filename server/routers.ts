@@ -5,6 +5,7 @@ import { publicProcedure, router } from "./_core/trpc";
 import { themeRouter } from "./themeRouter";
 import { themeTransformRouter } from "./themeTransformRouter";
 import { tokenRouter } from "./tokenRouter";
+import { bitpandaRouter } from "./bitpanda/router";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -23,6 +24,7 @@ export const appRouter = router({
   theme: themeRouter,
   themeTransform: themeTransformRouter,
   githubToken: tokenRouter,
+  bitpanda: bitpandaRouter,
 });
 
 export type AppRouter = typeof appRouter;

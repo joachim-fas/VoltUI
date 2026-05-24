@@ -1,0 +1,61 @@
+/**
+ * Bitpanda-Integration – tRPC-Router.
+ *
+ * SICHERHEIT: Diese Prozeduren sind publicProcedure (passend zu diesem Repo)
+ * und für den lokalen Eigenbetrieb gedacht. Wird das Tool je öffentlich
+ * deployt, sollten balances/placeOrder auf protectedProcedure umgestellt werden.
+ *
+ * placeOrder verlangt confirm:true – ein autonomer Aufruf ohne ausdrückliche
+ * Bestätigung ist damit auf API-Ebene nicht möglich.
+ */
+
+import { z } from "zod";
+import { publicProcedure, router } from "../_core/trpc";
+import { BITPANDA, hasApiKey } from "./config";
+import * as service from "./service";
+
+const orderInput = z.object({
+  instrument_code: z.string().min(3),
+  side: z.enum(["BUY", "SELL"]),
+  type: z.enum(["MARKET", "LIMIT"]),
+  amount: z.string().min(1),
+  price: z.string().optional(),
+});
+
+export const bitpandaRouter = router({
+  /** Sicherheits-/Konfigurationsstatus (ohne den Key offenzulegen). */
+  status: publicProcedure.query(() => ({
+    hasApiKey: hasApiKey(),
+    tradingEnabled: BITPANDA.tradingEnabled,
+    dryRun: BITPANDA.dryRun,
+    killSwitch: BITPANDA.killSwitch,
+    maxOrderEur: BITPANDA.maxOrderEur,
+    quoteCurrency: BITPANDA.quoteCurrency,
+    baseUrl: BITPANDA.baseUrl,
+  })),
+
+  /** Kontostände (read-only, braucht API-Key). */
+  balances: publicProcedure.query(() => service.getBalances()),
+
+  /** Marktpreise (öffentlich). Optional einzelnes Instrument. */
+  ticker: publicProcedure
+    .input(z.object({ instrumentCode: z.string().optional() }).optional())
+    .query(({ input }) => service.getTicker(input?.instrumentCode)),
+
+  /** Order-Vorschau inkl. Guardrail-Prüfung – sendet nichts. */
+  previewOrder: publicProcedure
+    .input(orderInput)
+    .mutation(({ input }) => service.previewOrder(input)),
+
+  /**
+   * Order ausführen. confirm:true ist Pflicht (menschliche Bestätigung).
+   * Sendet nur, wenn Guardrails erlauben UND Dry-Run aus ist – sonst Simulation.
+   */
+  placeOrder: publicProcedure
+    .input(orderInput.extend({ confirm: z.literal(true) }))
+    .mutation(({ input }) => {
+      const { confirm, ...order } = input;
+      void confirm;
+      return service.placeOrder(order);
+    }),
+});
