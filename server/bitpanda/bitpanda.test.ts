@@ -3,6 +3,7 @@ import { evaluateOrder, type SafetyConfig } from "./safety";
 import { evaluateRules } from "./alerts";
 import { stepStrategy } from "./sandbox";
 import { simulate, makeRandomSeries, sweep, defaultGrid, makePaths, walkForward, incomeAnalysis, edgeRequirement } from "./backtest";
+import { betMath, simulateBetting } from "./asymmetric";
 import type { AlertRule, SandboxState, SandboxConfig } from "./store";
 import type { PlaceOrderInput } from "./types";
 
@@ -253,5 +254,32 @@ describe("edgeRequirement (Realitäts-Check)", () => {
     expect(theoretical.realistic).toBe(false);  // aber ~85% ist nicht plausibel
     const modest = edgeRequirement(1, 10, 2);
     expect(modest.realistic).toBe(true);
+  });
+});
+
+describe("asymmetric bets (Polymarket-artig)", () => {
+  it("fair bet: break-even = 1/payoff, kein Edge, Kelly 0", () => {
+    const m = betMath(0.1, 10);
+    expect(m.breakEvenWinRate).toBeCloseTo(0.1);
+    expect(m.edge).toBeCloseTo(0);
+    expect(m.evPerBetPct).toBeCloseTo(0);
+    expect(m.kellyFraction).toBeCloseTo(0);
+  });
+
+  it("positiver Edge: EV > 0 und Kelly > 0", () => {
+    const m = betMath(0.2, 10); // doppelt so oft richtig wie nötig
+    expect(m.edge).toBeGreaterThan(0);
+    expect(m.evPerBetPct).toBeCloseTo(100);
+    expect(m.kellyFraction).toBeCloseTo((0.2 * 10 - 1) / 9);
+  });
+
+  it("Monte Carlo: rechtsschief (Median <= Mittelwert)", () => {
+    const r = simulateBetting({ p: 0.1, payoff: 10, fraction: 0.1, betsPerRun: 50, runs: 2000, seed: 7 });
+    expect(r.medianFinalMultiple).toBeLessThanOrEqual(r.meanFinalMultiple);
+  });
+
+  it("Monte Carlo: positiver Edge hebt den Mittelwert über 1", () => {
+    const r = simulateBetting({ p: 0.25, payoff: 10, fraction: 0.05, betsPerRun: 50, runs: 2000, seed: 7 });
+    expect(r.meanFinalMultiple).toBeGreaterThan(1);
   });
 });

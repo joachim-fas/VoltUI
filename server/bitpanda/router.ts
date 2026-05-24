@@ -17,6 +17,7 @@ import * as store from "./store";
 import { evaluateOnce } from "./alerts";
 import { stepSandbox } from "./sandbox";
 import { runSweep, walkForward, incomeAnalysis, edgeRequirement } from "./backtest";
+import { betMath, simulateBetting } from "./asymmetric";
 
 const orderInput = z.object({
   instrument_code: z.string().min(3),
@@ -203,5 +204,24 @@ export const bitpandaRouter = router({
         moveSizePct: z.number().positive().max(100),
       }))
       .mutation(({ input }) => edgeRequirement(input.targetDailyReturnPct, input.tradesPerDay, input.moveSizePct)),
+  }),
+
+  /* ── Labor für asymmetrische Wetten (Polymarket-artige Payoffs) ── */
+  bets: router({
+    /** EV, Break-even-Trefferquote, Kelly-Sizing für eine Wette. */
+    math: publicProcedure
+      .input(z.object({ p: z.number().min(0).max(1), payoff: z.number().positive() }))
+      .mutation(({ input }) => betMath(input.p, input.payoff)),
+
+    /** Monte-Carlo-Verteilung vieler Wettläufe (zeigt die Fat-Tail-Realität). */
+    simulate: publicProcedure
+      .input(z.object({
+        p: z.number().min(0).max(1),
+        payoff: z.number().positive(),
+        fraction: z.number().min(0).max(1),
+        betsPerRun: z.number().int().min(1).max(10000),
+        runs: z.number().int().min(10).max(20000),
+      }))
+      .mutation(({ input }) => simulateBetting(input)),
   }),
 });
