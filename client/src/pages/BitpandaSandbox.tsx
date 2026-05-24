@@ -43,6 +43,13 @@ export default function BitpandaSandbox() {
     onError: (e) => add({ title: "Schritt fehlgeschlagen", description: e.message, variant: "error" }),
   });
 
+  const backtestM = trpc.bitpanda.sandbox.backtest.useMutation({
+    onError: (e) => add({ title: "Backtest fehlgeschlagen", description: e.message, variant: "error" }),
+  });
+  const walkForwardM = trpc.bitpanda.sandbox.walkForward.useMutation({
+    onError: (e) => add({ title: "Walk-Forward fehlgeschlagen", description: e.message, variant: "error" }),
+  });
+
   const [form, setForm] = useState({ instrument: "BTC_EUR", strategy: "DIP_BUY" as "DIP_BUY" | "MOMENTUM", tradeEur: "50", dipPct: "3", takeProfitPct: "8", stopLossPct: "10", startCash: "1000" });
   const [initialized, setInitialized] = useState(false);
 
@@ -82,6 +89,16 @@ export default function BitpandaSandbox() {
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  const applyConfig = (c: { instrument: string; strategy: "DIP_BUY" | "MOMENTUM"; tradeEur: number; dipPct: number; takeProfitPct: number; stopLossPct: number }) => {
+    setForm((f) => ({
+      ...f,
+      instrument: c.instrument, strategy: c.strategy,
+      tradeEur: String(c.tradeEur), dipPct: String(c.dipPct),
+      takeProfitPct: String(c.takeProfitPct), stopLossPct: String(c.stopLossPct),
+    }));
+    configureM.mutate({ instrument: c.instrument, strategy: c.strategy, tradeEur: c.tradeEur, dipPct: c.dipPct, takeProfitPct: c.takeProfitPct, stopLossPct: c.stopLossPct });
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -230,6 +247,73 @@ export default function BitpandaSandbox() {
             </div>
           </VoltCard>
         </div>
+
+        {/* ── Effizienzgrenze (Backtest & Walk-Forward) ── */}
+        <VoltCard variant="default" className="p-0 overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 border-b border-border">
+            <div>
+              <h3 className="font-display font-bold text-sm">Effizienzgrenze</h3>
+              <p className="text-muted-foreground text-xs mt-0.5">Parameterraum absuchen · ehrlich gegen Overfitting testen</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <VoltButton variant="primary" size="sm" loading={backtestM.isPending} onClick={() => backtestM.mutate({ paths: 40, vol: 0.025 })}>
+                Sweep
+              </VoltButton>
+              <VoltButton variant="outline" size="sm" loading={walkForwardM.isPending} onClick={() => walkForwardM.mutate({ paths: 40, vol: 0.025 })}>
+                Walk-Forward
+              </VoltButton>
+            </div>
+          </div>
+
+          <div className="p-4 space-y-4">
+            {/* Walk-Forward-Ergebnis */}
+            {walkForwardM.data && (
+              <div className={`rounded-xl border p-3 ${walkForwardM.data.holdsUp ? "border-[#1A9E5A]/40 bg-[#1A9E5A]/8" : "border-[#E8402A]/40 bg-[#E8402A]/8"}`}>
+                <p className="text-sm font-semibold mb-1">
+                  Walk-Forward: {walkForwardM.data.holdsUp ? "hält out-of-sample stand" : "bricht out-of-sample ein"}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Beste Config {walkForwardM.data.inSample.config.strategy} dip{walkForwardM.data.inSample.config.dipPct}/tp{walkForwardM.data.inSample.config.takeProfitPct}/sl{walkForwardM.data.inSample.config.stopLossPct} ·
+                  {" "}In-Sample Ø{walkForwardM.data.inSample.avgReturnPct.toFixed(1)}% → Out-of-Sample Ø{walkForwardM.data.outOfSample.avgReturnPct.toFixed(1)}%
+                  {" "}(Overfit-Lücke {walkForwardM.data.overfitGapPct.toFixed(1)} Pp)
+                </p>
+              </div>
+            )}
+
+            {/* Sweep-Top-Tabelle */}
+            {backtestM.data && (
+              <div className="overflow-x-auto">
+                <div className="text-xs text-muted-foreground mb-2">Top 10 von {backtestM.data.total} Configs (nach Rendite/Risiko)</div>
+                <div className="divide-y divide-border">
+                  {backtestM.data.top.map((r, i) => (
+                    <div key={i} className="flex items-center justify-between gap-3 py-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <VoltBadge variant={r.config.strategy === "MOMENTUM" ? "neutral" : "muted"} size="sm">
+                          {r.config.strategy === "MOMENTUM" ? "Mom" : "Dip"}
+                        </VoltBadge>
+                        <span className="text-xs font-mono truncate">
+                          dip{r.config.dipPct} tp{r.config.takeProfitPct} sl{r.config.stopLossPct}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 flex-shrink-0">
+                        <span className="text-xs font-mono">{r.avgReturnPct >= 0 ? "+" : ""}{r.avgReturnPct.toFixed(1)}%</span>
+                        <span className="text-xs font-mono text-muted-foreground">DD {r.avgMaxDrawdownPct.toFixed(1)}%</span>
+                        <span className="text-xs font-semibold">R/R {r.riskAdjusted.toFixed(2)}</span>
+                        <VoltButton variant="ghost" size="sm" onClick={() => applyConfig(r.config)}>Übernehmen</VoltButton>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {!backtestM.data && !walkForwardM.data && (
+              <p className="text-sm text-muted-foreground text-center py-6">
+                Starte einen Sweep, um die besten Risiko/Rendite-Configs zu finden – oder einen Walk-Forward für den ehrlichen Overfit-Test.
+              </p>
+            )}
+          </div>
+        </VoltCard>
       </main>
 
       <VoltToastContainer toasts={toasts} onDismiss={dismiss} position="top-right" />

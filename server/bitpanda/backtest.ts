@@ -122,3 +122,30 @@ export function runSweep(opts?: { instrument?: string; tradeEur?: number; paths?
   const paths = makePaths(opts?.paths ?? 30, 90, opts?.vol ?? 0.02);
   return sweep(grid, paths);
 }
+
+export interface WalkForwardResult {
+  inSample: SweepResult;      // beste Config, gemessen auf Trainingsdaten
+  outOfSample: SweepResult;   // dieselbe Config auf ungesehenen Daten
+  overfitGapPct: number;      // Rendite-Differenz IS − OS (Overfitting-Steuer)
+  holdsUp: boolean;           // bleibt sie out-of-sample profitabel?
+}
+
+/**
+ * Walk-Forward: optimiert auf der Hälfte der Pfade (In-Sample) und misst die
+ * Sieger-Config auf den anderen, ungesehenen Pfaden (Out-of-Sample). Die
+ * Differenz ist der ehrliche Overfitting-Test – eine Strategie, die nur
+ * in-sample glänzt, ist Selbstbetrug.
+ */
+export function walkForward(opts?: { instrument?: string; tradeEur?: number; paths?: number; vol?: number }): WalkForwardResult {
+  const grid = defaultGrid(opts?.instrument ?? "BTC_EUR", opts?.tradeEur ?? 100);
+  const all = makePaths(opts?.paths ?? 40, 90, opts?.vol ?? 0.02);
+  const inPaths = all.filter((_, i) => i % 2 === 0);
+  const outPaths = all.filter((_, i) => i % 2 === 1);
+
+  const ranked = sweep(grid, inPaths);
+  const inSample = ranked[0];
+  const outOfSample = sweep([inSample.config], outPaths)[0];
+  const overfitGapPct = inSample.avgReturnPct - outOfSample.avgReturnPct;
+
+  return { inSample, outOfSample, overfitGapPct, holdsUp: outOfSample.avgReturnPct > 0 };
+}

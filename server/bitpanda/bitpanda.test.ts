@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { evaluateOrder, type SafetyConfig } from "./safety";
 import { evaluateRules } from "./alerts";
 import { stepStrategy } from "./sandbox";
-import { simulate, makeRandomSeries, sweep, defaultGrid, makePaths } from "./backtest";
+import { simulate, makeRandomSeries, sweep, defaultGrid, makePaths, walkForward } from "./backtest";
 import type { AlertRule, SandboxState, SandboxConfig } from "./store";
 import type { PlaceOrderInput } from "./types";
 
@@ -214,5 +214,12 @@ describe("backtest (Effizienzgrenze)", () => {
     for (let i = 1; i < results.length; i++) {
       expect(results[i - 1].riskAdjusted).toBeGreaterThanOrEqual(results[i].riskAdjusted);
     }
+  });
+
+  it("walk-forward liefert In- und Out-of-Sample-Werte derselben Config", () => {
+    const wf = walkForward({ paths: 20, vol: 0.025 });
+    expect(wf.inSample.config).toEqual(wf.outOfSample.config);
+    expect(Number.isFinite(wf.overfitGapPct)).toBe(true);
+    expect(typeof wf.holdsUp).toBe("boolean");
   });
 });

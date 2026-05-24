@@ -16,7 +16,7 @@ import * as service from "./service";
 import * as store from "./store";
 import { evaluateOnce } from "./alerts";
 import { stepSandbox } from "./sandbox";
-import { runSweep } from "./backtest";
+import { runSweep, walkForward } from "./backtest";
 
 const orderInput = z.object({
   instrument_code: z.string().min(3),
@@ -174,5 +174,15 @@ export const bitpandaRouter = router({
         const ranked = runSweep(input);
         return { top: ranked.slice(0, 10), total: ranked.length };
       }),
+
+    /** Walk-Forward: ehrlicher Out-of-Sample-Test gegen Overfitting. */
+    walkForward: publicProcedure
+      .input(z.object({
+        instrument: z.string().min(3).optional(),
+        tradeEur: z.number().positive().optional(),
+        paths: z.number().int().min(2).max(200).optional(),
+        vol: z.number().positive().max(0.2).optional(),
+      }).optional())
+      .mutation(({ input }) => walkForward(input)),
   }),
 });
