@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { evaluateOrder, type SafetyConfig } from "./safety";
 import { evaluateRules } from "./alerts";
 import { stepStrategy } from "./sandbox";
-import { simulate, makeRandomSeries, sweep, defaultGrid, makePaths, walkForward } from "./backtest";
+import { simulate, makeRandomSeries, sweep, defaultGrid, makePaths, walkForward, incomeAnalysis, edgeRequirement } from "./backtest";
 import type { AlertRule, SandboxState, SandboxConfig } from "./store";
 import type { PlaceOrderInput } from "./types";
 
@@ -221,5 +221,37 @@ describe("backtest (Effizienzgrenze)", () => {
     expect(wf.inSample.config).toEqual(wf.outOfSample.config);
     expect(Number.isFinite(wf.overfitGapPct)).toBe(true);
     expect(typeof wf.holdsUp).toBe("boolean");
+  });
+
+  it("income-Analyse liefert eine plausible Verteilung", () => {
+    const r = incomeAnalysis(cfg(), { windows: 100, windowTicks: 24, vol: 0.03 });
+    expect(r.windows).toBe(100);
+    expect(r.worstPct).toBeLessThanOrEqual(r.medianReturnPct);
+    expect(r.medianReturnPct).toBeLessThanOrEqual(r.bestPct);
+    expect(r.profitablePct).toBeGreaterThanOrEqual(0);
+    expect(r.profitablePct).toBeLessThanOrEqual(100);
+  });
+});
+
+describe("edgeRequirement (Realitäts-Check)", () => {
+  it("entlarvt 'täglich verdoppeln' als unmöglich (Trefferquote > 100%)", () => {
+    const e = edgeRequirement(100, 10, 2); // +100%/Tag, 10 Trades, 2%-Moves
+    expect(e.requiredWinRate).toBeGreaterThan(1);
+    expect(e.feasible).toBe(false);
+  });
+
+  it("hält ein bescheidenes Ziel für machbar (Trefferquote in (0,1))", () => {
+    const e = edgeRequirement(2, 10, 2); // +2%/Tag
+    expect(e.requiredWinRate).toBeGreaterThan(0);
+    expect(e.requiredWinRate).toBeLessThanOrEqual(1);
+    expect(e.feasible).toBe(true);
+  });
+
+  it("unterscheidet 'nur mathematisch möglich' von 'realistisch'", () => {
+    const theoretical = edgeRequirement(100, 50, 2); // verdoppeln mit vielen Trades
+    expect(theoretical.feasible).toBe(true);    // Trefferquote <= 100%
+    expect(theoretical.realistic).toBe(false);  // aber ~85% ist nicht plausibel
+    const modest = edgeRequirement(1, 10, 2);
+    expect(modest.realistic).toBe(true);
   });
 });

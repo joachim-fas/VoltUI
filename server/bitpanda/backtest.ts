@@ -123,6 +123,87 @@ export function runSweep(opts?: { instrument?: string; tradeEur?: number; paths?
   return sweep(grid, paths);
 }
 
+export interface IncomeResult {
+  windows: number;
+  stake: number;
+  medianReturnPct: number;
+  meanReturnPct: number;
+  doubledPct: number;     // Anteil "Tage" mit >= +100%
+  profitablePct: number;  // Anteil "Tage" > 0
+  ruinedPct: number;      // Anteil "Tage" <= -50%
+  bestPct: number;
+  worstPct: number;
+}
+
+/**
+ * Fixed-Stake-/Income-Analyse OHNE Compounding: jeder "Tag" startet mit
+ * demselben festen Einsatz, Gewinn wird gedanklich entnommen. Zeigt die reale
+ * Verteilung der Tagesrenditen statt der Compounding-Illusion.
+ */
+export function incomeAnalysis(
+  config: SandboxConfig,
+  opts?: { windows?: number; windowTicks?: number; vol?: number; stake?: number },
+): IncomeResult {
+  const windows = opts?.windows ?? 400;
+  const len = opts?.windowTicks ?? 24;
+  const vol = opts?.vol ?? 0.03;
+  const stake = opts?.stake ?? 100;
+
+  const rets: number[] = [];
+  for (let i = 0; i < windows; i++) {
+    const series = makeRandomSeries(i * 2654435761 + 1, len, 60000, vol, ((i % 3) - 1) * 0.001);
+    rets.push(simulate(config, series, stake).finalReturnPct);
+  }
+  rets.sort((a, b) => a - b);
+  const pct = (p: number) => rets[Math.floor((p / 100) * (rets.length - 1))];
+  const count = (f: (r: number) => boolean) => (rets.filter(f).length / rets.length) * 100;
+
+  return {
+    windows,
+    stake,
+    medianReturnPct: pct(50),
+    meanReturnPct: rets.reduce((s, r) => s + r, 0) / rets.length,
+    doubledPct: count((r) => r >= 100),
+    profitablePct: count((r) => r > 0),
+    ruinedPct: count((r) => r <= -50),
+    bestPct: rets[rets.length - 1],
+    worstPct: rets[0],
+  };
+}
+
+export interface EdgeRequirement {
+  targetDailyReturnPct: number;
+  tradesPerDay: number;
+  moveSizePct: number;
+  requiredPerTradeReturnPct: number; // nötige Erwartung je Trade
+  requiredWinRate: number;           // nötige Trefferquote (kann > 1 = unmöglich sein)
+  feasible: boolean;                 // mathematisch möglich (Trefferquote <= 100%)
+  realistic: boolean;                // dauerhaft plausibel (Trefferquote <= 60%)
+}
+
+/**
+ * Reine Spezifikations-Rechnung: Welche Trefferquote bräuchte man, um ein
+ * Tagesrenditeziel zu erreichen? Bei symmetrischem Payoff (Gewinn = Verlust =
+ * moveSize) und N Trades/Tag. Macht aus "es muss möglich sein" eine prüfbare Zahl.
+ */
+export function edgeRequirement(targetDailyReturnPct: number, tradesPerDay: number, moveSizePct: number): EdgeRequirement {
+  const target = targetDailyReturnPct / 100;
+  const n = Math.max(1, tradesPerDay);
+  const perTrade = Math.pow(1 + target, 1 / n) - 1; // nötige Erwartung je Trade
+  const x = moveSizePct / 100;
+  // Erwartung = (2p − 1) · x  ⇒  p = (perTrade/x + 1) / 2
+  const requiredWinRate = x > 0 ? (perTrade / x + 1) / 2 : Infinity;
+  return {
+    targetDailyReturnPct,
+    tradesPerDay: n,
+    moveSizePct,
+    requiredPerTradeReturnPct: perTrade * 100,
+    requiredWinRate,
+    feasible: requiredWinRate <= 1 && requiredWinRate >= 0,
+    realistic: requiredWinRate <= 0.6 && requiredWinRate >= 0,
+  };
+}
+
 export interface WalkForwardResult {
   inSample: SweepResult;      // beste Config, gemessen auf Trainingsdaten
   outOfSample: SweepResult;   // dieselbe Config auf ungesehenen Daten

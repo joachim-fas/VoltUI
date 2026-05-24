@@ -16,7 +16,7 @@ import * as service from "./service";
 import * as store from "./store";
 import { evaluateOnce } from "./alerts";
 import { stepSandbox } from "./sandbox";
-import { runSweep, walkForward } from "./backtest";
+import { runSweep, walkForward, incomeAnalysis, edgeRequirement } from "./backtest";
 
 const orderInput = z.object({
   instrument_code: z.string().min(3),
@@ -184,5 +184,24 @@ export const bitpandaRouter = router({
         vol: z.number().positive().max(0.2).optional(),
       }).optional())
       .mutation(({ input }) => walkForward(input)),
+
+    /** Fixed-Stake-/Income-Verteilung der aktuellen Strategie (kein Compounding). */
+    income: publicProcedure
+      .input(z.object({
+        windows: z.number().int().min(10).max(2000).optional(),
+        windowTicks: z.number().int().min(4).max(500).optional(),
+        vol: z.number().positive().max(0.2).optional(),
+        stake: z.number().positive().optional(),
+      }).optional())
+      .mutation(({ input }) => incomeAnalysis(store.getSandbox().config, input)),
+
+    /** Realitäts-Check: nötige Trefferquote für ein Tagesrenditeziel. */
+    edgeCalc: publicProcedure
+      .input(z.object({
+        targetDailyReturnPct: z.number(),
+        tradesPerDay: z.number().int().min(1).max(1000),
+        moveSizePct: z.number().positive().max(100),
+      }))
+      .mutation(({ input }) => edgeRequirement(input.targetDailyReturnPct, input.tradesPerDay, input.moveSizePct)),
   }),
 });

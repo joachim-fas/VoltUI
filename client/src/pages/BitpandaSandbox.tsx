@@ -49,6 +49,13 @@ export default function BitpandaSandbox() {
   const walkForwardM = trpc.bitpanda.sandbox.walkForward.useMutation({
     onError: (e) => add({ title: "Walk-Forward fehlgeschlagen", description: e.message, variant: "error" }),
   });
+  const incomeM = trpc.bitpanda.sandbox.income.useMutation({
+    onError: (e) => add({ title: "Income-Analyse fehlgeschlagen", description: e.message, variant: "error" }),
+  });
+  const edgeCalcM = trpc.bitpanda.sandbox.edgeCalc.useMutation({
+    onError: (e) => add({ title: "Berechnung fehlgeschlagen", description: e.message, variant: "error" }),
+  });
+  const [edge, setEdge] = useState({ target: "100", trades: "10", move: "2" });
 
   const [form, setForm] = useState({ instrument: "BTC_EUR", strategy: "DIP_BUY" as "DIP_BUY" | "MOMENTUM", tradeEur: "50", dipPct: "3", takeProfitPct: "8", stopLossPct: "10", startCash: "1000" });
   const [initialized, setInitialized] = useState(false);
@@ -312,6 +319,66 @@ export default function BitpandaSandbox() {
                 Starte einen Sweep, um die besten Risiko/Rendite-Configs zu finden – oder einen Walk-Forward für den ehrlichen Overfit-Test.
               </p>
             )}
+          </div>
+        </VoltCard>
+
+        {/* ── Realitäts-Check (Income & Edge) ── */}
+        <VoltCard variant="default" className="p-0 overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
+            <h3 className="font-display font-bold text-sm">Realitäts-Check</h3>
+            <p className="text-muted-foreground text-xs mt-0.5">Fester Einsatz statt Compounding · was ein Tagesziel wirklich verlangt</p>
+          </div>
+          <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+            {/* Income-Verteilung */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold">Tagesrendite (fester Einsatz)</span>
+                <VoltButton variant="primary" size="sm" loading={incomeM.isPending} onClick={() => incomeM.mutate({ windows: 400, windowTicks: 24, vol: 0.03 })}>
+                  Verteilung
+                </VoltButton>
+              </div>
+              {incomeM.data ? (
+                <div className="rounded-xl border border-border p-3 space-y-1.5 text-xs">
+                  <div className="flex justify-between"><span className="text-muted-foreground">„Tage" verdoppelt (≥ +100 %)</span><span className="font-mono font-semibold">{incomeM.data.doubledPct.toFixed(1)} %</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">profitabel (&gt; 0 %)</span><span className="font-mono">{incomeM.data.profitablePct.toFixed(1)} %</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Median-Tag</span><span className="font-mono">{incomeM.data.medianReturnPct.toFixed(1)} %</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Mittelwert</span><span className="font-mono">{incomeM.data.meanReturnPct.toFixed(1)} %</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">bestes / schlechtestes</span><span className="font-mono">{incomeM.data.bestPct.toFixed(0)} % / {incomeM.data.worstPct.toFixed(0)} %</span></div>
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">Misst über {`${400}`} simulierte „Tage", wie oft ein fester Einsatz sich verdoppelt — ohne Compounding-Illusion.</p>
+              )}
+            </div>
+
+            {/* Edge-Rechner */}
+            <div className="space-y-3">
+              <span className="text-sm font-semibold">Welcher Edge wäre nötig?</span>
+              <div className="grid grid-cols-3 gap-2">
+                <VoltInput label="Ziel %/Tag" inputMode="decimal" value={edge.target} onChange={(e) => setEdge((s) => ({ ...s, target: e.target.value }))} />
+                <VoltInput label="Trades/Tag" inputMode="numeric" value={edge.trades} onChange={(e) => setEdge((s) => ({ ...s, trades: e.target.value }))} />
+                <VoltInput label="Move %" inputMode="decimal" value={edge.move} onChange={(e) => setEdge((s) => ({ ...s, move: e.target.value }))} />
+              </div>
+              <VoltButton
+                variant="outline" size="sm" className="w-full" loading={edgeCalcM.isPending}
+                onClick={() => edgeCalcM.mutate({ targetDailyReturnPct: Number(edge.target), tradesPerDay: Math.max(1, Math.round(Number(edge.trades))), moveSizePct: Number(edge.move) })}
+              >
+                Berechnen
+              </VoltButton>
+              {edgeCalcM.data && (
+                <div className={`rounded-xl border p-3 text-xs ${edgeCalcM.data.realistic ? "border-[#1A9E5A]/40 bg-[#1A9E5A]/8" : edgeCalcM.data.feasible ? "border-amber-500/40 bg-amber-500/8" : "border-[#E8402A]/40 bg-[#E8402A]/8"}`}>
+                  <p className="text-sm font-semibold mb-1">
+                    {edgeCalcM.data.realistic
+                      ? "Plausibel — mit echtem Edge erreichbar"
+                      : edgeCalcM.data.feasible
+                        ? "Nur theoretisch — verlangt unrealistische Trefferquote"
+                        : "Unmöglich — Trefferquote über 100 %"}
+                  </p>
+                  <div className="flex justify-between"><span className="text-muted-foreground">nötige Trefferquote</span><span className="font-mono font-semibold">{(edgeCalcM.data.requiredWinRate * 100).toFixed(1)} %</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">nötige Erwartung/Trade</span><span className="font-mono">{edgeCalcM.data.requiredPerTradeReturnPct.toFixed(2)} %</span></div>
+                </div>
+              )}
+            </div>
           </div>
         </VoltCard>
       </main>
