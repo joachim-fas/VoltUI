@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { evaluateOrder, type SafetyConfig } from "./safety";
 import { evaluateRules } from "./alerts";
 import { stepStrategy } from "./sandbox";
-import type { AlertRule, SandboxState } from "./store";
+import { simulate, makeRandomSeries, sweep, defaultGrid, makePaths } from "./backtest";
+import type { AlertRule, SandboxState, SandboxConfig } from "./store";
 import type { PlaceOrderInput } from "./types";
 
 const allowCfg: SafetyConfig = { killSwitch: false, tradingEnabled: true, dryRun: false, maxOrderEur: 100, dailyLimitEur: 500 };
@@ -174,5 +175,31 @@ describe("stepStrategy (Paper-Trading-Sandbox)", () => {
     const s = sandbox({ cash: 0, referenceHigh: 100, position: { amount: 1, avgEntry: 100 } });
     const { trade } = stepStrategy(s, 100, 1);
     expect(trade).toBeNull();
+  });
+});
+
+const cfg = (over: Partial<SandboxConfig> = {}): SandboxConfig =>
+  ({ instrument: "BTC_EUR", tradeEur: 100, dipPct: 3, takeProfitPct: 8, stopLossPct: 10, ...over });
+
+describe("backtest (Effizienzgrenze)", () => {
+  it("liefert 0 % Rendite und 0 Drawdown bei flachem Kurs", () => {
+    const flat = new Array(50).fill(50000);
+    const m = simulate(cfg(), flat);
+    expect(m.finalReturnPct).toBeCloseTo(0);
+    expect(m.maxDrawdownPct).toBeCloseTo(0);
+    expect(m.trades).toBe(0);
+  });
+
+  it("erzeugt einen reproduzierbaren Kurspfad pro Seed", () => {
+    expect(makeRandomSeries(1, 20)).toEqual(makeRandomSeries(1, 20));
+    expect(makeRandomSeries(1, 20)).not.toEqual(makeRandomSeries(2, 20));
+  });
+
+  it("rankt den Sweep absteigend nach risikoadjustierter Leistung", () => {
+    const results = sweep(defaultGrid(), makePaths(8, 60, 0.02));
+    expect(results.length).toBe(defaultGrid().length);
+    for (let i = 1; i < results.length; i++) {
+      expect(results[i - 1].riskAdjusted).toBeGreaterThanOrEqual(results[i].riskAdjusted);
+    }
   });
 });
