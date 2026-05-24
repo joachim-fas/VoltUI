@@ -6,14 +6,61 @@
  */
 
 import { BITPANDA, ENDPOINTS } from "./config";
-import { bitpandaGet, bitpandaPost } from "./client";
+import { bitpandaGet, bitpandaPost, bitpandaDelete } from "./client";
 import { evaluateOrder } from "./safety";
 import type {
-  Balance, Ticker, PlaceOrderInput, OrderResult, OrderPreview, OrderOutcome,
+  Balance, Ticker, PlaceOrderInput, OrderResult, OrderPreview, OrderOutcome, OpenOrder,
 } from "./types";
 
 export function getBalances(): Promise<Balance[]> {
   return bitpandaGet<Balance[]>(ENDPOINTS.balances, true);
+}
+
+/**
+ * Normalisiert die Orders-Antwort defensiv. Die genaue Form bitte gegen deine
+ * Bitpanda-Doku abgleichen – wir lesen die gängigen Felder tolerant aus.
+ */
+function normalizeOrders(raw: unknown): OpenOrder[] {
+  const r = raw as Record<string, unknown> | unknown[];
+  const list: unknown[] = Array.isArray(r)
+    ? r
+    : Array.isArray((r as Record<string, unknown>)?.order_history)
+      ? ((r as Record<string, unknown>).order_history as unknown[])
+      : Array.isArray((r as Record<string, unknown>)?.orders)
+        ? ((r as Record<string, unknown>).orders as unknown[])
+        : [];
+
+  return list
+    .map((item) => {
+      const wrap = item as Record<string, unknown>;
+      const o = (wrap.order ?? wrap) as Record<string, unknown>;
+      return {
+        order_id: String(o.order_id ?? o.id ?? ""),
+        instrument_code: String(o.instrument_code ?? ""),
+        side: String(o.side ?? ""),
+        type: String(o.type ?? ""),
+        amount: String(o.amount ?? ""),
+        price: o.price !== undefined ? String(o.price) : undefined,
+        filled_amount: o.filled_amount !== undefined ? String(o.filled_amount) : undefined,
+        status: o.status !== undefined ? String(o.status) : undefined,
+      } as OpenOrder;
+    })
+    .filter((o) => o.order_id.length > 0);
+}
+
+export async function getOpenOrders(): Promise<OpenOrder[]> {
+  const raw = await bitpandaGet<unknown>(ENDPOINTS.orders, true);
+  return normalizeOrders(raw);
+}
+
+/**
+ * Storniert eine bestehende Order. Stornieren reduziert Risiko, daher nicht an
+ * den Trading-Schalter gekoppelt – es braucht aber einen Key und (im Router)
+ * eine ausdrückliche Bestätigung.
+ */
+export async function cancelOrder(orderId: string): Promise<{ ok: boolean; message: string }> {
+  await bitpandaDelete<unknown>(ENDPOINTS.order(orderId), true);
+  return { ok: true, message: `Order ${orderId} storniert.` };
 }
 
 export function getTicker(instrumentCode?: string): Promise<Ticker | Ticker[]> {

@@ -20,6 +20,7 @@ import { VoltToastContainer, useVoltToast } from "@/components/volt/VoltToast";
 import {
   ArrowLeft, Terminal, ShieldCheck, ShieldAlert, KeyRound, Wallet,
   RefreshCw, AlertTriangle, CheckCircle2, Lock, Eye, Info,
+  ListOrdered, XCircle, TrendingUp,
 } from "lucide-react";
 
 type Side = "BUY" | "SELL";
@@ -30,6 +31,7 @@ export default function BitpandaLive() {
 
   const statusQ = trpc.bitpanda.status.useQuery();
   const balancesQ = trpc.bitpanda.balances.useQuery(undefined, { retry: false });
+  const openOrdersQ = trpc.bitpanda.openOrders.useQuery(undefined, { retry: false });
 
   const [instrument, setInstrument] = useState("BTC_EUR");
   const [side, setSide] = useState<Side>("BUY");
@@ -37,6 +39,22 @@ export default function BitpandaLive() {
   const [amount, setAmount] = useState("");
   const [price, setPrice] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [cancelTarget, setCancelTarget] = useState<{ order_id: string; instrument_code: string } | null>(null);
+
+  const tickerQ = trpc.bitpanda.ticker.useQuery(
+    { instrumentCode: instrument.trim().toUpperCase() },
+    { enabled: false, retry: false },
+  );
+  const lastPrice = tickerQ.data && !Array.isArray(tickerQ.data) ? tickerQ.data.last_price : null;
+
+  const cancelM = trpc.bitpanda.cancelOrder.useMutation({
+    onSuccess: (res) => {
+      add({ title: "Order storniert", description: res.message, variant: "success" });
+      setCancelTarget(null);
+      openOrdersQ.refetch();
+    },
+    onError: (e) => add({ title: "Stornieren fehlgeschlagen", description: e.message, variant: "error" }),
+  });
 
   const orderPayload = () => ({
     instrument_code: instrument.trim().toUpperCase(),
@@ -55,7 +73,7 @@ export default function BitpandaLive() {
         variant: res.executed ? "success" : "warning",
       });
       setConfirmOpen(false);
-      if (res.executed) balancesQ.refetch();
+      if (res.executed) { balancesQ.refetch(); openOrdersQ.refetch(); }
     },
     onError: (e) => add({ title: "Fehler beim Senden", description: e.message, variant: "error" }),
   });
@@ -229,11 +247,29 @@ export default function BitpandaLive() {
                 ))}
               </div>
 
-              <VoltInput
-                label="Instrument" placeholder="BTC_EUR"
-                value={instrument}
-                onChange={(e) => { setInstrument(e.target.value); previewM.reset(); }}
-              />
+              <div className="flex items-end gap-2">
+                <VoltInput
+                  label="Instrument" placeholder="BTC_EUR" className="flex-1"
+                  value={instrument}
+                  onChange={(e) => { setInstrument(e.target.value); previewM.reset(); }}
+                />
+                <VoltButton
+                  variant="outline" size="md"
+                  loading={tickerQ.isFetching}
+                  leftIcon={<TrendingUp className="w-3.5 h-3.5" />}
+                  onClick={() => tickerQ.refetch()}
+                >
+                  Kurs
+                </VoltButton>
+              </div>
+              {lastPrice && (
+                <p className="text-xs text-muted-foreground -mt-2">
+                  Aktueller Kurs {instrument.toUpperCase()}: <span className="font-mono text-foreground">{lastPrice}</span>
+                </p>
+              )}
+              {tickerQ.isError && (
+                <p className="text-xs text-[#A01A08] -mt-2">Kurs nicht abrufbar: {tickerQ.error.message}</p>
+              )}
               <div className="grid grid-cols-2 gap-3">
                 <VoltInput
                   label="Menge (Basis)" placeholder="0.01" inputMode="decimal"
@@ -294,6 +330,66 @@ export default function BitpandaLive() {
             </div>
           </VoltCard>
         </div>
+
+        {/* ── Offene Orders ── */}
+        <VoltCard variant="default" className="p-0 overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+            <div className="flex items-center gap-2.5">
+              <span className="w-8 h-8 rounded-xl bg-foreground flex items-center justify-center">
+                <ListOrdered className="w-4 h-4 text-[#E4FF97]" />
+              </span>
+              <h3 className="font-display font-bold text-sm">Offene Orders</h3>
+            </div>
+            <VoltButton
+              variant="ghost" size="sm"
+              leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${openOrdersQ.isFetching ? "animate-spin" : ""}`} />}
+              onClick={() => openOrdersQ.refetch()}
+            >
+              Aktualisieren
+            </VoltButton>
+          </div>
+          <div className="p-4">
+            {openOrdersQ.isLoading && (
+              <p className="text-sm text-muted-foreground text-center py-8">Lade offene Orders …</p>
+            )}
+            {openOrdersQ.isError && (
+              <div className="flex flex-col items-center text-center gap-2 py-8">
+                <KeyRound className="w-7 h-7 text-muted-foreground" />
+                <p className="text-sm font-semibold">Keine Order-Daten</p>
+                <p className="text-xs text-muted-foreground max-w-xs">API-Key erforderlich. {openOrdersQ.error.message}</p>
+              </div>
+            )}
+            {openOrdersQ.data && openOrdersQ.data.length === 0 && (
+              <p className="text-sm text-muted-foreground text-center py-8">Keine offenen Orders.</p>
+            )}
+            {openOrdersQ.data && openOrdersQ.data.length > 0 && (
+              <div className="divide-y divide-border">
+                {openOrdersQ.data.map((o) => (
+                  <div key={o.order_id} className="flex items-center justify-between gap-3 py-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <VoltBadge variant={o.side === "BUY" ? "positive" : "negative"} size="sm">
+                        {o.side === "BUY" ? "Kauf" : o.side === "SELL" ? "Verkauf" : o.side}
+                      </VoltBadge>
+                      <div className="leading-tight min-w-0">
+                        <div className="text-sm font-semibold font-mono truncate">{o.instrument_code}</div>
+                        <div className="text-[0.7rem] text-muted-foreground font-mono truncate">
+                          {o.type} · {o.amount}{o.price ? ` @ ${o.price}` : ""}{o.status ? ` · ${o.status}` : ""}
+                        </div>
+                      </div>
+                    </div>
+                    <VoltButton
+                      variant="ghost" size="sm"
+                      leftIcon={<XCircle className="w-3.5 h-3.5" />}
+                      onClick={() => setCancelTarget({ order_id: o.order_id, instrument_code: o.instrument_code })}
+                    >
+                      Stornieren
+                    </VoltButton>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </VoltCard>
       </main>
 
       <VoltToastContainer toasts={toasts} onDismiss={dismiss} position="top-right" />
@@ -337,6 +433,35 @@ export default function BitpandaLive() {
                 Du löst diese Order selbst aus. Keine Anlageberatung – Entscheidung und Verantwortung liegen bei dir.
               </p>
             </div>
+          </div>
+        )}
+      </VoltModal>
+
+      {/* ── Stornieren bestätigen ── */}
+      <VoltModal
+        open={cancelTarget !== null}
+        onClose={() => setCancelTarget(null)}
+        title="Order stornieren?"
+        description="Stornieren entfernt diese offene Order. Diese Aktion bestätigst du selbst."
+        size="sm"
+        footer={
+          <div className="flex gap-2 justify-end w-full">
+            <VoltButton variant="ghost" size="sm" onClick={() => setCancelTarget(null)}>Zurück</VoltButton>
+            <VoltButton
+              variant="destructive" size="sm"
+              loading={cancelM.isPending}
+              leftIcon={<XCircle className="w-3.5 h-3.5" />}
+              onClick={() => cancelTarget && cancelM.mutate({ orderId: cancelTarget.order_id, confirm: true })}
+            >
+              Stornieren
+            </VoltButton>
+          </div>
+        }
+      >
+        {cancelTarget && (
+          <div className="rounded-xl border border-border p-4 space-y-2">
+            <Row label="Instrument" value={cancelTarget.instrument_code} />
+            <Row label="Order-ID" value={cancelTarget.order_id} />
           </div>
         )}
       </VoltModal>

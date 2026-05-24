@@ -35,6 +35,17 @@ export interface OrderResult {
   [key: string]: unknown;
 }
 
+export interface OpenOrder {
+  order_id: string;
+  instrument_code: string;
+  side: string;
+  type: string;
+  amount: string;
+  price?: string;
+  filled_amount?: string;
+  status?: string;
+}
+
 export interface OrderCheck {
   allowed: boolean;
   warnings: string[];

@@ -42,6 +42,14 @@ export const bitpandaRouter = router({
     .input(z.object({ instrumentCode: z.string().optional() }).optional())
     .query(({ input }) => service.getTicker(input?.instrumentCode)),
 
+  /** Offene Orders (read-only, braucht API-Key). */
+  openOrders: publicProcedure.query(() => service.getOpenOrders()),
+
+  /** Order stornieren. confirm:true ist Pflicht (menschliche Bestätigung). */
+  cancelOrder: publicProcedure
+    .input(z.object({ orderId: z.string().min(1), confirm: z.literal(true) }))
+    .mutation(({ input }) => service.cancelOrder(input.orderId)),
+
   /** Order-Vorschau inkl. Guardrail-Prüfung – sendet nichts. */
   previewOrder: publicProcedure
     .input(orderInput)
