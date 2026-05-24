@@ -8,8 +8,11 @@
 import { BITPANDA } from "./config";
 import { getTicker, getBalances } from "./service";
 import * as store from "./store";
-import type { AlertRule, Comparator } from "./store";
+import type { AlertRule, Comparator, TriggeredAlert } from "./store";
 import type { Ticker } from "./types";
+
+export type NewAlert = Omit<TriggeredAlert, "id" | "createdAt">;
+export interface RuleMatch { ruleId: string; alert: NewAlert; }
 
 function compare(c: Comparator, observed: number, threshold: number): boolean {
   return c === "ABOVE" ? observed >= threshold : observed <= threshold;
@@ -50,6 +53,47 @@ function describe(rule: AlertRule, observed: number) {
   };
 }
 
+/**
+ * Reine Auswertung – ohne I/O, daher gut testbar. Liefert die auszulösenden
+ * Alerts für die übergebenen Regeln und Marktwerte.
+ */
+export function evaluateRules(
+  rules: AlertRule[],
+  priceMap: Map<string, number>,
+  allocMap: Map<string, number> | null,
+  now: number,
+  cooldownMs: number,
+): RuleMatch[] {
+  const matches: RuleMatch[] = [];
+  for (const rule of rules) {
+    if (!rule.enabled) continue;
+    if (rule.lastTriggeredAt && now - rule.lastTriggeredAt < cooldownMs) continue;
+
+    const observed = rule.type === "PRICE"
+      ? priceMap.get(rule.target)
+      : allocMap?.get(rule.target.toUpperCase());
+
+    if (observed === undefined || !Number.isFinite(observed)) continue;
+    if (!compare(rule.comparator, observed, rule.value)) continue;
+
+    const { title, detail } = describe(rule, observed);
+    matches.push({
+      ruleId: rule.id,
+      alert: {
+        ruleId: rule.id,
+        type: rule.type,
+        title,
+        detail,
+        target: rule.target,
+        observedValue: observed,
+        comparator: rule.comparator,
+        threshold: rule.value,
+      },
+    });
+  }
+  return matches;
+}
+
 let evaluating = false;
 let timer: ReturnType<typeof setInterval> | null = null;
 
@@ -79,34 +123,13 @@ export async function evaluateOnce(): Promise<{ checked: number; triggered: numb
       }
     }
 
-    let triggered = 0;
-    for (const rule of rules) {
-      if (rule.lastTriggeredAt && now - rule.lastTriggeredAt < cooldownMs) continue;
-
-      const observed = rule.type === "PRICE"
-        ? priceMap.get(rule.target)
-        : allocMap?.get(rule.target.toUpperCase());
-
-      if (observed === undefined || !Number.isFinite(observed)) continue;
-
-      if (compare(rule.comparator, observed, rule.value)) {
-        const { title, detail } = describe(rule, observed);
-        store.addAlert({
-          ruleId: rule.id,
-          type: rule.type,
-          title,
-          detail,
-          target: rule.target,
-          observedValue: observed,
-          comparator: rule.comparator,
-          threshold: rule.value,
-        });
-        store.markTriggered(rule.id, now);
-        triggered++;
-      }
+    const matches = evaluateRules(rules, priceMap, allocMap, now, cooldownMs);
+    for (const m of matches) {
+      store.addAlert(m.alert);
+      store.markTriggered(m.ruleId, now);
     }
 
-    return { checked: rules.length, triggered };
+    return { checked: rules.length, triggered: matches.length };
   } finally {
     evaluating = false;
   }

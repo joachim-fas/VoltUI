@@ -50,7 +50,11 @@ export const bitpandaRouter = router({
   /** Order stornieren. confirm:true ist Pflicht (menschliche Bestätigung). */
   cancelOrder: publicProcedure
     .input(z.object({ orderId: z.string().min(1), confirm: z.literal(true) }))
-    .mutation(({ input }) => service.cancelOrder(input.orderId)),
+    .mutation(async ({ input }) => {
+      const res = await service.cancelOrder(input.orderId);
+      store.addJournal({ kind: "CANCEL", summary: `Order ${input.orderId} storniert` });
+      return res;
+    }),
 
   /** Order-Vorschau inkl. Guardrail-Prüfung – sendet nichts. */
   previewOrder: publicProcedure
@@ -63,10 +67,16 @@ export const bitpandaRouter = router({
    */
   placeOrder: publicProcedure
     .input(orderInput.extend({ confirm: z.literal(true) }))
-    .mutation(({ input }) => {
+    .mutation(async ({ input }) => {
       const { confirm, ...order } = input;
       void confirm;
-      return service.placeOrder(order);
+      const outcome = await service.placeOrder(order);
+      store.addJournal({
+        kind: "ORDER",
+        summary: `${order.side} ${order.amount} ${order.instrument_code}${order.type === "LIMIT" ? ` @ ${order.price}` : ""}`,
+        detail: outcome.message,
+      });
+      return outcome;
     }),
 
   /* ── Alert-Regeln & ausgelöste Alerts ── */
@@ -95,9 +105,17 @@ export const bitpandaRouter = router({
 
   dismissAlert: publicProcedure
     .input(z.object({ id: z.string().min(1) }))
-    .mutation(({ input }) => { store.dismissAlert(input.id); return { ok: true }; }),
+    .mutation(({ input }) => {
+      const alert = store.listAlerts().find((a) => a.id === input.id);
+      store.dismissAlert(input.id);
+      if (alert) store.addJournal({ kind: "DISMISS", summary: `Alert verworfen: ${alert.title}` });
+      return { ok: true };
+    }),
 
   clearAlerts: publicProcedure.mutation(() => { store.clearAlerts(); return { ok: true }; }),
+
+  /** Entscheidungs-Journal (Audit-Log). */
+  listJournal: publicProcedure.query(() => store.listJournal()),
 
   /** Regeln sofort prüfen (zusätzlich zum Hintergrund-Polling). */
   evaluateNow: publicProcedure.mutation(() => evaluateOnce()),

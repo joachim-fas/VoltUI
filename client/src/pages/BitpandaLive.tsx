@@ -20,7 +20,7 @@ import { VoltToastContainer, useVoltToast } from "@/components/volt/VoltToast";
 import {
   ArrowLeft, Terminal, ShieldCheck, ShieldAlert, KeyRound, Wallet,
   RefreshCw, AlertTriangle, CheckCircle2, Lock, Eye, Info,
-  ListOrdered, XCircle, TrendingUp, Bell, Clock, Plus, Trash2,
+  ListOrdered, XCircle, TrendingUp, Bell, Clock, Plus, Trash2, History,
 } from "lucide-react";
 
 type Side = "BUY" | "SELL";
@@ -52,6 +52,7 @@ export default function BitpandaLive() {
       add({ title: "Order storniert", description: res.message, variant: "success" });
       setCancelTarget(null);
       openOrdersQ.refetch();
+      journalQ.refetch();
     },
     onError: (e) => add({ title: "Stornieren fehlgeschlagen", description: e.message, variant: "error" }),
   });
@@ -59,6 +60,7 @@ export default function BitpandaLive() {
   // ── Alert-Regeln & ausgelöste Alerts ──
   const rulesQ = trpc.bitpanda.listRules.useQuery(undefined, { retry: false });
   const alertsQ = trpc.bitpanda.listAlerts.useQuery(undefined, { retry: false, refetchInterval: 15000 });
+  const journalQ = trpc.bitpanda.listJournal.useQuery(undefined, { retry: false, refetchInterval: 20000 });
 
   const [ruleType, setRuleType] = useState<"PRICE" | "ALLOCATION">("PRICE");
   const [ruleTarget, setRuleTarget] = useState("BTC_EUR");
@@ -71,7 +73,7 @@ export default function BitpandaLive() {
   });
   const deleteRuleM = trpc.bitpanda.deleteRule.useMutation({ onSuccess: () => rulesQ.refetch() });
   const toggleRuleM = trpc.bitpanda.toggleRule.useMutation({ onSuccess: () => rulesQ.refetch() });
-  const dismissAlertM = trpc.bitpanda.dismissAlert.useMutation({ onSuccess: () => alertsQ.refetch() });
+  const dismissAlertM = trpc.bitpanda.dismissAlert.useMutation({ onSuccess: () => { alertsQ.refetch(); journalQ.refetch(); } });
   const evaluateNowM = trpc.bitpanda.evaluateNow.useMutation({
     onSuccess: (res) => {
       add({ title: "Regeln geprüft", description: `${res.checked} geprüft · ${res.triggered} ausgelöst`, variant: res.triggered > 0 ? "warning" : "info" });
@@ -89,10 +91,11 @@ export default function BitpandaLive() {
     createRuleM.mutate({ type: ruleType, target: ruleTarget.trim(), comparator: ruleComparator, value: v });
   };
 
-  const alertToTicket = (a: { type: string; target: string; comparator: string }) => {
+  const alertToTicket = (a: { type: string; target: string; comparator: string; threshold: number }) => {
     const instr = a.type === "PRICE" ? a.target : `${a.target}_${status?.quoteCurrency ?? "EUR"}`;
     setInstrument(instr.toUpperCase());
     setSide(a.comparator === "BELOW" ? "BUY" : "SELL");
+    if (a.type === "PRICE") { setType("LIMIT"); setPrice(String(a.threshold)); }
     previewM.reset();
     add({ title: "Ins Ticket übernommen", description: instr.toUpperCase(), variant: "info" });
   };
@@ -114,6 +117,7 @@ export default function BitpandaLive() {
         variant: res.executed ? "success" : "warning",
       });
       setConfirmOpen(false);
+      journalQ.refetch();
       if (res.executed) { balancesQ.refetch(); openOrdersQ.refetch(); }
     },
     onError: (e) => add({ title: "Fehler beim Senden", description: e.message, variant: "error" }),
@@ -578,6 +582,43 @@ export default function BitpandaLive() {
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </VoltCard>
+
+        {/* ── Entscheidungs-Journal ── */}
+        <VoltCard variant="default" className="p-0 overflow-hidden">
+          <div className="flex items-center gap-2.5 px-5 py-4 border-b border-border">
+            <span className="w-8 h-8 rounded-xl bg-foreground flex items-center justify-center">
+              <History className="w-4 h-4 text-[#E4FF97]" />
+            </span>
+            <div>
+              <h3 className="font-display font-bold text-sm">Entscheidungs-Journal</h3>
+              <p className="text-muted-foreground text-xs mt-0.5">Protokoll deiner Entscheidungen</p>
+            </div>
+          </div>
+          <div className="p-4">
+            {(!journalQ.data || journalQ.data.length === 0) && (
+              <p className="text-sm text-muted-foreground text-center py-6">Noch keine Entscheidungen protokolliert.</p>
+            )}
+            <div className="divide-y divide-border">
+              {journalQ.data?.map((j) => (
+                <div key={j.id} className="flex items-start gap-3 py-3">
+                  <VoltBadge
+                    variant={j.kind === "ORDER" ? "positive" : j.kind === "CANCEL" ? "negative" : "muted"}
+                    size="sm"
+                  >
+                    {j.kind === "ORDER" ? "Order" : j.kind === "CANCEL" ? "Storno" : "Verworfen"}
+                  </VoltBadge>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium leading-snug">{j.summary}</p>
+                    {j.detail && <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{j.detail}</p>}
+                    <span className="inline-flex items-center gap-1 text-[0.7rem] text-muted-foreground mt-1">
+                      <Clock className="w-3 h-3" /> {new Date(j.at).toLocaleString("de-DE")}
+                    </span>
                   </div>
                 </div>
               ))}

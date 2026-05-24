@@ -38,13 +38,25 @@ export interface TriggeredAlert {
   createdAt: number;
 }
 
+export type JournalKind = "ORDER" | "CANCEL" | "DISMISS";
+
+export interface JournalEntry {
+  id: string;
+  at: number;
+  kind: JournalKind;
+  summary: string;
+  detail?: string;
+}
+
 interface StoreShape {
   rules: AlertRule[];
   alerts: TriggeredAlert[];
+  journal: JournalEntry[];
 }
 
 const FILE = process.env.BITPANDA_STORE_PATH || join(process.cwd(), "data", "bitpanda-store.json");
 const MAX_ALERTS = 100;
+const MAX_JOURNAL = 200;
 
 let cache: StoreShape | null = null;
 
@@ -55,12 +67,13 @@ function read(): StoreShape {
       cache = JSON.parse(readFileSync(FILE, "utf8")) as StoreShape;
       cache.rules ??= [];
       cache.alerts ??= [];
+      cache.journal ??= [];
       return cache;
     }
   } catch (e) {
     console.warn("[bitpanda] Store-Lesefehler:", (e as Error).message);
   }
-  cache = { rules: [], alerts: [] };
+  cache = { rules: [], alerts: [], journal: [] };
   return cache;
 }
 
@@ -149,4 +162,17 @@ export function clearAlerts(): void {
   const data = read();
   data.alerts = [];
   write(data);
+}
+
+/* ── Journal (Audit-Log getroffener Entscheidungen) ── */
+export function listJournal(): JournalEntry[] {
+  return read().journal;
+}
+
+export function addJournal(input: Omit<JournalEntry, "id" | "at">): JournalEntry {
+  const data = read();
+  const entry: JournalEntry = { ...input, id: randomUUID(), at: Date.now() };
+  data.journal = [entry, ...data.journal].slice(0, MAX_JOURNAL);
+  write(data);
+  return entry;
 }

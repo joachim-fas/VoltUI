@@ -7,14 +7,26 @@
 import { BITPANDA } from "./config";
 import type { OrderCheck, PlaceOrderInput } from "./types";
 
-export function evaluateOrder(input: PlaceOrderInput, estimatedEur: number | null): OrderCheck {
+/** Nur die Felder, die die Guardrails brauchen – injizierbar für Tests. */
+export interface SafetyConfig {
+  killSwitch: boolean;
+  tradingEnabled: boolean;
+  dryRun: boolean;
+  maxOrderEur: number;
+}
+
+export function evaluateOrder(
+  input: PlaceOrderInput,
+  estimatedEur: number | null,
+  cfg: SafetyConfig = BITPANDA,
+): OrderCheck {
   const warnings: string[] = [];
   const blockers: string[] = [];
 
-  if (BITPANDA.killSwitch) {
+  if (cfg.killSwitch) {
     blockers.push("Kill-Switch aktiv – alle Orders sind gesperrt.");
   }
-  if (!BITPANDA.tradingEnabled) {
+  if (!cfg.tradingEnabled) {
     blockers.push("Trading ist deaktiviert (BITPANDA_TRADING_ENABLED=false).");
   }
   if (input.type === "LIMIT" && !input.price) {
@@ -23,15 +35,15 @@ export function evaluateOrder(input: PlaceOrderInput, estimatedEur: number | nul
   if (Number(input.amount) <= 0) {
     blockers.push("Menge muss größer als 0 sein.");
   }
-  if (estimatedEur !== null && estimatedEur > BITPANDA.maxOrderEur) {
+  if (estimatedEur !== null && estimatedEur > cfg.maxOrderEur) {
     blockers.push(
-      `Order-Gegenwert ~ ${estimatedEur.toFixed(2)} € überschreitet das Limit von ${BITPANDA.maxOrderEur} € (BITPANDA_MAX_ORDER_EUR).`,
+      `Order-Gegenwert ~ ${estimatedEur.toFixed(2)} € überschreitet das Limit von ${cfg.maxOrderEur} € (BITPANDA_MAX_ORDER_EUR).`,
     );
   }
   if (estimatedEur === null) {
     warnings.push("EUR-Gegenwert konnte nicht geschätzt werden – Limit-Prüfung übersprungen.");
   }
-  if (BITPANDA.dryRun) {
+  if (cfg.dryRun) {
     warnings.push("Dry-Run aktiv – es wird KEINE echte Order an Bitpanda gesendet.");
   }
 
