@@ -8,6 +8,7 @@ import { publicProcedure, router } from "../_core/trpc";
 import { POLYMARKET } from "./config";
 import { getMarkets } from "./service";
 import { scanArbitrage, evaluateBet } from "./scanner";
+import { crossVenueArb } from "./crossvenue";
 
 export const polymarketRouter = router({
   /** Aktive Märkte mit Preisen (= implizite Wahrscheinlichkeiten). */
@@ -27,4 +28,13 @@ export const polymarketRouter = router({
   evaluate: publicProcedure
     .input(z.object({ price: z.number().min(0).max(1), myProb: z.number().min(0).max(1) }))
     .mutation(({ input }) => evaluateBet(input.price, input.myProb)),
+
+  /** Cross-Venue-Arbitrage: YES-Preis desselben Events auf zwei Börsen. */
+  crossVenue: publicProcedure
+    .input(z.object({
+      yesA: z.number().min(0).max(1),
+      yesB: z.number().min(0).max(1),
+      feePct: z.number().min(0).max(100).optional(),
+    }))
+    .mutation(({ input }) => crossVenueArb(input.yesA, input.yesB, input.feePct ?? 0)),
 });

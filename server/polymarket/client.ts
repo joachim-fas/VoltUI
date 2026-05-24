@@ -14,7 +14,14 @@ export async function gammaGet<T>(path: string, params?: Record<string, string |
 
   let res: Response;
   try {
-    res = await fetch(url.toString(), { headers: { Accept: "application/json" } });
+    // Legitime Client-Hygiene: viele öffentliche APIs lehnen Requests ohne
+    // User-Agent ab. Kein Geo-/WAF-Umgehen – nur korrekte Identifikation.
+    res = await fetch(url.toString(), {
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "VoltUI-Copilot/1.0 (read-only market data)",
+      },
+    });
   } catch (err) {
     throw new PolymarketError(`Netzwerkfehler bei ${path}: ${(err as Error).message}`);
   }

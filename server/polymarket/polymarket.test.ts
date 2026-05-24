@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { scanArbitrage, evaluateBet } from "./scanner";
+import { crossVenueArb, matchKey } from "./crossvenue";
 import { normalizeMarket } from "./service";
 import type { PolyMarket } from "./types";
 
@@ -46,6 +47,37 @@ describe("evaluateBet", () => {
     expect(e.edge).toBeGreaterThan(0);
     expect(e.evPerBetPct).toBeGreaterThan(0);
     expect(e.kellyFraction).toBeGreaterThan(0);
+  });
+});
+
+describe("crossVenueArb", () => {
+  it("kauft YES auf der billigeren Seite und sichert die Differenz", () => {
+    const r = crossVenueArb(0.40, 0.55);
+    expect(r.buyYesOn).toBe("A");
+    expect(r.buyNoOn).toBe("B");
+    expect(r.profitPct).toBeCloseTo(15);
+    expect(r.worthwhile).toBe(true);
+  });
+
+  it("spiegelt die Seite bei umgekehrter Preislage", () => {
+    const r = crossVenueArb(0.55, 0.40);
+    expect(r.buyYesOn).toBe("B");
+  });
+
+  it("keine Marge bei gleichem Preis", () => {
+    const r = crossVenueArb(0.5, 0.5);
+    expect(r.profitPct).toBeCloseTo(0);
+    expect(r.worthwhile).toBe(false);
+  });
+
+  it("Gebühren können die Marge auffressen", () => {
+    const r = crossVenueArb(0.48, 0.50, 5); // 2% Marge, 5% Gebühren
+    expect(r.feeAdjustedProfitPct).toBeLessThan(0);
+    expect(r.worthwhile).toBe(false);
+  });
+
+  it("matchKey erkennt dieselbe Frage trotz anderer Schreibweise", () => {
+    expect(matchKey("Will BTC hit $100k?")).toBe(matchKey("btc $100k will hit"));
   });
 });
 

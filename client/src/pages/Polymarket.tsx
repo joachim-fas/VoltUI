@@ -28,6 +28,19 @@ export default function Polymarket() {
     onError: (e) => add({ title: "Berechnung fehlgeschlagen", description: e.message, variant: "error" }),
   });
 
+  const [cross, setCross] = useState({ a: "0.40", b: "0.55", fee: "0" });
+  const crossM = trpc.polymarket.crossVenue.useMutation({
+    onError: (e) => add({ title: "Berechnung fehlgeschlagen", description: e.message, variant: "error" }),
+  });
+  const runCross = () => {
+    const a = Number(cross.a), b = Number(cross.b), fee = Number(cross.fee);
+    if (!(a >= 0 && a <= 1) || !(b >= 0 && b <= 1)) {
+      add({ title: "Eingabe prüfen", description: "YES-Preise in [0,1].", variant: "warning" });
+      return;
+    }
+    crossM.mutate({ yesA: a, yesB: b, feePct: Number.isFinite(fee) ? fee : 0 });
+  };
+
   const runEval = () => {
     const p = Number(price), q = Number(myProb);
     if (!(p > 0 && p < 1) || !(q >= 0 && q <= 1)) {
@@ -145,6 +158,43 @@ export default function Polymarket() {
             </div>
           </VoltCard>
         </div>
+
+        {/* Cross-Venue-Arbitrage */}
+        <VoltCard variant="default" className="p-0 overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
+            <h3 className="font-display font-bold text-sm">Cross-Venue-Arbitrage</h3>
+            <p className="text-muted-foreground text-xs mt-0.5">
+              Gleiches Event, zwei Börsen (z. B. Polymarket vs. Kalshi) – YES-Preise vergleichen, Differenz risikofrei sichern
+            </p>
+          </div>
+          <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div className="space-y-3">
+              <div className="grid grid-cols-3 gap-2">
+                <VoltInput label="YES Börse A" inputMode="decimal" value={cross.a} onChange={(e) => setCross((s) => ({ ...s, a: e.target.value }))} />
+                <VoltInput label="YES Börse B" inputMode="decimal" value={cross.b} onChange={(e) => setCross((s) => ({ ...s, b: e.target.value }))} />
+                <VoltInput label="Gebühren %" inputMode="decimal" value={cross.fee} onChange={(e) => setCross((s) => ({ ...s, fee: e.target.value }))} />
+              </div>
+              <VoltButton variant="primary" size="md" className="w-full" loading={crossM.isPending} leftIcon={<Scale className="w-3.5 h-3.5" />} onClick={runCross}>
+                Arbitrage prüfen
+              </VoltButton>
+            </div>
+            <div>
+              {crossM.data ? (
+                <div className={`rounded-xl border p-3 text-xs space-y-1.5 h-full ${crossM.data.worthwhile ? "border-[#1A9E5A]/40 bg-[#1A9E5A]/8" : "border-[#E8402A]/40 bg-[#E8402A]/8"}`}>
+                  <p className="text-sm font-semibold">{crossM.data.worthwhile ? "Arbitrage vorhanden" : "Keine lohnende Marge"}</p>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Preisdifferenz</span><span className="font-mono">{crossM.data.divergencePct.toFixed(1)} %</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Marge (vor Gebühren)</span><span className="font-mono">{crossM.data.profitPct.toFixed(1)} %</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">nach Gebühren</span><span className="font-mono font-semibold">{crossM.data.feeAdjustedProfitPct.toFixed(1)} %</span></div>
+                  {crossM.data.worthwhile && (
+                    <p className="text-muted-foreground pt-1">YES auf Börse {crossM.data.buyYesOn} · NO auf Börse {crossM.data.buyNoOn} kaufen.</p>
+                  )}
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">Trag die YES-Preise beider Börsen ein. Liegt YES auf A unter YES auf B, kaufst du YES auf A und NO auf B – garantierter Payout 1, Kosten 1 − Differenz.</p>
+              )}
+            </div>
+          </div>
+        </VoltCard>
 
         {/* Marktliste */}
         <VoltCard variant="default" className="p-0 overflow-hidden">
