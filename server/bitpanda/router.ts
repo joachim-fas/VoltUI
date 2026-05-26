@@ -16,8 +16,9 @@ import * as service from "./service";
 import * as store from "./store";
 import { evaluateOnce } from "./alerts";
 import { stepSandbox } from "./sandbox";
-import { runSweep, walkForward, incomeAnalysis, edgeRequirement } from "./backtest";
+import { runSweep, walkForward, walkForwardOnSeries, incomeAnalysis, edgeRequirement } from "./backtest";
 import { betMath, simulateBetting } from "./asymmetric";
+import { fetchDailyCloses } from "../history/coingecko";
 
 const orderInput = z.object({
   instrument_code: z.string().min(3),
@@ -185,6 +186,20 @@ export const bitpandaRouter = router({
         vol: z.number().positive().max(0.2).optional(),
       }).optional())
       .mutation(({ input }) => walkForward(input)),
+
+    /** Walk-Forward auf ECHTEN historischen Kursen (CoinGecko, public). */
+    walkForwardHistorical: publicProcedure
+      .input(z.object({
+        instrument: z.string().min(3).optional(),
+        tradeEur: z.number().positive().optional(),
+        days: z.number().int().min(30).max(365).optional(),
+      }).optional())
+      .mutation(async ({ input }) => {
+        const instrument = input?.instrument ?? "BTC_EUR";
+        const series = await fetchDailyCloses(instrument, input?.days ?? 180);
+        const wf = walkForwardOnSeries(series, { instrument, tradeEur: input?.tradeEur ?? 100 });
+        return { ...wf, source: "coingecko", instrument, points: series.length };
+      }),
 
     /** Fixed-Stake-/Income-Verteilung der aktuellen Strategie (kein Compounding). */
     income: publicProcedure

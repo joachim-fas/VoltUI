@@ -49,6 +49,9 @@ export default function BitpandaSandbox() {
   const walkForwardM = trpc.bitpanda.sandbox.walkForward.useMutation({
     onError: (e) => add({ title: "Walk-Forward fehlgeschlagen", description: e.message, variant: "error" }),
   });
+  const walkHistM = trpc.bitpanda.sandbox.walkForwardHistorical.useMutation({
+    onError: (e) => add({ title: "Historischer Walk-Forward fehlgeschlagen", description: e.message, variant: "error" }),
+  });
   const incomeM = trpc.bitpanda.sandbox.income.useMutation({
     onError: (e) => add({ title: "Income-Analyse fehlgeschlagen", description: e.message, variant: "error" }),
   });
@@ -267,12 +270,30 @@ export default function BitpandaSandbox() {
                 Sweep
               </VoltButton>
               <VoltButton variant="outline" size="sm" loading={walkForwardM.isPending} onClick={() => walkForwardM.mutate({ paths: 40, vol: 0.025 })}>
-                Walk-Forward
+                Walk-Forward (Sim)
+              </VoltButton>
+              <VoltButton variant="outline" size="sm" loading={walkHistM.isPending} onClick={() => walkHistM.mutate({ instrument: form.instrument, days: 180 })}>
+                Auf echten Kursen
               </VoltButton>
             </div>
           </div>
 
           <div className="p-4 space-y-4">
+            {/* Historischer Walk-Forward */}
+            {walkHistM.data && (
+              <div className={`rounded-xl border p-3 ${walkHistM.data.holdsUp ? "border-[#1A9E5A]/40 bg-[#1A9E5A]/8" : "border-[#E8402A]/40 bg-[#E8402A]/8"}`}>
+                <p className="text-sm font-semibold mb-1">
+                  Echte Kurse ({walkHistM.data.instrument}, {walkHistM.data.points} Tage · CoinGecko):
+                  {" "}{walkHistM.data.holdsUp ? "hält out-of-sample" : "bricht out-of-sample ein"}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Sieger {walkHistM.data.inSample.config.strategy} dip{walkHistM.data.inSample.config.dipPct}/tp{walkHistM.data.inSample.config.takeProfitPct}/sl{walkHistM.data.inSample.config.stopLossPct} ·
+                  {" "}IS {walkHistM.data.inSample.avgReturnPct.toFixed(1)}% → OS {walkHistM.data.outOfSample.avgReturnPct.toFixed(1)}%
+                  {" "}(Overfit-Lücke {walkHistM.data.overfitGapPct.toFixed(1)} Pp)
+                </p>
+              </div>
+            )}
+
             {/* Walk-Forward-Ergebnis */}
             {walkForwardM.data && (
               <div className={`rounded-xl border p-3 ${walkForwardM.data.holdsUp ? "border-[#1A9E5A]/40 bg-[#1A9E5A]/8" : "border-[#E8402A]/40 bg-[#E8402A]/8"}`}>

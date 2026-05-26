@@ -123,6 +123,30 @@ export function runSweep(opts?: { instrument?: string; tradeEur?: number; paths?
   return sweep(grid, paths);
 }
 
+/**
+ * Walk-Forward auf einer EINZIGEN echten Zeitreihe: erste Hälfte = In-Sample,
+ * zweite Hälfte = Out-of-Sample. Hat über alle Grid-Configs den Sieger und
+ * misst dessen Out-of-Sample-Performance.
+ */
+export function walkForwardOnSeries(series: number[], opts?: { instrument?: string; tradeEur?: number }): WalkForwardResult {
+  if (series.length < 20) {
+    throw new Error(`Zeitreihe zu kurz (${series.length} Punkte) – mindestens 20 nötig.`);
+  }
+  const split = Math.floor(series.length / 2);
+  const inPath = series.slice(0, split);
+  const outPath = series.slice(split);
+  const grid = defaultGrid(opts?.instrument ?? "BTC_EUR", opts?.tradeEur ?? 100);
+  const ranked = sweep(grid, [inPath]);
+  const inSample = ranked[0];
+  const outOfSample = sweep([inSample.config], [outPath])[0];
+  return {
+    inSample,
+    outOfSample,
+    overfitGapPct: inSample.avgReturnPct - outOfSample.avgReturnPct,
+    holdsUp: outOfSample.avgReturnPct > 0,
+  };
+}
+
 export interface IncomeResult {
   windows: number;
   stake: number;
