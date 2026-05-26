@@ -14,9 +14,6 @@ build/
 .env.test.local
 .env.production.local
 
-# Bitpanda-Tool: lokaler Laufzeit-Store (Alert-Regeln & Alerts)
-data/bitpanda-store.json
-
 # IDE and editor files
 .vscode/
 .idea/
