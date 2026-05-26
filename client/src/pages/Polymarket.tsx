@@ -32,6 +32,7 @@ export default function Polymarket() {
   const crossM = trpc.polymarket.crossVenue.useMutation({
     onError: (e) => add({ title: "Berechnung fehlgeschlagen", description: e.message, variant: "error" }),
   });
+  const autoScanQ = trpc.crossVenue.scan.useQuery({ limit: 200, feePct: 0 }, { retry: false, enabled: false });
   const runCross = () => {
     const a = Number(cross.a), b = Number(cross.b), fee = Number(cross.fee);
     if (!(a >= 0 && a <= 1) || !(b >= 0 && b <= 1)) {
@@ -193,6 +194,62 @@ export default function Polymarket() {
                 <p className="text-xs text-muted-foreground">Trag die YES-Preise beider Börsen ein. Liegt YES auf A unter YES auf B, kaufst du YES auf A und NO auf B – garantierter Payout 1, Kosten 1 − Differenz.</p>
               )}
             </div>
+          </div>
+        </VoltCard>
+
+        {/* Auto-Scan Polymarket ↔ Kalshi */}
+        <VoltCard variant="default" className="p-0 overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+            <div>
+              <h3 className="font-display font-bold text-sm">Auto-Scan: Polymarket ↔ Kalshi</h3>
+              <p className="text-muted-foreground text-xs mt-0.5">Holt beide Venues, matched gleiche Events per Titel, rankt nach Marge</p>
+            </div>
+            <VoltButton variant="primary" size="sm" loading={autoScanQ.isFetching} leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${autoScanQ.isFetching ? "animate-spin" : ""}`} />} onClick={() => autoScanQ.refetch()}>
+              Scannen
+            </VoltButton>
+          </div>
+          <div className="p-4">
+            {!autoScanQ.data && !autoScanQ.isFetching && (
+              <p className="text-xs text-muted-foreground text-center py-6">Klicke „Scannen", um Events beider Börsen zu vergleichen.</p>
+            )}
+            {autoScanQ.data && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <VoltBadge variant="muted" size="sm">{autoScanQ.data.sources.polymarket} Polymarket</VoltBadge>
+                  <VoltBadge variant="muted" size="sm">{autoScanQ.data.sources.kalshi} Kalshi</VoltBadge>
+                  <VoltBadge variant="muted" size="sm">{autoScanQ.data.matched} Matches</VoltBadge>
+                </div>
+                {autoScanQ.data.errors.length > 0 && (
+                  <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-xs space-y-1">
+                    {autoScanQ.data.errors.map((e, i) => (
+                      <p key={i} className="flex items-start gap-1.5"><AlertTriangle className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-amber-600" />{e}</p>
+                    ))}
+                  </div>
+                )}
+                {autoScanQ.data.opportunities.length === 0 ? (
+                  <p className="text-sm text-muted-foreground text-center py-6">Keine matchenden Events mit Marge gefunden.</p>
+                ) : (
+                  <div className="divide-y divide-border max-h-[480px] overflow-y-auto">
+                    {autoScanQ.data.opportunities.map((o, i) => (
+                      <div key={i} className="py-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="text-sm font-medium leading-snug">{o.a.title}</p>
+                          <VoltBadge variant={o.worthwhile ? "positive" : "muted"} size="sm">
+                            {o.feeAdjustedProfitPct >= 0 ? "+" : ""}{o.feeAdjustedProfitPct.toFixed(1)}%
+                          </VoltBadge>
+                        </div>
+                        <p className="text-[0.7rem] text-muted-foreground font-mono mt-1">
+                          PM {(o.a.yesPrice * 100).toFixed(1)}% vs KAL {(o.b.yesPrice * 100).toFixed(1)}% · YES auf {o.buyYesOn} · NO auf {o.buyNoOn}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            {autoScanQ.isError && (
+              <p className="text-xs text-[#A01A08] text-center py-6">Scan fehlgeschlagen: {autoScanQ.error.message}</p>
+            )}
           </div>
         </VoltCard>
 
